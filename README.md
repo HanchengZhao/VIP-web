@@ -1,2 +1,6 @@
-# VIP-web
-Web application for VERTICALLY INTEGRATED PROJECTS
+# VIP-web 
+
+### To use
+> git clone the repo
+> npm install
+> npm start
