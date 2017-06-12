@@ -11,7 +11,7 @@ class DropDown extends Component {
         };
     }
     componentDidMount(){
-      console.log(this.props.question.options);
+      // console.log(this.props.question.options);
 
       // this.setState({MenuItems: MenuItems})
     }
