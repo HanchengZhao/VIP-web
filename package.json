@@ -1,13 +1,13 @@
 {
-  "name": "VIP-web",
+  "name": "my-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "material-ui": "^0.18.1",
+    "firebase": "^4.1.2",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-markdown": "^2.5.0",
-    "react-tap-event-plugin": "^2.0.1"
+    "react-firebase": "^2.2.6",
+    "react-progressbar": "^1.4.6"
   },
   "devDependencies": {
     "react-scripts": "1.0.7"
