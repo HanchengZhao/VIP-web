@@ -1,8 +1,10 @@
 .footer {
-  position: relative;
+  position: absolute;
+  right: 0;
+  bottom: 0 !important;
+  left: 0;
   background-color: #d6dedb;
   height: 40px;
-  bottom: 0px;
 }
 
 .image-footer {
@@ -11,5 +13,4 @@
   right:20px;
   padding-top: 10px;
   height: 30px;
-
 }

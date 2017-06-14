@@ -21,25 +21,42 @@ class Header extends Component {
     return (
       <div>
         <div className = "header">
-          <img src = {Full_logo} className = "image" id = "large"/>
-          <img src = {Small_logo} className = "image" id = "small" />
+          <a href = "https://www.asu.edu/">
+            <img src = {Full_logo}  className = "image" id = "large"/>
+            <img src = {Small_logo} className = "image" id = "small" />
+          </a>
         </div>
-        <nav className="navbar navbar-default">
-          <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-            <FlatButton label="Home" className="menuBarButton"/>
-          </MuiThemeProvider>
-          <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-            <FlatButton label="Announcements" className="menuBarButton"/>
-          </MuiThemeProvider>
-          <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-            <FlatButton label="Projects" className="menuBarButton"/>
-          </MuiThemeProvider>
-          <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-            <FlatButton label="Contact" className="menuBarButton"/>
-          </MuiThemeProvider>
-          <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-            <FlatButton label="Login" id = "login" className="menuBarButton"/>
-          </MuiThemeProvider>
+        <nav className="navbar navbar-default navbar-static-top">
+            <button className="navbar-toggle" data-toggle = "collapse" data-target=".navHeaderCollapse" >
+              <span className = "icon-bar" />
+              <span className = "icon-bar" />
+              <span className = "icon-bar" />
+              <span className = "icon-bar" />
+            </button>
+
+          <div className="collapse navbar-collapse navHeaderCollapse">
+
+              <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+                <FlatButton label="Home" className="menuBarButton"/>
+              </MuiThemeProvider>
+
+              <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+                <FlatButton label="Announcements" className="menuBarButton"/>
+              </MuiThemeProvider>
+
+              <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+                <FlatButton label="Projects" className="menuBarButton"/>
+              </MuiThemeProvider>
+
+              <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+                <FlatButton label="Contact" className="menuBarButton"/>
+              </MuiThemeProvider>
+
+              <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+              <FlatButton label="Login" id = "login" className="menuBarButton"/>
+              </MuiThemeProvider>
+
+            </div>
         </nav>
       </div>
     );
