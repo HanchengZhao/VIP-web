@@ -6,6 +6,7 @@
   margin-right: 20px;
 }
 
+
 .image {
   position: relative;
   left: 20px;
@@ -13,10 +14,14 @@
   padding-top: 13px;
 }
 
+.navHeaderCollapse {
+  margin-top: -1px;
+}
+
 #VIP {
   position: relative;
   float:right;
-  height: 60px;
+  height: 57px;
   width: 160px;
   padding-right: 30px;
   padding-bottom: 10px;
@@ -44,13 +49,11 @@
 }
 
 .navbar {
-  min-height:60px !important;
   background-color: #353535 !important;
 }
 
 .navbar-toggle {
   float:right !important;
-  clear:right !important;
 }
 
 .login {
@@ -61,7 +64,6 @@
 
 .menuBarButton {
     height: 60px !important;
-    display: inline-block;
 }
 
 .menuBarButton:hover{
