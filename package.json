@@ -10,7 +10,10 @@
     "react-data-grid": "^2.0.48",
     "react-dom": "^15.5.4",
     "react-firebase": "^2.2.6",
-    "react-progressbar": "^1.4.6"
+    "react-progressbar": "^1.4.6",
+    "react-markdown": "^2.5.0",
+    "react-router-dom": "^4.1.1",
+    "react-tap-event-plugin": "^2.0.1"
   },
   "devDependencies": {
     "react-scripts": "1.0.7"

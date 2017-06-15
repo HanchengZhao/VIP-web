@@ -1,0 +1,67 @@
+.header {
+  position: relative;
+  background-color: #ffffff;
+  height: 57px;
+}
+
+.image {
+  position: relative;
+  left: 20px;
+  height: 48px;
+  padding-top: 13px;
+}
+
+#VIP {
+  position: relative;
+  float:right;
+  height: 60px;
+  width: 160px;
+  padding-right: 30px;
+  padding-bottom: 10px;
+}
+
+@media screen and (min-width: 768px) {
+    #small {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width: 767px) {
+    #large {
+        display: none;
+    }
+    .menuBarButton {
+        display: block !important;
+    }
+    #login {
+      float:left;
+      clear:left;
+    }
+}
+
+.navbar {
+  min-height:60px !important;
+  background-color: #353535 !important;
+}
+
+.navbar-toggle {
+  float:right !important;
+  clear:right !important;
+}
+
+.login {
+  position: absolute;
+  float:right;
+  clear:right;
+}
+
+.menuBarButton {
+    height: 60px !important;
+    display: inline-block;
+}
+
+.menuBarButton:hover{
+  color: #ffc425 !important;
+  background-color: #000000 !important;
+}
