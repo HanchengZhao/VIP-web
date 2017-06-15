@@ -104,7 +104,7 @@ class EditableGridComponent extends Component {
         onGridRowsUpdated={this.handleGridRowsUpdated} />
       <MuiThemeProvider>
          <div>
-           <RaisedButton label="Submmit" primary={true} style={style} onClick={this.handleGridSubmmit}/>
+           <RaisedButton label="Submit" primary={true} style={style} onClick={this.handleGridSubmmit}/>
          </div>
       </MuiThemeProvider>
       </div>
