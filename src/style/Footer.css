@@ -1,0 +1,16 @@
+.footer {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #d6dedb;
+  height: 40px;
+}
+
+.image-footer {
+  position: absolute;
+  float:right;
+  right:20px;
+  padding-top: 10px;
+  height: 30px;
+}

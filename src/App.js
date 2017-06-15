@@ -6,6 +6,8 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import Announcement from './component/Announcement';
 import DropDown from './component/DropDown';
 import quiz from './quiz';
+import Header from './component/Header';
+import Footer from './component/Footer';
 //
 // import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 // import getMuiTheme from 'material-ui/styles/getMuiTheme';
@@ -25,9 +27,13 @@ class App extends Component {
   }
   render() {
     return (
-      <div className="App">
-        <DropDown question={quiz.quizzes[5]} />
-        <Announcement />
+      <div>
+        <Header />
+        <div className="App">
+          <DropDown question={quiz.quizzes[5]} />
+          <Announcement />
+        </div>
+        <Footer />
       </div>
     );
   }

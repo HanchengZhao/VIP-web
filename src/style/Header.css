@@ -1,0 +1,46 @@
+.header {
+  position: relative;
+  background-color: #ffffff;
+  height: 57px
+}
+
+.image {
+  position: relative;
+  left: 20px;
+  height: 48px;
+  padding-top: 13px;
+}
+
+@media screen and (min-width: 768px) {
+    #small {
+        display: none;
+    }
+
+}
+
+@media screen and (max-width: 767px) {
+    #large {
+        display: none;
+    }
+}
+
+.navbar {
+  min-height:60px !important;
+  background-color: #353535 !important;
+}
+
+
+
+#login {
+  position: relative;
+  float:right;
+}
+
+.menuBarButton {
+    height: 60px !important;
+}
+
+.menuBarButton:hover{
+  color: #ffc425 !important;
+  background-color: #000000 !important;
+}
