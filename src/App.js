@@ -6,18 +6,13 @@ import {
     Link
 } from 'react-router-dom'
 
-// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-// import MyAwesomeReactComponent from './MyAwesomeReactComponent';
 import Announcement from './component/Announcement';
 import DropDown from './component/DropDown';
 import quiz from './quiz';
 import Header from './component/Header';
 import Footer from './component/Footer';
-//
-// import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-// import getMuiTheme from 'material-ui/styles/getMuiTheme';
-// import AppBar from 'material-ui/AppBar';
-import './App.css';
+
+import './style/App.css';
 
 injectTapEventPlugin();
 
@@ -44,18 +39,18 @@ class App extends Component {
     super();
   }
   componentDidMount(){
-    // console.log(quiz);
+ 
   }
   render() {
     return (
       <div>
         <Header />
-        <div className="App">
-          <Route exact path="/" component={Home}/>
-          <Route path="/announcement" component={Announcement}/>
-          <Route path="/projects" component={Projects}/>
-          <Route path="/contact" component={Contact}/>
-        </div>
+          <div className="App">
+            <Route exact path="/" component={Home}/>
+            <Route path="/announcement" component={Announcement}/>
+            <Route path="/projects" component={Projects}/>
+            <Route path="/contact" component={Contact}/>
+          </div>
         <Footer />
       </div>
     );
