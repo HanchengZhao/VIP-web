@@ -8,6 +8,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import Full_logo from '../assets/full_logo.png';
 import Small_logo from '../assets/small_logo.png';
+import Vip_logo from '../assets/Vip_logo.png';
 import styles from '../style/Header.css';
 
 class Header extends Component {
@@ -20,14 +21,18 @@ class Header extends Component {
 
     return (
       <div>
+      <div>
         <div className = "header">
           <a href = "https://www.asu.edu/">
             <img src = {Full_logo}  className = "image" id = "large"/>
             <img src = {Small_logo} className = "image" id = "small" />
           </a>
+            <img src = {Vip_logo} className = "image" id = "VIP" />
         </div>
-        <nav className="navbar navbar-default navbar-static-top">
-            <button className="navbar-toggle" data-toggle = "collapse" data-target=".navHeaderCollapse" >
+      </div>
+        <nav className="navbar navbar-default navbar-static-top" >
+
+            <button className="navbar-toggle" data-toggle = "collapse" data-target=".navHeaderCollapse">
               <span className = "icon-bar" />
               <span className = "icon-bar" />
               <span className = "icon-bar" />
@@ -35,28 +40,16 @@ class Header extends Component {
             </button>
 
           <div className="collapse navbar-collapse navHeaderCollapse">
-
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-                <FlatButton label="Home" className="menuBarButton"/>
+                <div>
+                  <FlatButton label="Home" className="menuBarButton" />
+                  <FlatButton label="Announcements" className="menuBarButton"/>
+                  <FlatButton label="Projects" className="menuBarButton"/>
+                  <FlatButton label="Contact" className="menuBarButton"/>
+                  <FlatButton label="Login" id = "login" className="menuBarButton login"/>
+                </div>
               </MuiThemeProvider>
-
-              <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-                <FlatButton label="Announcements" className="menuBarButton"/>
-              </MuiThemeProvider>
-
-              <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-                <FlatButton label="Projects" className="menuBarButton"/>
-              </MuiThemeProvider>
-
-              <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-                <FlatButton label="Contact" className="menuBarButton"/>
-              </MuiThemeProvider>
-
-              <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-              <FlatButton label="Login" id = "login" className="menuBarButton"/>
-              </MuiThemeProvider>
-
-            </div>
+          </div>
         </nav>
       </div>
     );
