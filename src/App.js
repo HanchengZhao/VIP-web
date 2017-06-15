@@ -1,40 +1,30 @@
 import React, { Component } from 'react';
-import injectTapEventPlugin from 'react-tap-event-plugin';
+/*import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-// import MyAwesomeReactComponent from './MyAwesomeReactComponent';
-import Announcement from './component/Announcement';
-import DropDown from './component/DropDown';
-import quiz from './quiz';
-import Header from './component/Header';
-import Footer from './component/Footer';
-//
-// import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-// import getMuiTheme from 'material-ui/styles/getMuiTheme';
-// import AppBar from 'material-ui/AppBar';
+import injectTapEventPlugin from 'react-tap-event-plugin';*/
+import logo from './logo.svg';
+import ReactDOM from 'react-dom';
 import './App.css';
+/*import quiz from './quiz.js';*/
+import Form from './component/Form.js';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-injectTapEventPlugin();
-
+var styl = {
+		color: 'orange',
+	};
 
 class App extends Component {
-
-  constructor(){
-    super();
-  }
-  componentDidMount(){
-    // console.log(quiz);
-  }
-  render() {
+	
+	
+	
+  render() {	
     return (
-      <div>
-        <Header />
-        <div className="App">
-          <DropDown question={quiz.quizzes[5]} />
-          <Announcement />
-        </div>
-        <Footer />
-      </div>
+	<MuiThemeProvider>
+		<div className="App">
+			<h2 style={styl}>Registration Form</h2>
+			<Form/>
+		</div>
+	</MuiThemeProvider>  
     );
   }
 }

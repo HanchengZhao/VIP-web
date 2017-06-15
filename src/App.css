@@ -1,8 +1,38 @@
 .App {
-  /*text-align: center;*/
-  margin: auto;
-  width: 80%;
-  min-height: 100%;
-  position: relative;
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 80px;
+}
+
+.App-header {
+  background-color: #222;
+  height: 150px;
+  padding: 20px;
+  color: white;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+@keyframes App-logo-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.img {
+	padding:10px, 10px, 10px, 10px;
+}
+
+.h {
+	color:blue;
+}
+
+.helvetica {
+    font-family: helvetica neue,helvetica,sans-serif;
+	color:'blue';
 }
 
