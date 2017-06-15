@@ -1,7 +1,16 @@
 import React, { Component } from 'react';
+import update from 'react-addons-update';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import RaisedButton from 'material-ui/RaisedButton';
+
+import 'bootstrap/dist/css/bootstrap.css';
 import ReactDataGrid from 'react-data-grid';
 import * as firebase from 'firebase';
-import update from 'react-addons-update';
+
+const style = {
+  margin: 12,
+};
 
 class EditableGridComponent extends Component {
   constructor(props) {
@@ -13,6 +22,7 @@ class EditableGridComponent extends Component {
       };
       this.rowGetter = this.rowGetter.bind(this);
       this.handleGridRowsUpdated = this.handleGridRowsUpdated.bind(this);
+      this.handleGridSubmmit = this.handleGridSubmmit.bind(this);
 
     }
 
@@ -21,10 +31,10 @@ class EditableGridComponent extends Component {
   componentDidMount() {
     let Rows = [];
     var RowID = [];
-    var that = this;
+
 
     const studentRef = firebase.database().ref().child('studentpage').child('students');
-    studentRef.orderByKey().limitToFirst(1).on('child_added', function(snap) {
+    studentRef.orderByKey().limitToFirst(1).on('child_added', (snap) => {
            var length = Object.keys(snap.val()).length;
            let Columns = [];
            for (var i = 0; i < length;i++){
@@ -32,17 +42,17 @@ class EditableGridComponent extends Component {
                var Column = {key: columnName, name: columnName, editable:true};
                Columns.push(Column);
            }
-           that._columns = Columns;
+           this._columns = Columns;
 
            // first item, in format {"<KEY>": "<VALUE>"}
 
     });
-    studentRef.on("child_added", function(snapshot) {
+    studentRef.on("child_added", (snapshot) => {
       var ROW = snapshot.val();
       var uuid = snapshot.key;
       Rows.push(ROW);
       RowID.push(uuid);
-      that.setState({
+      this.setState({
           rows : Rows,
           rowIDs : RowID
       });
@@ -59,30 +69,47 @@ class EditableGridComponent extends Component {
 
   handleGridRowsUpdated({ fromRow, toRow, updated }) {
     let rows = this.state.rows;
-    var uuid = this.state.rowIDs[fromRow];
 
     for (let i = fromRow; i <= toRow; i++) {
       let rowToUpdate = rows[i];
       let updatedRow = update(rowToUpdate, {$merge: updated});
       rows[i] = updatedRow;
-      var studentRef = firebase.database().ref().child('studentpage').child('students').child(uuid);
-      studentRef.set(rows[i]);
-      console.log(rows[i]);
+
+
 
     }
 
     this.setState({ rows });
   }
 
+  handleGridSubmmit () {
+    var Length = this.state.rows.length;
+    for (var i = 0; i < Length ; i++){
+        var uuid = this.state.rowIDs[i];
+        var studentRef = firebase.database().ref().child('studentpage').child('students').child(uuid);
+        studentRef.set(this.state.rows[i]);
+
+    }
+  }
+
   render() {
     return  (
+      <div>
       <ReactDataGrid
         enableCellSelect={true}
         columns={this._columns}
         rowGetter={this.rowGetter}
         rowsCount={this.state.rows.length}
         minHeight={500}
-        onGridRowsUpdated={this.handleGridRowsUpdated} />);
+        onGridRowsUpdated={this.handleGridRowsUpdated} />
+      <MuiThemeProvider>
+         <div>
+           <RaisedButton label="Submmit" primary={true} style={style} onClick={this.handleGridSubmmit}/>
+         </div>
+      </MuiThemeProvider>
+      </div>
+
+      );
   }
 
 

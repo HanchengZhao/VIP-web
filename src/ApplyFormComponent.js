@@ -58,7 +58,7 @@ class ApplyFormComponent extends Component{
                             rows={4}
                             rowsMax={6}
                  value={this.state.goal} onChange={(event) => { this.setState({ goal : event.target.value })}} /><br />
-                 <RaisedButton label="Submmit" primary={true} style={style} onClick={this.firebasewrite} />
+                 <RaisedButton label="Apply" primary={true} style={style} onClick={this.firebasewrite} />
             </div>
 		        </MuiThemeProvider>
 		  </div>

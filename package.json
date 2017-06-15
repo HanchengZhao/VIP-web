@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "bootstrap": "^3.3.7",
     "firebase": "^4.1.2",
     "react": "^15.5.4",
     "react-addons-update": "^15.6.0",
