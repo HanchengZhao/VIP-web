@@ -44,8 +44,8 @@ class Header extends Component {
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                 <div>
 
-                  <FlatButton label="Home" className="menuBarButton" />
-                  <FlatButton label="Announcements" className="menuBarButton"/>
+                  <Link to="/"><FlatButton label="Home" className="menuBarButton" /></Link>
+                  <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link>
                   <FlatButton label="Projects" className="menuBarButton"/>
                   <FlatButton label="Contact" className="menuBarButton"/>
                   <FlatButton label="Login" id = "login" className="menuBarButton login"/>
