@@ -1,5 +1,7 @@
 var firebase = require('firebase');
 var functions = require('firebase-functions');
+
+
 var config = {
   apiKey: "AIzaSyBzy4ctl-AgyeZSu2Mu9AUuVSHiZh0-TSg",
   authDomain: "react-native-7f0db.firebaseapp.com",
@@ -21,6 +23,8 @@ const request=require('request');
 exports.CSV = functions.database.ref('/CSVFile/{uuid}').onWrite(event=>{
   var theid = event.params.uuid;
   firebase.database().ref().child('CSVFile').child(theid).once('value').then(function(snapshot) {
+
+
       var csvurl = snapshot.val().CsvURL;
       csv()
       .fromStream(request.get(csvurl))
@@ -29,9 +33,7 @@ exports.CSV = functions.database.ref('/CSVFile/{uuid}').onWrite(event=>{
 
 
            var studentRef = firebase.database().ref().child('studentpage').child('students');
-           studentRef.push({
-              jsonObj
-           });
+           studentRef.push(jsonObj);
 
 
       })
@@ -43,3 +45,5 @@ exports.CSV = functions.database.ref('/CSVFile/{uuid}').onWrite(event=>{
   return null;
 
 });
+
+//exports.banana = functions.database.ref('/{universityID}/faculty/{facultyID}/newRoster/{semester}/upload').

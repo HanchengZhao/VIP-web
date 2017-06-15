@@ -5,6 +5,8 @@
   "dependencies": {
     "firebase": "^4.1.2",
     "react": "^15.5.4",
+    "react-addons-update": "^15.6.0",
+    "react-data-grid": "^2.0.48",
     "react-dom": "^15.5.4",
     "react-firebase": "^2.2.6",
     "react-progressbar": "^1.4.6"

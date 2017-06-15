@@ -7,7 +7,7 @@ import injectTapEventPlugin from 'react-tap-event-plugin';
 import InstructionComponent from './InstructionComponent';
 import ApplyFormComponent from './ApplyFormComponent';
 import UploadCsvComponent from './UploadCsvComponent';
-
+import EditableGridComponent from './EditableGridComponent';
 import * as firebase from 'firebase';
   var config = {
     apiKey: "AIzaSyBzy4ctl-AgyeZSu2Mu9AUuVSHiZh0-TSg",
@@ -29,7 +29,8 @@ class App extends Component {
         <InstructionComponent />
         <ApplyFormComponent />
         <UploadCsvComponent  />
-        
+        <EditableGridComponent />
+
 
 
       </div>
