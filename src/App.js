@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import {
+    BrowserRouter as Router,
+    Route,
+    Link
+} from 'react-router-dom'
 
 // import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 // import MyAwesomeReactComponent from './MyAwesomeReactComponent';
@@ -16,6 +21,11 @@ import './App.css';
 
 injectTapEventPlugin();
 
+const Home = () => (
+  <div>
+    <h2>Home</h2>
+  </div>
+)
 
 class App extends Component {
 
@@ -30,8 +40,8 @@ class App extends Component {
       <div>
         <Header />
         <div className="App">
-          <DropDown question={quiz.quizzes[5]} />
-          <Announcement />
+          <Route exact path="/" component={Home}/>
+          <Route path="/announcement" component={Announcement}/>
         </div>
         <Footer />
       </div>

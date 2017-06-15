@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -42,6 +43,7 @@ class Header extends Component {
           <div className="collapse navbar-collapse navHeaderCollapse">
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                 <div>
+
                   <FlatButton label="Home" className="menuBarButton" />
                   <FlatButton label="Announcements" className="menuBarButton"/>
                   <FlatButton label="Projects" className="menuBarButton"/>
@@ -50,6 +52,7 @@ class Header extends Component {
                 </div>
               </MuiThemeProvider>
           </div>
+
         </nav>
       </div>
     );
