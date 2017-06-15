@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -46,8 +46,8 @@ class Header extends Component {
 
                   <Link to="/"><FlatButton label="Home" className="menuBarButton" /></Link>
                   <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link>
-                  <FlatButton label="Projects" className="menuBarButton"/>
-                  <FlatButton label="Contact" className="menuBarButton"/>
+                  <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
+                  <Link to="/contact"><FlatButton label="Contact" className="menuBarButton"/></Link>
                   <FlatButton label="Login" id = "login" className="menuBarButton login"/>
                 </div>
               </MuiThemeProvider>

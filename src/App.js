@@ -27,6 +27,17 @@ const Home = () => (
   </div>
 )
 
+const Projects = () => (
+  <div>
+    <h2>Projects</h2>
+  </div>
+)
+
+const Contact = () => (
+  <div>
+    <h2>Contact</h2>
+  </div>
+)
 class App extends Component {
 
   constructor(){
@@ -42,6 +53,8 @@ class App extends Component {
         <div className="App">
           <Route exact path="/" component={Home}/>
           <Route path="/announcement" component={Announcement}/>
+          <Route path="/projects" component={Projects}/>
+          <Route path="/contact" component={Contact}/>
         </div>
         <Footer />
       </div>
