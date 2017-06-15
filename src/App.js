@@ -32,7 +32,6 @@ class App extends Component {
         <div className="App">
           <DropDown question={quiz.quizzes[5]} />
           <Announcement />
-          <Announcement />
         </div>
         <Footer />
       </div>
