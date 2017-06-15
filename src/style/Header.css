@@ -2,6 +2,8 @@
   position: relative;
   background-color: #ffffff;
   height: 57px;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .image {
@@ -33,6 +35,7 @@
     }
     .menuBarButton {
         display: block !important;
+        text-align: justify !important;
     }
     #login {
       float:left;
