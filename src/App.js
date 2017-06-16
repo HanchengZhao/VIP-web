@@ -8,14 +8,9 @@ import {
 } from 'react-router-dom';
 
 
-
 import Announcement from './component/Announcement';
 import DropDown from './component/DropDown';
-<<<<<<< .merge_file_R5rpND
-import Header from './component/Header';
-=======
-import quiz from './quiz';
->>>>>>> .merge_file_36qIjQ
+
 import Footer from './component/Footer';
 import Header from './component/Header';
 import ProjectList from './component/projects/ProjectList';
