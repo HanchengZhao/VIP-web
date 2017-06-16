@@ -9,8 +9,10 @@ import {
 import Announcement from './component/Announcement';
 import DropDown from './component/DropDown';
 import quiz from './quiz';
-import Header from './component/Header';
 import Footer from './component/Footer';
+import Header from './component/Header';
+import ProjectList from './component/projects/ProjectList';
+
 
 import './style/App.css';
 
@@ -48,7 +50,7 @@ class App extends Component {
           <div className="App">
             <Route exact path="/" component={Home}/>
             <Route path="/announcement" component={Announcement}/>
-            <Route path="/projects" component={Projects}/>
+            <Route path="/projects" component={ProjectList}/>
             <Route path="/contact" component={Contact}/>
           </div>
         <Footer />
