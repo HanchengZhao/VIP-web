@@ -11,8 +11,15 @@ import {
 
 import Announcement from './component/Announcement';
 import DropDown from './component/DropDown';
+<<<<<<< .merge_file_R5rpND
 import Header from './component/Header';
+=======
+import quiz from './quiz';
+>>>>>>> .merge_file_36qIjQ
 import Footer from './component/Footer';
+import Header from './component/Header';
+import ProjectList from './component/projects/ProjectList';
+
 
 import InstructionComponent from './component/InstructionComponent';
 import ApplyFormComponent from './component/ApplyFormComponent';
@@ -77,7 +84,7 @@ class App extends Component {
           <div className="App">
             <Route exact path="/" component={Home}/>
             <Route path="/announcement" component={Announcement}/>
-            <Route path="/projects" component={Projects}/>
+            <Route path="/projects" component={ProjectList}/>
             <Route path="/contact" component={Contact}/>
             <Route path="/test" component={Test}/>
           </div>
