@@ -16,23 +16,7 @@ import Header from './component/Header';
 import ProjectList from './component/projects/ProjectList';
 
 
-import InstructionComponent from './component/InstructionComponent';
-import ApplyFormComponent from './component/ApplyFormComponent';
-import UploadCsvComponent from './component/UploadCsvComponent';
-import EditableGridComponent from './component/EditableGridComponent';
 import './style/App.css';
-import * as firebase from 'firebase';
-  var config = {
-    apiKey: "AIzaSyBzy4ctl-AgyeZSu2Mu9AUuVSHiZh0-TSg",
-    authDomain: "react-native-7f0db.firebaseapp.com",
-    databaseURL: "https://react-native-7f0db.firebaseio.com",
-    projectId: "react-native-7f0db",
-    storageBucket: "react-native-7f0db.appspot.com",
-    messagingSenderId: "832639299928"
-  };
-  firebase.initializeApp(config);
-
-
 
 injectTapEventPlugin();
 
@@ -42,24 +26,9 @@ const Home = () => (
   </div>
 )
 
-const Projects = () => (
-  <div>
-    <h2>Projects</h2>
-  </div>
-)
-
 const Contact = () => (
   <div>
     <h2>Contact</h2>
-  </div>
-)
-const Test = () => (
-  <div>
-    <h2>Contact</h2>
-    <InstructionComponent />
-    <ApplyFormComponent />
-    <UploadCsvComponent  />
-    <EditableGridComponent />
   </div>
 )
 class App extends Component {
@@ -81,7 +50,6 @@ class App extends Component {
             <Route path="/announcement" component={Announcement}/>
             <Route path="/projects" component={ProjectList}/>
             <Route path="/contact" component={Contact}/>
-            <Route path="/test" component={Test}/>
           </div>
         <Footer />
       </div>
