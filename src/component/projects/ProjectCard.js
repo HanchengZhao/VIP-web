@@ -52,7 +52,7 @@ class ProjectCard extends Component {
             <CardText expandable={false} style={style.cardText}>
               {this.props.project.description}
             </CardText>
-            <Link to={`project/${this.props.project.title.replace(/ /g, "_")}`}>
+            <Link to={`projects/${this.props.project.title.replace(/ /g, "_")}`}>
               <CardActions>
                 <FlatButton label="Learn more" />
               </CardActions>

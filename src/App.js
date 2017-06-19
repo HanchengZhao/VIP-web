@@ -7,12 +7,13 @@ import {
 
 } from 'react-router-dom';
 
-
+import firebase from './firebase';
 import Announcement from './component/Announcement';
 import DropDown from './component/DropDown';
 
 import Footer from './component/Footer';
 import Header from './component/Header';
+import Projects from './component/projects/Projects';
 import ProjectList from './component/projects/ProjectList';
 
 
@@ -37,7 +38,10 @@ class App extends Component {
     super();
   }
   componentDidMount(){
-
+    const projectRef = firebase.database().ref('projectInfo');
+    projectRef.on("value", (snap) => {
+      console.log(snap.val());
+    })
   }
 
   render() {
@@ -48,7 +52,7 @@ class App extends Component {
             <div className="App">
               <Route exact path="/" component={Home}/>
               <Route path="/announcement" component={Announcement}/>
-              <Route path="/projects" component={ProjectList}/>
+              <Route path="/projects" component={Projects}/>
               <Route path="/contact" component={Contact}/>
             </div>
           <Footer />
