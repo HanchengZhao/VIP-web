@@ -4,22 +4,19 @@ import {
     BrowserRouter as Router,
     Route,
     Link
-} from 'react-router-dom'
 
-// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-// import MyAwesomeReactComponent from './MyAwesomeReactComponent';
+} from 'react-router-dom';
+
+
 import Announcement from './component/Announcement';
 import DropDown from './component/DropDown';
-import quiz from './quiz';
-import Header from './component/Header';
-import Footer from './component/Footer';
-import CheckBox from './component/CheckBox';
 import Project from './component/ProjectPage';
-//
-// import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
-// import getMuiTheme from 'material-ui/styles/getMuiTheme';
-// import AppBar from 'material-ui/AppBar';
-import './App.css';
+import Footer from './component/Footer';
+import Header from './component/Header';
+import ProjectList from './component/projects/ProjectList';
+
+
+import './style/App.css';
 
 injectTapEventPlugin();
 
@@ -29,23 +26,32 @@ const Home = () => (
   </div>
 )
 
+const Contact = () => (
+  <div>
+    <h2>Contact</h2>
+  </div>
+)
 class App extends Component {
 
   constructor(){
     super();
   }
   componentDidMount(){
-    // console.log(quiz);
+
   }
+
   render() {
     return (
+
       <div>
         <Header />
-        <div className="App">
-          <Route exact path="/" component={Home}/>
-          <Route path="/announcement" component={Announcement}/>
-          <Project />
-        </div>
+          <div className="App">
+            <Route exact path="/" component={Home}/>
+            <Route path="/announcement" component={Announcement}/>
+            <Route path="/projects" component={ProjectList}/>
+            <Route path="/contact" component={Contact}/>
+            <Project />
+          </div>
         <Footer />
       </div>
     );

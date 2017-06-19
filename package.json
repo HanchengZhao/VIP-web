@@ -11,6 +11,7 @@
     "react-tap-event-plugin": "^2.0.1"
   },
   "devDependencies": {
+    "flow-bin": "^0.48.0",
     "react-scripts": "1.0.7"
   },
   "scripts": {

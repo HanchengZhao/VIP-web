@@ -69,10 +69,6 @@ Computation, Blockchain
 
 class Project extends Component {
 
-  componentDidMount() {
-    console.log(data);
-  }
-
 
   render() {
     let topics = data.topics.map((topics) =>
