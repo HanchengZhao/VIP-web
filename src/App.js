@@ -42,17 +42,18 @@ class App extends Component {
 
   render() {
     return (
-
-      <div>
-        <Header />
-          <div className="App">
-            <Route exact path="/" component={Home}/>
-            <Route path="/announcement" component={Announcement}/>
-            <Route path="/projects" component={ProjectList}/>
-            <Route path="/contact" component={Contact}/>
-          </div>
-        <Footer />
-      </div>
+      <Router>
+        <div>
+          <Header />
+            <div className="App">
+              <Route exact path="/" component={Home}/>
+              <Route path="/announcement" component={Announcement}/>
+              <Route path="/projects" component={ProjectList}/>
+              <Route path="/contact" component={Contact}/>
+            </div>
+          <Footer />
+        </div>
+      </Router>
     );
   }
 }
