@@ -15,6 +15,7 @@ import Footer from './component/Footer';
 import Header from './component/Header';
 import Projects from './component/projects/Projects';
 import ProjectList from './component/projects/ProjectList';
+import Project from './component/ProjectPage';
 
 
 import './style/App.css';
@@ -54,6 +55,7 @@ class App extends Component {
               <Route path="/announcement" component={Announcement}/>
               <Route path="/projects" component={Projects}/>
               <Route path="/contact" component={Contact}/>
+              <Project />
             </div>
           <Footer />
         </div>
