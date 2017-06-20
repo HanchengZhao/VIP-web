@@ -4,6 +4,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import {Link} from 'react-router-dom';
 
 
 import ProjectCard from './ProjectCard';
@@ -45,9 +46,11 @@ class ProjectList extends Component {
             }
           </div>
           <div className="row">
-            <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-              <RaisedButton label = "create a team" id = "applyButton" backgroundColor = "#ffc425" style = {{float: "right", margin:"10"}}/>
-            </MuiThemeProvider>
+            <Link to={"projects/application"}>
+              <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+                <RaisedButton label = "create a team" id = "applyButton" backgroundColor = "#ffc425" style = {{float: "right", margin:"10"}}/>
+              </MuiThemeProvider>
+            </Link>
           </div>
           
         </div>

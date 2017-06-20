@@ -1,15 +1,18 @@
 import React, { Component } from 'react';
-import { Link, Route } from 'react-router-dom';
+import {Switch, Link, Route } from 'react-router-dom';
 
 import ProjectPage from './ProjectPage';
 import ProjectList from './ProjectList';
+import ASUTeamFormComponent from './Application/ASUTeamFormComponent';
 
 
 const Projects = ( {match} ) => (
   <div>
-    <Route path={`${match.url}/:projectId`} component={ ProjectPage }/>
-    <Route path={`${match.url}/application`} component={ ProjectPage }/>
-    <Route exact path={match.url} component={ ProjectList }/>
+    <Switch>
+      <Route exact path={`${match.url}/application`} component={ ASUTeamFormComponent }/>
+      <Route path={`${match.url}/:projectId`} component={ ProjectPage }/>
+      <Route exact path={match.url} component={ ProjectList }/>
+    </Switch>
   </div>
 )
 

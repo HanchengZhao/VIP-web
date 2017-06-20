@@ -7,7 +7,9 @@
     "material-ui": "^0.18.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-file-input": "^0.2.5",
     "react-markdown": "^2.5.0",
+    "react-progressbar": "^1.4.6",
     "react-router-dom": "^4.1.1",
     "react-tap-event-plugin": "^2.0.1"
   },

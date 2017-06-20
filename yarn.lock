@@ -5027,6 +5027,10 @@ react-event-listener@^0.4.5:
     prop-types "^15.5.4"
     warning "^3.0.0"
 
+react-file-input@^0.2.5:
+  version "0.2.5"
+  resolved "https://registry.yarnpkg.com/react-file-input/-/react-file-input-0.2.5.tgz#a355367d9323d5c6352ddd3cd7ec3582e5c9b245"
+
 react-markdown@^2.5.0:
   version "2.5.0"
   resolved "https://registry.yarnpkg.com/react-markdown/-/react-markdown-2.5.0.tgz#b1c61904fee5895886803bd9df7db23c3dc3a89e"
@@ -5035,6 +5039,10 @@ react-markdown@^2.5.0:
     commonmark-react-renderer "^4.2.4"
     in-publish "^2.0.0"
     prop-types "^15.5.1"
+
+react-progressbar@^1.4.6:
+  version "1.4.6"
+  resolved "https://registry.yarnpkg.com/react-progressbar/-/react-progressbar-1.4.6.tgz#03f5ce9ccf3778b158d192a457684553fae7ddb7"
 
 react-router-dom@^4.1.1:
   version "4.1.1"
