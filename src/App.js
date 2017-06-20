@@ -37,12 +37,7 @@ class App extends Component {
   constructor(){
     super();
   }
-  componentDidMount(){
-    const projectRef = firebase.database().ref('projectInfo');
-    projectRef.on("value", (snap) => {
-      console.log(snap.val());
-    })
-  }
+  
 
   render() {
     return (
