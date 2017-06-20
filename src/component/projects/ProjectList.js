@@ -34,9 +34,6 @@ class ProjectList extends Component {
 
     render () {
       let projects = this.state.projects;
-      // this.state.projects.map((project,index) => 
-      //           <ProjectCard key={index} project={project} />
-      //         )
       return (
         <div>
           <div className="row">
@@ -47,9 +44,12 @@ class ProjectList extends Component {
               : (<h2>Loading...</h2>)
             }
           </div>
-          <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-            <RaisedButton label = "apply" id = "applyButton" backgroundColor = "#ffc425" style = {{float: "right", margin:"10"}}/>
-          </MuiThemeProvider>
+          <div className="row">
+            <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+              <RaisedButton label = "create a team" id = "applyButton" backgroundColor = "#ffc425" style = {{float: "right", margin:"10"}}/>
+            </MuiThemeProvider>
+          </div>
+          
         </div>
         
       )
