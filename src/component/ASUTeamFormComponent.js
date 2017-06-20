@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component,Alert } from 'react';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
@@ -14,7 +14,7 @@ import * as firebase from 'firebase';
 
 
 
-const TeamFormPath = 'Team';
+const TeamFormPath = 'Teams';
 
 
 const style = {
@@ -37,6 +37,8 @@ class ASUTeamFormComponent extends Component{
             email: '',
             status: '',
             teamLogo: '',
+            sectionsT: '',
+            sectionsC: '',
       };
     }
 
@@ -46,12 +48,19 @@ class ASUTeamFormComponent extends Component{
       });
     }
 
+   handleTopicArray = (event) => {
+     var str = event.target.value;
+     var res=str.split(",");
+     this.setState({
+        topics : res,
+      })
+    }
 
 
   firebasewrite = () => {
-    const rootRef = firebase.database().ref().child(TeamFormPath).child('form');
+    const rootRef = firebase.database().ref().child(TeamFormPath);
     rootRef.push({
-        teamName : this.state.teamName,
+        title : this.state.teamName,
         subtitle : this.state.subtitle,
         topics : this.state.topics,
         advisors : this.state.advisors,
@@ -62,7 +71,8 @@ class ASUTeamFormComponent extends Component{
         name : this.state.name,
         email : this.state.email,
         status : this.state.status,
-        teamLogo: this.state.teamLogo,
+        logo: this.state.teamLogo,
+        sections: [{'content':this.state.sectionsC,'title': this.state.sectionsT}],
     });
     this.setState({
           teamName: '',
@@ -77,6 +87,8 @@ class ASUTeamFormComponent extends Component{
           email:'',
           status:'',
           teamLogo: '',
+          sectionsC: '',
+          sectionsT: '',
 
 
     });
@@ -115,7 +127,7 @@ class ASUTeamFormComponent extends Component{
                     floatingLabelFixed={true}
                     hintText="Topics"
                     floatingLabelText="Enter topics"
-                    value={this.state.topics} onChange={(event) => { this.setState({ topics : event.target.value })}}
+                    value={this.state.topics} onChange={this.handleTopicArray}
                   /><br/>
                   <TextField
                     ref = "advisors"
@@ -135,6 +147,24 @@ class ASUTeamFormComponent extends Component{
                     floatingLabelText="Enter major"
                     value={this.state.major} onChange={(event) => { this.setState({ major : event.target.value })}}
                   /><br/>
+                  <TextField
+                     style={{width: '50%'}}
+                     ref = "sections title"
+                     name = '13'
+                     floatingLabelFixed={true}
+                     hintText="Section Title"
+                     floatingLabelText="Enter the section title"
+                     value={this.state.sectionsT} onChange={(event) => { this.setState({ sectionsT : event.target.value })}}
+                   /><br/>
+                  <TextField
+                     style={{width: '50%'}}
+                     ref = "sections content"
+                     name = '12'
+                     floatingLabelFixed={true}
+                     hintText="Section Content"
+                     floatingLabelText="Enter the section content"
+                     value={this.state.sectionsC} onChange={(event) => { this.setState({ sectionsC : event.target.value })}}
+                   /><br/>
                   <TextField
                     ref = "members"
                     style={{width: '50%'}}
@@ -192,7 +222,7 @@ class ASUTeamFormComponent extends Component{
                     rows={4}
                     rowsMax={6}
                     value={this.state.desc} onChange={(event) => { this.setState({ desc : event.target.value })}}
-                  /><br/>                  
+                  /><br/>
                 </Card>
                   <br/>
                   <ASUTeamLogoUpload childdata = {this.getdata}/>
@@ -202,6 +232,7 @@ class ASUTeamFormComponent extends Component{
                     data-toggle="modal" data-target="#myModal" /> <br />
                   </div>
                   </MuiThemeProvider>
+
             </div>
 		        </MuiThemeProvider>
 
