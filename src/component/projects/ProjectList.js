@@ -7,8 +7,6 @@ import deeplearning from '../../assets/team_logo/deeplearning.jpg';
 
 import firebase from '../../firebase';
 
-
-
 class ProjectList extends Component {
     constructor() {
       super();
@@ -18,24 +16,25 @@ class ProjectList extends Component {
     }
 
     componentDidMount(){
-      const projectRef = firebase.database().ref('projectInfo');
+      const projectRef = firebase.database().ref('Teams');
       projectRef.on("value", (snap) => {
         this.setState({
           projects: snap.val()
         });
+        console.log(snap.val())
       })
-      console.log(this.state.projects)
   }
 
     render () {
-      // let projectCard = this.state.projects.map((project) => 
-      //     <ProjectCard key={project.id} project={project} />
-      //   )
+      let projects = this.state.projects;
+      // this.state.projects.map((project,index) => 
+      //           <ProjectCard key={index} project={project} />
+      //         )
       return (
         <div className="row">
           { this.state.projects
-            ? (this.state.projects.map((project) => 
-                <ProjectCard key={project.id} project={project} />
+            ? (Object.keys(this.state.projects).map((uuid) =>
+                <ProjectCard key={uuid} fbkey={uuid} project={projects[uuid]} />
               ))
             : (<h2>Loading...</h2>)
           }

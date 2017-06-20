@@ -50,9 +50,9 @@ class ProjectCard extends Component {
               <img src={this.props.project.logo} alt="" />
             </CardMedia>*/}
             <CardText expandable={false} style={style.cardText}>
-              {this.props.project.description}
+              {this.props.project.sections[0].content}
             </CardText>
-            <Link to={`projects/${this.props.project.title.replace(/ /g, "_")}`}>
+            <Link to={`projects/${this.props.fbkey}`}>
               <CardActions>
                 <FlatButton label="Learn more" />
               </CardActions>
