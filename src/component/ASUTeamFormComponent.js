@@ -8,7 +8,7 @@ import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import ASUTeamLogoUpload from './ASUTeamLogoUpload';
-import Bootstrap from './Bootstrap';
+import TeamApplyModalComponent from './TeamApplyModalComponent';
 
 import * as firebase from 'firebase';
 
@@ -148,24 +148,6 @@ class ASUTeamFormComponent extends Component{
                     value={this.state.major} onChange={(event) => { this.setState({ major : event.target.value })}}
                   /><br/>
                   <TextField
-                     style={{width: '50%'}}
-                     ref = "sections title"
-                     name = '13'
-                     floatingLabelFixed={true}
-                     hintText="Section Title"
-                     floatingLabelText="Enter the section title"
-                     value={this.state.sectionsT} onChange={(event) => { this.setState({ sectionsT : event.target.value })}}
-                   /><br/>
-                  <TextField
-                     style={{width: '50%'}}
-                     ref = "sections content"
-                     name = '12'
-                     floatingLabelFixed={true}
-                     hintText="Section Content"
-                     floatingLabelText="Enter the section content"
-                     value={this.state.sectionsC} onChange={(event) => { this.setState({ sectionsC : event.target.value })}}
-                   /><br/>
-                  <TextField
                     ref = "members"
                     style={{width: '50%'}}
                     name = '8'
@@ -202,6 +184,27 @@ class ASUTeamFormComponent extends Component{
                     value={this.state.status} onChange={(event) => { this.setState({ status : event.target.value })}}
                   /><br/>
                   <TextField
+                     style={{width: '50%'}}
+                     ref = "sections title"
+                     name = '13'
+                     floatingLabelFixed={true}
+                     hintText="Section Title"
+                     floatingLabelText="Enter the section title"
+                     value={this.state.sectionsT} onChange={(event) => { this.setState({ sectionsT : event.target.value })}}
+                   /><br/>
+                  <TextField
+                     style={{width: '50%'}}
+                     ref = "sections content"
+                     style={{width: '80%'}}
+                     name = '12'
+                     floatingLabelFixed={true}
+                     hintText="Section Content"
+                     multiLine={true}
+                     rows={4}
+                     rowsMax={6}
+                     value={this.state.sectionsC} onChange={(event) => { this.setState({ sectionsC : event.target.value })}}
+                   /><br/>
+                  <TextField
                     ref = "requirements"
                     style={{width: '80%'}}
                     name = '7'
@@ -236,7 +239,7 @@ class ASUTeamFormComponent extends Component{
             </div>
 		        </MuiThemeProvider>
 
-            <Bootstrap />
+            <TeamApplyModalComponent />
 		  </div>
 				)
 	}

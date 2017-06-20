@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 
 
-class Bootstrap extends Component{
+class TeamApplyModalComponent extends Component{
 
 	render(){
 		return (
@@ -31,4 +31,4 @@ class Bootstrap extends Component{
 
 
 
-export default Bootstrap;
+export default TeamApplyModalComponent;
