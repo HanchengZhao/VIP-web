@@ -37,8 +37,6 @@ class ASUTeamFormComponent extends Component{
             email: '',
             status: '',
             teamLogo: '',
-            sectionsT: '',
-            sectionsC: '',
       };
     }
 
@@ -69,7 +67,7 @@ class ASUTeamFormComponent extends Component{
         email : this.state.email,
         status : this.state.status,
         logo: this.state.teamLogo,
-        sections: [{'content':this.state.sectionsC,'title': this.state.sectionsT},
+        sections: [
                    {'content':this.state.major,'title': 'Major'},
                    {'content':this.state.requirements,'title': 'Requirements'},
                    {'content':this.state.advisors,'title': 'Advisor'}],
@@ -87,8 +85,6 @@ class ASUTeamFormComponent extends Component{
           email:'',
           status:'',
           teamLogo: '',
-          sectionsC: '',
-          sectionsT: '',
 
 
     });
@@ -183,27 +179,6 @@ class ASUTeamFormComponent extends Component{
                     floatingLabelText="Enter status"
                     value={this.state.status} onChange={(event) => { this.setState({ status : event.target.value })}}
                   /><br/>
-                  <TextField
-                     style={{width: '50%'}}
-                     ref = "sections title"
-                     name = '13'
-                     floatingLabelFixed={true}
-                     hintText="Section Title"
-                     floatingLabelText="Enter the section title"
-                     value={this.state.sectionsT} onChange={(event) => { this.setState({ sectionsT : event.target.value })}}
-                   /><br/>
-                  <TextField
-                     style={{width: '50%'}}
-                     ref = "sections content"
-                     style={{width: '80%'}}
-                     name = '12'
-                     floatingLabelFixed={true}
-                     hintText="Section Content"
-                     multiLine={true}
-                     rows={4}
-                     rowsMax={6}
-                     value={this.state.sectionsC} onChange={(event) => { this.setState({ sectionsC : event.target.value })}}
-                   /><br/>
                   <TextField
                     ref = "requirements"
                     style={{width: '80%'}}
