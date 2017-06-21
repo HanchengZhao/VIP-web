@@ -12,6 +12,8 @@ import Small_logo from '../assets/small_logo.png';
 import Vip_logo from '../assets/Vip_logo.png';
 import styles from '../style/Header.css';
 
+
+
 class Header extends Component {
   constructor() {
       super();
@@ -38,9 +40,9 @@ class Header extends Component {
               <span className = "icon-bar" />
             </button>
 
-          <div className="collapse navbar-collapse navHeaderCollapse" id = "dubnation">
+          <div className="collapse navbar-collapse navHeaderCollapse">
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-                <div>
+                <div data-toggle="collapse" data-target=".navHeaderCollapse">
                   <Link to="/"><FlatButton label="Home" className="menuBarButton" /></Link>
                   <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link>
                   <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
