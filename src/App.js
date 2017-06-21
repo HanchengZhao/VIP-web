@@ -10,27 +10,14 @@ import {
 import firebase from './firebase';
 import Announcement from './component/Announcement';
 import DropDown from './component/DropDown';
-import Project from './component/ProjectPage';
+
 import Footer from './component/Footer';
 import Header from './component/Header';
 import Projects from './component/projects/Projects';
 
 
-import * as firebase from 'firebase';
-
 
 import './style/App.css';
-
-// Initialize Firebase
-  var config = {
-    apiKey: "AIzaSyAhHrpZ57LtfELxVSsE90DqW2TH8WmrEy8",
-    authDomain: "vip-web-e515b.firebaseapp.com",
-    databaseURL: "https://vip-web-e515b.firebaseio.com",
-    projectId: "vip-web-e515b",
-    storageBucket: "vip-web-e515b.appspot.com",
-    messagingSenderId: "952769810112"
-  };
-  firebase.initializeApp(config);
 
 injectTapEventPlugin();
 
@@ -54,20 +41,6 @@ class App extends Component {
 
   render() {
     return (
-<<<<<<< HEAD
-
-      <div>
-        <Header />
-          <div className="App">
-            <Route exact path="/" component={Home}/>
-            <Route path="/announcement" component={Announcement}/>
-            <Route path="/projects" component={ProjectList}/>
-            <Route path="/contact" component={Contact}/>
-            <Project />
-          </div>
-        <Footer />
-      </div>
-=======
       <Router>
         <div>
           <Header />
@@ -80,7 +53,6 @@ class App extends Component {
           <Footer />
         </div>
       </Router>
->>>>>>> origin
     );
   }
 }
