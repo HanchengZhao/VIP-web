@@ -7,13 +7,14 @@ import {
 
 } from 'react-router-dom';
 
-
+import firebase from './firebase';
 import Announcement from './component/Announcement';
 import DropDown from './component/DropDown';
 import Project from './component/ProjectPage';
 import Footer from './component/Footer';
 import Header from './component/Header';
-import ProjectList from './component/projects/ProjectList';
+import Projects from './component/projects/Projects';
+
 
 import * as firebase from 'firebase';
 
@@ -49,12 +50,11 @@ class App extends Component {
   constructor(){
     super();
   }
-  componentDidMount(){
-
-  }
+  
 
   render() {
     return (
+<<<<<<< HEAD
 
       <div>
         <Header />
@@ -67,6 +67,20 @@ class App extends Component {
           </div>
         <Footer />
       </div>
+=======
+      <Router>
+        <div>
+          <Header />
+            <div className="App">
+              <Route exact path="/" component={Home}/>
+              <Route path="/announcement" component={Announcement}/>
+              <Route path="/projects" component={Projects}/>
+              <Route path="/contact" component={Contact}/>
+            </div>
+          <Footer />
+        </div>
+      </Router>
+>>>>>>> origin
     );
   }
 }

@@ -1,33 +1,42 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardMedia, CardTitle, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+
+import { Link, Route } from 'react-router-dom';
 
 
 const style = {
   card: {
+    paddingBottom: "10px",
     margin: "10px",
+    height: "300px"
+  },
+  cardMedia:{
+    height: "100px"
   },
   cardHeader: {
     textAlign : 'left',
     fontSize: '1.2em',
+    maxHeight: "100px"
   },
   cardText: {
     overflow: "hidden",
     textOverflow: "ellipsis",
-    height: "150px",
+    height: "150px"
   }
   
 }
 
 class ProjectCard extends Component {
-    constructor() {
-      super();
+    constructor(props) {
+      super(props);
+
     }
     render () {
       return (
         <MuiThemeProvider>
-          <div className="col-md-4">
+          <div className="col-md-4" style={{marginBottom:"10px"}}>
           <Card style={style.card}>
             <CardHeader
               title={this.props.project.title}
@@ -36,12 +45,17 @@ class ProjectCard extends Component {
               showExpandableButton={false}
               titleStyle = {style.cardHeader}
             />
+            {/*<CardMedia style={style.cardMedia}>
+              <img src={this.props.project.logo} alt="" />
+            </CardMedia>*/}
             <CardText expandable={false} style={style.cardText}>
-              {this.props.project.description}
+              {this.props.project.sections[0].content}
             </CardText>
-             <CardActions>
-              <FlatButton label="Learn more" />
-            </CardActions>
+            <Link to={`projects/${this.props.fbkey}`}>
+              <CardActions>
+                <FlatButton label="Learn more" />
+              </CardActions>
+            </Link>
           </Card>
           </div>
         </MuiThemeProvider>
