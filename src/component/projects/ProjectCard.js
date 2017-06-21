@@ -31,8 +31,7 @@ const style = {
 class ProjectCard extends Component {
     constructor(props) {
       super(props);
-      // console.log(this.props.project.title.replace(/ /g,"_"));
-      
+
     }
     render () {
       return (

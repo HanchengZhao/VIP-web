@@ -5040,10 +5040,6 @@ react-markdown@^2.5.0:
     in-publish "^2.0.0"
     prop-types "^15.5.1"
 
-react-progressbar@^1.4.6:
-  version "1.4.6"
-  resolved "https://registry.yarnpkg.com/react-progressbar/-/react-progressbar-1.4.6.tgz#03f5ce9ccf3778b158d192a457684553fae7ddb7"
-
 react-router-dom@^4.1.1:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.1.1.tgz#3021ade1f2c160af97cf94e25594c5f294583025"
