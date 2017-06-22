@@ -20,7 +20,7 @@ class ProjectPage extends Component {
       subtitle: '',
       topics: [],
       sections: [],
-      fbkey:this.props.match.params.projectId
+      fbkey: this.props.match.params.projectId
     };
   }
 
