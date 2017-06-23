@@ -8,7 +8,7 @@ import {
 
 import firebase from './firebase';
 import Announcement from './component/Announcement';
-import DropDown from './component/DropDown';
+// import DropDown from './component/DropDown';
 
 import Footer from './component/Footer';
 import Header from './component/Header';
