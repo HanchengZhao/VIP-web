@@ -6,7 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-
+import Login from './login/Login'
 import Full_logo from '../assets/full_logo.png';
 import Small_logo from '../assets/small_logo.png';
 import Vip_logo from '../assets/Vip_logo.png';
@@ -47,7 +47,7 @@ class Header extends Component {
                   <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link>
                   <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
                   <Link to="/contact"><FlatButton label="Contact" className="menuBarButton"/></Link>
-                  <FlatButton label="Login" id = "login" className="menuBarButton login"/>
+                  <Login authed={this.props.authed} />
                 </div>
               </MuiThemeProvider>
           </div>

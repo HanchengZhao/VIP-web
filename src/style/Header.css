@@ -37,7 +37,7 @@
         display: block !important;
         text-align: justify !important;
     }
-    #login {
+    #login, #logout {
       float:left;
       clear:left;
     }
