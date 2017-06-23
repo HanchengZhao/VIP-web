@@ -6,7 +6,7 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import MuiButton from '../MuiButton';
 
 const style = {card : {margin:"20"},
-title: {marginLeft  : 'auto', marginRight : '1', marginBottom:"30", width:"110"}}
+actions: {marginLeft  : 'auto', marginRight : '1', marginBottom:"30", width:"110"}}
 
 
 class LoginCard extends Component {
@@ -23,7 +23,7 @@ class LoginCard extends Component {
                 {this.props.discription}
               </CardText>
 
-              <CardActions style={style.title}>
+              <CardActions style={style.actions}>
               <MuiButton label = "Login" />
               </CardActions>
             </Card>

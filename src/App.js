@@ -15,7 +15,7 @@ import Footer from './component/Footer';
 import Header from './component/Header';
 import Projects from './component/projects/Projects';
 import LoginPage from './component/login/LoginPage';
-
+import AdminPage from './component/Admin/AdminPage';
 
 
 import './style/App.css';
@@ -31,12 +31,6 @@ const Home = () => (
 const Contact = () => (
   <div>
     <h2>Contact</h2>
-  </div>
-)
-
-const Login = () => (
-  <div>
-    <h2>Login</h2>
   </div>
 )
 
@@ -58,6 +52,7 @@ class App extends Component {
               <Route path="/projects" component={Projects}/>
               <Route path="/contact" component={Contact}/>
               <Route path="/login" component={LoginPage} />
+              <Route path="/admin" component={AdminPage} />
             </div>
           <Footer />
         </div>
