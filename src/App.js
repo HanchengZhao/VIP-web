@@ -14,6 +14,7 @@ import DropDown from './component/DropDown';
 import Footer from './component/Footer';
 import Header from './component/Header';
 import Projects from './component/projects/Projects';
+import LoginPage from './component/login/LoginPage';
 
 
 
@@ -32,6 +33,13 @@ const Contact = () => (
     <h2>Contact</h2>
   </div>
 )
+
+const Login = () => (
+  <div>
+    <h2>Login</h2>
+  </div>
+)
+
 class App extends Component {
 
   constructor(){
@@ -49,6 +57,7 @@ class App extends Component {
               <Route path="/announcement" component={Announcement}/>
               <Route path="/projects" component={Projects}/>
               <Route path="/contact" component={Contact}/>
+              <Route path="/login" component={LoginPage} />
             </div>
           <Footer />
         </div>
