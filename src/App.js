@@ -5,6 +5,8 @@ import {
     Route,
     Link
 } from 'react-router-dom';
+import { observer } from "mobx-react";
+
 
 import firebase from './firebase';
 import Announcement from './component/Announcement';
@@ -14,6 +16,7 @@ import Footer from './component/Footer';
 import Header from './component/Header';
 import Projects from './component/projects/Projects';
 
+import userStore from './stores/UserStore';
 import './style/App.css';
 
 injectTapEventPlugin();
@@ -29,26 +32,17 @@ const Contact = () => (
     <h2>Contact</h2>
   </div>
 )
-class App extends Component {
 
-  constructor(){
-    super();
-    this.state = {
-      authed: false
-    }
-  }
+@observer
+class App extends Component {
 
   componentDidMount () {
     this.userStateChange = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        this.setState({
-          authed: true
-        })
+        userStore.login()
         console.log("logged in")
       } else {
-        this.setState({
-          authed: false
-        })
+        userStore.logout()
         console.log("logged out")
       }
     })
@@ -62,7 +56,7 @@ class App extends Component {
     return (
       <Router>
         <div>
-          <Header authed={this.state.authed} />
+          <Header user={userStore} />
             <div className="App">
               <Route exact path="/" component={Home}/>
               <Route path="/announcement" component={Announcement}/>

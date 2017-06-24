@@ -1,30 +1,31 @@
 import React, { Component } from 'react';
 import FlatButton from 'material-ui/FlatButton';
-
+import { observer } from "mobx-react";
 import firebase from '../../firebase';
 
+@observer
 class Login extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-        authed : this.props.authed
-    }
-    console.log(this.state.authed);
+  constructor() {
+    super()
+    // this.state = {
+    //     authed : this.props.authed
+    // }
+    // console.log(this.state.authed);
     this.googleLogin = this.googleLogin.bind(this);
     this.logout = this.logout.bind(this);
   }
 
-  googleLogin() {
+  googleLogin(user) {
     let provider = new firebase.auth.GoogleAuthProvider();
     // firebase.auth().signInWithRedirect(provider)
 
-    firebase.auth().signInWithPopup(provider).then(function(result) {
+    firebase.auth().signInWithPopup(provider).then((result) => {
       if (result.credential) {
           // This gives you a Google Access Token. You can use it to access the Google API.
           let token = result.credential.accessToken;
-          // ...
+          console.log(token)
       }
-        this.setState({authed: true})
+        this.props.user.login();
         console.log("signInWithPopup")
       }).catch(function(error) {
       // Handle Errors here.
@@ -39,17 +40,15 @@ class Login extends Component {
       })
   }
 
-  logout() {
-    this.setState({
-      authed : false
-    })
+  logout(user) {
+    this.props.user.logout();
     return firebase.auth().signOut()
   }
 
   render () {
     return (
       <div>
-        { this.state.authed
+        { this.props.user.authed
           ? (<FlatButton 
               label="Logout" 
               id = "logout" 
