@@ -3,6 +3,15 @@ import FlatButton from 'material-ui/FlatButton';
 import { observer } from "mobx-react";
 import firebase from '../../firebase';
 
+
+const style = {
+    content: ".",
+    display: "block",
+    clear: "both",
+    visibility: "hidden",
+    lineHeight: "0",
+    height: "0"}
+
 @observer
 class Login extends Component {
   constructor() {
@@ -43,7 +52,7 @@ class Login extends Component {
 
   render () {
     return (
-      <div>
+      <div className = "clearfix" style = {{float:"right"}}>
         { this.props.user.authed
           ? (<FlatButton 
               label="Logout" 

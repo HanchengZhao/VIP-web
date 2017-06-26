@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
-
+import Login from './Login'
 import Default_avatar from '../../assets/login/default_avatar.svg';
 
-const styles = {photo : {height:"40px", width:"40px", marginRight:"10", display:"inline-block"}, userName : {color:"#f9f9f9", fontSize:"17", paddingTop:"20", marginRight:"20", display:"inline-block"}, container:{float:"right", height:"60px"}};
+const styles = {
+  photo : {height:"40px", width:"40px", marginRight:"10px", display:"inline-block"},
+  userName : {color:"#f9f9f9", fontSize:"17px", paddingTop:"20px", marginRight:"20px", display:"inline-block"},
+  container:{float:"right", height:"60px"},
+  };
+
 class LoginAvatar extends Component {
   constructor(props) {
     super(props);

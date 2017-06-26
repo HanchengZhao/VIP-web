@@ -43,9 +43,8 @@
         display: block !important;
         text-align: justify !important;
     }
-    #login, #logout {
-      float:left;
-      clear:left;
+    .clearfix {
+      float:left !important;
     }
 
     .navHeaderCollapse {

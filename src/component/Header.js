@@ -53,13 +53,12 @@ class Header extends Component {
                     
                   </div>
                   <div className="hidden-xs"> 
+                    <Login user={this.props.user} />   
                     <Link to="/"><FlatButton label="Home" className="menuBarButton" /></Link>
                     <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link>
                     <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
                     <Link to="/contact"><FlatButton label="Contact" className="menuBarButton"/></Link>
-                    {/*<Link to="/login"><FlatButton label="Login" id = "login" className="menuBarButton login" /></Link>*/}
-                    <Login user={this.props.user} />
-                    <LoginAvatar userName = {"Samuel Paleen"}/>                                        
+                    <LoginAvatar userName = {"Samuel Paleen"}/>                                               
                   </div>
                 </div>  
               </MuiThemeProvider>
