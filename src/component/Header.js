@@ -22,7 +22,6 @@ class Header extends Component {
 
     return (
       <div>
-      <div>
         <div className = "header">
           <a href = "https://www.asu.edu/">
             <img src = {Full_logo}  className = "image" id = "large"/>
@@ -30,8 +29,7 @@ class Header extends Component {
           </a>
             <img src = {Vip_logo} className = "image" id = "VIP" />
         </div>
-      </div>
-        <nav className="navbar navbar-default navbar-static-top" >
+        <nav className="navbar navbar-default navbar-static-top" id="TEST" >
 
             <button className="navbar-toggle" data-toggle = "collapse" data-target=".navHeaderCollapse">
               <span className = "icon-bar" />
@@ -40,7 +38,7 @@ class Header extends Component {
               <span className = "icon-bar" />
             </button>
 
-          <div className="collapse navbar-collapse navHeaderCollapse">
+          <div className="collapse navbar-collapse navHeaderCollapse" id = "dubnation">
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                 <div>
                   <Link to="/"><FlatButton label="Home" className="menuBarButton" /></Link>

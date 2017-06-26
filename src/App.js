@@ -10,14 +10,27 @@ import { observer } from "mobx-react";
 
 import firebase from './firebase';
 import Announcement from './component/Announcement';
+
 // import DropDown from './component/DropDown';
 
 import Footer from './component/Footer';
 import Header from './component/Header';
 import Projects from './component/projects/Projects';
 
+
 import userStore from './stores/UserStore';
 import './style/App.css';
+
+// Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyAhHrpZ57LtfELxVSsE90DqW2TH8WmrEy8",
+    authDomain: "vip-web-e515b.firebaseapp.com",
+    databaseURL: "https://vip-web-e515b.firebaseio.com",
+    projectId: "vip-web-e515b",
+    storageBucket: "vip-web-e515b.appspot.com",
+    messagingSenderId: "952769810112"
+  };
+  firebase.initializeApp(config);
 
 injectTapEventPlugin();
 
@@ -58,6 +71,7 @@ class App extends Component {
 
   render() {
     return (
+
       <Router>
         <div>
           <Header user={userStore} />
@@ -70,6 +84,7 @@ class App extends Component {
           <Footer />
         </div>
       </Router>
+
     );
   }
 }
