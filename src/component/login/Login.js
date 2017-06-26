@@ -16,13 +16,14 @@ class Login extends Component {
     firebase.auth().signInWithRedirect(provider);
 
     firebase.auth().getRedirectResult(provider).then((result) => {
-      if (result.credential) {
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          let token = result.credential.accessToken;
-          console.log(token)
-      }
+      // if (result.credential) {
+      //     // This gives you a Google Access Token. You can use it to access the Google API.
+      //     let token = result.credential.accessToken;
+      //     console.log(token)
+      //     console.log(result)
+      // }
+      // let user = result.user
         this.props.user.login();
-        console.log("signInWithPopup")
       }).catch(function(error) {
       // Handle Errors here.
         var errorCode = error.code;

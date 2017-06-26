@@ -59,7 +59,7 @@ class Header extends Component {
                     <Link to="/contact"><FlatButton label="Contact" className="menuBarButton"/></Link>
                     {/*<Link to="/login"><FlatButton label="Login" id = "login" className="menuBarButton login" /></Link>*/}
                     <Login user={this.props.user} />
-                    <LoginAvatar userName = {"Samuel Paleen"}/>                                        
+                    <LoginAvatar user={this.props.user}/>                                        
                   </div>
                 </div>  
               </MuiThemeProvider>

@@ -46,10 +46,7 @@ class App extends Component {
     this.userStateChange = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         userStore.login()
-        console.log(user)
-        console.log(user.displayName)
-        console.log(user.email)
-        console.log(user.photoURL)
+        userStore.fetchUserInfo(user.email, user.displayName, user.photoURL)
         console.log("logged in")
       } else {
         userStore.logout()
