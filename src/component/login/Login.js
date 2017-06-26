@@ -6,11 +6,7 @@ import firebase from '../../firebase';
 @observer
 class Login extends Component {
   constructor() {
-    super()
-    // this.state = {
-    //     authed : this.props.authed
-    // }
-    // console.log(this.state.authed);
+    super();
     this.googleLogin = this.googleLogin.bind(this);
     this.logout = this.logout.bind(this);
   }
