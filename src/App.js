@@ -13,6 +13,9 @@ import Announcement from './component/Announcement';
 
 // import DropDown from './component/DropDown';
 
+import AdminPage from './component/admin/AdminPage';
+import LoginPage from './component/login/LoginPage';
+
 import Footer from './component/Footer';
 import Header from './component/Header';
 import Projects from './component/projects/Projects';
@@ -61,7 +64,6 @@ class App extends Component {
 
   render() {
     return (
-
       <Router>
         <div>
           <Header user={userStore} />
@@ -70,11 +72,12 @@ class App extends Component {
               <Route path="/announcement" component={Announcement}/>
               <Route path="/projects" component={Projects}/>
               <Route path="/contact" component={Contact}/>
+              <Route path="/login" component={LoginPage} />
+              <Route path="/admin" component={AdminPage} />
             </div>
           <Footer />
         </div>
       </Router>
-
     );
   }
 }
