@@ -11,7 +11,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import ASUTeamLogoUpload from './ASUTeamLogoUpload';
 import TeamApplyModalComponent from './TeamApplyModalComponent';
 
-const TeamFormPath = 'Teams';
+const TeamFormPath = 'TeamApplication';
 
 const style = {
   margin: 12,

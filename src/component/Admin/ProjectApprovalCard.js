@@ -7,8 +7,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import firebase from "../../firebase";
 
-const style = {card : {margin:"20"},
-actions: {marginLeft  : 'auto', marginRight : '1', marginBottom:"30", width:"200"}, button : {display:"inline-block !important", paddingRight:"20"}};
+const style = {card : {margin:"20px"},
+actions: {marginLeft  : 'auto', marginRight : '1px', marginBottom:"30px", width:"200px"}, button : {display:"inline-block !important", paddingRight:"20px"}};
 
 
 class ProjectApprovalCard extends Component {

@@ -49,15 +49,16 @@ class Header extends Component {
                     <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link>
                     <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
                     <Link to="/contact"><FlatButton label="Contact" className="menuBarButton"/></Link>
-                    <Link to="/login"><FlatButton label="Login" id = "login" className="menuBarButton login" /></Link>
-                    {/*<Login user={this.props.user} />*/}
+                    <Login user={this.props.user} />
+                    
                   </div>
                   <div className="hidden-xs"> 
                     <Link to="/"><FlatButton label="Home" className="menuBarButton" /></Link>
                     <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link>
                     <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
                     <Link to="/contact"><FlatButton label="Contact" className="menuBarButton"/></Link>
-                    <Link to="/login"><FlatButton label="Login" id = "login" className="menuBarButton login" /></Link>
+                    {/*<Link to="/login"><FlatButton label="Login" id = "login" className="menuBarButton login" /></Link>*/}
+                    <Login user={this.props.user} />
                     <LoginAvatar userName = {"Samuel Paleen"}/>                                        
                   </div>
                 </div>  
