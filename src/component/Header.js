@@ -17,9 +17,6 @@ import styles from '../style/Header.css';
 
 
 class Header extends Component {
-  constructor() {
-      super();
-  }
 
   render() {
 
@@ -50,10 +47,8 @@ class Header extends Component {
                     <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
                     <Link to="/contact"><FlatButton label="Contact" className="menuBarButton"/></Link>
                     <Login user={this.props.user} />
-                    
                   </div>
                   <div className="hidden-xs"> 
-                     
                     <Link to="/"><FlatButton label="Home" className="menuBarButton" /></Link>
                     <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link>
                     <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
