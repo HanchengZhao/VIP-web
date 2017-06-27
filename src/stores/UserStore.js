@@ -1,4 +1,4 @@
-import { computed, observable } from "mobx";
+import { observable } from "mobx";
 
 class UserStore {
     @observable authed = false;
@@ -15,6 +15,10 @@ class UserStore {
         this.email = email;
         this.displayName = displayName;
         this.photoURL = photoURL;
+    }
+
+    fetchUserRole(role){
+        this.role = role;
     }
 
     logout() {

@@ -1,29 +1,14 @@
-import firebase from '../../firebase.js';
+import firebase from '../../firebase';
+import appStore from '../../stores/AppStore';
+import userStore from '../../stores/UserStore';
 
-export const googleLogin = () => {
-  let provider = new firebase.auth.GoogleAuthProvider();
-  firebase.auth().signInWithRedirect(provider)
-
-  firebase.auth().getRedirectResult().then(function(result) {
-    if (result.credential) {
-        // This gives you a Google Access Token. You can use it to access the Google API.
-        let token = result.credential.accessToken;
-        // ...
-    }
-    // The signed-in user info.
-    let user = result.user;
-    }).catch(function(error) {
-    // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // The email of the user's account used.
-      var email = error.email;
-      // The firebase.auth.AuthCredential type that was used.
-      var credential = error.credential;
-      // ...
+export const fetchRole = (email) => {
+  firebase.database().ref("Users").orderByChild('email').equalTo(email).once('value', (snapshot) => {
+    console.log(snapshot);
+    snapshot.forEach(child => {
+      userStore.fetchUserRole(child.val().role)
+      window.role = child.val().role
+      appStore.finishLoading()
     })
-}
-
-export const logout = () => {
-  return firebase.auth().signOut()
+  });
 }
