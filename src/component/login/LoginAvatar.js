@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
-
+import Login from './Login'
 import Default_avatar from '../../assets/login/default_avatar.svg';
 
 import { observer } from "mobx-react";
 
-const styles = {photo : {height:"40px", width:"40px", marginRight:"10", display:"inline-block", borderRadius: "20px"}, displayName : {color:"#f9f9f9", fontSize:"17", paddingTop:"20", marginRight:"20", display:"inline-block"}, container:{float:"right", height:"60px"}};
+const styles = {
+  photo : {height:"40px", width:"40px", marginRight:"10px", display:"inline-block"},
+  userName : {color:"#f9f9f9", fontSize:"17px", paddingTop:"20px", marginRight:"20px", display:"inline-block"},
+  container:{float:"right", height:"60px"},
+  };
 
 @observer
 class LoginAvatar extends Component {

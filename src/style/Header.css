@@ -43,9 +43,8 @@
         display: block !important;
         text-align: justify !important;
     }
-    #login, #logout {
-      float:left;
-      clear:left;
+    .clearfix {
+      float:left !important;
     }
 
     .navHeaderCollapse {
@@ -58,6 +57,7 @@ Navbar and MateralUI CSS Edits
 ******************************/
 .navbar {
   background-color: #353535 !important;
+  height: 61px;
 }
 
 .navHeaderCollapse {
@@ -74,6 +74,8 @@ Navbar and MateralUI CSS Edits
 }
 .menuBarButton {
     height: 60px !important;
+    top:1px !important;
+
 }
 .menuBarButton:hover{
   color: #ffc425 !important;
