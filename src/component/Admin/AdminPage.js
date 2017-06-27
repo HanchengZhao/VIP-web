@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-import ProjectApproval from './ProjectApprovalCard';
+import TeamApplication from './TeamApplication/TeamApplication';
 
 class AdminPage extends Component {
   render() {
     return(
       <div>
         <h1>Admin Page</h1>
-        <ProjectApproval />
+        <TeamApplication />
       </div>
     );
   }

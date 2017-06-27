@@ -14,7 +14,7 @@ class MuiButton extends Component {
   render() {
     return(
       <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-        <RaisedButton label = {this.props.label} backgroundColor = {this.props.color ||"#ffc425"} />
+        <RaisedButton label = {this.props.label} onClick = {this.props.onClick} backgroundColor = {this.props.color ||"#ffc425"} />
       </MuiThemeProvider>
     )
   }

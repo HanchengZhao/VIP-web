@@ -61,7 +61,9 @@ Navbar and MateralUI CSS Edits
 }
 
 .navHeaderCollapse {
+  background-color: #353535 !important;
   margin-top: -1px;
+  width:100%;
 }
 
 .navbar-toggle {
@@ -74,8 +76,6 @@ Navbar and MateralUI CSS Edits
 }
 .menuBarButton {
     height: 60px !important;
-    top:1px !important;
-
 }
 .menuBarButton:hover{
   color: #ffc425 !important;
