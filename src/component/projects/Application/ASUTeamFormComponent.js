@@ -14,25 +14,25 @@ import TeamApplyModalComponent from './TeamApplyModalComponent';
 const TeamFormPath = 'TeamApplication';
 
 const style = {
-  margin: 12,
+  margin: "10px"
 };
 
 class ASUTeamFormComponent extends Component{
   constructor() {
       super();
       this.state = {
-            teamName: '',
-            subtitle: '',
-            topics: '',
-            advisors: '',
-            desc: '',
-            major: '',
-            requirements: '',
-            members: '',
-            name: '',
-            email: '',
-            status: '',
-            teamLogo: '',
+        teamName: '',
+        subtitle: '',
+        topics: '',
+        advisors: '',
+        desc: '',
+        major: '',
+        requirements: '',
+        members: '',
+        name: '',
+        email: '',
+        status: '',
+        teamLogo: '',
       };
     }
 

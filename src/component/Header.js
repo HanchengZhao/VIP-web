@@ -12,7 +12,7 @@ import LoginAvatar from './login/LoginAvatar';
 import Full_logo from '../assets/full_logo.png';
 import Small_logo from '../assets/small_logo.png';
 import Vip_logo from '../assets/Vip_logo.png';
-import styles from '../style/Header.css';
+import '../style/Header.css';
 
 
 

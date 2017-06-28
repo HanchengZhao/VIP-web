@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {fetchRole} from './component/login/auth';
 import firebase from './firebase';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import { observer } from "mobx-react";
 import appStore from './stores/AppStore';
 import userStore from './stores/UserStore';
@@ -34,19 +34,26 @@ const Contact = () => (
 
 @observer
 class App extends Component {
-  // constructor() {
-  //   super();
-  //   this.state = {
-  //     loading: true
-  //   }
-  // }
+  constructor () {
+    super()
+    this.state = {
+      shouldRedirect: false,
+      redirectPath: ""
+    }
+  }
   componentDidMount () {
     this.userStateChange = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         userStore.login()
         userStore.fetchUserInfo(user.email, user.displayName, user.photoURL)
-        fetchRole(user.email)
-        console.log("logged in")
+        fetchRole(user.email).then(role => {
+          userStore.fetchUserRole(role);
+          appStore.finishLoading()
+          this.setState({
+            shouldRedirect: true,
+            redirectPath: "/" + role.toString()
+          })
+        })
       } else {
         appStore.finishLoading()
         userStore.logout()
@@ -76,7 +83,11 @@ class App extends Component {
                 <PublicRoute path="/login" authed={userStore.authed} component={LoginPage} />
                 <AdminRoute path="/admin" user={userStore} component={AdminPage}/>
                 {/*<Route path="/admin" component={AdminPage} />*/}
+                {this.state.shouldRedirect && (
+                  <Redirect to={this.state.redirectPath}/>
+                )}
               </div>
+              
             )}
           <Footer />
         </div>

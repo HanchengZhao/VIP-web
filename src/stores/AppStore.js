@@ -4,6 +4,7 @@ class AppStore {
 
   finishLoading () {
       this.loading = false
+      window.loading = this.loading;
   }
 }
 

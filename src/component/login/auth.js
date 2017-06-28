@@ -3,12 +3,17 @@ import appStore from '../../stores/AppStore';
 import userStore from '../../stores/UserStore';
 
 export const fetchRole = (email) => {
-  firebase.database().ref("Users").orderByChild('email').equalTo(email).once('value', (snapshot) => {
-    console.log(snapshot);
-    snapshot.forEach(child => {
-      userStore.fetchUserRole(child.val().role)
-      window.role = child.val().role
-      appStore.finishLoading()
+  return new Promise((resolve, reject) => {
+    firebase.database().ref("Users").orderByChild('email').equalTo(email).once('value', (snapshot) => {
+      console.log("snapshot: " + snapshot);
+      if (snapshot) {
+        snapshot.forEach(child => {
+          resolve(child.val().role);
+        })
+      } else {
+        reject("no in the system");
+      }
     })
-  });
+  })
+  
 }
