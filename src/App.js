@@ -16,7 +16,7 @@ import Footer from './component/Footer';
 import Header from './component/Header';
 import LoginPage from './component/login/LoginPage';
 import Projects from './component/projects/Projects';
-import { AdminRoute, PublicRoute } from './component/Route';
+import { AdminRoute, PublicRoute, UnAuthRoute } from './component/Route';
 
 injectTapEventPlugin();
 
@@ -29,6 +29,12 @@ const Home = () => (
 const Contact = () => (
   <div>
     <h2>Contact</h2>
+  </div>
+)
+
+const NotInTheSystem = () => (
+  <div>
+    <h2>Sorry, You are not in the system</h2>
   </div>
 )
 
@@ -47,11 +53,20 @@ class App extends Component {
         userStore.login()
         userStore.fetchUserInfo(user.email, user.displayName, user.photoURL)
         fetchRole(user.email).then(role => {
+          console.log(role);
           userStore.fetchUserRole(role);
           appStore.finishLoading()
           this.setState({
             shouldRedirect: true,
             redirectPath: "/" + role.toString()
+          })
+        }).catch((noRole) => { //unable to retrieve role from db
+          // userStore.fetchUserRole(errorRole);
+          userStore.fetchUserRole(noRole);
+          appStore.finishLoading()
+          this.setState({
+            shouldRedirect: true,
+            redirectPath: "/not_in_system"
           })
         })
       } else {
@@ -81,6 +96,7 @@ class App extends Component {
                 <Route path="/projects" component={Projects}/>
                 <Route path="/contact" component={Contact}/>
                 <PublicRoute path="/login" authed={userStore.authed} component={LoginPage} />
+                <UnAuthRoute path="/not_in_system" user={userStore} component={NotInTheSystem} />
                 <AdminRoute path="/admin" user={userStore} component={AdminPage}/>
                 {/*<Route path="/admin" component={AdminPage} />*/}
                 {this.state.shouldRedirect && (
