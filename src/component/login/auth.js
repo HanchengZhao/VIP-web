@@ -11,7 +11,7 @@ export const fetchRole = (email) => {
           resolve(child.val().role);
         })
       } else {
-        reject("no in the system");
+        reject("not in the system");
       }
     })
   })
