@@ -1,0 +1,10 @@
+body {
+<<<<<<< HEAD:src/index.css
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+=======
+  margin: 0 0 40px;
+  font-family: 'Roboto', sans-serif;
+>>>>>>> master:src/style/index.css
+}

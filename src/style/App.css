@@ -1,4 +1,5 @@
 .App {
+<<<<<<< HEAD:src/App.css
   text-align: center;
 }
 
@@ -34,5 +35,14 @@
 .helvetica {
     font-family: helvetica neue,helvetica,sans-serif;
 	color:'blue';
+=======
+  /*text-align: center;*/
+  margin: auto;
+  margin-bottom: 50px;
+  margin-top: 10px;
+  width: 90%;
+  min-height: 100%;
+  position: relative;
+>>>>>>> master:src/style/App.css
 }
 
