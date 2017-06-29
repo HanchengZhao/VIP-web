@@ -44,9 +44,6 @@ class Project extends Component {
         subtitle: snap.val().subtitle,
         topics: topics,
         sections: sections
-
-
-
       });
     });
 

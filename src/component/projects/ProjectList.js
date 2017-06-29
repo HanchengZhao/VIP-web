@@ -8,6 +8,7 @@ import {Link} from 'react-router-dom';
 
 
 import ProjectCard from './ProjectCard';
+import userStore from '../../stores/UserStore';
 
 import artgineer from '../../assets/team_logo/artgineer.png';
 import crypto from '../../assets/team_logo/crypto.png'
@@ -25,7 +26,7 @@ class ProjectList extends Component {
 
     componentDidMount(){
       const projectRef = firebase.database().ref('Teams');
-      projectRef.on("value", (snap) => {
+      projectRef.once("value", (snap) => {
         this.setState({
           projects: snap.val()
         });
@@ -44,6 +45,7 @@ class ProjectList extends Component {
               : (<h2>Loading...</h2>)
             }
           </div>
+          {(userStore.role === "admin" || userStore.role === "advisor") &&
           <div className="row">
             <Link to={"projects/application"}>
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
@@ -51,7 +53,7 @@ class ProjectList extends Component {
               </MuiThemeProvider>
             </Link>
           </div>
-          
+          }
         </div>
         
       )

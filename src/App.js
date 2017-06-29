@@ -16,7 +16,7 @@ import Footer from './component/Footer';
 import Header from './component/Header';
 import LoginPage from './component/login/LoginPage';
 import Projects from './component/projects/Projects';
-import { AdminRoute, PublicRoute, UnAuthRoute } from './component/Route';
+import { AdminRoute, PublicRoute, UnEnrolledRoute } from './component/Route';
 
 injectTapEventPlugin();
 
@@ -61,7 +61,6 @@ class App extends Component {
             redirectPath: "/" + role.toString()
           })
         }).catch((noRole) => { //unable to retrieve role from db
-          // userStore.fetchUserRole(errorRole);
           userStore.fetchUserRole(noRole);
           appStore.finishLoading()
           this.setState({
@@ -96,7 +95,7 @@ class App extends Component {
                 <Route path="/projects" component={Projects}/>
                 <Route path="/contact" component={Contact}/>
                 <PublicRoute path="/login" authed={userStore.authed} component={LoginPage} />
-                <UnAuthRoute path="/not_in_system" user={userStore} component={NotInTheSystem} />
+                <UnEnrolledRoute path="/not_in_system" user={userStore} component={NotInTheSystem} />
                 <AdminRoute path="/admin" user={userStore} component={AdminPage}/>
                 {/*<Route path="/admin" component={AdminPage} />*/}
                 {this.state.shouldRedirect && (

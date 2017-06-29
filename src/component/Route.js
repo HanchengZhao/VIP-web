@@ -9,7 +9,7 @@ export const AdminRoute = ({component: Component, user, ...rest}) => (
   />  
 )
 
-export const UnAuthRoute = ({component: Component, user, ...rest}) => (
+export const UnEnrolledRoute = ({component: Component, user, ...rest}) => (
   <Route {...rest}
     render={(props) => user.role === "not_found"
       ? <Component {...props} />

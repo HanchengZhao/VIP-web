@@ -22,7 +22,6 @@ class LoginCard extends Component {
               <CardText>
                 {this.props.discription}
               </CardText>
-
               <CardActions style={style.actions}>
               <MuiButton label = "Login" />
               </CardActions>
