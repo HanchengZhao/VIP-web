@@ -6,6 +6,7 @@
   margin-right: 20px;
 }
 
+
 .image {
   position: relative;
   left: 20px;
@@ -13,14 +14,19 @@
   padding-top: 13px;
 }
 
+
 #VIP {
   position: relative;
   float:right;
-  height: 60px;
+  height: 57px;
   width: 160px;
   padding-right: 30px;
   padding-bottom: 10px;
 }
+
+/*****************************
+
+******************************/
 
 @media screen and (min-width: 768px) {
     #small {
@@ -37,9 +43,8 @@
         display: block !important;
         text-align: justify !important;
     }
-    #login {
-      float:left;
-      clear:left;
+    .clearfix {
+      float:left !important;
     }
 
     .navHeaderCollapse {
@@ -47,29 +52,31 @@
     }
 }
 
+/*****************************
+Navbar and MateralUI CSS Edits
+******************************/
 .navbar {
-  min-height:60px !important;
   background-color: #353535 !important;
+  height: 61px;
 }
 
-
+.navHeaderCollapse {
+  margin-top: -1px;
+}
 
 .navbar-toggle {
   float:right !important;
-  clear:right !important;
 }
-
 .login {
   position: absolute;
   float:right;
   clear:right;
 }
-
 .menuBarButton {
     height: 60px !important;
-    display: inline-block;
-}
+    top:1px !important;
 
+}
 .menuBarButton:hover{
   color: #ffc425 !important;
   background-color: #000000 !important;

@@ -1,12 +1,13 @@
-import firebase from 'firebase'
+import * as firebase from 'firebase'
 const config = {
-    apiKey: "AIzaSyAGscYTGku-YbAwSG7-_caeWyCjag0XAOY",
-    authDomain: "peer-review-25758.firebaseapp.com",
-    databaseURL: "https://peer-review-25758.firebaseio.com",
-    projectId: "peer-review-25758",
-    storageBucket: "peer-review-25758.appspot.com",
-    messagingSenderId: "389400582157"
+    apiKey: "AIzaSyBPj6e4JD2Y6nN4-3HvG9iz0tBr1In7rZU",
+    authDomain: "fir-trial-ba11c.firebaseapp.com",
+    databaseURL: "https://fir-trial-ba11c.firebaseio.com",
+    projectId: "fir-trial-ba11c",
+    storageBucket: "",
+    messagingSenderId: "991531377734"
 };
 firebase.initializeApp(config);
+
 
 export default firebase;

@@ -29,7 +29,6 @@ class ProjectList extends Component {
         this.setState({
           projects: snap.val()
         });
-        console.log(snap.val())
       })
   }
 

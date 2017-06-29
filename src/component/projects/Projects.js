@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import {Switch, Link, Route } from 'react-router-dom';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 
 import ProjectPage from './ProjectPage';
 import ProjectList from './ProjectList';

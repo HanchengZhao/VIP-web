@@ -1,32 +1,34 @@
 import React, { Component } from 'react';
 
 //Material UI ELEMENTS
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
+import Chip from 'material-ui/Chip';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 //Style sheet
-import '../../style/projectpage.css';
+import '../style/ProjectPage.css';
+import * as firebase from 'firebase';
 
-//Firebase init
-import firebase from "../../firebase";
+var data = "hello";
 
-class ProjectPage extends Component {
-  constructor(props) {
-    super(props);
+
+class Project extends Component {
+
+  constructor() {
+    super();
     this.state = {
       title: '',
       subtitle: '',
       topics: [],
-      sections: [],
-      fbkey: this.props.match.params.projectId
+      sections: []
     };
   }
 
   componentDidMount() {
-    
-    firebase.database().ref(`Teams/${this.state.fbkey}`).once('value').then( (snap) => {
+    firebase.database().ref('data/').once('value').then( (snap) => {
       let topics = [];
       let sections = [];
       for(let i in snap.val().topics) {
@@ -41,22 +43,23 @@ class ProjectPage extends Component {
         title: snap.val().title,
         subtitle: snap.val().subtitle,
         topics: topics,
-        sections: sections,
-        image: snap.val().logo
+        sections: sections
 
 
 
       });
     });
+
+    console.log(this.state.topics);
   }
   render() {
-    let topics = this.state.topics.map((topics,index) =>
-      <li key={index}>{topics}</li>
+    let topics = this.state.topics.map((topics) =>
+      <li>{topics}</li>
     )
-    let sections = this.state.sections.map((sections,index) =>
-      <div key={index}>
+    let sections = this.state.sections.map((sections) =>
+      <div>
         <h4>{sections.title}</h4>
-        {sections.content}
+        <p>{sections.content}</p>
       </div>
     )
     return (
@@ -72,10 +75,10 @@ class ProjectPage extends Component {
               <RaisedButton label = "apply" id = "applyButton" backgroundColor = "#ffc425" style = {{float: "right", margin:"10"}}/>
             </MuiThemeProvider>
           </div>
-        </MuiThemeProvider>
+      </MuiThemeProvider>
       </div>
   );
   }
 }
 
-export default ProjectPage;
+export default Project;
