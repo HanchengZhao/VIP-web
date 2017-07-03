@@ -1,7 +1,11 @@
 import React, { Component } from 'react';
 
+
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+
+import {Card, CardActions, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+
 import MuiButton from '../MuiButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 

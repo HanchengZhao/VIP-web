@@ -47,7 +47,7 @@ class ProjectList extends Component {
           <div className="row">
             <Link to={"projects/application"}>
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-                <RaisedButton label = "create a team" id = "applyButton" backgroundColor = "#ffc425" style = {{float: "right", margin:"10"}}/>
+                <RaisedButton label = "create a team" id = "applyButton" backgroundColor = "#ffc425" style = {{float: "right", margin:"10px"}}/>
               </MuiThemeProvider>
             </Link>
           </div>

@@ -3,7 +3,11 @@ class AppStore {
   @observable loading = true;
 
   finishLoading () {
+
       this.loading = false
+
+      this.loading = false;
+
   }
 }
 

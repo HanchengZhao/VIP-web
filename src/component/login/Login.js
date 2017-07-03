@@ -4,6 +4,7 @@ import { observer } from "mobx-react";
 import firebase from '../../firebase';
 
 
+
 const style = {
     content: ".",
     display: "block",
@@ -11,6 +12,7 @@ const style = {
     visibility: "hidden",
     lineHeight: "0",
     height: "0"}
+
 
 @observer
 class Login extends Component {
@@ -31,8 +33,10 @@ class Login extends Component {
       //     console.log(token)
       //     console.log(result)
       // }
+
       // let user = result.user
         this.props.user.login();
+
       }).catch(function(error) {
       // Handle Errors here.
         var errorCode = error.code;

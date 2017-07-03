@@ -11,12 +11,17 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import ASUTeamLogoUpload from './ASUTeamLogoUpload';
 import TextFieldComponent from './TextFieldComponent';
 import TeamApplyModalComponent from './TeamApplyModalComponent';
+
 import { observable } from "mobx";
 const TeamFormPath = 'TeamApplication';
 const firebaseRead = firebase.database().ref().child("QuestionList");
 
+
+const TeamFormPath = 'TeamApplication';
+
+
 const style = {
-  margin: 12,
+  margin: "10px"
 };
 
 var variable="";
@@ -25,6 +30,7 @@ class ASUTeamFormComponent extends Component{
   constructor() {
       super();
       this.state = {
+
 			      questionsArray:'',
             teamName: '',
             subtitle: '',
@@ -32,6 +38,22 @@ class ASUTeamFormComponent extends Component{
 	}
 		
 	componentDidMount() {
+
+        teamName: '',
+        subtitle: '',
+        topics: '',
+        advisors: '',
+        desc: '',
+        major: '',
+        requirements: '',
+        members: '',
+        name: '',
+        email: '',
+        status: '',
+        teamLogo: '',
+      };
+    }
+
 
     firebase.database().ref(`FormQuestions/General Information`).once('value').then( (snap) => {
       this.setState({

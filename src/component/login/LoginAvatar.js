@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+
 import Login from './Login'
+
 import Default_avatar from '../../assets/login/default_avatar.svg';
 
 import { observer } from "mobx-react";
@@ -12,6 +14,7 @@ const styles = {
 
 @observer
 class LoginAvatar extends Component {
+
   // constructor(props) {
   //   super(props);
   //   console.log(this.props.user.authed)
@@ -20,6 +23,7 @@ class LoginAvatar extends Component {
   //     photoURL: this.props.user.photoURL || Default_avatar
   //   };
   // }
+
 
   render() {
     return (
