@@ -57,7 +57,6 @@ class ProjectApprovalCard extends Component {
   }
   
   sendPopup = () => {
-    console.log("open")
     this.setState({
       open:true,
     });
