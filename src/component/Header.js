@@ -12,14 +12,11 @@ import LoginAvatar from './login/LoginAvatar';
 import Full_logo from '../assets/full_logo.png';
 import Small_logo from '../assets/small_logo.png';
 import Vip_logo from '../assets/Vip_logo.png';
-import styles from '../style/Header.css';
+import '../style/Header.css';
 
 
 
 class Header extends Component {
-  constructor() {
-      super();
-  }
 
   render() {
 
@@ -50,15 +47,14 @@ class Header extends Component {
                     <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
                     <Link to="/contact"><FlatButton label="Contact" className="menuBarButton"/></Link>
                     <Login user={this.props.user} />
-                    
                   </div>
-                  <div className="hidden-xs">
+                  <div className="hidden-xs"> 
                     <Link to="/"><FlatButton label="Home" className="menuBarButton" /></Link>
                     <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link>
                     <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
                     <Link to="/contact"><FlatButton label="Contact" className="menuBarButton"/></Link>
                     <Login user={this.props.user} />
-                    <LoginAvatar userName = {"Samuel Paleen"} />                                               
+                    <LoginAvatar user={this.props.user}/>                                        
                   </div>
                 </div>  
               </MuiThemeProvider>

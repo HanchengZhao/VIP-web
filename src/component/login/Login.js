@@ -3,15 +3,6 @@ import FlatButton from 'material-ui/FlatButton';
 import { observer } from "mobx-react";
 import firebase from '../../firebase';
 
-
-const style = {
-    content: ".",
-    display: "block",
-    clear: "both",
-    visibility: "hidden",
-    lineHeight: "0",
-    height: "0"}
-
 @observer
 class Login extends Component {
   constructor() {
@@ -25,13 +16,12 @@ class Login extends Component {
     firebase.auth().signInWithRedirect(provider);
 
     firebase.auth().getRedirectResult(provider).then((result) => {
-      if (result.credential) {
-          // This gives you a Google Access Token. You can use it to access the Google API.
-          let token = result.credential.accessToken;
-          console.log(token)
-      }
-        this.props.user.login();
-        console.log("signInWithPopup")
+      // if (result.credential) {
+      //     // This gives you a Google Access Token. You can use it to access the Google API.
+      //     let token = result.credential.accessToken;
+      //     console.log(token)
+      //     console.log(result)
+      // }
       }).catch(function(error) {
       // Handle Errors here.
         var errorCode = error.code;

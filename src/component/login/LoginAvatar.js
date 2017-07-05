@@ -1,27 +1,22 @@
 import React, { Component } from 'react';
-import Login from './Login'
 import Default_avatar from '../../assets/login/default_avatar.svg';
 
+import { observer } from "mobx-react";
+
 const styles = {
-  photo : {height:"40px", width:"40px", marginRight:"10px", display:"inline-block"},
-  userName : {color:"#f9f9f9", fontSize:"17px", paddingTop:"20px", marginRight:"20px", display:"inline-block"},
+  photo : {height:"40px", width:"40px", marginRight:"10px", marginTop:"12px", borderRadius: "20px", display:"inline-block"},
+  displayName : {color:"#f9f9f9", fontSize:"17px", verticalAlign: "-8px" , marginRight:"20px", display:"inline-block"},
   container:{float:"right", height:"60px"},
   };
 
+@observer
 class LoginAvatar extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      Username: this.props.userName || '',
-      photoURL: this.props.URL || Default_avatar
-    };
-  }
 
   render() {
     return (
-      <div style = {styles.container}>
-        <p style = {styles.userName}>{this.state.Username}</p>
-        <img src={this.state.photoURL} style = {styles.photo}/>
+      <div className="clearfix" style = {styles.container}>
+        <div style = {styles.displayName}>{this.props.user.displayName || ''}</div>
+        <img src={this.props.user.photoURL || Default_avatar} style = {styles.photo}/>
       </div>
     );
   }
