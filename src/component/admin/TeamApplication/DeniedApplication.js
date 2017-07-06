@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import Checkbox from 'material-ui/Checkbox';
 import firebase from '../../../firebase';
 import MuiButton from '../../MuiButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -12,8 +11,6 @@ import {
   TableRow,
   TableRowColumn,
 } from 'material-ui/Table';
-
-import Dialog from 'material-ui/Dialog';
 
 const style = {textAlign:"center"};
 

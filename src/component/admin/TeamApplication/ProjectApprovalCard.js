@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Dialog from 'material-ui/Dialog';
-import RaisedButton from 'material-ui/RaisedButton';
 import MuiButton from '../../MuiButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import firebase from "../../../firebase";
 
 const style = {card : {margin:"20px"},
-actions: {marginLeft  : 'auto', marginRight : '1px', marginBottom:"30px", width:"200px"}, button : {display:"inline-block !important", paddingRight:"20px"}};
+  actions: {marginLeft  : 'auto', marginRight : '1px', marginBottom:"30px", width:"200px"}, 
+  button : {display:"inline-block !important", paddingRight:"20px"}};
 
 const TeamApprovalPath = "Teams";
 const TeamRejectPath = "RejectedTeams";
@@ -93,9 +93,7 @@ class ProjectApprovalCard extends Component {
         <h3>{this.state.sections[uuid].title}</h3>
         {this.state.sections[uuid].content}
       </div>
-    
     );
-
 
     return(
       <div>

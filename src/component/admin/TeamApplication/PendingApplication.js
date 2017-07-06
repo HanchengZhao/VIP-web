@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 
-import DeniedApplications from './DeniedApplication';
 import firebase from "../../../firebase";
 import MuiButton from "../../MuiButton";
 import ProjectApprovalCard from './ProjectApprovalCard';
