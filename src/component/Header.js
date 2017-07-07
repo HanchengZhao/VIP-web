@@ -42,11 +42,13 @@ class Header extends Component {
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                 <div>
                   <div data-toggle="collapse" data-target=".navHeaderCollapse" className="visible-xs row" > 
-                    <Link to="/"><FlatButton label="Home" className="menuBarButton" /></Link>
-                    <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link>
-                    <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
-                    <Link to="/contact"><FlatButton label="Contact" className="menuBarButton"/></Link>
-                    <Login user={this.props.user} />
+                    <Link to="/"><FlatButton label="Home" className="menuBarButton" fullWidth={true}/></Link>
+                    <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton" fullWidth={true}/></Link>
+                    <Link to="/projects"><FlatButton label="Projects" className="menuBarButton" fullWidth={true}/></Link>
+                    <Link to="/contact"><FlatButton label="Contact" className="menuBarButton" fullWidth={true}/></Link>
+                    <FlatButton label="Dashboard" className="menuBarButton" fullWidth = {true}/> 
+                    <LoginAvatar user={this.props.user}/>
+                    <Login user={this.props.user} Width = {true}/>
                   </div>
                   <div className="hidden-xs"> 
                     <Link to="/"><FlatButton label="Home" className="menuBarButton" /></Link>
@@ -54,7 +56,8 @@ class Header extends Component {
                     <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
                     <Link to="/contact"><FlatButton label="Contact" className="menuBarButton"/></Link>
                     <Login user={this.props.user} />
-                    <LoginAvatar user={this.props.user}/>                                        
+                    <LoginAvatar user={this.props.user}/>
+                    <FlatButton label="Dashboard" className="menuBarButton" id = "dashboard" />                                        
                   </div>
                 </div>  
               </MuiThemeProvider>
