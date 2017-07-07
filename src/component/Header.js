@@ -27,9 +27,9 @@ class Header extends Component {
             <img src = {Full_logo}  className = "image" id = "large"/>
             <img src = {Small_logo} className = "image" id = "small" />
           </a>
-            <img src = {Vip_logo} className = "image" id = "VIP" />
+            <Link to="/"><img src = {Vip_logo} className = "image" id = "VIP" /></Link>
         </div>
-        <nav className="navbar navbar-default navbar-static-top" id="TEST" >
+        <nav className="navbar navbar-default navbar-static-top">
 
             <button className="navbar-toggle" data-toggle = "collapse" data-target=".navHeaderCollapse">
               <span className = "icon-bar" />
