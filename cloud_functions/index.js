@@ -20,8 +20,6 @@ exports.teamApplicationNotice = functions.database.ref('/TeamApplication_Raw_Dat
         application
       )
     }).then(()=> {
-      let emailList = [];
-      let nameList = [];
       Object.keys(adminLists).forEach((uuid) => {
         let request = sg.emptyRequest({
             method: 'POST',
