@@ -14,8 +14,6 @@ import {
 
 const style = {textAlign:"center"};
 
-
-
 class DeniedApplications extends Component {
 
   constructor() {
@@ -24,7 +22,6 @@ class DeniedApplications extends Component {
     this.state = {
       Applications: '',
     };
-
     this.addElement = this.addElement.bind(this);
     this.recoverApplications = this.recoverApplications.bind(this);
   }
@@ -40,19 +37,17 @@ class DeniedApplications extends Component {
 
   addElement = (uuid) => {
     const keys = Object.keys(this.state.Applications);
-    let temp = [];
     switch(uuid) {
       case "all":
-        temp = keys.slice();
+        this.Recovered = keys.slice();
         break;
       case "none":
         break;
       default:
         uuid.forEach((i) =>{
-          temp.push(keys[i]);
+          this.Recovered.push(keys[i]);
       });
     }
-    this.Recovered = temp.slice();
   }
 
     recoverApplications = () => {
@@ -66,12 +61,12 @@ class DeniedApplications extends Component {
     }
   }
 
-  render() {
+  render = () => {
     let Applications = this.state.Applications;
     return(
       <div>
         <h1 style = {style}>DENIED APPLICATIONS</h1>
-        {this.state.Applications 
+        {Applications 
         ? <MuiThemeProvider>
           <div>
             <Table multiSelectable = {true} onRowSelection = {this.addElement}>
@@ -86,24 +81,20 @@ class DeniedApplications extends Component {
               <TableBody deselectOnClickaway={false}>
                 {this.state.Applications
                   ? Object.keys(this.state.Applications).map((uuid) =>
-                    <TableRow key = {uuid} >
+                    <TableRow key = {uuid}>
                       <TableRowColumn>{Applications[uuid].application.title}</TableRowColumn>
                       <TableRowColumn>{Applications[uuid].application.name}</TableRowColumn>
                       <TableRowColumn>{Applications[uuid].application.email}</TableRowColumn>
                       <TableRowColumn>{Applications[uuid].comments}</TableRowColumn>
                     </TableRow>
-
                   )
                   :(<TableRow />)}
               </TableBody>
             </Table>
-            <MuiButton 
-              label="Recover Selected" 
-              onClick={this.recoverApplications}
-            />
+            <MuiButton label="Recover Selected" onClick={this.recoverApplications}/>
           </div>
         </MuiThemeProvider> 
-          : (<h2 style={{textAlign:"Center"}}>No Denined Applications</h2>)
+        : (<h3 style={style}>No Denined Applications</h3>)
         }
       </div>
 

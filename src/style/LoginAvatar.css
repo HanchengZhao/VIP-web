@@ -19,7 +19,14 @@
   margin-right:20px; 
   display:inline-block;
 }
-
+@media screen and (max-width:796px) {
+  #displayName {
+    margin-right:0px;
+  }
+  #photo {
+    margin-right: 0px;
+  }
+}
 @media screen and (max-width: 767px) {
   .clearfix {
     width: 100%;

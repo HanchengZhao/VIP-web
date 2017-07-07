@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import Default_avatar from '../../assets/login/default_avatar.svg';
-import FlatButton from 'material-ui/FlatButton';
 
 import '../../style/LoginAvatar.css';
 

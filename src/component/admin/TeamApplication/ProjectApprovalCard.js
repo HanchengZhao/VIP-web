@@ -13,6 +13,7 @@ const style = {card : {margin:"20px"},
 
 const TeamApprovalPath = "Teams";
 const TeamRejectPath = "RejectedTeams";
+const secondary_color = "#8c1d40";
 
 class ProjectApprovalCard extends Component {
   constructor(props) {
@@ -74,18 +75,10 @@ class ProjectApprovalCard extends Component {
     });
   }
 
-
   render = () => {
     const actions = [
-      <MuiButton
-        label="No"
-        color="#8c1d40"
-        onClick = {this.handleClose}
-      />,
-      <MuiButton
-        label="Yes"
-        onClick = {this.handleReject}
-      />,
+      <MuiButton label="No" color={secondary_color} onClick = {this.handleClose}/>,
+      <MuiButton label="Yes" onClick = {this.handleReject} />,
     ];
 
     let sections = Object.keys(this.state.sections).map((uuid) =>
@@ -105,7 +98,7 @@ class ProjectApprovalCard extends Component {
                {this.state.desc}
               </CardText>
              <CardMedia expandable={true}>
-                <img src={this.state.image} alt="" />
+                <img src={this.state.image} alt="Image Logo for team" />
               </CardMedia>
               <CardText expandable = {true}>
                 <h3>Research Areas</h3>
@@ -115,7 +108,7 @@ class ProjectApprovalCard extends Component {
                 {sections}
               </CardText>
               <CardActions style = {style.actions}>
-                <MuiButton label = "Deny" color = "#8c1d40" onClick = {this.sendPopup}/>
+                <MuiButton label = "Deny" color = {secondary_color} onClick = {this.sendPopup}/>
                 <MuiButton label = "Approve" onClick = {this.handleAccept}/>
               </CardActions>
             </Card>

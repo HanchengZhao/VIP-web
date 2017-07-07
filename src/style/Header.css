@@ -53,6 +53,12 @@
     }
 }
 
+@media screen and (max-width:796px) {
+  #dashboard {
+    right: 0px;
+  }
+}
+
 /*****************************
 Navbar and MateralUI CSS Edits
 ******************************/
@@ -82,19 +88,4 @@ Navbar and MateralUI CSS Edits
 .menuBarButton:hover{
   color: #ffc425 !important;
   background-color: #000000 !important;
-}
-
-@media (min-width: 768px) and (max-width: 808px) {
-    .navbar-collapse.collapse {
-        display: none !important;
-    }
-    .navbar-collapse.collapse.in {
-        display: block !important;
-    }
-    .navbar-header .collapse, .navbar-toggle {
-        display:block !important;
-    }
-    .navbar-header {
-        float:none;
-    }
 }

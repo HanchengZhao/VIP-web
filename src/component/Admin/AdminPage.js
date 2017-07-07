@@ -7,7 +7,6 @@ import userStore from '../../stores/UserStore';
 import {Link} from 'react-router-dom';
 import {AdminRoute} from '../Route';
 
-
 class AdminPage extends Component {
   render() {
     return(
