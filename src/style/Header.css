@@ -25,7 +25,6 @@
 }
 
 /*****************************
-
 ******************************/
 
 @media screen and (min-width: 768px) {
@@ -41,11 +40,8 @@
     }
     .menuBarButton {
         display: block !important;
-        text-align: justify !important;
     }
-    .clearfix {
-      float:left !important;
-    }
+    
 
     .navHeaderCollapse {
       margin-top: -1px;

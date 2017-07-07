@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import FlatButton from 'material-ui/FlatButton';
 import { observer } from "mobx-react";
 import firebase from '../../firebase';
+import '../../style/Login.css';
 
 @observer
 class Login extends Component {
@@ -42,19 +43,21 @@ class Login extends Component {
 
   render () {
     return (
-      <div className = "clearfix" style = {{float:"right"}}>
+      <div id = "loginContainer">
         { this.props.user.authed
           ? (<FlatButton 
               label="Logout" 
               id = "logout" 
               className="menuBarButton login"
               onClick={this.logout}
+              fullWidth={this.props.Width||false}
             />)
           : (<FlatButton 
               label="Login" 
               id = "login" 
               className="menuBarButton login"
               onClick={this.googleLogin}
+              fullWidth={this.props.Width||false}
             />)
         }
       </div>

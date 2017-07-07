@@ -1,0 +1,10 @@
+@media screen and (max-width: 767px) {
+  #loginContainer {
+    float:none !important;
+    display:block !important;
+  }
+}
+
+#loginContainer {
+  float:right;
+}
