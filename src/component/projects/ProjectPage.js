@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import userStore from '../../stores/UserStore';
 //Material UI ELEMENTS
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -8,7 +8,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 //Style sheet
 import '../../style/projectpage.css';
-
+import {Link} from 'react-router-dom';  
 //Firebase init
 import firebase from "../../firebase";
 
@@ -68,9 +68,15 @@ class ProjectPage extends Component {
             <h3>Research Areas</h3>
             <div>{topics}</div>
             <div>{sections}</div>
+            {(userStore.role === "advisor" || userStore.role === "student") &&
+            <div className="row">
+            <Link to={`${this.state.fbkey}/apply`}>
             <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
               <RaisedButton label = "apply" id = "applyButton" backgroundColor = "#ffc425" style = {{float: "right", margin:"10"}}/>
             </MuiThemeProvider>
+            </Link>
+            </div>
+            }
           </div>
         </MuiThemeProvider>
       </div>
