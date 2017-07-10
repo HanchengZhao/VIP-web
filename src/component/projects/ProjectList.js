@@ -45,7 +45,7 @@ class ProjectList extends Component {
               : (<h2>Loading...</h2>)
             }
           </div>
-          {(userStore.role === "admin" || userStore.role === "advisor") &&
+          {(userStore.role === "admin" || userStore.role === "advisor" || userStore.role === "student") &&
           <div className="row">
             <Link to={"projects/application"}>
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
