@@ -11,7 +11,7 @@ const Projects = ( {match} ) => (
   <div>
     <Switch>
       <Route exact path={`${match.url}/application`} component={ ProjectApplication }/>
-      <Route exact path={`${match.url}/apply`} component={ StudentApplication }/>
+      <Route exact path={`${match.url}/:projectId/apply`} component={ StudentApplication }/>
       <Route path={`${match.url}/:projectId`} component={ ProjectPage }/>
       <Route exact path={match.url} component={ ProjectList }/>
     </Switch>
