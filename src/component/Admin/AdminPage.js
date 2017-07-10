@@ -41,7 +41,7 @@ class AdminPage extends Component {
       <div>
         <h1>Admin Page </h1>
         <AdminRoute user={userStore} path = "/admin/projectApplication" component={PA_Tool} />
-        <Route user={userStore} path = "/admin/studentApplication" component={this.StudentApplicationData}/>
+        <AdminRoute user={userStore} path = "/admin/studentApplication" component={this.StudentApplicationData}/>
         <div style = {{paddingTop:"20px", textAlign:"center"}}>
           <Link to="/admin/projectApplication/pending"><MuiButton label = "Project Tool" color = "#8c1d40"/></Link>
           <Link to="/admin/studentApplication"><MuiButton label = "Student Tool" /></Link>
