@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import firebase from '../../../firebase';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MuiButton from '../../MuiButton';
 import {
@@ -18,6 +19,7 @@ class StudentApplicationTable extends Component {
     }
     this.selected = [];
     this.handleAccept = this.handleAccept.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
     this.handleReject = this.handleReject.bind(this);
     this.addElement = this.addElement.bind(this);
   }
@@ -37,11 +39,21 @@ class StudentApplicationTable extends Component {
       });
     }
     this.selected = temp.slice();
-    console.log(this.selected);
+  }
+
+  handleRemove = (uuid) => {
+    let fbRef = firebase.database().ref(`StudentApplication/${this.props.name}`).child(uuid).remove();
   }
 
   handleAccept = () => {
-    alert("Accept")
+    let fbRef = firebase.database().ref("Student");
+    let selected = this.selected;
+
+    selected.forEach((i)=> {
+      fbRef.push(this.state.teamData[i]);
+      this.handleRemove(i);
+    });
+    this.selected = [];
   }
 
   handleReject = () => {
