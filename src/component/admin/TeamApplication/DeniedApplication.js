@@ -37,17 +37,19 @@ class DeniedApplications extends Component {
 
   addElement = (uuid) => {
     const keys = Object.keys(this.state.Applications);
+    let temp = [];
     switch(uuid) {
       case "all":
-        this.Recovered = keys.slice();
+        temp = keys.slice();
         break;
       case "none":
         break;
       default:
         uuid.forEach((i) =>{
-          this.Recovered.push(keys[i]);
+          temp.push(keys[i]);
       });
     }
+    this.Recovered = temp.slice();
   }
 
     recoverApplications = () => {
