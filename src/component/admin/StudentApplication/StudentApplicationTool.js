@@ -33,9 +33,9 @@ class StudentApplicationTool extends Component {
     return(
       <div>
         {this.state.teamData
-        ? Object.keys(this.state.teamData).map((uuid, index) =>
-          <div style = {{marginTop:"50px"}}>
-            <StudentApplicationTable key = {uuid} name = {uuid} teamData = {this.state.teamData[uuid]} />
+        ? Object.keys(this.state.teamData).map((uuid) =>
+          <div key = {uuid} style = {{marginTop:"50px"}}>
+            <StudentApplicationTable name = {uuid} teamData = {this.state.teamData[uuid]} />
             <MuiThemeProvider>
               <Divider style = {{marginTop:"20px"}}/>
             </MuiThemeProvider>
