@@ -5,7 +5,7 @@ import FlatButton from 'material-ui/FlatButton';
 
 import ReactMarkdown from 'react-markdown';
 
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 
 const style = {
