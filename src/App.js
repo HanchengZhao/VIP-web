@@ -11,7 +11,8 @@ import './style/App.css';
 
 // page component
 import AdminPage from './component/admin/AdminPage';
-import Announcement from './component/Announcement';
+// import Announcement from './component/Announcement';
+import Announcement from './component/announcements/Announcement';
 import DashBoard from './component/DashBoard';
 import Footer from './component/Footer';
 import Header from './component/Header';

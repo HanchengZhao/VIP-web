@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import {Card, CardActions, CardMedia, CardTitle, CardHeader, CardText} from 'material-ui/Card';
+import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+
+import ReactMarkdown from 'react-markdown';
 
 import { Link, Route } from 'react-router-dom';
 
@@ -23,12 +25,12 @@ const style = {
   cardText: {
     overflow: "hidden",
     textOverflow: "ellipsis",
-    height: "140px"
+    height: "150px"
   }
   
 }
 
-class ProjectCard extends Component {
+class AnnouncementCard extends Component {
     constructor(props) {
       super(props);
 
@@ -36,24 +38,21 @@ class ProjectCard extends Component {
     render () {
       return (
         <MuiThemeProvider>
-          <div className="col-md-4" style={{marginBottom:"10px"}}>
+          <div className="col-md-6" style={{marginBottom:"10px"}}>
           <Card style={style.card}>
             <CardHeader
-              title={this.props.project.title}
-              subtitle={this.props.project.subtitle}
+              title={this.props.announcement.title}
+              subtitle={new Date(this.props.announcement.date).toDateString()}
               actAsExpander={false}
               showExpandableButton={false}
               titleStyle = {style.cardHeader}
             />
-            {/*<CardMedia style={style.cardMedia}>
-              <img src={this.props.project.logo} alt="" />
-            </CardMedia>*/}
             <CardText expandable={false} style={style.cardText}>
-              {this.props.project.sections[0].content}
+              <ReactMarkdown source={this.props.announcement.content} />
             </CardText>
-            <Link to={`projects/${this.props.fbkey}`}>
+            <Link to={`announcements/${this.props.fbkey}`}>
               <CardActions>
-                <FlatButton label="Learn more" />
+                <FlatButton label="Read more" />
               </CardActions>
             </Link>
           </Card>
@@ -63,4 +62,4 @@ class ProjectCard extends Component {
     }
 }
 
-export default ProjectCard;
+export default AnnouncementCard;
