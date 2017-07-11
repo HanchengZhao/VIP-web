@@ -18,9 +18,6 @@ const style = {
   margin: "10px"
 };
 
-function lowerFirstLetter(string) {
-    return string.charAt(0).toLowerCase() + string.slice(1);
-}
 // Create an array in this.state. then populate the array with TeamApplication key values. Then access them in the TextFieldComponent with the ids in loop.
 class StudentApplication extends Component{
   constructor(props) {
@@ -32,11 +29,19 @@ class StudentApplication extends Component{
         name: '',
         email: '',
         other:'',
-        title: this.props.title
-      };
+        major:'',
+        gpa:'',
+        title:'',
+        fbkey: this.props.match.params.projectid,        
+      };    
     }
 
     componentDidMount() {
+        firebase.database().ref(`Teams/`+this.state.fbkey).once(`value`).then( (snap) => {
+            this.setState({
+                title: snap.val().title,
+            });
+        })
         
         firebase.database().ref(`FormQuestions/${db}`).once('value').then( (snap) => {
         this.setState({
@@ -73,25 +78,7 @@ class StudentApplication extends Component{
 
 
   firebasewrite = () => {
-    if(`${db}`==='Team Application'){
-        const rootRef = firebase.database().ref().child('TeamApplication');
-        rootRef.push({
-        title : this.state.teamName,
-        subtitle : this.state.subtitle,
-        topics : this.state.topics,
-        description : this.state.description,
-        members : this.state.members,
-        name : this.state.name,
-        email : this.state.email,
-        status : this.state.status,
-        logo: this.state.teamLogo,
-        gpa: this.state.gpa,
-        sections: [
-                   {'content':this.state.major,'title': 'Major'},
-                   {'content':this.state.requirements,'title': 'Requirements'},
-                   {'content':this.state.advisors,'title': 'Advisor'}],
-    });
-    } else if(`${db}`==='General Information'){
+     if(`${db}`==='General Information'){
         const rootRef = firebase.database().ref().child('GeneralInformation');
         rootRef.push({
         name : this.state.name,
@@ -103,8 +90,8 @@ class StudentApplication extends Component{
         major: this.state.major,
         gpa: this.state.gpa,
         });
-    } else if(`${db}`==='Academic Information'){
-        const rootRef = firebase.database().ref().child('AcademicInformation').child(`${this.state.title}`);
+    } else if(`${db}`==='Student Application'){
+        const rootRef = firebase.database().ref(`StudentApplication/`+this.state.title);
         rootRef.push({
         level: this.state.level,
         program: this.state.program,
@@ -123,7 +110,8 @@ class StudentApplication extends Component{
         gradeType: '',
         name: '',
         email: '',
-
+        major: '',
+        gpa:''
     });
 
   }
@@ -136,7 +124,7 @@ class StudentApplication extends Component{
 		  <MuiThemeProvider>
             <div>
               <Card>
-                <CardTitle title='Team Apply Form' />
+                <CardTitle title='Application Form' />
                 <div className="row">
                   {this.state.questionsArray 
                   ? (Object.keys(this.state.questionsArray).map((id) => 
