@@ -57,7 +57,14 @@ class StudentApplicationTable extends Component {
   }
 
   handleReject = () => {
-    alert("Reject");
+    let fbRef = firebase.database().ref("RejectedStudents");
+    let selected = this.selected;
+
+    selected.forEach((i) => {
+      fbRef.push(this.state.teamData[i]);
+      this.handleRemove(i);
+    });
+    this.selected = [];
   }
 
   render = () => {
