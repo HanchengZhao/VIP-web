@@ -9,9 +9,9 @@ export const AdminRoute = ({component: Component, user, ...rest}) => (
   />  
 )
 
-export const UnEnrolledRoute = ({component: Component, user, ...rest}) => (
+export const AdvisorRoute = ({component: Component, user, ...rest}) => (
   <Route {...rest}
-    render={(props) => user.role === "not_found"
+    render={(props) => user.role === "advisor"
       ? <Component {...props} />
       : <Redirect to='/login'/>}
   />  
@@ -32,3 +32,12 @@ export const PublicRoute = ({component: Component, authed, ...rest}) => (
       : <Redirect to='/' />}
   />
 ) 
+
+
+export const UnEnrolledRoute = ({component: Component, user, ...rest}) => (
+  <Route {...rest}
+    render={(props) => user.role === "not_found"
+      ? <Component {...props} />
+      : <Redirect to='/login'/>}
+  />  
+)

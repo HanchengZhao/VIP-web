@@ -9,5 +9,23 @@ const config = {
 };
 firebase.initializeApp(config);
 
+// rules:
+
+// {
+//   "rules": {
+//     ".read": "auth != null",
+//     ".write": "auth != null",
+//   	"Users":{".indexOn":"email"},
+//     "Annoucement":{
+//       "admin":  {".indexOn": "date"}
+//     },
+//     "Teams": {
+//       ".read": true
+//     },
+//     "Announcement": {
+//       ".read": true
+//     }
+//   }
+// }
 
 export default firebase;

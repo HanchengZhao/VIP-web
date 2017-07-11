@@ -11,12 +11,14 @@ import './style/App.css';
 
 // page component
 import AdminPage from './component/admin/AdminPage';
-import Announcement from './component/Announcement';
+// import Announcement from './component/Announcement';
+import Announcement from './component/announcements/Announcement';
+import DashBoard from './component/DashBoard';
 import Footer from './component/Footer';
 import Header from './component/Header';
 import LoginPage from './component/login/LoginPage';
 import Projects from './component/projects/Projects';
-import { AdminRoute, PublicRoute, UnEnrolledRoute } from './component/Route';
+import { AdminRoute, PublicRoute,PrivateRoute, UnEnrolledRoute } from './component/Route';
 
 injectTapEventPlugin();
 
@@ -95,6 +97,7 @@ class App extends Component {
                 <Route path="/projects" component={Projects}/>
                 <Route path="/contact" component={Contact}/>
                 <PublicRoute path="/login" authed={userStore.authed} component={LoginPage} />
+                <PrivateRoute path="/dashboard" authed={userStore.authed} component={DashBoard} />
                 <UnEnrolledRoute path="/not_in_system" user={userStore} component={NotInTheSystem} />
                 <AdminRoute path="/admin" user={userStore} component={AdminPage}/>
                 {/*<Route path="/admin" component={AdminPage} />*/}

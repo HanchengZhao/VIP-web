@@ -48,6 +48,7 @@ class ApplyFormComponent extends Component{
 			<div>
 		        <MuiThemeProvider>
             <div>
+                  <h1>HELLO</h1>
                  <TextField hintText="name"  value={this.state.name} onChange={(event) => { this.setState({ name : event.target.value })}}   /><br />
                  <TextField hintText="email" value={this.state.email} onChange={(event) => { this.setState({ email : event.target.value })}} /><br />
                  <TextField hintText="gpa" value={this.state.gpa} onChange={(event) => { this.setState({ gpa : event.target.value })}} /><br />
