@@ -22,10 +22,11 @@ class AnnouncementList extends Component {
 
   componentDidMount(){
     const anmtRef = firebase.database().ref('Announcement/admin');
-    anmtRef.once("value", (snap) => {
+    anmtRef.orderByChild("date").limitToLast(4).once("value", (snap) => {
       this.setState({
         anmts: snap.val()
       });
+      console.log(this.state.anmts)
     })
   }
 
@@ -37,7 +38,7 @@ class AnnouncementList extends Component {
         <div>
         <div className="row">
           { this.state.anmts
-            ? (Object.keys(this.state.anmts).map((uuid) =>
+            ? (Object.keys(this.state.anmts).reverse().map((uuid) =>
                 <AnnouncementCard key={uuid} fbkey={uuid} announcement={anmts[uuid]} />
               ))
             : (<h2>Loading...</h2>)

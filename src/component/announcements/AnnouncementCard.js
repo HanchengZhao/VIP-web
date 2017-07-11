@@ -12,7 +12,7 @@ const style = {
   card: {
     paddingBottom: "10px",
     margin: "10px",
-    height: "300px"
+    height: "500px"
   },
   cardMedia:{
     height: "100px"
@@ -25,7 +25,7 @@ const style = {
   cardText: {
     overflow: "hidden",
     textOverflow: "ellipsis",
-    height: "150px"
+    height: "330px"
   }
   
 }
@@ -41,7 +41,7 @@ class AnnouncementCard extends Component {
           <div className="col-md-6" style={{marginBottom:"10px"}}>
           <Card style={style.card}>
             <CardHeader
-              title={this.props.announcement.title}
+              title={<h4>{this.props.announcement.title}</h4>}
               subtitle={new Date(this.props.announcement.date).toDateString()}
               actAsExpander={false}
               showExpandableButton={false}
@@ -50,7 +50,7 @@ class AnnouncementCard extends Component {
             <CardText expandable={false} style={style.cardText}>
               <ReactMarkdown source={this.props.announcement.content} />
             </CardText>
-            <Link to={`announcements/${this.props.fbkey}`}>
+            <Link to={`announcement/${this.props.fbkey}`}>
               <CardActions>
                 <FlatButton label="Read more" />
               </CardActions>

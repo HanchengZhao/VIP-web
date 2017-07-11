@@ -4,6 +4,7 @@ import ReactMarkdown from 'react-markdown';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {grey500} from 'material-ui/styles/colors';
 import {debounce} from 'throttle-debounce';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
@@ -14,9 +15,18 @@ import firebase from '../../firebase';
 import userStore from '../../stores/UserStore';
 
 const defaultAnnouncement = {
-  title: `## This is header`,
+  title: `This is header`,
   content: `> This is body`
 }
+
+const styles = {
+  underlineStyle: {
+    borderColor: "#ffc425",
+  },
+  floatingLabelStyle: {
+    color: grey500,
+  },
+};
 
 const announcementPath = "Announcement/admin"
 
@@ -93,17 +103,20 @@ class AnnouncementCreate extends Component {
                 floatingLabelText="Announcement title"
                 floatingLabelFixed={true}
                 onChange={this.titleChange}
-
+                underlineFocusStyle={styles.underlineStyle}
+                floatingLabelStyle={styles.floatingLabelStyle}
                 fullWidth={true}
               />
             </div>
             <div className="panel-body">
               <TextField
               hintText="You can use markdown syntax here to edit annoucement content"
-              floatingLabelText="Content"
+              floatingLabelText="*bold* _italics_ ~strike~ `code` ```preformatted``` >quote"
               multiLine={true}
               rows={4}
               onChange={this.contentChange}
+              underlineFocusStyle={styles.underlineStyle}
+              floatingLabelStyle={styles.floatingLabelStyle}
               fullWidth={true}
             />
             </div>
@@ -114,7 +127,7 @@ class AnnouncementCreate extends Component {
         </MuiThemeProvider>
         <h4>Preview:</h4>
         <div className="panel panel-default">
-          <div className="panel-heading"><ReactMarkdown source={this.state.title} /></div>
+          <div className="panel-heading"><h4>{this.state.title}</h4> </div>
           <div className="panel-body">
             <ReactMarkdown source={this.state.content} renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}}/>
           </div>

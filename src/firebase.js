@@ -16,6 +16,9 @@ firebase.initializeApp(config);
 //     ".read": "auth != null",
 //     ".write": "auth != null",
 //   	"Users":{".indexOn":"email"},
+//     "Annoucement":{
+//       "admin":  {".indexOn": "date"}
+//     },
 //     "Teams": {
 //       ".read": true
 //     },
