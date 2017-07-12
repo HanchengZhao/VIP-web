@@ -8,6 +8,15 @@ import userStore from '../../stores/UserStore';
 import {Link, Route} from 'react-router-dom';
 import {AdminRoute} from '../Route';
 
+const body = {
+  chip: {
+    margin: 4,
+  },
+  wrapper: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+};
 
 class AdminPage extends Component {
   
@@ -20,7 +29,7 @@ class AdminPage extends Component {
         <div style = {{paddingTop:"20px", textAlign:"center"}}>
           <Link to="/admin/projectApplication/pending"><MuiButton label = "Project Tool" color = "#8c1d40"/></Link>
           <Link to="/admin/studentApplication"><MuiButton label = "Student Tool" /></Link>
-        </div>
+        </div> 
       </div>
     );
   }

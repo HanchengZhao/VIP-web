@@ -98,7 +98,7 @@ class StudentApplicationTable extends Component {
             </TableBody>
           </Table>
         </MuiThemeProvider>
-        <MuiButton label = "accept selected" onClick = {this.handleAccept}/>
+        <MuiButton label = "Accept selected" onClick = {this.handleAccept}/>
         <MuiButton label = "Reject selected" onClick = {this.handleReject} color = "#8c1d40" />
       </div>
     );

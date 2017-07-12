@@ -18,6 +18,7 @@ import Footer from './component/Footer';
 import Header from './component/Header';
 import LoginPage from './component/login/LoginPage';
 import Projects from './component/projects/Projects';
+import MuiTable from './component/MuiTable';
 import { AdminRoute, PublicRoute,PrivateRoute, UnEnrolledRoute } from './component/Route';
 
 injectTapEventPlugin();
@@ -46,9 +47,11 @@ class App extends Component {
     super()
     this.state = {
       shouldRedirect: false,
-      redirectPath: ""
+      redirectPath: "",
+      data:''
     }
   }
+
   componentDidMount () {
     this.userStateChange = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
@@ -77,10 +80,23 @@ class App extends Component {
       }
       
     })
+
+
+    firebase.database().ref("RejectedStudents").on("value", (snap)=>{
+      this.setState({
+        data:snap.val()
+      })
+    });
   }
 
   componentWillUnmount () {
     this.userStateChange()
+  }
+
+  test = () => {
+    return(
+    <MuiTable data = {this.state.data} />
+  );
   }
 
   render() {
@@ -95,7 +111,7 @@ class App extends Component {
                 <Route exact path="/" component={Home}/>
                 <Route path="/announcement" component={Announcement}/>
                 <Route path="/projects" component={Projects}/>
-                <Route path="/contact" component={Contact}/>
+                <Route path="/contact" component={this.test}/>
                 <PublicRoute path="/login" authed={userStore.authed} component={LoginPage} />
                 <PrivateRoute path="/dashboard" authed={userStore.authed} component={DashBoard} />
                 <UnEnrolledRoute path="/not_in_system" user={userStore} component={NotInTheSystem} />
