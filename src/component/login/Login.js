@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import FlatButton from 'material-ui/FlatButton';
+
 import { observer } from "mobx-react";
 import firebase from '../../firebase';
 import '../../style/Login.css';
@@ -15,14 +16,8 @@ class Login extends Component {
   googleLogin(user) {
     let provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithRedirect(provider);
-
     firebase.auth().getRedirectResult(provider).then((result) => {
-      // if (result.credential) {
-      //     // This gives you a Google Access Token. You can use it to access the Google API.
-      //     let token = result.credential.accessToken;
-      //     console.log(token)
-      //     console.log(result)
-      // }
+
       }).catch(function(error) {
       // Handle Errors here.
         var errorCode = error.code;
@@ -37,6 +32,7 @@ class Login extends Component {
   }
 
   logout(user) {
+    sessionStorage.clear();
     this.props.user.logout();
     return firebase.auth().signOut()
   }

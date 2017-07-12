@@ -1,6 +1,6 @@
 import firebase from '../../firebase';
-import appStore from '../../stores/AppStore';
-import userStore from '../../stores/UserStore';
+// import appStore from '../../stores/AppStore';
+// import userStore from '../../stores/UserStore';
 
 export const fetchRole = (email) => {
   return new Promise((resolve, reject) => {
