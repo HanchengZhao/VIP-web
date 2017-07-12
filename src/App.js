@@ -55,16 +55,20 @@ class App extends Component {
   componentDidMount () {
     this.userStateChange = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        
         userStore.login()
         userStore.fetchUserInfo(user.email, user.displayName, user.photoURL)
         fetchRole(user.email).then(role => {
           console.log(role);
           userStore.fetchUserRole(role);
           appStore.finishLoading()
-          this.setState({
-            shouldRedirect: true,
-            redirectPath: "/" + role.toString()
-          })
+          if (!sessionStorage.getItem("loggedin")) {
+            this.setState({
+              shouldRedirect: true,
+              redirectPath: "/" + role.toString()
+            })
+          }
+        sessionStorage.setItem('loggedin', true);
         }).catch((noRole) => { //unable to retrieve role from db
           userStore.fetchUserRole(noRole);
           appStore.finishLoading()
@@ -76,7 +80,6 @@ class App extends Component {
       } else {
         appStore.finishLoading()
         userStore.logout()
-        console.log("logged out")
       }
       
     })
@@ -91,6 +94,7 @@ class App extends Component {
 
   componentWillUnmount () {
     this.userStateChange()
+    sessionStorage.clear();
   }
 
   test = () => {

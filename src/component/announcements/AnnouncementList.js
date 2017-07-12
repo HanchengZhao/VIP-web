@@ -26,7 +26,6 @@ class AnnouncementList extends Component {
       this.setState({
         anmts: snap.val()
       });
-      console.log(this.state.anmts)
     })
   }
 
