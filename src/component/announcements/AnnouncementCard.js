@@ -65,7 +65,7 @@ class AnnouncementCard extends Component {
 AnnouncementCard.propTypes = {
   announcement : PropTypes.shape({
     content : PropTypes.string,
-    date: PropTypes.string
+    date: PropTypes.number
   })
 }
 
