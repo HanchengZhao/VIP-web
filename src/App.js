@@ -48,7 +48,6 @@ class App extends Component {
     this.state = {
       shouldRedirect: false,
       redirectPath: "",
-      data:''
     }
   }
 
@@ -83,13 +82,6 @@ class App extends Component {
       }
       
     })
-
-
-    firebase.database().ref("RejectedStudents").on("value", (snap)=>{
-      this.setState({
-        data:snap.val()
-      })
-    });
   }
 
   componentWillUnmount () {
@@ -97,11 +89,6 @@ class App extends Component {
     sessionStorage.clear();
   }
 
-  test = () => {
-    return(
-    <MuiTable data = {this.state.data} />
-  );
-  }
 
   render() {
     return (
@@ -115,7 +102,7 @@ class App extends Component {
                 <Route exact path="/" component={Home}/>
                 <Route path="/announcement" component={Announcement}/>
                 <Route path="/projects" component={Projects}/>
-                <Route path="/contact" component={this.test}/>
+                <Route path="/contact" component={Contact}/>
                 <PublicRoute path="/login" authed={userStore.authed} component={LoginPage} />
                 <PrivateRoute path="/dashboard" authed={userStore.authed} component={DashBoard} />
                 <UnEnrolledRoute path="/not_in_system" user={userStore} component={NotInTheSystem} />

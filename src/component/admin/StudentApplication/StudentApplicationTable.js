@@ -42,7 +42,7 @@ class StudentApplicationTable extends Component {
   }
 
   handleRemove = (uuid) => {
-    let fbRef = firebase.database().ref(`StudentApplication/${this.props.name}`).child(uuid).remove();
+    firebase.database().ref(`StudentApplication/${this.props.name}`).child(uuid).remove();
   }
 
   handleAccept = () => {

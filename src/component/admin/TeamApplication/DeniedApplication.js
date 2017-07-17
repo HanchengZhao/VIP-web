@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import firebase from '../../../firebase';
 import MuiButton from '../../MuiButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Primary, {Secondary} from '../../../Theme'
 import {
   Table,
   TableBody,
@@ -52,16 +53,25 @@ class DeniedApplications extends Component {
     this.Recovered = temp.slice();
   }
 
-    recoverApplications = () => {
-      let fbRef = firebase.database();
-      let Recovered = this.Recovered;
-      for(let i in Recovered) {
-        fbRef.ref("RejectedTeams").child(`${Recovered[i]}/application`).once('value').then((snap) => {
-          fbRef.ref("TeamApplication").push(snap.val());
-        });
+  recoverApplications = () => {
+    let fbRef = firebase.database();
+    let Recovered = this.Recovered;
+    for(let i in Recovered) {
+      fbRef.ref("RejectedTeams").child(`${Recovered[i]}/application`).once('value').then((snap) => {
+        fbRef.ref("TeamApplication").push(snap.val());
+      });
+    fbRef.ref("RejectedTeams").child(`${Recovered[i]}`).remove();
+    }
+  }
+
+  eraseApplications = () => {
+    let fbRef = firebase.database();
+    let Recovered = this.Recovered;
+    for(let i in Recovered) {
       fbRef.ref("RejectedTeams").child(`${Recovered[i]}`).remove();
     }
   }
+
 
   render = () => {
     let Applications = this.state.Applications;
@@ -93,7 +103,10 @@ class DeniedApplications extends Component {
                   :(<TableRow />)}
               </TableBody>
             </Table>
-            <MuiButton label="Recover Selected" onClick={this.recoverApplications}/>
+            <div style = {{float:"right"}}>
+              <MuiButton label="Erase" color = {Secondary} onClick={this.eraseApplications}/>
+              <MuiButton label="Recover" onClick={this.recoverApplications}/>
+            </div>
           </div>
         </MuiThemeProvider> 
         : (<h3 style={style}>No Denined Applications</h3>)

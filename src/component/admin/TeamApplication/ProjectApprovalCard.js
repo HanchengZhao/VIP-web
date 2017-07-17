@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
 import MuiButton from '../../MuiButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
@@ -77,8 +78,8 @@ class ProjectApprovalCard extends Component {
 
   render = () => {
     const actions = [
-      <MuiButton label="No" color={secondary_color} onClick = {this.handleClose}/>,
-      <MuiButton label="Yes" onClick = {this.handleReject} />,
+      <FlatButton label="Default" label="No" color={secondary_color} onClick = {this.handleClose}/>,
+      <FlatButton label="Default" label="Yes" onClick = {this.handleReject}/>
     ];
 
     let sections = Object.keys(this.state.sections).map((uuid) =>

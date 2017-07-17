@@ -3,6 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Divider from 'material-ui/Divider';
 import firebase from '../../../firebase';
 import StudentApplicationTable from './StudentApplicationTable';
+import MuiTable from '../../MuiTable';
 import {
   Table,
   TableBody,
@@ -35,7 +36,13 @@ class StudentApplicationTool extends Component {
         {this.state.teamData
         ? Object.keys(this.state.teamData).map((uuid, index) =>
           <div style = {{marginTop:"50px"}} key = {uuid}>
-            <StudentApplicationTable  name = {uuid} teamData = {this.state.teamData[uuid]} />
+            <MuiTable  
+              name = {uuid} 
+              approveRef = {`AcceptedStudents_Raw_Data/${uuid}`} 
+              fbReject = {`RejectedStudents/${uuid}`} 
+              removeRef = {`StudentApplication/${uuid}`} 
+              data = {this.state.teamData[uuid]} 
+            />
           </div>)
         :<h3>no Applications</h3>}
       </div>
