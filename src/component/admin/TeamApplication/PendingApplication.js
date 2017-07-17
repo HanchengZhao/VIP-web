@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import firebase from "../../../firebase";
 import MuiButton from "../../MuiButton";
+import {Link} from 'react-router-dom';
 import ProjectApprovalCard from './ProjectApprovalCard';
 
 const style = {textAlign:"center"};
@@ -38,6 +39,9 @@ class TeamApplication extends Component {
                 ))
               : (<h3 style = {style}>No Projects pending approval</h3>)
             }
+        <div style = {{paddingTop:"20px", float:"right"}}>
+          <Link to="/admin/projectApplication/Denied"><MuiButton label = "Denied Applications" /></Link>
+        </div>
       </div>
     );
 

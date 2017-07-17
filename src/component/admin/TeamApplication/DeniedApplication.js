@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import firebase from '../../../firebase';
+import {Link} from 'react-router-dom';
 import MuiButton from '../../MuiButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Primary, {Secondary} from '../../../Theme'
@@ -111,6 +112,9 @@ class DeniedApplications extends Component {
         </MuiThemeProvider> 
         : (<h3 style={style}>No Denined Applications</h3>)
         }
+        <div style = {{paddingTop:"20px"}}>
+          <Link to="/admin/projectApplication/Pending"><MuiButton label = "Pending Applications" /></Link>
+        </div>
       </div>
 
     );

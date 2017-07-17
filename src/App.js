@@ -19,7 +19,7 @@ import Header from './component/Header';
 import LoginPage from './component/login/LoginPage';
 import Projects from './component/projects/Projects';
 import MuiTable from './component/MuiTable';
-import { AdminRoute, PublicRoute,PrivateRoute, UnEnrolledRoute } from './component/Route';
+import { AdminRoute, PublicRoute,PrivateRoute, UnEnrolledRoute, AdvisorRoute } from './component/Route';
 
 injectTapEventPlugin();
 
@@ -32,6 +32,12 @@ const Home = () => (
 const Contact = () => (
   <div>
     <h2>Contact</h2>
+  </div>
+)
+
+const Advisor = () => (
+  <div>
+    <h2>Advisor</h2>
   </div>
 )
 
@@ -107,6 +113,7 @@ class App extends Component {
                 <PrivateRoute path="/dashboard" authed={userStore.authed} component={DashBoard} />
                 <UnEnrolledRoute path="/not_in_system" user={userStore} component={NotInTheSystem} />
                 <AdminRoute path="/admin" user={userStore} component={AdminPage}/>
+                <AdvisorRoute path="/advisor" user={userStore} component={Advisor} />
                 {/*<Route path="/admin" component={AdminPage} />*/}
                 {this.state.shouldRedirect && (
                   <Redirect to={this.state.redirectPath}/>
