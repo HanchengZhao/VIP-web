@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.16.2",
     "firebase": "^4.1.2",
     "lodash": "^4.17.4",
     "material-ui": "^0.18.1",
     "mobx": "^3.1.16",
     "mobx-react": "^4.2.1",
+    "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-file-input": "^0.2.5",
@@ -63,7 +65,7 @@
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
     "test": "node scripts/test.js --env=jsdom",
-    "deploy": "cp -r ./build/. ../firebase/public && cd ../firebase/ && firebase deploy"
+    "deploy": "cp -r ./build/. ../firebase/public && cd ../firebase/ && firebase deploy --only hosting"
   },
   "jest": {
     "collectCoverageFrom": [

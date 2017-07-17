@@ -40,9 +40,9 @@ class AnnouncementPage extends Component {
       <div className="panel panel-default">
         <div className="panel-heading">
           <h3>{this.state.title}</h3>
-          <span className="label label-warning">{this.state.date} -- by {this.state.author}</span>
         </div>
         <div className="panel-body">
+          <h4><span className="label label-warning pull-right">{this.state.date} -- by {this.state.author}</span></h4>
           <ReactMarkdown source={this.state.content} renderers={{Link: props => <a href={props.href} target="_blank">{props.children}</a>}}/>
         </div>
         </div>
