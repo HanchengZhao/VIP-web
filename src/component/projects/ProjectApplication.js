@@ -14,7 +14,7 @@ import TextFieldComponent from './Application/TextFieldComponent';
 import {Link} from 'react-router-dom';
 
 const TeamFormPath = 'TeamApplication';
-var db = 'Academic Information';
+var db = 'Team Application';
 const style = {
   margin: "10px"
 };
@@ -145,11 +145,12 @@ class ProjectApplication extends Component{
                 <div className="row">
                   {this.state.questionsArray 
                   ? (Object.keys(this.state.questionsArray).map((id) => 
+                  <div>
                   <TextField key={id} questionArray={questionsArray[id]} var={questionsArray[id].id}
                     floatingLabelText={questionsArray[id].text}
                     hintText={questionsArray[id].hint}
 
-                    onChange={ this.handleChange}/>))
+                    onChange={ this.handleChange}/><br /></div>))
                     : (<h2>Loading..</h2>) }                
                 <br/>
                 </div>

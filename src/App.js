@@ -11,6 +11,7 @@ import './style/App.css';
 
 // page component
 import AdminPage from './component/admin/AdminPage';
+import AdvisorPage from './component/advisor/AdvisorPage';
 // import Announcement from './component/Announcement';
 import Announcement from './component/announcements/Announcement';
 import DashBoard from './component/DashBoard';
@@ -32,12 +33,6 @@ const Home = () => (
 const Contact = () => (
   <div>
     <h2>Contact</h2>
-  </div>
-)
-
-const Advisor = () => (
-  <div>
-    <h2>Advisor</h2>
   </div>
 )
 
@@ -113,7 +108,7 @@ class App extends Component {
                 <PrivateRoute path="/dashboard" authed={userStore.authed} component={DashBoard} />
                 <UnEnrolledRoute path="/not_in_system" user={userStore} component={NotInTheSystem} />
                 <AdminRoute path="/admin" user={userStore} component={AdminPage}/>
-                <AdvisorRoute path="/advisor" user={userStore} component={Advisor} />
+                <AdvisorRoute path="/advisor" user={userStore} component={AdvisorPage} />
                 {/*<Route path="/admin" component={AdminPage} />*/}
                 {this.state.shouldRedirect && (
                   <Redirect to={this.state.redirectPath}/>

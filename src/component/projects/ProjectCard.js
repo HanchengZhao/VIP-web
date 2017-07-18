@@ -31,7 +31,7 @@ const style = {
 class ProjectCard extends Component {
     constructor(props) {
       super(props);
-
+      
     }
     render () {
       return (
@@ -51,11 +51,9 @@ class ProjectCard extends Component {
             <CardText expandable={false} style={style.cardText}>
               {this.props.project.sections[0].content}
             </CardText>
-            <Link to={`projects/${this.props.fbkey}`}>
               <CardActions>
-                <FlatButton label="Learn more" />
+                <Link to={`projects/${this.props.fbkey}`}><FlatButton label="Learn more" /></Link>                
               </CardActions>
-            </Link>
           </Card>
           </div>
         </MuiThemeProvider>
