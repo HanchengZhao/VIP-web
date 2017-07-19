@@ -94,6 +94,9 @@ class ProjectApplication extends Component{
         status : this.state.status,
         logo: this.state.teamLogo,
         gpa: this.state.gpa,
+        major:this.state.major,
+        Requirements:this.state.requirements,
+        advisor: this.state.advisors,
         sections: [
                    {'content':this.state.major,'title': 'Major'},
                    {'content':this.state.requirements,'title': 'Requirements'},

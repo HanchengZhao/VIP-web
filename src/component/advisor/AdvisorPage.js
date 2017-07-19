@@ -51,7 +51,7 @@ class AdvisorPage extends Component {
     let title = this.state.teamKeys.map((key)=>(
       <EditProjectCard project = {teams[key]} fbKey = {key} key = {key}/>
     ))
-    console.log(this.state.teamKeys);
+    
     return(
       <div>
         <h1>Advisor Page</h1>
