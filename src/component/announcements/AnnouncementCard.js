@@ -43,7 +43,7 @@ class AnnouncementCard extends Component {
             <Link to={`announcement/${this.props.fbkey}`}>
               <CardHeader
                 title={<h4>{this.props.announcement.title}</h4>}
-                subtitle={new Date(this.props.announcement.date).toDateString()}
+                subtitle={new Date(this.props.announcement.startDate).toDateString()}
                 actAsExpander={false}
                 showExpandableButton={false}
                 titleStyle = {style.cardHeader}

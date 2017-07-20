@@ -31,7 +31,7 @@ class AnnouncementPage extends Component {
         title: snap.val().title,
         content: snap.val().content,
         author: snap.val().author,
-        date: new Date(snap.val().date).toDateString()
+        date: new Date(snap.val().startDate).toDateString()
       });
     });
   }
