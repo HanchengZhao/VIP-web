@@ -8,6 +8,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
+import {Validation} from '../../Validation';
+import {university} from '../../Theme';
 import ASUTeamLogoUpload from './Application/ASUTeamLogoUpload';
 import TeamApplyModalComponent from './Application/TeamApplyModalComponent';
 import TextFieldComponent from './Application/TextFieldComponent';
@@ -81,40 +83,41 @@ class ProjectApplication extends Component{
 
 
   firebasewrite = () => {
-    if(`${db}`==='Team Application'){
-        const rootRef = firebase.database().ref().child('TeamApplication');
-        rootRef.push({
-        title : this.state.teamName,
-        subtitle : this.state.subtitle,
-        topics : this.state.topics,
-        description : this.state.description,
-        members : this.state.members,
-        name : this.state.name,
-        email : this.state.email,
-        status : this.state.status,
-        logo: this.state.teamLogo,
-        gpa: this.state.gpa,
-        major:this.state.major,
-        Requirements:this.state.requirements,
-        advisor: this.state.advisors,
-        sections: [
-                   {'content':this.state.major,'title': 'Major'},
-                   {'content':this.state.requirements,'title': 'Requirements'},
-                   {'content':this.state.advisors,'title': 'Advisor'}],
-    });
-    } else if(`${db}`==='General Information'){
-        const rootRef = firebase.database().ref().child('GeneralInformation');
-        rootRef.push({
-        name : this.state.name,
-        email : this.state.email,
-    });
-    } else if(`${db}`==='Academic Information'){
-        const rootRef = firebase.database().ref().child('AcademicInformation');
-        rootRef.push({
-        major: this.state.major,
-        gpa: this.state.gpa,
-    });
-    }
+    if(Validation(this.state.email)){
+      if(`${db}`==='Team Application'){
+          const rootRef = firebase.database().ref().child('TeamApplication');
+          rootRef.push({
+          title : this.state.teamName,
+          subtitle : this.state.subtitle,
+          topics : this.state.topics,
+          description : this.state.description,
+          members : this.state.members,
+          name : this.state.name,
+          email : this.state.email,
+          status : this.state.status,
+          logo: this.state.teamLogo,
+          gpa: this.state.gpa,
+          major:this.state.major,
+          Requirements:this.state.requirements,
+          advisor: this.state.advisors,
+          sections: [
+                    {'content':this.state.major,'title': 'Major'},
+                    {'content':this.state.requirements,'title': 'Requirements'},
+                    {'content':this.state.advisors,'title': 'Advisor'}],
+      });
+      } else if(`${db}`==='General Information'){
+          const rootRef = firebase.database().ref().child('GeneralInformation');
+          rootRef.push({
+          name : this.state.name,
+          email : this.state.email,
+      });
+      } else if(`${db}`==='Academic Information'){
+          const rootRef = firebase.database().ref().child('AcademicInformation');
+          rootRef.push({
+          major: this.state.major,
+          gpa: this.state.gpa,
+      });
+      }
     
     
     this.setState({
@@ -130,9 +133,15 @@ class ProjectApplication extends Component{
           email:'',
           status:'',
           teamLogo: '',
-          gpa: ''
+          gpa: '',
+          errorText:'',
 
     });
+    }else{
+        this.setState({
+          errorText:"Please Enter A Valid" + university + "email"
+        });
+      }
 
   }
 
@@ -147,13 +156,23 @@ class ProjectApplication extends Component{
                 <CardTitle title='Team Apply Form' />
                 <div className="row">
                   {this.state.questionsArray 
-                  ? (Object.keys(this.state.questionsArray).map((id) => 
-                  <div>
-                  <TextField key={id} questionArray={questionsArray[id]} var={questionsArray[id].id}
+                  ? (Object.keys(this.state.questionsArray).map((id) => {
+                    if(questionsArray[id].id==="email") {
+                      return(
+                        <div key={id}>
+                          <TextField questionArray={questionsArray[id]} var={questionsArray[id].id}
+                          floatingLabelText={questionsArray[id].text}
+                          hintText={questionsArray[id].hint}
+                          errorText={this.state.errorText}
+                          onChange={ this.handleChange}/><br /></div>)
+                    }
+                    return(
+                  <div key={id}>
+                  <TextField questionArray={questionsArray[id]} var={questionsArray[id].id}
                     floatingLabelText={questionsArray[id].text}
                     hintText={questionsArray[id].hint}
 
-                    onChange={ this.handleChange}/><br /></div>))
+                    onChange={ this.handleChange}/><br /></div>)}))
                     : (<h2>Loading..</h2>) }                
                 <br/>
                 </div>

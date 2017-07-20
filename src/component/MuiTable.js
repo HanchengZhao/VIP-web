@@ -120,7 +120,7 @@ class MuiTable extends Component {
 
     return(
       <div>
-        <h1 style={{textAlign:"center"}}>{this.props.name.split("_").join(" ")} Applicants</h1>
+        <h1 style={{textAlign:"center"}}>{this.props.name.split("_").join(" ")}</h1>
         <MuiThemeProvider>
           <div>
             <Table multiSelectable = {true} onRowSelection = {this.addElement}> 
@@ -145,6 +145,7 @@ class MuiTable extends Component {
           <MuiButton label = {"Deny" || this.props.rejectWord} color = {Secondary} onClick = {this.handleOpen}/>  
           <MuiButton label = {"Approve"|| this.props.approveWord} onClick = {this.handleAccept}/>
         </div>
+        {this.props.button}
       </div>
     );
   }

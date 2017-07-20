@@ -8,7 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import firebase from "../../../firebase";
 
-const style = {card : {margin:"20px"},
+const style = {
   actions: {marginLeft  : 'auto', marginRight : '1px', marginBottom:"30px", width:"200px"}, 
   button : {display:"inline-block !important", paddingRight:"20px"}};
 
