@@ -43,9 +43,6 @@ class ProjectPage extends Component {
         topics: topics,
         sections: sections,
         image: snap.val().logo
-
-
-
       });
     });
   }
