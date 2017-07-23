@@ -12,6 +12,7 @@
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
+    "react-dropzone": "^3.13.3",
     "react-file-input": "^0.2.5",
     "react-markdown": "^2.5.0",
     "react-router-dom": "^4.1.1",
