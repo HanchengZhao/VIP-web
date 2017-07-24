@@ -78,8 +78,8 @@ class ProjectApprovalCard extends Component {
 
   render = () => {
     const actions = [
-      <FlatButton label="Default" label="No" color={secondary_color} onClick = {this.handleClose}/>,
-      <FlatButton label="Default" label="Yes" onClick = {this.handleReject}/>
+      <FlatButton label="No" color={secondary_color} onClick = {this.handleClose}/>,
+      <FlatButton label="Yes" onClick = {this.handleReject}/>
     ];
 
     let sections = Object.keys(this.state.sections).map((uuid) =>

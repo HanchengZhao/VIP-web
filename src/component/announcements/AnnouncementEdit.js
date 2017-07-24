@@ -18,11 +18,6 @@ import TextField from 'material-ui/TextField';
 import firebase from '../../firebase';
 import userStore from '../../stores/UserStore';
 
-const defaultAnnouncement = {
-  title: `This is header`,
-  content: `> This is body`
-}
-
 const styles = {
   underlineStyle: {
     borderColor: "#ffc425",
@@ -51,18 +46,19 @@ const styles = {
 const rawPath = "Announcement_Raw_Data"
 const announcementPath = "Announcement/admin"
 
-class AnnouncementCreate extends Component {
-  constructor(){
-    super();
+class AnnouncementEdit extends Component {
+  constructor(props){
+    super(props);
     this.state = {
-      title: defaultAnnouncement.title,
-      content: defaultAnnouncement.content,
+      title: "",
+      content: "",
       dialogOpen: false,
       startDate: new Date(),
       endDate: "",
+      fbkey: this.props.match.params.announcementId,
       redirectToAnnouncement: false
     }
-    this.debounceContent = this.debounceContent.bind(this);
+
     this.titleChange = this.titleChange.bind(this);
     this.contentChange = this.contentChange.bind(this);
     this.publish = this.publish.bind(this);
@@ -71,46 +67,32 @@ class AnnouncementCreate extends Component {
     this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
     this.onDrop = this.onDrop.bind(this);
   }
-  debounceTitle = debounce(300, (e) => {
+
+
+  titleChange(e) {
     this.setState({
       title: e.target.value
     })
-  })
-  debounceContent = debounce(300, (e) => {
-    this.setState({
-      content: e.target.value
-    })
-  })
-
-  titleChange(e) {
-    e.persist()
-    this.debounceTitle(e)
   }
 
   contentChange(e) {
     this.setState({
       content: e.target.value
     })
-    // e.persist()
-    // this.debounceContent(e)
+
   }
 
   publish(){
     const currentTime = new Date().getTime();
-    let newAnnouncement = {
+    let Announcement = {
       title: this.state.title,
       content: this.state.content,
       author: userStore.displayName,
       startDate: this.state.startDate.valueOf(),
       endDate: this.state.endDate.valueOf()
     }
-    if (this.state.startDate.getTime() > currentTime){ // scheduled for future
-      let anmtRef = firebase.database().ref().child(rawPath)
-      anmtRef.push(newAnnouncement)
-    } else { // update for now
-      let anmtRef = firebase.database().ref().child(announcementPath)
-      anmtRef.push(newAnnouncement)
-    }
+    let anmtRef = firebase.database().ref().child(announcementPath).child(this.state.fbkey)
+    anmtRef.update(Announcement)
     
     this.setState({
       dialogOpen: true
@@ -125,12 +107,17 @@ class AnnouncementCreate extends Component {
   }
 
   disablePrevDates(startDate) { // prevent selecting endDate before startDate
-    const startSeconds = Date.parse(startDate);
+    if (!startDate){
+      startDate = new Date()
+    }
+    const startSeconds = startDate.getTime();
     return (date) => {
       return Date.parse(date) < startSeconds;
     }
+    
   }
   handleChangeStartDate(event, date){
+    console.log(date)
     this.setState({
       startDate: date,
     });
@@ -158,6 +145,20 @@ class AnnouncementCreate extends Component {
     })
   }
 
+  componentDidMount() {
+    
+    firebase.database().ref(`${announcementPath}/${this.state.fbkey}`).once('value').then( (snap) => {
+
+      this.setState({
+        title: snap.val().title,
+        content: snap.val().content,
+        author: snap.val().author,
+        startDate: new Date(snap.val().startDate),
+        endDate: snap.val().endDate
+      });
+    });
+  }
+
   render(){
     const actions = [
       <FlatButton
@@ -166,6 +167,7 @@ class AnnouncementCreate extends Component {
         onTouchTap={this.handleClose}
       />
     ];
+    const endDate = typeof(this.state.endDate) === 'object' ?  this.state.endDate : {};
     return (
       <div>
         <div  style={{marginBottom: "10px"}}>
@@ -180,6 +182,7 @@ class AnnouncementCreate extends Component {
                   underlineFocusStyle={styles.underlineStyle}
                   floatingLabelStyle={styles.floatingLabelStyle}
                   fullWidth={true}
+                  value={this.state.title}
                 />
               </div>
               <div className="panel-body">
@@ -205,12 +208,13 @@ class AnnouncementCreate extends Component {
                 <DatePicker
                   onChange={this.handleChangeStartDate}
                   floatingLabelText="Start Date"
-                  defaultDate={this.state.startDate}
+                  value={this.state.startDate}
                   container="inline"
                 />
                 <DatePicker
                   onChange={this.handleChangeEndDate}
                   floatingLabelText="End Date"
+                  value={endDate}
                   container="inline"
                   shouldDisableDate={this.disablePrevDates(this.state.startDate)}
                 />
@@ -238,7 +242,7 @@ class AnnouncementCreate extends Component {
           </div>
           <div className="row" style={styles.publishButton}>
             <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-              <RaisedButton className="pull-right" label = "Publish"  backgroundColor = "#ffc425" onClick={this.publish} />
+              <RaisedButton className="pull-right" label = "Update"  backgroundColor = "#ffc425" onClick={this.publish} />
             </MuiThemeProvider>
           </div>
           
@@ -254,7 +258,7 @@ class AnnouncementCreate extends Component {
         </div>
         <MuiThemeProvider>
          <Dialog
-            title="Announcement Published!"
+            title="Announcement change saved!"
             actions={actions}
             modal={false}
             open={this.state.dialogOpen}
@@ -271,4 +275,4 @@ class AnnouncementCreate extends Component {
   }
 }
 
-export default AnnouncementCreate;
+export default AnnouncementEdit;
