@@ -11,7 +11,7 @@ import './style/App.css';
 
 // page component
 import AdminPage from './component/admin/AdminPage';
-import AdvisorPage from './component/advisor/AdvisorPage';
+import Advisor from './component/advisor/Advisor';
 // import Announcement from './component/Announcement';
 import Announcement from './component/announcements/Announcement';
 import DashBoard from './component/DashBoard';
@@ -108,7 +108,7 @@ class App extends Component {
                 <PrivateRoute path="/dashboard" authed={userStore.authed} component={DashBoard} />
                 <UnEnrolledRoute path="/not_in_system" user={userStore} component={NotInTheSystem} />
                 <AdminRoute path="/admin" user={userStore} component={AdminPage}/>
-                <AdvisorRoute path="/advisor" user={userStore} component={AdvisorPage} />
+                <AdvisorRoute path="/advisor" user={userStore} component={Advisor} />
                 {/*<Route path="/admin" component={AdminPage} />*/}
                 {this.state.shouldRedirect && (
                   <Redirect to={this.state.redirectPath}/>
