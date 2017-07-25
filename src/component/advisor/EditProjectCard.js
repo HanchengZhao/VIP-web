@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Redirect} from 'react-router-dom';
+import {Redirect, Link} from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Dialog from 'material-ui/Dialog';
 import {Card, CardActions, CardMedia, CardTitle, CardHeader, CardText} from 'material-ui/Card';
@@ -27,14 +27,10 @@ class EditProjectCard extends Component {
       status: this.props.project.status,
       teamLogo: this.props.project.logo,
       sections:this.props.project.sections,
-      validEmail:'',
-      emailMessage:'',
       fbKey : this.props.fbKey,
       open:false,
       dialog:false,
-      roster:true,
       Redirect:false,
-      Students: ''
     }
     this.handleChange = this.handleChange.bind(this);
     this.fbWrite = this.fbWrite.bind(this);
@@ -127,7 +123,7 @@ class EditProjectCard extends Component {
   render() {
     let keys = Object.keys(this.props.project);
     let items = keys.map((key) => {
-      if (['sections', 'title', 'logo'].includes(key)){
+      if (['sections', 'title', 'logo','roster'].includes(key)){
         return null;
       }
       if(key==='email') {
@@ -154,22 +150,18 @@ class EditProjectCard extends Component {
             <Card expandable = {true} expanded={this.state.open}>
               <CardTitle title = {this.props.project.title} subtitle = {this.props.project.subtitle} />
               <CardText expandable = {true}>
-                <FlatButton label = "Edit Info" onClick = {this.openRoster} style = {{float:"right", paddingBottom:"20px"}}/>
-                {this.state.roster
-                ?<div>
+                <div>
                   {items}
                   <div style = {{float:"right"}}>
                     <FlatButton label = "cancel" onClick = {this.handleClose}/>
                     <FlatButton label = "save" onClick = {this.fbWrite}/>
                   </div>
                 </div>
-                :<h3>Roster</h3>
-                }
                 <br />
-                
               </CardText>
               <CardActions>
-                <FlatButton label = "View Roster" onClick = {this.handleOpen}/>
+                <Link to = {`/advisor/${this.state.fbKey}`}><FlatButton label = "Roster"/></Link>
+                <FlatButton label = "Edit" onClick = {this.handleOpen}/>
               </CardActions>
             </Card>
             <Dialog
