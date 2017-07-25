@@ -65,6 +65,7 @@ class AnnouncementEdit extends Component {
     this.handleClose = this.handleClose.bind(this);
     this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
     this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
+    this.handleTab = this.handleTab.bind(this);
     this.onDrop = this.onDrop.bind(this);
   }
 
@@ -122,6 +123,20 @@ class AnnouncementEdit extends Component {
       startDate: date,
     });
   };
+
+  handleTab(e){
+    if (e.keyCode === 9) { // tab was pressed
+      console.log(this.refs.input);
+      e.preventDefault();
+      let val = this.state.content,
+          start = e.target.selectionStart,
+          end = e.target.selectionEnd;
+      this.setState({content: val.substring(0, start) + "\t" + val.substring(end)},
+        () => {let contentnode = document.getElementById("content")
+      contentnode.selectionStart = contentnode.selectionEnd = start + 1;} );
+
+    }
+  }
 
   handleChangeEndDate(event, date){
     this.setState({
@@ -187,11 +202,13 @@ class AnnouncementEdit extends Component {
               </div>
               <div className="panel-body">
                 <TextField
+                id="content"
                 hintText="You can use markdown syntax here to edit annoucement content"
                 floatingLabelText="*bold* _italics_ ~strike~ `code` ```preformatted``` >quote"
                 multiLine={true}
                 rows={4}
                 onChange={this.contentChange}
+                onKeyDown={this.handleTab}
                 underlineFocusStyle={styles.underlineStyle}
                 floatingLabelStyle={styles.floatingLabelStyle}
                 fullWidth={true}

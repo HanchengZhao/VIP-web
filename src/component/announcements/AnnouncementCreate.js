@@ -142,6 +142,21 @@ class AnnouncementCreate extends Component {
     });
   };
 
+  handleTab(e){
+    if (e.keyCode === 9) { // tab was pressed
+      console.log(this.refs.input);
+      e.preventDefault();
+      let val = this.state.content,
+          start = e.target.selectionStart,
+          end = e.target.selectionEnd;
+      this.setState({content: val.substring(0, start) + "\t" + val.substring(end)},
+        () => {let contentnode = document.getElementById("content")
+      contentnode.selectionStart = contentnode.selectionEnd = start + 1;} );
+      let contentnode = document.getElementById("content")
+      contentnode.selectionStart = contentnode.selectionEnd = start + 1;
+    }
+  }
+
   onDrop(photos){
     let dt = new Date();
     let newdt = dt.getFullYear() + "-" + (dt.getMonth() + 1) + "-" + dt.getDate();// yy/mm/dd
@@ -181,19 +196,23 @@ class AnnouncementCreate extends Component {
                   floatingLabelStyle={styles.floatingLabelStyle}
                   fullWidth={true}
                 />
+                
               </div>
               <div className="panel-body">
                 <TextField
-                hintText="You can use markdown syntax here to edit annoucement content"
-                floatingLabelText="*bold* _italics_ ~strike~ `code` ```preformatted``` >quote"
-                multiLine={true}
-                rows={4}
-                onChange={this.contentChange}
-                underlineFocusStyle={styles.underlineStyle}
-                floatingLabelStyle={styles.floatingLabelStyle}
-                fullWidth={true}
-                value={this.state.content}
-              />
+                  id="content"
+                  hintText="You can use markdown syntax here to edit annoucement content"
+                  floatingLabelText="*bold* _italics_ ~strike~ `code` ```preformatted``` >quote"
+                  multiLine={true}
+                  rows={4}
+                  ref="input"
+                  onChange={this.contentChange}
+                  onKeyDown={this.handleTab.bind(this)}
+                  underlineFocusStyle={styles.underlineStyle}
+                  floatingLabelStyle={styles.floatingLabelStyle}
+                  fullWidth={true}
+                  value={this.state.content}
+                />
               </div>
               
             </div>
