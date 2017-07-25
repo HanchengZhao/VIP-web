@@ -1,9 +1,6 @@
-import React, { Component } from 'react';
-
 import ReactDataGrid from 'react-data-grid';
-import {Toolbar} from 'react-data-grid-addons';
-
-const TableHeader = ['email', 'name', 'team'];
+import React, {Component} from 'react';
+const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
 
 class RosterTable extends Component {
   constructor(props) {
@@ -23,50 +20,29 @@ class RosterTable extends Component {
           filterable: true,
           sortable: true
         },
+        {
+          key:'team',
+          name:'Team',
+          filterable: true,
+          sortable: true
+        },
       ],
-      rows:'',
-      originalRows:'',
-      filters:{}
+    rows:'',
+    sortColumn: null,
+    sortDirection: null,
+    filters:{} 
     }
+    this.getRows = this.getRows.bind(this);
+    this.rowGetter = this.rowGetter.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.createRows = this.createRows.bind(this);
-    this.onClearFilters = this.onClearFilters.bind(this);
+    this.getSize = this.getSize.bind(this);
     this.handleGridSort = this.handleGridSort.bind(this);
+    this.onClearFilters = this.onClearFilters.bind(this);
+    this.createRows = this.createRows.bind(this);
   }
-
-  rowGetter = rowNumber => this.state.rows[rowNumber];
 
   componentDidMount() {
     this.createRows();
-  }
-  
-  onClearFilters() {
-    this.setState({filters:{}});
-  }
-
-  handleFilterChange(filter) {
-    let newFilter = Object.assign({}, this.state.filters);
-    if(filter.filterTerm) {
-      newFilter[filter.column.key] = filter;
-      console.log(newFilter[filter.column.key]);
-    }else {
-      delete newFilter[filter.column.key];
-    }
-    this.setState({filter:newFilter});
-  }
-
-    handleGridSort(sortColumn, sortDirection) {
-    const comparer = (a, b) => {
-      if (sortDirection === 'ASC') {
-        return (a[sortColumn] > b[sortColumn]) ? 1 : -1;
-      } else if (sortDirection === 'DESC') {
-        return (a[sortColumn] < b[sortColumn]) ? 1 : -1;
-      }
-    };
-
-    const rows = sortDirection === 'NONE' ? this.state.originalRows.slice(0) : this.state.rows.sort(comparer);
-
-    this.setState({ rows });
   }
 
   createRows() {
@@ -76,31 +52,60 @@ class RosterTable extends Component {
     for (let i = 0; i < keys.length; i++) {
       rows.push({
         email:roster[keys[i]].email,
-        name:roster[keys[i]].name
+        name:roster[keys[i]].name,
+        team:roster[keys[i]].team
       })
     }
     this.setState({
-      rows:rows,
-      originalRows:rows
+      rows:rows
     })
   }
 
-  render() {
-    return(
-      <ReactDataGrid 
-        columns = {this.state.columns}
-        enableCellSelect={true}
-        toolbar={<Toolbar enableFilter={true}/>}
-        rowGetter={this.rowGetter}
-        rowsCount={this.state.rows.length}
-        minHeight={800}
-        onGridSort={this.handleGridSort}
-        onAddFilter={this.handleFilterChange}
-        onClearFilters={this.onClearFilters}
-        canFilter = {true}
-      />
-    );
+  getRows() {
+    return Selectors.getRows(this.state);
   }
-}
+
+  getSize() {
+    return this.getRows().length;
+  }
+
+  rowGetter(rowIdx) {
+    const rows = this.getRows();
+    return rows[rowIdx];
+  }
+
+  handleGridSort(sortColumn, sortDirection) {
+    this.setState({ sortColumn: sortColumn, sortDirection: sortDirection });
+  }
+
+  handleFilterChange(filter) {
+    let newFilters = Object.assign({}, this.state.filters);
+    if (filter.filterTerm) {
+      newFilters[filter.column.key] = filter;
+    } else {
+      delete newFilters[filter.column.key];
+    }
+
+    this.setState({ filters: newFilters });
+  }
+
+  onClearFilters() {
+    this.setState({ filters: {} });
+  }
+
+  render() {
+    return  (
+      <ReactDataGrid
+        onGridSort={this.handleGridSort}
+        enableCellSelect={true}
+        columns={this.state.columns}
+        rowGetter={this.rowGetter}
+        rowsCount={this.getSize()}
+        minHeight={800}
+        toolbar={<Toolbar enableFilter={true}/>}
+        onAddFilter={this.handleFilterChange}
+        onClearFilters={this.onClearFilters} />);
+  }
+};
 
 export default RosterTable;

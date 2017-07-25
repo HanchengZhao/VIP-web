@@ -45,7 +45,7 @@ class EditRoster extends Component {
         {this.state.student && this.state.roster
         ?<div>
           <h1>{this.state.roster.title} Roster Page</h1>
-          <RosterTable roster = {temp} />
+          <RosterTable roster = {temp}/>
         </div>
         :<h1>Loading</h1>}
       </div>
