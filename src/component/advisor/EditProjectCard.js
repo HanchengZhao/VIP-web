@@ -18,7 +18,7 @@ class EditProjectCard extends Component {
       subtitle: this.props.project.subtitle,
       topics: this.props.project.topics,
       advisor: this.props.project.advisor,
-      desc: this.props.project.desc,
+      description: this.props.project.description,
       major: this.props.project.major,
       requirements: this.props.project.requirements,
       members: this.props.project.members,
@@ -92,7 +92,7 @@ class EditProjectCard extends Component {
   fbWrite() {
     if(Validation(this.state.email)) {
       firebase.database().ref(`Teams/${this.state.fbKey}`).set({
-        desc:this.state.desc,
+        description:this.state.description,
         title:this.state.teamName,
         subtitle:this.state.subtitle,
         topics:this.state.topics,
@@ -130,7 +130,8 @@ class EditProjectCard extends Component {
         return(
           <div key = {key}>
           <h3>{key}</h3>
-          <TextField id = {key} errorText = {this.state.emailMessage} defaultValue = {this.props.project[key]} multiLine = {true} onChange = {this.handleChange} rows = {2} fullWidth = {true}/> 
+          <TextField id = {key} errorText = {this.state.emailMessage} defaultValue = {this.props.project[key]} multiLine = {true} onChange = {this.handleChange} rows = {2} fullWidth = {true}
+           underlineStyle={{borderColor:'#ffc425'}} /> 
         </div>
         );
       }
@@ -138,7 +139,8 @@ class EditProjectCard extends Component {
       return(
         <div key = {key}>
           <h3>{key}</h3>
-          <TextField id = {key} defaultValue = {this.props.project[key]} multiLine = {true} onChange = {this.handleChange} rows = {2} fullWidth = {true}/> 
+          <TextField id = {key} defaultValue = {this.props.project[key]} multiLine = {true} onChange = {this.handleChange} rows = {2} fullWidth = {true}
+          underlineStyle={{borderColor:'#ffc425'}} /> 
         </div>
       );
     });

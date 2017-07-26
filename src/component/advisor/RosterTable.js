@@ -21,6 +21,12 @@ class RosterTable extends Component {
           sortable: true
         },
         {
+          key:'major',
+          name:'Major',
+          filterable: true,
+          sortable: true
+        },
+        {
           key:'team',
           name:'Team',
           filterable: true,
@@ -49,11 +55,13 @@ class RosterTable extends Component {
     let roster = this.state.roster;
     let keys = Object.keys(this.state.roster);
     let rows = [];
+    console.log(this.state.roster);
     for (let i = 0; i < keys.length; i++) {
       rows.push({
         email:roster[keys[i]].email,
         name:roster[keys[i]].name,
-        team:roster[keys[i]].team
+        team:roster[keys[i]].team,
+        major:roster[keys[i]].Program_and_Plan
       })
     }
     this.setState({
