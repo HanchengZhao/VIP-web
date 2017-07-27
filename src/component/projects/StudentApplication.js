@@ -35,7 +35,7 @@ class StudentApplication extends Component{
         gpa:'',
         title:'',
         fbkey: this.props.match.params.projectid,
-        errorText:''        
+        errorText:'',        
       };    
     }
 
@@ -95,14 +95,15 @@ class StudentApplication extends Component{
           gpa: this.state.gpa,
           });
       } else if(`${db}`==='Student Application'){
-          const rootRef = firebase.database().ref(`StudentApplication/`+this.state.title);
+          const rootRef = firebase.database().ref(`StudentApplication/`);
           rootRef.push({
           level: this.state.level,
           program: this.state.program,
           gradeType: this.state.gradeType,
           name: this.state.name,
           email: this.state.email,
-          other: this.state.other
+          other: this.state.other,
+          team:this.state.title
       });
       }
       
@@ -133,7 +134,7 @@ class StudentApplication extends Component{
 		  <MuiThemeProvider>
             <div>
               <Card>
-                <CardTitle title='Application Form' />
+                <CardTitle title={this.state.title + ' Application Form'} />
                 <div className="row">
                   {this.state.questionsArray 
                   ? (Object.keys(this.state.questionsArray).map((id) => {

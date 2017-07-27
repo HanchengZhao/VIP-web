@@ -19,7 +19,9 @@ class StudentApplicationTool extends Component {
     this.state = {
       teamData : ''
     }
+    this.updateComponent = this.updateComponent.bind(this);
   }
+
 
   componentDidMount = () => {
     let fbRef = firebase.database().ref('StudentApplication');
@@ -30,21 +32,17 @@ class StudentApplicationTool extends Component {
     });
   }
 
+  updateComponent() {
+    this.forceUpdate();
+  }
+
   render = () => {
     return(
       <div>
         {this.state.teamData
-        ? Object.keys(this.state.teamData).map((uuid, index) =>
-          <div style = {{marginTop:"50px"}} key = {uuid}>
-            <MuiTable  
-              name = {uuid} 
-              approveRef = {`AcceptedStudents_Raw_Data/${uuid}`} 
-              fbReject = {`RejectedStudents/${uuid}`} 
-              removeRef = {`StudentApplication/${uuid}`} 
-              data = {this.state.teamData[uuid]} 
-            />
-          </div>)
-        :<h3>no Applications</h3>}
+        ?<StudentApplicationTable update = {this.updateComponent} roster = {this.state.teamData} />
+        :<h1/>
+        }
       </div>
     );
   }

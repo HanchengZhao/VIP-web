@@ -7,30 +7,11 @@ class RosterTable extends Component {
     super(props);
     this.state = {
       roster:this.props.roster,
-      columns:[
-        {
-          key:'name',
-          name:'Name',
-          filterable: true,
-          sortable: true
-        },
-        {
-          key:'email',
-          name:'Email',
-          filterable: true,
-          sortable: true
-        },
-        {
-          key:'team',
-          name:'Team',
-          filterable: true,
-          sortable: true
-        },
-      ],
-    rows:'',
-    sortColumn: null,
-    sortDirection: null,
-    filters:{} 
+      columns:[],
+      rows:'',
+      sortColumn: null,
+      sortDirection: null,
+      filters:{} 
     }
     this.getRows = this.getRows.bind(this);
     this.rowGetter = this.rowGetter.bind(this);
@@ -39,26 +20,54 @@ class RosterTable extends Component {
     this.handleGridSort = this.handleGridSort.bind(this);
     this.onClearFilters = this.onClearFilters.bind(this);
     this.createRows = this.createRows.bind(this);
+    this.createColumns = this.createColumns.bind(this);
   }
 
   componentDidMount() {
+    this.createColumns();
     this.createRows();
+  }
+
+  createColumns() {
+    let keys = Object.keys(this.state.roster);
+    let columns = Object.keys(this.state.roster[keys[0]]);
+    let temp = [];
+    columns.forEach((i) => {
+      if(i==='name') {
+        temp.unshift({
+        key:i,
+        name:i.split('_').join(' '),
+        filterable:true,
+        sortable:true,
+        resizable: true,
+      });
+      }else{
+      temp.push({
+        key:i,
+        name:i.split('_').join(' '),
+        filterable:true,
+        sortable:true,
+        resizable: true,
+      })}
+    });
+    this.setState({
+      columns:temp
+    });
   }
 
   createRows() {
     let roster = this.state.roster;
     let keys = Object.keys(this.state.roster);
+    let columnKeys = Object.keys(roster[keys[0]]);
     let rows = [];
     for (let i = 0; i < keys.length; i++) {
-      rows.push({
-        email:roster[keys[i]].email,
-        name:roster[keys[i]].name,
-        team:roster[keys[i]].team
-      })
+      let rowObject = {}
+      columnKeys.forEach((key) => {
+        rowObject[key] = roster[keys[i]][key]
+      });
+      rows.push(rowObject);
     }
-    this.setState({
-      rows:rows
-    })
+    this.setState({rows:rows});
   }
 
   getRows() {
@@ -95,16 +104,19 @@ class RosterTable extends Component {
 
   render() {
     return  (
-      <ReactDataGrid
-        onGridSort={this.handleGridSort}
-        enableCellSelect={true}
-        columns={this.state.columns}
-        rowGetter={this.rowGetter}
-        rowsCount={this.getSize()}
-        minHeight={800}
-        toolbar={<Toolbar enableFilter={true}/>}
-        onAddFilter={this.handleFilterChange}
-        onClearFilters={this.onClearFilters} />);
+      <div>
+        <ReactDataGrid
+          onGridSort={this.handleGridSort}
+          enableCellSelect={true}
+          columns={this.state.columns}
+          rowGetter={this.rowGetter}
+          rowsCount={this.getSize()}
+          minHeight={800}
+          toolbar={<Toolbar enableFilter={true}/>}
+          onAddFilter={this.handleFilterChange}
+          onClearFilters={this.onClearFilters} />
+        <p style={{float:'right',color:"#d6dedb"}}>(Number of Records {this.getSize()})</p>
+      </div>);
   }
 };
 
