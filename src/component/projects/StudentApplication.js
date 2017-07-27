@@ -35,7 +35,7 @@ class StudentApplication extends Component{
         gpa:'',
         title:'',
         fbkey: this.props.match.params.projectid,
-        errorText:''        
+        errorText:'',        
       };    
     }
 
@@ -134,7 +134,7 @@ class StudentApplication extends Component{
 		  <MuiThemeProvider>
             <div>
               <Card>
-                <CardTitle title='Application Form' />
+                <CardTitle title={this.state.title + ' Application Form'} />
                 <div className="row">
                   {this.state.questionsArray 
                   ? (Object.keys(this.state.questionsArray).map((id) => {

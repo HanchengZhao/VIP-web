@@ -1,108 +1,205 @@
-import React, { Component } from 'react';
-import firebase from '../../../firebase';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import ReactDataGrid from 'react-data-grid';
+import React, {Component} from 'react';
 import MuiButton from '../../MuiButton';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
+import firebase from '../../../firebase';
+import FlatButton from 'material-ui/FlatButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import {Link} from 'react-router-dom';
+const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
 
 class StudentApplicationTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      teamData : this.props.teamData
+      roster:this.props.roster,
+      columns:[],
+    rows:'',
+    sortColumn: null,
+    sortDirection: null,
+    filters:{},
+    selectedIndexes :[] 
     }
-    this.selected = [];
+    this.getRows = this.getRows.bind(this);
+    this.rowGetter = this.rowGetter.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
+    this.getSize = this.getSize.bind(this);
+    this.handleGridSort = this.handleGridSort.bind(this);
+    this.onClearFilters = this.onClearFilters.bind(this);
+    this.createRows = this.createRows.bind(this);
+    this.createColumns = this.createColumns.bind(this);
+    this.onRowsSelected = this.onRowsSelected.bind(this);
+    this.onRowsDeselected = this.onRowsDeselected.bind(this);
     this.handleAccept = this.handleAccept.bind(this);
-    this.handleRemove = this.handleRemove.bind(this);
-    this.handleReject = this.handleReject.bind(this);
-    this.addElement = this.addElement.bind(this);
+    this.handleRemoveRow = this.handleRemoveRow.bind(this);
+    this.handleRemoveFb = this.handleRemoveFb.bind(this);
+    this.handleDeny = this.handleDeny.bind(this);
   }
 
-  addElement = (uuid) => {
-    const keys = Object.keys(this.state.teamData);
+  componentDidMount() {
+    this.createColumns();
+    this.createRows();
+  }
+
+  createColumns() {
+    let keys = Object.keys(this.state.roster);
+    let columns = Object.keys(this.state.roster[keys[0]]);
     let temp = [];
-    switch(uuid) {
-      case "all":
-        temp = keys.slice();
-        break;
-      case "none":
-        break;
-      default:
-        uuid.forEach((i) =>{
-          temp.push(keys[i]);
+    columns.forEach((i) => {
+      if(i==='name') {
+        temp.unshift({
+        key:i,
+        name:i.split('_').join(' '),
+        filterable:true,
+        sortable:true,
+        resizable: true,
       });
+      }else{
+      temp.push({
+        key:i,
+        name:i.split('_').join(' '),
+        filterable:true,
+        sortable:true,
+        resizable: true,
+      })}
+    });
+    this.setState({
+      columns:temp
+    });
+  }
+
+  createRows() {
+    let roster = this.state.roster;
+    let keys = Object.keys(this.state.roster);
+    let columnKeys = Object.keys(roster[keys[0]]);
+    let rows = [];
+    for (let i = 0; i < keys.length; i++) {
+      let rowObject = {}
+      columnKeys.forEach((key) => {
+        rowObject[key] = roster[keys[i]][key]
+      });
+      rows.push(rowObject);
     }
-    this.selected = temp.slice();
+    this.setState({rows:rows});
   }
 
-  handleRemove = (uuid) => {
-    firebase.database().ref(`StudentApplication/${this.props.name}`).child(uuid).remove();
+  getRows() {
+    return Selectors.getRows(this.state);
   }
 
-  handleAccept = () => {
-    let fbRef = firebase.database().ref("Student");
-    let selected = this.selected;
+  getSize() {
+    return this.getRows().length;
+  }
 
-    selected.forEach((i)=> {
-      fbRef.push(this.state.teamData[i]);
-      this.handleRemove(i);
+  rowGetter(rowIdx) {
+    const rows = this.getRows();
+    return rows[rowIdx];
+  }
+
+  handleGridSort(sortColumn, sortDirection) {
+    this.setState({ sortColumn: sortColumn, sortDirection: sortDirection });
+  }
+
+  handleFilterChange(filter) {
+    let newFilters = Object.assign({}, this.state.filters);
+    if (filter.filterTerm) {
+      newFilters[filter.column.key] = filter;
+    } else {
+      delete newFilters[filter.column.key];
+    }
+
+    this.setState({ filters: newFilters });
+  }
+
+  onClearFilters() {
+    this.setState({ filters: {} });
+  }
+  
+  handleAccept() {
+    let keys = Object.keys(this.state.roster);
+    this.state.selectedIndexes.forEach((i) => {
+      firebase.database().ref('AcceptedStudents_Raw_Data').push(this.state.rows[i]);
+      this.handleRemoveFb(keys[i]);
     });
-    this.selected = [];
+    this.handleRemoveRow();
   }
 
-  handleReject = () => {
-    let fbRef = firebase.database().ref("RejectedStudents");
-    let selected = this.selected;
-
-    selected.forEach((i) => {
-      fbRef.push(this.state.teamData[i]);
-      this.handleRemove(i);
+  handleDeny() {
+    let keys = Object.keys(this.state.roster);
+    this.state.selectedIndexes.forEach((i) => {
+      this.handleRemoveFb(keys[i]);
     });
-    this.selected = [];
+    this.handleRemoveRow();
   }
 
-  render = () => {
-    let teamData = this.state.teamData;
-    return(
+  handleRemoveRow() {
+    let remove = [];
+    this.state.selectedIndexes.forEach((i)=> {
+      remove.push(this.state.rows[i]);
+    });
+    remove.forEach((i)=> {
+      this.state.rows.splice(this.state.rows.indexOf(i),1);
+    });
+    this.setState({
+      selectedIndexes:[]
+    })
+  }
+
+  handleRemoveFb(uuid) {
+    firebase.database().ref('StudentApplication').child(uuid).remove();
+  }
+
+  onRowsSelected(rows) {
+    let temp = this.state.selectedIndexes;
+    rows.forEach((i) => {
+      temp.push(i.rowIdx);
+    });
+    this.setState({
+      selectedIndexes:temp
+    })
+  }
+
+  onRowsDeselected(rows) {
+    let temp = this.state.selectedIndexes;
+    rows.forEach((i) => {
+      temp.splice(temp.indexOf(i.rowIdx),1);
+    });
+    this.setState({
+      selectedIndexes:temp
+    })
+  }
+
+  render() {
+    return  (
       <div>
-        <h1 style={{textAlign:"center"}}>{this.props.name.split("_").join(" ")} Applicants</h1>
+        <h1 style={{textAlign:'center'}}>Student Applicants</h1>
+        <ReactDataGrid
+          rowKey="id"
+          onGridSort={this.handleGridSort}
+          enableCellSelect={true}
+          columns={this.state.columns}
+          rowGetter={this.rowGetter}
+          rowsCount={this.getSize()}
+          minHeight={800}
+          toolbar={<Toolbar enableFilter={true}/>}
+          onAddFilter={this.handleFilterChange}
+          onClearFilters={this.onClearFilters} 
+          rowSelection={{
+            showCheckbox: true,
+            onRowsSelected: this.onRowsSelected,
+            onRowsDeselected: this.onRowsDeselected,
+            selectBy: {
+              indexes: this.state.selectedIndexes,
+            }
+          }}/>
+        <p style={{float:'right',color:"#d6dedb"}}>(Number of Records {this.getSize()})</p>
         <MuiThemeProvider>
-          <Table multiSelectable = {true} onRowSelection = {this.addElement}>
-            <TableHeader>
-              <TableRow>
-                <TableHeaderColumn>Name</TableHeaderColumn>
-                <TableHeaderColumn>Email</TableHeaderColumn>
-                <TableHeaderColumn>ID</TableHeaderColumn>
-                <TableHeaderColumn>GPA</TableHeaderColumn>
-                <TableHeaderColumn>Reasons For Applying</TableHeaderColumn>
-              </TableRow>
-            </TableHeader>
-            <TableBody deselectOnClickaway={false}>
-               {teamData
-                  ? Object.keys(this.state.teamData).map((uuid) =>
-                    <TableRow key = {uuid}>
-                      <TableRowColumn>{teamData[uuid].name}</TableRowColumn>
-                      <TableRowColumn>{teamData[uuid].email}</TableRowColumn>
-                      <TableRowColumn>{teamData[uuid].ID}</TableRowColumn>
-                      <TableRowColumn>{teamData[uuid].gradeType}</TableRowColumn>
-                      <TableRowColumn style = {{whiteSpace: 'normal', wordWrap: 'break-word'}}>{teamData[uuid].other}</TableRowColumn>
-                    </TableRow>
-                  )
-                  :(<TableRow />)}
-            </TableBody>
-          </Table>
+          <div>
+            <FlatButton label = "Accept" onClick = {this.handleAccept} />
+            <FlatButton label = "Deny" onClick = {this.handleDeny} />
+          </div>
         </MuiThemeProvider>
-        <MuiButton label = "Accept selected" onClick = {this.handleAccept}/>
-        <MuiButton label = "Reject selected" onClick = {this.handleReject} color = "#8c1d40" />
-      </div>
-    );
+      </div>);
   }
-}
+};
 
 export default StudentApplicationTable;

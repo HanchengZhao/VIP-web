@@ -4,7 +4,6 @@ import Divider from 'material-ui/Divider';
 import firebase from '../../../firebase';
 import StudentApplicationTable from './StudentApplicationTable';
 import MuiTable from '../../MuiTable';
-import NewStudentApplicationTable from './newStudentApplicationTable';
 import {
   Table,
   TableBody,
@@ -20,7 +19,9 @@ class StudentApplicationTool extends Component {
     this.state = {
       teamData : ''
     }
+    this.updateComponent = this.updateComponent.bind(this);
   }
+
 
   componentDidMount = () => {
     let fbRef = firebase.database().ref('StudentApplication');
@@ -31,11 +32,15 @@ class StudentApplicationTool extends Component {
     });
   }
 
+  updateComponent() {
+    this.forceUpdate();
+  }
+
   render = () => {
     return(
       <div>
         {this.state.teamData
-        ?<NewStudentApplicationTable roster = {this.state.teamData} />
+        ?<StudentApplicationTable update = {this.updateComponent} roster = {this.state.teamData} />
         :<h1/>
         }
       </div>
