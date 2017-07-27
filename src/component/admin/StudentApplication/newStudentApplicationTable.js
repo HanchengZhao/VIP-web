@@ -1,17 +1,20 @@
 import ReactDataGrid from 'react-data-grid';
 import React, {Component} from 'react';
+import MuiButton from '../../MuiButton';
+import firebase from '../../../firebase';
 const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
 
-class RosterTable extends Component {
+class NewStudentApplicationTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
       roster:this.props.roster,
       columns:[],
-      rows:'',
-      sortColumn: null,
-      sortDirection: null,
-      filters:{} 
+    rows:'',
+    sortColumn: null,
+    sortDirection: null,
+    filters:{},
+    selectedIndexes :[] 
     }
     this.getRows = this.getRows.bind(this);
     this.rowGetter = this.rowGetter.bind(this);
@@ -21,6 +24,10 @@ class RosterTable extends Component {
     this.onClearFilters = this.onClearFilters.bind(this);
     this.createRows = this.createRows.bind(this);
     this.createColumns = this.createColumns.bind(this);
+    this.onRowsSelected = this.onRowsSelected.bind(this);
+    this.onRowsDeselected = this.onRowsDeselected.bind(this);
+    this.handleAccept = this.handleAccept.bind(this);
+    this.handleRemove = this.handleRemove.bind(this);
   }
 
   componentDidMount() {
@@ -101,11 +108,50 @@ class RosterTable extends Component {
   onClearFilters() {
     this.setState({ filters: {} });
   }
+  
+  handleAccept() {
+    let keys = Object.keys(this.state.roster);
+    this.state.selectedIndexes.forEach((i) => {
+      // firebase.database().ref('AcceptedStudents_Raw_Data').push(this.state.rows[i]);
+      this.handleRemove(keys[i]);
+    });
+  }
+
+  handleRemove(uuid) {
+    firebase.database().ref(`StudentApplication`).child(uuid).remove();
+    let temp = this.state.rows;
+    console.log(temp);
+    // delete temp[uuid];
+    this.setState({
+      rows:''
+    },this.createRows());
+  }
+
+  onRowsSelected(rows) {
+    let temp = this.state.selectedIndexes;
+    rows.forEach((i) => {
+      temp.push(i.rowIdx);
+    });
+    this.setState({
+      selectedIndexes:temp
+    })
+  }
+
+  onRowsDeselected(rows) {
+    let temp = this.state.selectedIndexes;
+    rows.forEach((i) => {
+      temp.splice(temp.indexOf(i.rowIdx),1);
+    });
+    this.setState({
+      selectedIndexes:temp
+    })
+  }
 
   render() {
     return  (
       <div>
         <ReactDataGrid
+          rowKey="id"
           onGridSort={this.handleGridSort}
           enableCellSelect={true}
           columns={this.state.columns}
@@ -114,10 +160,20 @@ class RosterTable extends Component {
           minHeight={800}
           toolbar={<Toolbar enableFilter={true}/>}
           onAddFilter={this.handleFilterChange}
-          onClearFilters={this.onClearFilters} />
+          onClearFilters={this.onClearFilters} 
+          rowSelection={{
+            showCheckbox: true,
+            
+            onRowsSelected: this.onRowsSelected,
+            onRowsDeselected: this.onRowsDeselected,
+            selectBy: {
+              indexes: this.state.selectedIndexes
+            }
+          }}/>
+        <MuiButton label = "Accept" onClick = {this.handleAccept} />
         <p style={{float:'right',color:"#d6dedb"}}>(Number of Records {this.getSize()})</p>
       </div>);
   }
 };
 
-export default RosterTable;
+export default NewStudentApplicationTable;

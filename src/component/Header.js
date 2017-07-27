@@ -55,9 +55,9 @@ class Header extends Component {
                     <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link>
                     <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
                     <Link to="/contact"><FlatButton label="Contact" className="menuBarButton"/></Link>
-                    <Login user={this.props.user} />
-                    <LoginAvatar user={this.props.user}/>
-                    <Link to="/dashboard"><FlatButton label="Dashboard" className="menuBarButton" id = "dashboard" /></Link>                                       
+                     <Login user={this.props.user} /> 
+                     <LoginAvatar user={this.props.user}/> 
+                     <Link to="/dashboard"><FlatButton label="Dashboard" className="menuBarButton" id = "dashboard" /></Link>                                        
                   </div>
                 </div>  
               </MuiThemeProvider>
