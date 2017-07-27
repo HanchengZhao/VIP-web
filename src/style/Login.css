@@ -7,4 +7,5 @@
 
 #loginContainer {
   float:right;
+  clear: both;
 }

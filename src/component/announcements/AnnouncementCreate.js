@@ -152,8 +152,7 @@ class AnnouncementCreate extends Component {
       this.setState({content: val.substring(0, start) + "\t" + val.substring(end)},
         () => {let contentnode = document.getElementById("content")
       contentnode.selectionStart = contentnode.selectionEnd = start + 1;} );
-      let contentnode = document.getElementById("content")
-      contentnode.selectionStart = contentnode.selectionEnd = start + 1;
+
     }
   }
 
