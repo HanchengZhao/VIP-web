@@ -112,9 +112,6 @@ class DeniedApplications extends Component {
         </MuiThemeProvider> 
         : (<h3 style={style}>No Denined Applications</h3>)
         }
-        <div style = {{paddingTop:"20px"}}>
-          <Link to="/admin"><MuiButton label = "Hide" style = {{float:"right"}} /></Link>
-        </div>
       </div>
 
     );

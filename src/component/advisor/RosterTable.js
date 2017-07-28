@@ -105,13 +105,14 @@ class RosterTable extends Component {
   render() {
     return  (
       <div>
+        <h1 style ={{textAlign:'center'}}>Roster</h1>
         <ReactDataGrid
           onGridSort={this.handleGridSort}
           enableCellSelect={true}
           columns={this.state.columns}
           rowGetter={this.rowGetter}
           rowsCount={this.getSize()}
-          minHeight={800}
+          minHeight={500}
           toolbar={<Toolbar enableFilter={true}/>}
           onAddFilter={this.handleFilterChange}
           onClearFilters={this.onClearFilters} />

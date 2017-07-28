@@ -45,7 +45,7 @@ class Header extends Component {
                     <Link to="/"><FlatButton label="Home" className="menuBarButton" fullWidth={true}/></Link>
                     <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton" fullWidth={true}/></Link>
                     <Link to="/projects"><FlatButton label="Projects" className="menuBarButton" fullWidth={true}/></Link>
-                    <Link to="/contact"><FlatButton label="Contact" className="menuBarButton" fullWidth={true}/></Link>
+                    <Link to="/faculty"><FlatButton label="Faculty" className="menuBarButton" fullWidth={true}/></Link>
                     <Link to="/dashboard"><FlatButton label="Dashboard" className="menuBarButton" fullWidth = {true}/></Link>
                     <LoginAvatar user={this.props.user}/>
                     <Login user={this.props.user} Width = {true}/>
@@ -54,7 +54,7 @@ class Header extends Component {
                     <Link to="/"><FlatButton label="Home" className="menuBarButton" /></Link>
                     <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link>
                     <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
-                    <Link to="/contact"><FlatButton label="Contact" className="menuBarButton"/></Link>
+                    <Link to="/faculty"><FlatButton label="Faculty" className="menuBarButton"/></Link>
                      <Login user={this.props.user} /> 
                      <LoginAvatar user={this.props.user}/> 
                      <Link to="/dashboard"><FlatButton label="Dashboard" className="menuBarButton" id = "dashboard" /></Link>                                        

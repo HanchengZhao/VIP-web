@@ -30,9 +30,9 @@ const Home = () => (
   </div>
 )
 
-const Contact = () => (
+const Faculty = () => (
   <div>
-    <h2>Contact</h2>
+    <h2>Faculty</h2>
   </div>
 )
 
@@ -103,7 +103,7 @@ class App extends Component {
                 <Route exact path="/" component={Home}/>
                 <Route path="/announcement" component={Announcement}/>
                 <Route path="/projects" component={Projects}/>
-                <Route path="/contact" component={Contact}/>
+                <Route path="/faculty" component={Faculty}/>
                 <PublicRoute path="/login" authed={userStore.authed} component={LoginPage} />
                 <PrivateRoute path="/dashboard" authed={userStore.authed} component={DashBoard} />
                 <UnEnrolledRoute path="/not_in_system" user={userStore} component={NotInTheSystem} />

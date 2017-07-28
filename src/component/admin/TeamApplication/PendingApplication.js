@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import firebase from "../../../firebase";
 import MuiButton from "../../MuiButton";
+import DeniedApplication from './DeniedApplication';
 import {Link} from 'react-router-dom';
 import ProjectApprovalCard from './ProjectApprovalCard';
 
@@ -15,7 +16,10 @@ class TeamApplication extends Component {
     this.state = {
       Applications: '',
       open: false,
+      denied:false,
     }
+    this.showDenied = this.showDenied.bind(this);
+    this.hideDenied = this.hideDenied.bind(this);
   }
   
   componentDidMount = () => {
@@ -25,6 +29,18 @@ class TeamApplication extends Component {
         Applications: snap.val()
       })
 
+    });
+  }
+
+  showDenied() {
+    this.setState({
+      denied:true
+    });
+  }
+
+  hideDenied() {
+    this.setState({
+      denied:false
     });
   }
 
@@ -40,8 +56,15 @@ class TeamApplication extends Component {
               : (<h3 style = {style}>No Projects pending approval</h3>)
             }
         <div style = {{paddingTop:"20px", float:"right"}}>
-          <Link to="/admin/projectApplication/Denied"><MuiButton label = "Denied Applications" /></Link>
+          <MuiButton label = "Denied Applications" onClick = {this.showDenied}/>
         </div>
+        {this.state.denied
+          ?<div style = {{paddingTop:"50px"}}>
+              <DeniedApplication />
+              <MuiButton label = "hide" onClick = {this.hideDenied}/>
+            </div>
+          :<h1 />
+        }
       </div>
     );
 

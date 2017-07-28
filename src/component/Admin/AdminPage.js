@@ -18,7 +18,7 @@ class AdminPage extends Component {
   constructor() {
     super();
     this.state = {
-      Project:false,
+      Project:true,
       Student:false,
       Roster:false
     }
@@ -58,7 +58,7 @@ class AdminPage extends Component {
       <div>
         {this.state.Project
           ?<PendingApplication />
-          :<h1 />
+          :<div />
         }
         {this.state.Student
           ?<SA_Tool />
@@ -71,7 +71,7 @@ class AdminPage extends Component {
         <AdminRoute user={userStore} path = "/admin/projectApplication/Denied" component={DeniedApplication} />
          <div>
           <MuiThemeProvider>
-            <Tabs>
+            <Tabs inkBarStyle ={{color:'#ffc425'}}>
               <Tab label = "Project Application" style={{backgroundColor:"#353535"}} onActive={this.showProject}/>
               <Tab label = "Student Application" style={{backgroundColor:"#353535"}} onActive={this.showStudent}/>
               <Tab label = "Rosters" style={{backgroundColor:"#353535"}} onActive={this.showRoster}/>   
