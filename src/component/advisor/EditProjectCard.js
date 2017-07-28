@@ -9,6 +9,7 @@ import TextField from 'material-ui/TextField';
 import Primary, {university, validDomain} from '../../Theme';
 import {Validation} from './../../Validation';
 import MuiTable from '../MuiTable';
+import PropTypes from 'prop-types';
 
 class EditProjectCard extends Component {
   constructor(props) {
@@ -180,7 +181,10 @@ class EditProjectCard extends Component {
       </div>
     );
   }
+}
 
+EditProjectCard.propTypes = {
+  Project: PropTypes.object
 }
 
 export default EditProjectCard;

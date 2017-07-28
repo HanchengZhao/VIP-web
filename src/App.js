@@ -12,6 +12,7 @@ import './style/App.css';
 // page component
 import AdminPage from './component/admin/AdminPage';
 import Advisor from './component/advisor/Advisor';
+import Student from './component/student/Student';
 // import Announcement from './component/Announcement';
 import Announcement from './component/announcements/Announcement';
 import DashBoard from './component/DashBoard';
@@ -20,7 +21,7 @@ import Header from './component/Header';
 import LoginPage from './component/login/LoginPage';
 import Projects from './component/projects/Projects';
 import MuiTable from './component/MuiTable';
-import { AdminRoute, PublicRoute,PrivateRoute, UnEnrolledRoute, AdvisorRoute } from './component/Route';
+import { AdminRoute, PublicRoute,PrivateRoute, UnEnrolledRoute, AdvisorRoute, StudentRoute } from './component/Route';
 
 injectTapEventPlugin();
 
@@ -109,6 +110,7 @@ class App extends Component {
                 <UnEnrolledRoute path="/not_in_system" user={userStore} component={NotInTheSystem} />
                 <AdminRoute path="/admin" user={userStore} component={AdminPage}/>
                 <AdvisorRoute path="/advisor" user={userStore} component={Advisor} />
+                <StudentRoute path='/student' user={userStore} component={Student} />
                 {/*<Route path="/admin" component={AdminPage} />*/}
                 {this.state.shouldRedirect && (
                   <Redirect to={this.state.redirectPath}/>
