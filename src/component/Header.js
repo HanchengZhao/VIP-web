@@ -58,7 +58,7 @@ class Header extends Component {
                     <Link to="/"><FlatButton label="Home" className="menuBarButton" /></Link>
                     <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link>
                     <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
-                    <Link to="/contact"><FlatButton label="Contact" className="menuBarButton"/></Link>
+                    <Link to="/peer-review"><FlatButton label="Peer Review" className="menuBarButton"/></Link>
                     <Login user={this.props.user} />
                     <LoginAvatar user={this.props.user}/>
                     {userStore.authed &&

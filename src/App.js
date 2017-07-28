@@ -18,8 +18,8 @@ import DashBoard from './component/DashBoard';
 import Footer from './component/Footer';
 import Header from './component/Header';
 import LoginPage from './component/login/LoginPage';
+import PeerReview from './component/peerReview/PeerReview';
 import Projects from './component/projects/Projects';
-import MuiTable from './component/MuiTable';
 import { AdminRoute, PublicRoute,PrivateRoute, UnEnrolledRoute, AdvisorRoute } from './component/Route';
 
 injectTapEventPlugin();
@@ -30,11 +30,6 @@ const Home = () => (
   </div>
 )
 
-const Contact = () => (
-  <div>
-    <h2>Contact</h2>
-  </div>
-)
 
 const NotInTheSystem = () => (
   <div>
@@ -55,7 +50,6 @@ class App extends Component {
   componentDidMount () {
     this.userStateChange = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        
         userStore.login()
         userStore.fetchUserInfo(user.email, user.displayName, user.photoURL)
         fetchRole(user.email).then(role => {
@@ -103,7 +97,7 @@ class App extends Component {
                 <Route exact path="/" component={Home}/>
                 <Route path="/announcement" component={Announcement}/>
                 <Route path="/projects" component={Projects}/>
-                <Route path="/contact" component={Contact}/>
+                <Route path="/peer-review" component={PeerReview}/>
                 <PublicRoute path="/login" authed={userStore.authed} component={LoginPage} />
                 <PrivateRoute path="/dashboard" authed={userStore.authed} component={DashBoard} />
                 <UnEnrolledRoute path="/not_in_system" user={userStore} component={NotInTheSystem} />
