@@ -12,10 +12,28 @@ import {Link} from 'react-router-dom';
 //Firebase init
 import firebase from "../../firebase";
 
+const style = {
+  projectTitle: {
+    color: "#8C1D40"
+  },
+  heading:{
+    color: "#FFC627"
+  },  
+}
+
 class ProjectPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      problemStatement:'',
+      description:'',
+      name:'',
+      email:'',
+      contactPerson:'',
+      contactEmail:'',
+      studentOpportunities: '',
+      industryLeader:'',
+      industryEmail:'',
       title: '',
       subtitle: '',
       topics: [],
@@ -38,14 +56,20 @@ class ProjectPage extends Component {
       }
 
       this.setState({
+        problemStatement: snap.val().problemStatement,
+        description: snap.val().description,
+        name: snap.val().name,
+        email: snap.val().email,
+        contactPerson:snap.val().contactPerson,
+        contactEmail:snap.val().contactEmail,
+        studentOpportunities: snap.val().studentOpportunities,
+        industryLeader:snap.val().industryLeader,
+        industryEmail:snap.val().industryEmail,
         title: snap.val().title,
         subtitle: snap.val().subtitle,
         topics: topics,
         sections: sections,
         image: snap.val().logo
-
-
-
       });
     });
   }
@@ -63,11 +87,20 @@ class ProjectPage extends Component {
       <div className = "row">
         <MuiThemeProvider>
           <div>
-            <h1 className = "title">{this.state.title}</h1>
-            <h3 className = "title">{this.state.subtitle}</h3>
-            <h3>Research Areas</h3>
-            <div>{topics}</div>
-            <div>{sections}</div>
+            <h1 style={style.projectTitle}>{this.state.title}</h1>
+            <h2 style={style.projectTitle}>{this.state.subtitle}</h2>
+            <h3 style={style.heading}>The Problem</h3>
+            <div>{this.state.problemStatement}</div>
+            <h3 style={style.heading}>What is this project?</h3>
+            <div>{this.state.description}</div>
+            <h3 style={style.heading}>What students can do</h3>
+            <div>{this.state.studentOpportunities}</div>
+            <h3 style={style.heading}>Faculty</h3>
+            <div>{this.state.name}, {this.state.email}</div>
+            <h3 style={style.heading}>Contact</h3>
+            <div>{this.state.contactPerson}, {this.state.contactEmail}</div>
+            <h3 style={style.heading}>Industry Project Leaders</h3>
+            <div>{this.state.industryLeader}, {this.state.industryEmail}</div>
             {(userStore.role === "advisor" || userStore.role === "student") &&
             <div className="row">
             <Link to={`${this.state.fbkey}/apply`}>

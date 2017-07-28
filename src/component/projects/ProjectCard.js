@@ -23,7 +23,7 @@ const style = {
   cardText: {
     overflow: "hidden",
     textOverflow: "ellipsis",
-    height: "150px"
+    height: "140px"
   }
   
 }
@@ -31,7 +31,7 @@ const style = {
 class ProjectCard extends Component {
     constructor(props) {
       super(props);
-
+      
     }
     render () {
       return (
@@ -49,13 +49,11 @@ class ProjectCard extends Component {
               <img src={this.props.project.logo} alt="" />
             </CardMedia>*/}
             <CardText expandable={false} style={style.cardText}>
-              {this.props.project.sections[0].content}
+              {this.props.project.description}
             </CardText>
-            <Link to={`projects/${this.props.fbkey}`}>
               <CardActions>
-                <FlatButton label="Learn more" />
+                <Link to={`projects/${this.props.fbkey}`}><FlatButton label="Learn more" /></Link>                
               </CardActions>
-            </Link>
           </Card>
           </div>
         </MuiThemeProvider>

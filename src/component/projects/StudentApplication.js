@@ -8,6 +8,8 @@ import RaisedButton from 'material-ui/RaisedButton';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
+import {Validation} from '../../Validation';
+import {university} from '../../Theme';
 import TeamApplyModalComponent from './Application/TeamApplyModalComponent';
 import TextFieldComponent from './Application/TextFieldComponent';
 import {Link} from 'react-router-dom';
@@ -32,7 +34,8 @@ class StudentApplication extends Component{
         major:'',
         gpa:'',
         title:'',
-        fbkey: this.props.match.params.projectid,        
+        fbkey: this.props.match.params.projectid,
+        errorText:''        
       };    
     }
 
@@ -78,42 +81,48 @@ class StudentApplication extends Component{
 
 
   firebasewrite = () => {
-     if(`${db}`==='General Information'){
-        const rootRef = firebase.database().ref().child('GeneralInformation');
-        rootRef.push({
-        name : this.state.name,
-        email : this.state.email,
-    });
-    } else if(`${db}`==='Academic Information'){
-        const rootRef = firebase.database().ref().child('AcademicInformation');
-        rootRef.push({
-        major: this.state.major,
-        gpa: this.state.gpa,
-        });
-    } else if(`${db}`==='Student Application'){
-        const rootRef = firebase.database().ref(`StudentApplication/`+this.state.title);
-        rootRef.push({
-        level: this.state.level,
-        program: this.state.program,
-        gradeType: this.state.gradeType,
-        name: this.state.name,
-        email: this.state.email,
-        other: this.state.other
-    });
+    if(Validation(this.state.email)) {
+      if(`${db}`==='General Information'){
+          const rootRef = firebase.database().ref().child('GeneralInformation');
+          rootRef.push({
+          name : this.state.name,
+          email : this.state.email,
+      });
+      } else if(`${db}`==='Academic Information'){
+          const rootRef = firebase.database().ref().child('AcademicInformation');
+          rootRef.push({
+          major: this.state.major,
+          gpa: this.state.gpa,
+          });
+      } else if(`${db}`==='Student Application'){
+          const rootRef = firebase.database().ref(`StudentApplication/`+this.state.title);
+          rootRef.push({
+          level: this.state.level,
+          program: this.state.program,
+          gradeType: this.state.gradeType,
+          name: this.state.name,
+          email: this.state.email,
+          other: this.state.other
+      });
+      }
+      
+      
+      this.setState({
+          id:'',
+          level: '',
+          program: '',
+          gradeType: '',
+          name: '',
+          email: '',
+          major: '',
+          gpa:'',
+          errorText:''
+      });
+    }else{
+      this.setState({
+        errorText:'Please Enter A Valid ' + university + ' Email'
+      });
     }
-    
-    
-    this.setState({
-        id:'',
-        level: '',
-        program: '',
-        gradeType: '',
-        name: '',
-        email: '',
-        major: '',
-        gpa:''
-    });
-
   }
 
 	render(){
@@ -127,12 +136,24 @@ class StudentApplication extends Component{
                 <CardTitle title='Application Form' />
                 <div className="row">
                   {this.state.questionsArray 
-                  ? (Object.keys(this.state.questionsArray).map((id) => 
-                  <TextField key={id} questionArray={questionsArray[id]} var={questionsArray[id].id}
-                    floatingLabelText={questionsArray[id].text}
-                    hintText={questionsArray[id].hint}
+                  ? (Object.keys(this.state.questionsArray).map((id) => {
+                    if(questionsArray[id].id==="email") {
+                      return(
+                        <div key={id}>
+                          <TextField questionArray={questionsArray[id]} var={questionsArray[id].id}
+                          floatingLabelText={questionsArray[id].text}
+                          hintText={questionsArray[id].hint}
+                          errorText={this.state.errorText}
+                          onChange={ this.handleChange}/><br /></div>)
+                    }
+                    return(
+                  <div key = {id}>
+                    <TextField questionArray={questionsArray[id]} var={questionsArray[id].id}
+                      floatingLabelText={questionsArray[id].text}
+                      hintText={questionsArray[id].hint}
 
-                    onChange={ this.handleChange}/>))
+                      onChange={ this.handleChange}/><br/>
+                  </div>)}))
                     : (<h2>Loading..</h2>) }                
                 <br/>
                 </div>
