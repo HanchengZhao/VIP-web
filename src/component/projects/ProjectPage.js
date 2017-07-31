@@ -24,6 +24,7 @@ class ProjectPage extends Component {
       subtitle: '',
       topics: [],
       sections: [],
+      contactEmail:'',
       open:false,
       fbkey: this.props.match.params.projectId
     };
@@ -48,7 +49,8 @@ class ProjectPage extends Component {
         subtitle: snap.val().subtitle,
         topics: topics,
         sections: sections,
-        image: snap.val().logo
+        image: snap.val().logo,
+        contactEmail:snap.val().contactEmail
       });
     });
   }
@@ -92,16 +94,17 @@ class ProjectPage extends Component {
             <h3>Research Areas</h3>
             <div>{topics}</div>
             <div>{sections}</div>
-            {(userStore.role === "advisor" || userStore.role === "student") &&
-            <div className="row">
-            <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-              <div>
-              <Link to={`${this.state.fbkey}/apply`}>
-                <RaisedButton label = "apply" id = "applyButton" backgroundColor = "#ffc425" style = {{float: "right", margin:"10"}}/>
-              </Link>
+            <h4>Contact email : <span>{this.state.contactEmail}</span></h4>
+            {(userStore.authed === true) &&
+              <div className="row">
+              <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+                <div>
+                <Link to={`${this.state.fbkey}/apply`}>
+                  <RaisedButton label = "apply" id = "applyButton" backgroundColor = "#ffc425" style = {{float: "right", margin:"10"}}/>
+                </Link>
+                </div>
+              </MuiThemeProvider>
               </div>
-            </MuiThemeProvider>
-            </div>
             }
             {(userStore.role === "admin")
                 ?<MuiButton label = "Sunset Team" color = {DeleteColor} style = {{margin:"10"}} onClick = {this.handleSunset}/>
