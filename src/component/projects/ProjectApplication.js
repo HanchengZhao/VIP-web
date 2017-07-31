@@ -15,7 +15,7 @@ import TeamApplyModalComponent from './Application/TeamApplyModalComponent';
 import TextFieldComponent from './Application/TextFieldComponent';
 import {Link} from 'react-router-dom';
 
-const TeamFormPath = 'TeamApplication';
+const TeamFormPath = 'TeamApplication_Raw_Data';
 var db = 'Team Application';
 const style = {
   margin: "10px"
@@ -85,7 +85,7 @@ class ProjectApplication extends Component{
   firebasewrite = () => {
     if(Validation(this.state.email)){
       if(`${db}`==='Team Application'){
-          const rootRef = firebase.database().ref().child('TeamApplication');
+          const rootRef = firebase.database().ref().child(TeamFormPath);
           rootRef.push({
           title : this.state.teamName,
           subtitle : this.state.subtitle,
@@ -149,10 +149,11 @@ class ProjectApplication extends Component{
     let questionsArray = this.state.questionsArray;
     //alert(JSON.stringify(questionsArray));
 		return (
-		<div style={{margin: 'auto',textAlign: 'center'}}>
+		<div>
 		  <MuiThemeProvider>
             <div>
               <Card>
+                <div style={{position: "relative",left: "45%"}}>
                 <CardTitle title='Team Apply Form' />
                 <div className="row">
                   {this.state.questionsArray 
@@ -171,19 +172,21 @@ class ProjectApplication extends Component{
                   <TextField questionArray={questionsArray[id]} var={questionsArray[id].id}
                     floatingLabelText={questionsArray[id].text}
                     hintText={questionsArray[id].hint}
-
+                    multiLine="true"
                     onChange={ this.handleChange}/><br /></div>)}))
                     : (<h2>Loading..</h2>) }                
-                <br/>
+                </div>
                 </div>
               </Card><br/>
-              <ASUTeamLogoUpload childdata = {this.getdata}/>             
-              <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-                <div>
-                  <RaisedButton label="Apply"  style={style} backgroundColor='#ffc627' onClick={this.firebasewrite}
-                  data-toggle="modal" data-target="#myModal" /> <br />
-                </div>
-              </MuiThemeProvider>
+              <div style={{margin:"auto",textAlign:"center"}}>
+                <ASUTeamLogoUpload childdata = {this.getdata}/>             
+                <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+                  <div>
+                    <RaisedButton label="Apply"  style={style} backgroundColor='#ffc627' onClick={this.firebasewrite}
+                    data-toggle="modal" data-target="#myModal" /> <br />
+                  </div>
+                </MuiThemeProvider>
+              </div>
             </div>
 		  </MuiThemeProvider>
 		</div> )
