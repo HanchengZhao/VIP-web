@@ -14,7 +14,7 @@ import TeamApplyModalComponent from './Application/TeamApplyModalComponent';
 import TextFieldComponent from './Application/TextFieldComponent';
 import {Link} from 'react-router-dom';
 
-const TeamFormPath = 'StudentApplication';
+const TeamFormPath = 'StudentApplication_Raw_Data';
 var db = 'Student Application';
 const style = {
   margin: "10px"
@@ -78,8 +78,6 @@ class StudentApplication extends Component{
     }
   }
 
-
-
   firebasewrite = () => {
     if(Validation(this.state.email)) {
       if(`${db}`==='General Information'){
@@ -95,7 +93,7 @@ class StudentApplication extends Component{
           gpa: this.state.gpa,
           });
       } else if(`${db}`==='Student Application'){
-          const rootRef = firebase.database().ref(`StudentApplication/`);
+          const rootRef = firebase.database().ref(`${TeamFormPath}`);
           rootRef.push({
           level: this.state.level,
           program: this.state.program,
@@ -130,38 +128,40 @@ class StudentApplication extends Component{
     let questionsArray = this.state.questionsArray;
     //alert(JSON.stringify(questionsArray));
 		return (
-		<div style={{margin: 'auto',textAlign: 'center'}}>
+		<div>
 		  <MuiThemeProvider>
             <div>
               <Card>
-                <CardTitle title={this.state.title + ' Application Form'} />
-                <div className="row">
-                  {this.state.questionsArray 
-                  ? (Object.keys(this.state.questionsArray).map((id) => {
-                    if(questionsArray[id].id==="email") {
+                <div>
+                  <CardTitle title={this.state.title + ' Application Form'}  style={{textAlign:"center"}} />
+                  <div className="row" style={{position:"relative", left:"43%"}}>
+                    {this.state.questionsArray 
+                    ? (Object.keys(this.state.questionsArray).map((id) => {
+                      if(questionsArray[id].id==="email") {
+                        return(
+                          <div key={id}>
+                            <TextField
+                            floatingLabelText={questionsArray[id].text}
+                            hintText={questionsArray[id].hint}
+                            errorText={this.state.errorText}
+                            onChange={ this.handleChange}/><br /></div>)
+                      }
                       return(
-                        <div key={id}>
-                          <TextField questionArray={questionsArray[id]} var={questionsArray[id].id}
-                          floatingLabelText={questionsArray[id].text}
-                          hintText={questionsArray[id].hint}
-                          errorText={this.state.errorText}
-                          onChange={ this.handleChange}/><br /></div>)
-                    }
-                    return(
-                  <div key = {id}>
-                    <TextField questionArray={questionsArray[id]} var={questionsArray[id].id}
-                      floatingLabelText={questionsArray[id].text}
-                      hintText={questionsArray[id].hint}
-
-                      onChange={ this.handleChange}/><br/>
-                  </div>)}))
-                    : (<h2>Loading..</h2>) }                
-                <br/>
+                    <div key = {id}>
+                      <TextField
+                        floatingLabelText={questionsArray[id].text}
+                        hintText={questionsArray[id].hint}
+                        multiLine={true}
+                        onChange={ this.handleChange}/><br/>
+                    </div>)}))
+                      : (<h2>Loading..</h2>) }                
+                  <br/>
+                  </div>
                 </div>
               </Card><br/>
                        
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-                <div>
+                <div style={{margin: 'auto',textAlign: 'center'}}>
                   <RaisedButton label="Apply"  style={style} backgroundColor='#ffc627' onClick={this.firebasewrite}
                   data-toggle="modal" data-target="#myModal" /> <br />
                 </div>

@@ -161,7 +161,7 @@ class ProjectApplication extends Component{
                     if(questionsArray[id].id==="email") {
                       return(
                         <div key={id}>
-                          <TextField questionArray={questionsArray[id]} var={questionsArray[id].id}
+                          <TextField
                           floatingLabelText={questionsArray[id].text}
                           hintText={questionsArray[id].hint}
                           errorText={this.state.errorText}
@@ -169,10 +169,10 @@ class ProjectApplication extends Component{
                     }
                     return(
                   <div key={id}>
-                  <TextField questionArray={questionsArray[id]} var={questionsArray[id].id}
+                  <TextField
                     floatingLabelText={questionsArray[id].text}
                     hintText={questionsArray[id].hint}
-                    multiLine="true"
+                    multiLine={true}
                     onChange={ this.handleChange}/><br /></div>)}))
                     : (<h2>Loading..</h2>) }                
                 </div>

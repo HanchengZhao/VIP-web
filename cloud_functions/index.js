@@ -4,9 +4,66 @@ const secureCompare = require('secure-compare');
 var sg = require('sendgrid')(functions.config().sendgrid.key);
 //init
 admin.initializeApp(functions.config().firebase);
+//configurations
 const Announcement_Raw_Data = "Announcement_Raw_Data";
 const Announcement_Path = "Announcement/admin";
 const Announcement_Sunset = "Announcement_Sunset";
+// Send emails to contacts when a student application is submitted
+exports.studentApplicationNotice = functions.database.ref('/StudentApplication_Raw_Data/{applyId}')
+  .onWrite(event => {
+    const applyId = event.params.applyId;
+    const application = event.data.val();
+    const teamName = application.team;
+    let emailList;
+    let nameList;
+    return admin.database().ref().child("Teams").orderByChild('title').equalTo(teamName).once("value").then((snap) => {
+      let matchteam = snap.val() // contactList: {"-KpsvBfEJm0uvEL3bacU":{"advisor":"","contactEmail":"chancidy@gmail.com","contactPerson":"Henry Zhao",
+      Object.keys(matchteam).forEach((key) => {
+        emailList = matchteam[key].contactEmail.split(",")
+        nameList = matchteam[key].contactPerson.split(",")
+      })
+        console.log("contactList: "+ emailList + nameList)
+      }).then(() => { //copy application to "TeamApplication"
+        return admin.database().ref("StudentApplication/" + applyId).set(
+          application
+        )
+      }).then(() => {
+        let formatted = putJsonInTable(application);
+        for(let i = 0; i < emailList.length; i++){
+          let request = sg.emptyRequest({
+            method: 'POST',
+            path: '/v3/mail/send',
+            body: {
+              personalizations: [{
+                to: [{ email: emailList[i] }],
+                'substitutions': {
+                  '-name-': nameList[i],
+                },
+                subject: 'A new student application is submitted'
+              }],
+              from: {
+                email: 'noreply@em.hzhao.me'
+              },
+              content: [{
+                type: 'text/html',
+                value: `<p>Applicaiton information:</p> ${formatted.join("")}`
+              }],
+              'template_id': functions.config().sendgrid.studentapplicationid,
+            }
+          });
+          // With promise
+          sg.API(request)
+            .then(function(response) {
+              console.log(response.statusCode);
+              console.log(response.body);
+              console.log(response.headers);
+            })
+            .catch(function(error) {
+              console.log(error.response.statusCode);
+            });
+        }
+      })
+  });
 // Send emails to admins when a team application is submitted
 exports.teamApplicationNotice = functions.database.ref('/TeamApplication_Raw_Data/{applyId}')
   .onWrite(event => {
@@ -24,8 +81,7 @@ exports.teamApplicationNotice = functions.database.ref('/TeamApplication_Raw_Dat
           application
         )
       }).then(() => {
-        let emailList = [];
-        let nameList = [];
+        let formatted = putJsonInTable(application);
         Object.keys(adminLists).forEach((uuid) => {
           let request = sg.emptyRequest({
             method: 'POST',
@@ -43,7 +99,7 @@ exports.teamApplicationNotice = functions.database.ref('/TeamApplication_Raw_Dat
               },
               content: [{
                 type: 'text/html',
-                value: `<p>Applicaiton information is ${JSON.stringify(application)}</p>`
+                value: `<p>Applicaiton information:</p> ${formatted.join("")}`
               }],
               'template_id': functions.config().sendgrid.templateid,
             }
@@ -127,3 +183,13 @@ exports.dailyAnnouncementCron = functions.https.onRequest((req, res) => {
     console.log(`Cron job for ${new Date()} has been completed`)
   });
 })
+
+//utils
+let putJsonInTable = (json) => {
+  let formatted = ["<table>"];
+  Object.keys(json).forEach((key) => {
+    formatted.push(`<tr><td>${key} : </td><td> ${JSON.stringify(json[key])}</td></tr>`)
+  })
+  formatted.push("</table>")
+  return formatted;
+}
