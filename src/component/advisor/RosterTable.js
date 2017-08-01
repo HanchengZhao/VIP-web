@@ -1,5 +1,5 @@
-import ReactDataGrid from 'react-data-grid';
 import React, {Component} from 'react';
+import ReactDataGrid from 'react-data-grid';
 const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
 
 class RosterTable extends Component {
