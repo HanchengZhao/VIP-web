@@ -6,20 +6,22 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import PropTypes from 'prop-types';
 
 import firebase from '../../firebase';
 import userStore from '../../stores/UserStore';
 
 const AnnouncementRef = "https://peer-review-25758.firebaseio.com/Announcement/admin.json";
-const PageLength = 4; // 4 announcements per page
+
 class AnnouncementList extends Component {
-  constructor(){
-    super();
+  constructor(props){
+    super(props);
     this.state = {
       anmts: "",
       pageIndex: 0,
       pageNum: 4,
       uuids: [],
+      pageLength: this.props.pageLength || 4,
       previous: "previous disabled",
       next: "next"
     }
@@ -33,7 +35,7 @@ class AnnouncementList extends Component {
     axios.get(AnnouncementRef + "?shallow=true") // only fetch uuids
     .then((res) => {
       let uuidArray = Object.keys(res.data);
-      this.pageNum = Math.ceil( uuidArray.length / PageLength );
+      this.pageNum = Math.ceil( uuidArray.length / this.state.pageLength );
       this.uuids = uuidArray.sort().reverse(); // reverse chronological order of anmts id
       if ( this.pageNum <= 1 ) {
         this.setState({
@@ -42,7 +44,7 @@ class AnnouncementList extends Component {
       }
     })
     
-    this.anmtRef.orderByKey().limitToLast(PageLength).once("value", (snap) => {
+    this.anmtRef.orderByKey().limitToLast(this.state.pageLength).once("value", (snap) => {
       this.setState({
         anmts: snap.val()
       });
@@ -54,14 +56,14 @@ class AnnouncementList extends Component {
     if (this.state.next === "next disabled") {
       return -1 ;
     }
-    this.updateAnnouncement(this.state.pageIndex + PageLength);
-    if ((this.state.pageIndex + 2 * PageLength) >= this.uuids.length ){
+    this.updateAnnouncement(this.state.pageIndex + this.state.pageLength);
+    if ((this.state.pageIndex + 2 * this.state.pageLength) >= this.uuids.length ){
       this.setState ({
         next: "next disabled"
       })
     } 
     this.setState((prevState) => ({
-      pageIndex: prevState.pageIndex + PageLength,
+      pageIndex: prevState.pageIndex + this.state.pageLength,
       previous: "previous"
     }));
   }
@@ -71,20 +73,20 @@ class AnnouncementList extends Component {
     if (this.state.previous === "previous disabled") {
       return -1;
     }
-    this.updateAnnouncement(this.state.pageIndex - PageLength);
-    if ((this.state.pageIndex - 2 * PageLength) < 0 ){
+    this.updateAnnouncement(this.state.pageIndex - this.state.pageLength);
+    if ((this.state.pageIndex - 2 * this.state.pageLength) < 0 ){
       this.setState ({
         previous: "previous disabled"
       })
     }
     this.setState((prevState) => ({
-      pageIndex: prevState.pageIndex - PageLength,
+      pageIndex: prevState.pageIndex - this.state.pageLength,
       next: "next"
     }));
   }
 
   updateAnnouncement(pageIndex){
-    this.anmtRef.orderByKey().endAt(this.uuids[pageIndex]).limitToLast(PageLength).once("value", (snap) => {
+    this.anmtRef.orderByKey().endAt(this.uuids[pageIndex]).limitToLast(this.state.pageLength).once("value", (snap) => {
       this.setState({
         anmts: snap.val()
       });
@@ -123,6 +125,10 @@ class AnnouncementList extends Component {
       </div>
     )
   }
+}
+
+AnnouncementList.propTypes = {
+  pageLength: PropTypes.number
 }
 
 export default AnnouncementList;

@@ -35,7 +35,8 @@ class StudentApplication extends Component{
         gpa:'',
         title:'',
         fbkey: this.props.match.params.projectid,
-        errorText:'',        
+        errorText:'',
+        error:[]        
       };    
     }
 
@@ -115,7 +116,8 @@ class StudentApplication extends Component{
           email: '',
           major: '',
           gpa:'',
-          errorText:''
+          errorText:'',
+          error:[]
       });
     }else{
       this.setState({

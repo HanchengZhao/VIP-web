@@ -1,5 +1,5 @@
-import ReactDataGrid from 'react-data-grid';
 import React, {Component} from 'react';
+import ReactDataGrid from 'react-data-grid';
 const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
 
 class RosterTable extends Component {
@@ -111,7 +111,7 @@ class RosterTable extends Component {
           columns={this.state.columns}
           rowGetter={this.rowGetter}
           rowsCount={this.getSize()}
-          minHeight={800}
+          minHeight={500}
           toolbar={<Toolbar enableFilter={true}/>}
           onAddFilter={this.handleFilterChange}
           onClearFilters={this.onClearFilters} />

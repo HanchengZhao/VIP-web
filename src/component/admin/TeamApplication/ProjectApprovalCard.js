@@ -9,8 +9,8 @@ import TextField from 'material-ui/TextField';
 import firebase from "../../../firebase";
 
 const style = {
-  actions: {marginLeft  : 'auto', marginRight : '1px', marginBottom:"30px", width:"200px"}, 
-  button : {display:"inline-block !important", paddingRight:"20px"}};
+  actions: {marginLeft  : 'auto', marginRight : '1px', marginBottom:"30px", width:"215px"}, 
+  button : {display:"inline-block !important"}};
 
 const TeamApprovalPath = "Teams";
 const TeamRejectPath = "RejectedTeams";
@@ -36,6 +36,7 @@ class ProjectApprovalCard extends Component {
     this.handleReject = this.handleReject.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.removeApplication = this.removeApplication.bind(this);
+    this.addAdvisors = this.addAdvisors.bind(this);
   }
   
   removeApplication = () => {
@@ -45,7 +46,31 @@ class ProjectApprovalCard extends Component {
   handleAccept = () => {
     let fbRef = firebase.database().ref().child(TeamApprovalPath);
     fbRef.push(this.props.Application);
+    this.addAdvisors(this.props.Application);
     this.removeApplication();
+  }
+
+  addAdvisors(application) {
+    let advisorRef = firebase.database().ref('Advisor');
+    let userRef = firebase.database().ref('Users');
+    advisorRef.push({
+      email:application.contactEmail,
+      name:application.contactPerson,
+      team:application.title
+    });
+    advisorRef.push({
+      email:application.email,
+      name:application.advisor,
+      team:application.title
+    });
+    userRef.push({
+      email:application.contactEmail,
+      role:"advisor",
+    });
+    userRef.push({
+      email:application.email,
+      role:"advisor"
+    });
   }
 
   handleReject = () => {

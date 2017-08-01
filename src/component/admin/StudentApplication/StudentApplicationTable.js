@@ -179,7 +179,7 @@ class StudentApplicationTable extends Component {
           columns={this.state.columns}
           rowGetter={this.rowGetter}
           rowsCount={this.getSize()}
-          minHeight={800}
+          minHeight={400}
           toolbar={<Toolbar enableFilter={true}/>}
           onAddFilter={this.handleFilterChange}
           onClearFilters={this.onClearFilters} 

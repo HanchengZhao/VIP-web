@@ -12,6 +12,7 @@ import './style/App.css';
 // page component
 import AdminPage from './component/admin/AdminPage';
 import Advisor from './component/advisor/Advisor';
+import Student from './component/student/Student';
 // import Announcement from './component/Announcement';
 import Announcement from './component/announcements/Announcement';
 import DashBoard from './component/DashBoard';
@@ -20,7 +21,8 @@ import Header from './component/Header';
 import LoginPage from './component/login/LoginPage';
 import PeerReview from './component/peerReview/PeerReview';
 import Projects from './component/projects/Projects';
-import { AdminRoute, PublicRoute,PrivateRoute, UnEnrolledRoute, AdvisorRoute } from './component/Route';
+import MuiTable from './component/MuiTable';
+import { AdminRoute, PublicRoute,PrivateRoute, UnEnrolledRoute, AdvisorRoute, StudentRoute } from './component/Route';
 
 injectTapEventPlugin();
 
@@ -30,6 +32,11 @@ const Home = () => (
   </div>
 )
 
+const Faculty = () => (
+  <div>
+    <h2>Faculty</h2>
+  </div>
+)
 
 const NotInTheSystem = () => (
   <div>
@@ -98,11 +105,13 @@ class App extends Component {
                 <Route path="/announcement" component={Announcement}/>
                 <Route path="/projects" component={Projects}/>
                 <Route path="/peer-review" component={PeerReview}/>
+                <Route path="/faculty" component={Faculty}/>
                 <PublicRoute path="/login" authed={userStore.authed} component={LoginPage} />
                 <PrivateRoute path="/dashboard" authed={userStore.authed} component={DashBoard} />
                 <UnEnrolledRoute path="/not_in_system" user={userStore} component={NotInTheSystem} />
                 <AdminRoute path="/admin" user={userStore} component={AdminPage}/>
                 <AdvisorRoute path="/advisor" user={userStore} component={Advisor} />
+                <StudentRoute path='/student' user={userStore} component={Student} />
                 {/*<Route path="/admin" component={AdminPage} />*/}
                 {this.state.shouldRedirect && (
                   <Redirect to={this.state.redirectPath}/>

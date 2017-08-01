@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 
 import firebase from '../../firebase'
+import FlatButton from 'material-ui/FlatButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RosterTable from './RosterTable';
+import { Link } from 'react-router-dom';
 
 const RosterPath = 'Teams';
 const StudentPath = 'Students';
@@ -10,8 +13,8 @@ class EditRoster extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      roster: '',
       student:'',
+      roster:false,
       fbKey:this.props.match.params.teamID
     }
   }
@@ -20,7 +23,6 @@ class EditRoster extends Component {
     let fbRef = firebase.database().ref(`${RosterPath}/${this.state.fbKey}`);
     fbRef.on('value', (snap) => {
       this.setState({
-        roster:snap.val(),
         team:snap.val().title
       });
     });
@@ -31,23 +33,30 @@ class EditRoster extends Component {
   }
 
   render() {
-    let roster = this.state.roster;
     let student = this.state.student;
     let temp = [];
-    Object.keys(student).forEach((key) => {
-      if (student[key].team === roster.title) {
-        temp.push(student[key]);
-      }
-    });
+    if(student) {
+      Object.keys(student).forEach((key) => {
+        if (student[key].team === this.state.team) {
+          temp.push(student[key]);
+          this.setState({roster:true});
+        }
+      });
+    }
     return(
       
       <div>
         {this.state.student && this.state.roster
         ?<div>
-          <h1>{this.state.roster.title} Roster Page</h1>
+          <h1 style = {{textAlign:"center"}}>{this.state.team} Roster Page</h1>
           <RosterTable roster = {temp}/>
         </div>
-        :<h1>Loading</h1>}
+        :<div>
+          <h1 style = {{textAlign:"center"}}>Your Roster Is Empty</h1>
+          <MuiThemeProvider>
+            <Link to = '/advisor'><FlatButton label = "return" /></Link>
+          </MuiThemeProvider>
+        </div>}
       </div>
     );
   }

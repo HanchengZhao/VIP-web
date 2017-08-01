@@ -3,15 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Divider from 'material-ui/Divider';
 import firebase from '../../../firebase';
 import StudentApplicationTable from './StudentApplicationTable';
-import MuiTable from '../../MuiTable';
-import {
-  Table,
-  TableBody,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
-} from 'material-ui/Table';
+
 
 class StudentApplicationTool extends Component {
   constructor() {
@@ -19,7 +11,6 @@ class StudentApplicationTool extends Component {
     this.state = {
       teamData : ''
     }
-    this.updateComponent = this.updateComponent.bind(this);
   }
 
 
@@ -32,15 +23,11 @@ class StudentApplicationTool extends Component {
     });
   }
 
-  updateComponent() {
-    this.forceUpdate();
-  }
-
   render = () => {
     return(
       <div>
         {this.state.teamData
-        ?<StudentApplicationTable update = {this.updateComponent} roster = {this.state.teamData} />
+        ?<StudentApplicationTable roster = {this.state.teamData} />
         :<h1/>
         }
       </div>
