@@ -35,7 +35,8 @@ class StudentApplication extends Component{
         gpa:'',
         title:'',
         fbkey: this.props.match.params.projectid,
-        errorText:'',        
+        errorText:'',
+        error:[]        
       };    
     }
 
@@ -117,7 +118,8 @@ class StudentApplication extends Component{
           email: '',
           major: '',
           gpa:'',
-          errorText:''
+          errorText:'',
+          error:[]
       });
     }else{
       this.setState({
@@ -137,7 +139,7 @@ class StudentApplication extends Component{
                 <CardTitle title={this.state.title + ' Application Form'} />
                 <div className="row">
                   {this.state.questionsArray 
-                  ? (Object.keys(this.state.questionsArray).map((id) => {
+                  ? (Object.keys(this.state.questionsArray).map((id) => { 
                     if(questionsArray[id].id==="email") {
                       return(
                         <div key={id}>

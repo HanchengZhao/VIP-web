@@ -75,7 +75,10 @@ class AdminPage extends Component {
           :<h1 />
         }
         {this.state.Roster
-          ?<Roster_Tool />
+          ?<div>
+            <h1 style ={{textAlign:'center'}}>Roster</h1>
+            <Roster_Tool />
+          </div>
           :<h1 />
         }
         {this.state.AddAdmin

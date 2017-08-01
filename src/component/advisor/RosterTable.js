@@ -105,7 +105,6 @@ class RosterTable extends Component {
   render() {
     return  (
       <div>
-        <h1 style ={{textAlign:'center'}}>Roster</h1>
         <ReactDataGrid
           onGridSort={this.handleGridSort}
           enableCellSelect={true}

@@ -15,6 +15,7 @@ class EditProjectCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      project: this.props.project,
       teamName: this.props.project.title,
       subtitle: this.props.project.subtitle,
       topics: this.props.project.topics,
@@ -54,7 +55,6 @@ class EditProjectCard extends Component {
   handleChange(e) {
     let id = e.target.id;
     this.setState({[id]:e.target.value});
-    Validation(this.state.email);
   }
 
   handleClose() {
