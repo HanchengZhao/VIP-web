@@ -36,7 +36,7 @@ class StudentApplication extends Component{
         title:'',
         fbkey: this.props.match.params.projectid,
         errorText:'',
-        error:[]        
+        error:[]
       };    
     }
 

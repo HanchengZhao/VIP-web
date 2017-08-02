@@ -7,9 +7,12 @@ import firebase from '../../firebase'
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Primary, {university, validDomain} from '../../Theme';
-import {Validation} from './../../Validation';
+import {Validation, checkEmpty} from './../../Validation';
 import MuiTable from '../MuiTable';
 import PropTypes from 'prop-types';
+
+
+const notIncluded = ['sections', 'title', 'logo'];
 
 class EditProjectCard extends Component {
   constructor(props) {
@@ -30,6 +33,7 @@ class EditProjectCard extends Component {
       teamLogo: this.props.project.logo,
       sections:this.props.project.sections,
       fbKey : this.props.fbKey,
+      error:{},
       open:false,
       dialog:false,
       Redirect:false,
@@ -44,17 +48,28 @@ class EditProjectCard extends Component {
   }
 
   componentDidMount() {
+    let projectKeys = Object.keys(this.props.project);
+    let error = {};
     let fbRef = firebase.database().ref(`Student/${this.state.teamName.split(' ').join('')}`);
     fbRef.on('value', (snap) => {
       this.setState({
         Students:snap.val()
       });
     });
+    projectKeys.forEach((i) => {
+      error[i] = ''
+    });
+    this.setState({error:error});
   }
 
   handleChange(e) {
     let id = e.target.id;
-    this.setState({[id]:e.target.value});
+    let project = this.state.project;
+    project[id] = e.target.value;
+    this.setState({
+      [id]:e.target.value,
+      project:project
+    });
   }
 
   handleClose() {
@@ -91,7 +106,8 @@ class EditProjectCard extends Component {
   }
 
   fbWrite() {
-    if(Validation(this.state.email)) {
+    let empty = checkEmpty(this.state.error, this.state.project, this.state.email, notIncluded);
+    if(empty[0]) {
       firebase.database().ref(`Teams/${this.state.fbKey}`).set({
         description:this.state.description,
         title:this.state.teamName,
@@ -111,36 +127,33 @@ class EditProjectCard extends Component {
                     {'content':this.state.advisor,'title': 'Advisor'}],
       });
     this.dialogOpen();
-    this.setState({
-        emailMessage:"" 
-      });
-    }else{
-      this.setState({
-        emailMessage:"Please Enter A Valid " + university + " Email" 
-      });
     }
+    this.setState({
+      error:empty[1],
+      emailMessage:empty[2],
+    });
   }
 
   render() {
     let keys = Object.keys(this.props.project);
     let items = keys.map((key) => {
-      if (['sections', 'title', 'logo','roster'].includes(key)){
+      if (notIncluded.includes(key)){
         return null;
       }
       if(key==='email') {
         return(
           <div key = {key}>
           <h3>{key}</h3>
-          <TextField id = {key} errorText = {this.state.emailMessage} defaultValue = {this.props.project[key]} multiLine = {true} onChange = {this.handleChange} rows = {2} fullWidth = {true}
+          <TextField id = {key} errorText = {this.state.emailMessage} defaultValue = {this.state.project[key]} multiLine = {true} onChange = {this.handleChange} rows = {2} fullWidth = {true}
            underlineStyle={{borderColor:'#ffc425'}} /> 
         </div>
         );
       }
-
+  
       return(
         <div key = {key}>
           <h3>{key}</h3>
-          <TextField id = {key} defaultValue = {this.props.project[key]} multiLine = {true} onChange = {this.handleChange} rows = {2} fullWidth = {true}
+          <TextField id = {key} errorText = {this.state.error[key]} defaultValue = {this.props.project[key]} multiLine = {true} onChange = {this.handleChange} rows = {2} fullWidth = {true}
           underlineStyle={{borderColor:'#ffc425'}} /> 
         </div>
       );
