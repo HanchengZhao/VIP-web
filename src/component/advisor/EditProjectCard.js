@@ -7,7 +7,7 @@ import firebase from '../../firebase'
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
 import Primary, {university, validDomain} from '../../Theme';
-import {Validation, checkEmpty} from './../../Validation';
+import {checkEmpty} from './../../Validation';
 import MuiTable from '../MuiTable';
 import PropTypes from 'prop-types';
 

@@ -8,7 +8,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-import {Validation} from '../../Validation';
+import {checkEmpty} from '../../Validation';
 import {university} from '../../Theme';
 import TeamApplyModalComponent from './Application/TeamApplyModalComponent';
 import TextFieldComponent from './Application/TextFieldComponent';
@@ -19,7 +19,7 @@ var db = 'Student Application';
 const style = {
   margin: "10px"
 };
-
+const notIncluded = ['fbkey', 'errorText','error','other'];
 // Create an array in this.state. then populate the array with TeamApplication key values. Then access them in the TextFieldComponent with the ids in loop.
 class StudentApplication extends Component{
   constructor(props) {
@@ -36,7 +36,7 @@ class StudentApplication extends Component{
         title:'',
         fbkey: this.props.match.params.projectid,
         errorText:'',
-        error:[]
+        error:{}
       };    
     }
 
@@ -82,7 +82,8 @@ class StudentApplication extends Component{
 
 
   firebasewrite = () => {
-    if(Validation(this.state.email)) {
+    let empty = checkEmpty(this.state.error, this.state, this.state.email, notIncluded);
+    if(empty[0]) {
       if(`${db}`==='General Information'){
           const rootRef = firebase.database().ref().child('GeneralInformation');
           rootRef.push({
@@ -121,11 +122,12 @@ class StudentApplication extends Component{
           errorText:'',
           error:[]
       });
-    }else{
-      this.setState({
-        errorText:'Please Enter A Valid ' + university + ' Email'
-      });
     }
+    this.setState({
+      errorText:empty[2],
+      error:empty[1]
+    });
+    console.log(empty[1]);
   }
 
 	render(){
@@ -139,7 +141,7 @@ class StudentApplication extends Component{
                 <CardTitle title={this.state.title + ' Application Form'} />
                 <div className="row">
                   {this.state.questionsArray 
-                  ? (Object.keys(this.state.questionsArray).map((id) => { 
+                  ? (Object.keys(this.state.questionsArray).map((id) => {
                     if(questionsArray[id].id==="email") {
                       return(
                         <div key={id}>
@@ -154,7 +156,7 @@ class StudentApplication extends Component{
                     <TextField questionArray={questionsArray[id]} var={questionsArray[id].id}
                       floatingLabelText={questionsArray[id].text}
                       hintText={questionsArray[id].hint}
-
+                      errorText={this.state.error[questionsArray[id].id]}
                       onChange={ this.handleChange}/><br/>
                   </div>)}))
                     : (<h2>Loading..</h2>) }                
