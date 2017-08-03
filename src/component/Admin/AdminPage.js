@@ -28,7 +28,6 @@ class AdminPage extends Component {
     this.showRoster = this.showRoster.bind(this);
     this.showStudent = this.showStudent.bind(this);
     this.showAdminTool = this.showAdminTool.bind(this);
-    this.showGateKeeper = this.showGateKeeper.bind(this);
     this.showCourses = this.showCourses.bind(this);
   }
   showStudent() {
@@ -55,12 +54,6 @@ class AdminPage extends Component {
       AddAdmin:true
     })
   }
-  showGateKeeper() {
-    this.setToFalse();
-    this.setState({
-      GateKeeper:true
-    })
-  }
   showCourses() {
     this.setToFalse();
     this.setState({
@@ -73,7 +66,6 @@ class AdminPage extends Component {
       Student:false,
       Roster:false,
       AddAdmin:false,
-      GateKeeper:false,
       Courses:false
     });
   }
@@ -100,12 +92,11 @@ class AdminPage extends Component {
           ?<ManageAdmin />
           :<h1 />
         }
-        {this.state.GateKeeper
-          ?<GateKeeper />
-          :<h1 />
-        }  
         {this.state.Courses
-          ?<ManageCourses />
+          ?<div>
+            <ManageCourses />
+            <GateKeeper />
+          </div>
           :<h1 />
         }  
         <AdminRoute user={userStore} path = "/admin/projectApplication/Denied" component={DeniedApplication} />
@@ -116,7 +107,6 @@ class AdminPage extends Component {
               <Tab label = "Student Application" style={{backgroundColor:"#353535"}} onActive={this.showStudent}/>
               <Tab label = "Rosters" style={{backgroundColor:"#353535"}} onActive={this.showRoster}/>
               <Tab label = "Manage Admin" style={{backgroundColor:"#353535"}} onActive={this.showAdminTool}/>
-              <Tab label = "Manage GateKeepers" style={{backgroundColor:"#353535"}} onActive={this.showGateKeeper}/>
               <Tab label = "Manage Courses" style={{backgroundColor:"#353535"}} onActive={this.showCourses}/>         
             </Tabs>
           </MuiThemeProvider>

@@ -69,7 +69,7 @@ class CourseList extends Component {
     return(
       <MuiThemeProvider>
         <div>
-          <h1 style = {{textAlign:'center'}}>{this.state.team} course list</h1>
+          <h2 style = {{textAlign:'center'}}>{this.state.team} course list</h2>
           <div>
             {this.state.courses[this.state.team]
               ?<table className="table">
@@ -87,7 +87,7 @@ class CourseList extends Component {
                   })}
                 </tbody>
               </table>
-              :<h1>no courses</h1>
+              :<h3 style = {{textAlign:'center'}}>no courses</h3>
             }
           </div>
           <DropDownMenu value = {this.state.value} onChange = {this.handleChange} menuStyle = {{marginBottom:'0'}}>

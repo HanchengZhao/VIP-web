@@ -39,7 +39,9 @@ class StudentApplication extends Component{
         title:'',
         fbkey: this.props.match.params.projectid,
         errorText:'',
-        error:{}
+        error:{},
+        courses:'',
+        value:0,
       };    
     }
 
@@ -51,11 +53,14 @@ class StudentApplication extends Component{
         })
         
         firebase.database().ref(`FormQuestions/${db}`).once('value').then( (snap) => {
-        this.setState({
-        questionsArray: snap.val(),
-  	});
-	});
-} 
+          this.setState({
+            questionsArray: snap.val(),
+          });
+        });
+        firebase.database().ref(`Courses`).on('value', (snap)=> {
+          this.setState({courses:snap.val()[this.state.title]});
+        });
+    }
 
     getdata =(childdata) =>{
       this.setState({
@@ -122,6 +127,7 @@ class StudentApplication extends Component{
           gpa:'',
           errorText:'',
           error:[]
+
       });
     }
     this.setState({
@@ -163,6 +169,14 @@ class StudentApplication extends Component{
                     : (<h2>Loading..</h2>) }                
                 <br/>
                 </div>
+                <DropDownMenu value = {this.state.value} menuStyle = {{textAlign:'center'}}>
+                  <MenuItem value = {0} primaryText = "Select A Course" />
+                  {this.state.courses &&
+                    Object.keys(this.state.courses).map((key) => {
+                      return <MenuItem key = {key} value={key} primaryText = {this.state.courses[key]}/>;
+                    })
+                  }
+                </DropDownMenu>
               </Card><br/>
                        
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>

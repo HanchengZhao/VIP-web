@@ -62,6 +62,7 @@ class GateKeeper extends Component {
   render() {
     return(
       <div>
+        <h2 style = {{textAlign:'center'}}>GateKeepers</h2>
         <table className="table">
           <thead>
             <tr>
