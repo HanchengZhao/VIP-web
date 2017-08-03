@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 
+import CourseList from './CourseList';
+
 import DropDownMenu from 'material-ui/DropDownMenu';
 import FlatButton from 'material-ui/FlatButton';
 import MenuItem from 'material-ui/MenuItem';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 
-import firebase from '../../firebase';
+import firebase from '../../../firebase';
 
 class ManageGateKeeper extends Component {
   constructor() {
@@ -14,13 +16,10 @@ class ManageGateKeeper extends Component {
     this.state = {
       teams:'',
       key:'',
-      value:0,
-      items:["VIP194","VIP294","VIP394","VIP494"],
-      suffix: '',
+      courses:'',
     };
     this.manageCourse = this.manageCourse.bind(this);
-    this.addCourse = this.addCourse.bind(this);
-    this.suffixChange = this.suffixChange.bind(this);
+    
   }
 
   componentDidMount() {
@@ -29,19 +28,11 @@ class ManageGateKeeper extends Component {
         teams:snap.val()
       });
     });
+    
   }
 
-  addCourse() {
-    console.log(this.state.items[this.state.value]+this.state.suffix);
-  }
 
-  handleChange = (event, index, value) => this.setState({value:value});
-  
-  suffixChange(e) {
-    this.setState({
-      suffix:(e.target.value).toUpperCase()
-    });
-  }
+
 
   manageCourse(key) {
     this.setState({
@@ -59,9 +50,7 @@ class ManageGateKeeper extends Component {
           </tr>);
       }
     });
-    let MenuItems = this.state.items.map((value, index) =>(
-      <MenuItem value={index} primaryText = {value} />
-    ));
+
     return(
       <div>
         <table className="table">
@@ -74,15 +63,10 @@ class ManageGateKeeper extends Component {
             {Teams}
           </tbody>
         </table>
-        <MuiThemeProvider>
-          <div>
-            <DropDownMenu value = {this.state.value} onChange = {this.handleChange} >
-              {MenuItems}
-            </DropDownMenu>
-            <TextField hintText="Add Suffix" floatingLabelText="Suffix" onChange = {this.suffixChange} maxLength="3"/>
-            <FlatButton label = "submit" onClick = {this.addCourse}/> 
-          </div>
-        </MuiThemeProvider>
+        {this.state.key
+          ?<CourseList team = {this.state.teams[this.state.key]}/>
+          :<h1/>
+        }
       </div>
     );
   }

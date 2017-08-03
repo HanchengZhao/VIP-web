@@ -5,7 +5,7 @@ import Primary from '../../Theme';
 import PendingApplication from './TeamApplication/PendingApplication';
 import DeniedApplication from './TeamApplication/DeniedApplication';
 import ManageAdmin from './ManageAdmin';
-import ManageGateKeeper from './ManageGateKeeper';
+import ManageGateKeeper from './GateKeeper/ManageGateKeeper';
 import SA_Tool from './StudentApplication/StudentApplicationTool';
 import Roster_Tool from './RosterTool/RosterTool';
 import userStore from '../../stores/UserStore';
