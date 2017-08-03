@@ -146,7 +146,7 @@ class StudentApplication extends Component{
                     if(questionsArray[id].id==="email") {
                       return(
                         <div key={id}>
-                          <TextField questionArray={questionsArray[id]} var={questionsArray[id].id}
+                          <TextField
                           floatingLabelText={questionsArray[id].text}
                           hintText={questionsArray[id].hint}
                           errorText={this.state.errorText}
@@ -154,7 +154,7 @@ class StudentApplication extends Component{
                     }
                     return(
                   <div key = {id}>
-                    <TextField questionArray={questionsArray[id]} var={questionsArray[id].id}
+                    <TextField
                       floatingLabelText={questionsArray[id].text}
                       hintText={questionsArray[id].hint}
                       errorText={this.state.error[questionsArray[id].id]}
