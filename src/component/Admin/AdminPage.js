@@ -5,6 +5,7 @@ import Primary from '../../Theme';
 import PendingApplication from './TeamApplication/PendingApplication';
 import DeniedApplication from './TeamApplication/DeniedApplication';
 import ManageAdmin from './ManageAdmin';
+import ManageGateKeeper from './ManageGateKeeper';
 import SA_Tool from './StudentApplication/StudentApplicationTool';
 import Roster_Tool from './RosterTool/RosterTool';
 import userStore from '../../stores/UserStore';
@@ -18,17 +19,13 @@ class AdminPage extends Component {
 
   constructor() {
     super();
-    this.state = {
-      Project:true,
-      Student:false,
-      Roster:false,
-      AddAdmin:false,
-    }
+    this.state = {}
     this.setToFalse = this.setToFalse.bind(this);
     this.showProject = this.showProject.bind(this);
     this.showRoster = this.showRoster.bind(this);
     this.showStudent = this.showStudent.bind(this);
     this.showAdminTool = this.showAdminTool.bind(this);
+    this.showGateKeeper = this.showGateKeeper.bind(this);
   }
   showStudent() {
     this.setToFalse();
@@ -54,12 +51,19 @@ class AdminPage extends Component {
       AddAdmin:true
     })
   }
+  showGateKeeper() {
+    this.setToFalse();
+    this.setState({
+      GateKeeper:true
+    })
+  }
   setToFalse() {
     this.setState({
       Project:false,
       Student:false,
       Roster:false,
-      AddAdmin:false
+      AddAdmin:false,
+      GateKeeper:false
     })
   }
 
@@ -84,7 +88,11 @@ class AdminPage extends Component {
         {this.state.AddAdmin
           ?<ManageAdmin />
           :<h1 />
-        } 
+        }
+        {this.state.GateKeeper
+          ?<ManageGateKeeper />
+          :<h1 />
+        }  
         <AdminRoute user={userStore} path = "/admin/projectApplication/Denied" component={DeniedApplication} />
          <div>
           <MuiThemeProvider>
@@ -92,7 +100,8 @@ class AdminPage extends Component {
               <Tab label = "Project Application" style={{backgroundColor:"#353535"}} onActive={this.showProject}/>
               <Tab label = "Student Application" style={{backgroundColor:"#353535"}} onActive={this.showStudent}/>
               <Tab label = "Rosters" style={{backgroundColor:"#353535"}} onActive={this.showRoster}/>
-              <Tab label = "Add Admin" style={{backgroundColor:"#353535"}} onActive={this.showAdminTool}/>      
+              <Tab label = "Manage Admin" style={{backgroundColor:"#353535"}} onActive={this.showAdminTool}/>
+              <Tab label = "Manage GateKeepers" style={{backgroundColor:"#353535"}} onActive={this.showGateKeeper}/>        
             </Tabs>
           </MuiThemeProvider>
         </div>
