@@ -14,7 +14,7 @@ import TeamApplyModalComponent from './Application/TeamApplyModalComponent';
 import TextFieldComponent from './Application/TextFieldComponent';
 import {Link} from 'react-router-dom';
 
-const TeamFormPath = 'StudentApplication';
+const TeamFormPath = 'StudentApplication_Raw_Data';
 var db = 'Student Application';
 const style = {
   margin: "10px"
@@ -79,8 +79,6 @@ class StudentApplication extends Component{
     }
   }
 
-
-
   firebasewrite = () => {
     let empty = checkEmpty(this.state.error, this.state, this.state.email, notIncluded);
     if(empty[0]) {
@@ -97,7 +95,7 @@ class StudentApplication extends Component{
           gpa: this.state.gpa,
           });
       } else if(`${db}`==='Student Application'){
-          const rootRef = firebase.database().ref(`StudentApplication/`);
+          const rootRef = firebase.database().ref(`${TeamFormPath}`);
           rootRef.push({
           level: this.state.level,
           program: this.state.program,
@@ -134,7 +132,7 @@ class StudentApplication extends Component{
     let questionsArray = this.state.questionsArray;
     //alert(JSON.stringify(questionsArray));
 		return (
-		<div style={{margin: 'auto',textAlign: 'center'}}>
+		<div>
 		  <MuiThemeProvider>
             <div>
               <Card>
@@ -165,7 +163,7 @@ class StudentApplication extends Component{
               </Card><br/>
                        
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-                <div>
+                <div style={{margin: 'auto',textAlign: 'center'}}>
                   <RaisedButton label="Apply"  style={style} backgroundColor='#ffc627' onClick={this.firebasewrite}
                   data-toggle="modal" data-target="#myModal" /> <br />
                 </div>

@@ -4,12 +4,75 @@ const secureCompare = require('secure-compare');
 var sg = require('sendgrid')(functions.config().sendgrid.key);
 //init
 admin.initializeApp(functions.config().firebase);
+//configurations
 const Announcement_Raw_Data = "Announcement_Raw_Data";
 const Announcement_Path = "Announcement/admin";
 const Announcement_Sunset = "Announcement_Sunset";
+// Send emails to contacts when a student application is submitted
+exports.studentApplicationNotice = functions.database.ref('/StudentApplication_Raw_Data/{applyId}')
+  .onWrite(event => {
+    if(!event.data.val()) {
+      throw "this is not an onCreate event"
+    }
+    const applyId = event.params.applyId;
+    const application = event.data.val();
+    const teamName = application.team;
+    let emailList;
+    let nameList;
+    return admin.database().ref().child("Teams").orderByChild('title').equalTo(teamName).once("value").then((snap) => {
+      let matchteam = snap.val() // contactList: {"-KpsvBfEJm0uvEL3bacU":{"advisor":"","contactEmail":"chancidy@gmail.com","contactPerson":"Henry Zhao",
+      Object.keys(matchteam).forEach((key) => {
+        emailList = matchteam[key].contactEmail.split(",")
+        nameList = matchteam[key].contactPerson.split(",")
+      })
+        console.log("contactList: "+ emailList + nameList)
+      }).then(() => { //copy application to "TeamApplication"
+        return admin.database().ref("StudentApplication/" + applyId).set(
+          application
+        )
+      }).then(() => {
+        let formatted = putJsonInTable(application);
+        for(let i = 0; i < emailList.length; i++){
+          let request = sg.emptyRequest({
+            method: 'POST',
+            path: '/v3/mail/send',
+            body: {
+              personalizations: [{
+                to: [{ email: emailList[i] }],
+                'substitutions': {
+                  '-name-': nameList[i],
+                },
+                subject: 'A new student application is submitted'
+              }],
+              from: {
+                email: 'noreply@em.hzhao.me'
+              },
+              content: [{
+                type: 'text/html',
+                value: `<p>Applicaiton information:</p> ${formatted.join("")}`
+              }],
+              'template_id': functions.config().sendgrid.studentapplicationid,
+            }
+          });
+          // With promise
+          sg.API(request)
+            .then(function(response) {
+              console.log(response.statusCode);
+              console.log(response.body);
+              console.log(response.headers);
+            })
+            .catch(function(error) {
+              console.log(error.response.statusCode);
+            });
+        }
+      })
+  });
 // Send emails to admins when a team application is submitted
 exports.teamApplicationNotice = functions.database.ref('/TeamApplication_Raw_Data/{applyId}')
   .onWrite(event => {
+    if(!event.data.val()) {
+      throw "this is not an onCreate event"
+    }
     const applyId = event.params.applyId;
     const application = event.data.val();
     //application:{"desc":"","email":"Mirotznik@udel.edu","logo":"","members":"","name":"Mark Mirotznik","sections":[{"content":"EE, CE and BME â€“ Electronic material design, biosensing, additive manufacturing of electronic components, RF component design, testing and validation EE, CE and CS â€“ Embedded computing and wireless communication","title":"Major"},{"content":"","title":"Requirements"},{"content":"Mark Mirotznik (ECE)","title":"Advisor"}],"status":"","subtitle":"Continuous health monitoring","title":"E-Textiles","topics":["\"Biosignal Processing\""," \"Additive Manufacturing\""," \"Electronic Materials\""," \"RF Communication\""]}
@@ -24,8 +87,7 @@ exports.teamApplicationNotice = functions.database.ref('/TeamApplication_Raw_Dat
           application
         )
       }).then(() => {
-        let emailList = [];
-        let nameList = [];
+        let formatted = putJsonInTable(application);
         Object.keys(adminLists).forEach((uuid) => {
           let request = sg.emptyRequest({
             method: 'POST',
@@ -43,7 +105,7 @@ exports.teamApplicationNotice = functions.database.ref('/TeamApplication_Raw_Dat
               },
               content: [{
                 type: 'text/html',
-                value: `<p>Applicaiton information is ${JSON.stringify(application)}</p>`
+                value: `<p>Applicaiton information:</p> ${formatted.join("")}`
               }],
               'template_id': functions.config().sendgrid.templateid,
             }
@@ -68,6 +130,54 @@ exports.teamApplicationNotice = functions.database.ref('/TeamApplication_Raw_Dat
       // })
   });
 
+exports.teamApproval = functions.database.ref('/Teams/{uuid}')
+  .onWrite(event => {
+    if(!event.data.val()) {
+      throw "this is not an onCreate event"
+    }
+    const uuid = event.params.uuid;
+    const teaminfo = event.data.val();
+    console.log(teaminfo)
+    const teamName = teaminfo.title
+    let emailList = teaminfo.email.split(",")
+    let nameList = teaminfo.advisor.split(",")
+    for(let i = 0; i < emailList.length; i++){
+      let request = sg.emptyRequest({
+        method: 'POST',
+        path: '/v3/mail/send',
+        body: {
+          personalizations: [{
+            to: [{ email: emailList[i] }],
+            'substitutions': {
+              '-name-': nameList[i],
+              '-team-': teamName
+            },
+            subject: 'Your team application is approved'
+          }],
+          from: {
+            email: 'noreply@em.hzhao.me'
+          },
+          // content: [{
+          //   type: 'text/html',
+          //   value: `<p>Applicaiton information:</p> ${formatted.join("")}`
+          // }],
+          'template_id': functions.config().sendgrid.teamapprovalid,
+        }
+      });
+      // With promise
+      sg.API(request)
+        .then(function(response) {
+          console.log(response.statusCode);
+          console.log(response.body);
+          console.log(response.headers);
+        })
+        .catch(function(error) {
+          console.log(error.response.statusCode);
+        });
+      }
+    })
+
+  
 
 exports.dailyAnnouncementCron = functions.https.onRequest((req, res) => {
   const key = req.query.key;
@@ -127,3 +237,13 @@ exports.dailyAnnouncementCron = functions.https.onRequest((req, res) => {
     console.log(`Cron job for ${new Date()} has been completed`)
   });
 })
+
+//utils
+let putJsonInTable = (json) => {
+  let formatted = ["<table>"];
+  Object.keys(json).forEach((key) => {
+    formatted.push(`<tr><td>${key} : </td><td> ${JSON.stringify(json[key])}</td></tr>`)
+  })
+  formatted.push("</table>")
+  return formatted;
+}

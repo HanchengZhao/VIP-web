@@ -15,7 +15,7 @@ const Projects = ( {match} ) => (
     <Switch>
       {/*<AdvisorRoute exact path={`${match.url}/application`} user={userStore} component={ ASUTeamFormComponent }/>*/}
       <Route exact path={`${match.url}/:projectid/apply`} component={ StudentApplication }/>
-      <PrivateRoute exact path={`${match.url}/application`} authed={userStore.authed} component={ ProjectApplication }/>
+      <Route exact path={`${match.url}/application`} authed={userStore.authed} component={ ProjectApplication }/>
       <Route path={`${match.url}/:projectId`} component={ ProjectPage }/>
       <Route exact path={match.url} component={ ProjectList }/>
     </Switch>
