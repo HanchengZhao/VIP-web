@@ -93,7 +93,7 @@ class CourseList extends Component {
           <DropDownMenu value = {this.state.value} onChange = {this.handleChange} menuStyle = {{marginBottom:'0'}}>
             {MenuItems}
           </DropDownMenu>
-           <TextField hintText="Add Suffix" floatingLabelText="Suffix" onChange = {this.suffixChange} maxLength="3"/>
+          <TextField hintText="Add Suffix" floatingLabelText="Suffix" onChange = {this.suffixChange} maxLength="3"/>
           <FlatButton label = "submit" onClick = {this.addCourse}/> 
           
         </div>

@@ -5,7 +5,8 @@ import Primary from '../../Theme';
 import PendingApplication from './TeamApplication/PendingApplication';
 import DeniedApplication from './TeamApplication/DeniedApplication';
 import ManageAdmin from './ManageAdmin';
-import ManageGateKeeper from './GateKeeper/ManageGateKeeper';
+import ManageCourses from './GateKeeper/ManageCourses';
+import GateKeeper from './GateKeeper/ManageGateKeeper';
 import SA_Tool from './StudentApplication/StudentApplicationTool';
 import Roster_Tool from './RosterTool/RosterTool';
 import userStore from '../../stores/UserStore';
@@ -19,13 +20,16 @@ class AdminPage extends Component {
 
   constructor() {
     super();
-    this.state = {}
+    this.state = {
+      GateKeeper:true
+    }
     this.setToFalse = this.setToFalse.bind(this);
     this.showProject = this.showProject.bind(this);
     this.showRoster = this.showRoster.bind(this);
     this.showStudent = this.showStudent.bind(this);
     this.showAdminTool = this.showAdminTool.bind(this);
     this.showGateKeeper = this.showGateKeeper.bind(this);
+    this.showCourses = this.showCourses.bind(this);
   }
   showStudent() {
     this.setToFalse();
@@ -57,14 +61,21 @@ class AdminPage extends Component {
       GateKeeper:true
     })
   }
+  showCourses() {
+    this.setToFalse();
+    this.setState({
+      Courses:true
+    })
+  }
   setToFalse() {
     this.setState({
       Project:false,
       Student:false,
       Roster:false,
       AddAdmin:false,
-      GateKeeper:false
-    })
+      GateKeeper:false,
+      Courses:false
+    });
   }
 
   render = () => {
@@ -90,7 +101,11 @@ class AdminPage extends Component {
           :<h1 />
         }
         {this.state.GateKeeper
-          ?<ManageGateKeeper />
+          ?<GateKeeper />
+          :<h1 />
+        }  
+        {this.state.Courses
+          ?<ManageCourses />
           :<h1 />
         }  
         <AdminRoute user={userStore} path = "/admin/projectApplication/Denied" component={DeniedApplication} />
@@ -101,7 +116,8 @@ class AdminPage extends Component {
               <Tab label = "Student Application" style={{backgroundColor:"#353535"}} onActive={this.showStudent}/>
               <Tab label = "Rosters" style={{backgroundColor:"#353535"}} onActive={this.showRoster}/>
               <Tab label = "Manage Admin" style={{backgroundColor:"#353535"}} onActive={this.showAdminTool}/>
-              <Tab label = "Manage GateKeepers" style={{backgroundColor:"#353535"}} onActive={this.showGateKeeper}/>        
+              <Tab label = "Manage GateKeepers" style={{backgroundColor:"#353535"}} onActive={this.showGateKeeper}/>
+              <Tab label = "Manage Courses" style={{backgroundColor:"#353535"}} onActive={this.showCourses}/>         
             </Tabs>
           </MuiThemeProvider>
         </div>
