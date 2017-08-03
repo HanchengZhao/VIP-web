@@ -12,8 +12,6 @@ import './style/App.css';
 // page component
 import AdminPage from './component/admin/AdminPage';
 import Advisor from './component/advisor/Advisor';
-import Student from './component/student/Student';
-// import Announcement from './component/Announcement';
 import Announcement from './component/announcements/Announcement';
 import DashBoard from './component/DashBoard';
 import Footer from './component/Footer';
@@ -21,6 +19,8 @@ import Header from './component/Header';
 import LoginPage from './component/login/LoginPage';
 import PeerReview from './component/peerReview/PeerReview';
 import Projects from './component/projects/Projects';
+import Resource from './component/resource/Resource';
+import Student from './component/student/Student';
 import MuiTable from './component/MuiTable';
 import { AdminRoute, PublicRoute,PrivateRoute, UnEnrolledRoute, AdvisorRoute, StudentRoute } from './component/Route';
 
@@ -105,7 +105,7 @@ class App extends Component {
                 <Route path="/announcement" component={Announcement}/>
                 <Route path="/projects" component={Projects}/>
                 <Route path="/peer-review" component={PeerReview}/>
-                <Route path="/faculty" component={Faculty}/>
+                <Route path="/resource/:category" component={Resource}/>
                 <PublicRoute path="/login" authed={userStore.authed} component={LoginPage} />
                 <PrivateRoute path="/dashboard" authed={userStore.authed} component={DashBoard} />
                 <UnEnrolledRoute path="/not_in_system" user={userStore} component={NotInTheSystem} />

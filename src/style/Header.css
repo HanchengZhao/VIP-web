@@ -51,6 +51,11 @@
     .navHeaderCollapse {
       margin-top: -1px;
     }
+
+    .dropdown-menu {
+      width: 100%;
+       margin-left: 130px; 
+    }
 }
 
 @media screen and (max-width:796px) {
@@ -87,4 +92,9 @@ Navbar and MateralUI CSS Edits
 .menuBarButton:hover{
   color: #ffc425 !important;
   background-color: #000000 !important;
+}
+
+.dropdown-menu {
+  background-color: #353535 !important;
+  top: 230%;
 }
