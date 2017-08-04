@@ -145,7 +145,7 @@ class EditProjectCard extends Component {
           <div key = {key}>
           <h3>{key}</h3>
           <TextField id = {key} errorText = {this.state.emailMessage} defaultValue = {this.state.project[key]} multiLine = {true} onChange = {this.handleChange} rows = {2} fullWidth = {true}
-           underlineStyle={{borderColor:'#ffc425'}} /> 
+           underlineStyle={{borderColor:Primary}} /> 
         </div>
         );
       }
@@ -154,7 +154,7 @@ class EditProjectCard extends Component {
         <div key = {key}>
           <h3>{key}</h3>
           <TextField id = {key} errorText = {this.state.error[key]} defaultValue = {this.props.project[key]} multiLine = {true} onChange = {this.handleChange} rows = {2} fullWidth = {true}
-          underlineStyle={{borderColor:'#ffc425'}} /> 
+          underlineStyle={{borderColor:Primary}} /> 
         </div>
       );
     });

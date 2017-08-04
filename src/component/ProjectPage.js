@@ -8,6 +8,8 @@ import Chip from 'material-ui/Chip';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
+import Primary from '../Theme';
+
 //Style sheet
 import '../style/ProjectPage.css';
 import * as firebase from 'firebase';
@@ -69,7 +71,7 @@ class Project extends Component {
             <div>{topics}</div>
             <div>{sections}</div>
             <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-              <RaisedButton label = "apply" id = "applyButton" backgroundColor = "#ffc425" style = {{float: "right", margin:"10"}}/>
+              <RaisedButton label = "apply" id = "applyButton" backgroundColor = {Primary} style = {{float: "right", margin:"10"}}/>
             </MuiThemeProvider>
           </div>
       </MuiThemeProvider>

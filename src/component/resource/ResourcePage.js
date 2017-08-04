@@ -216,7 +216,7 @@ class ResourcePage extends Component {
 						</div>
 						<div className="row" style={styles.publishButton}>
 							<MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-								<RaisedButton className="pull-right" label = "Update"  backgroundColor = "#ffc425" onClick={this.publish} />
+								<RaisedButton className="pull-right" label = "Update"  backgroundColor = {Primary} onClick={this.publish} />
 							</MuiThemeProvider>
 						</div>
 					</div>

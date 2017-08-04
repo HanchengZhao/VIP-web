@@ -13,6 +13,8 @@ import artgineer from '../../assets/team_logo/artgineer.png';
 import crypto from '../../assets/team_logo/crypto.png'
 import deeplearning from '../../assets/team_logo/deeplearning.jpg';
 
+import Primary from '../../Theme';
+
 import firebase from '../../firebase';
 
 class ProjectList extends Component {
@@ -47,7 +49,7 @@ class ProjectList extends Component {
         <div className="row">
           <Link to={"projects/application"}>
             <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-              <RaisedButton label = "Apply to create a team" id = "applyButton" backgroundColor = "#ffc425" style = {{float: "right", margin:"10px"}}/>
+              <RaisedButton label = "Apply to create a team" id = "applyButton" backgroundColor = {Primary} style = {{float: "right", margin:"10px"}}/>
             </MuiThemeProvider>
           </Link>
         </div>

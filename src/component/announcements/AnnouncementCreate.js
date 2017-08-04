@@ -13,6 +13,7 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Redirect } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
+import Primary from '../../Theme';
 
 
 import firebase from '../../firebase';
@@ -25,7 +26,7 @@ const defaultAnnouncement = {
 
 const styles = {
   underlineStyle: {
-    borderColor: "#ffc425",
+    borderColor: Primary,
   },
   floatingLabelStyle: {
     color: grey500,
@@ -33,10 +34,10 @@ const styles = {
   datePicker: {
     theme: getMuiTheme({
       datePicker: {
-        selectColor: "#ffc425"
+        selectColor: Primary
       },
       flatButton: {
-        primaryTextColor: "#ffc425"
+        primaryTextColor: Primary
       }
     }),
     position: "col-md-3"
@@ -256,7 +257,7 @@ class AnnouncementCreate extends Component {
           </div>
           <div className="row" style={styles.publishButton}>
             <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-              <RaisedButton className="pull-right" label = "Publish"  backgroundColor = "#ffc425" onClick={this.publish} />
+              <RaisedButton className="pull-right" label = "Publish"  backgroundColor = {Primary} onClick={this.publish} />
             </MuiThemeProvider>
           </div>
           

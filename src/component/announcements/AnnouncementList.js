@@ -7,6 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import PropTypes from 'prop-types';
+import Primary from '../../Theme';
 
 import firebase from '../../firebase';
 import userStore from '../../stores/UserStore';
@@ -116,7 +117,7 @@ class AnnouncementList extends Component {
         <div className="row">
           <Link to={"announcement/creation"}>
             <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-              <RaisedButton label = "Creat an announcement" id = "applyButton" backgroundColor = "#ffc425" style = {{float: "right", margin:"10px"}}/>
+              <RaisedButton label = "Creat an announcement" id = "applyButton" backgroundColor = {Primary} style = {{float: "right", margin:"10px"}}/>
             </MuiThemeProvider>
           </Link>
         </div>

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import FileInput from 'react-file-input';
-
+import Primary from '../../../Theme';
 import firebase from 'firebase';
 
 
@@ -62,7 +62,7 @@ class ASUTeamLogoUpload extends Component{
               <FileInput name="myImage"
                          accept=".png,.gif,.jpg,.JPG,.jpeg"
                          placeholder="TeamLogo Uploader"
-                         style={{backgroundColorcolor: '#ffc627'}}
+                         style={{backgroundColorcolor: Primary}}
                          onChange={this.handleChange} />
 		    </div>
 				)

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import MuiButton from '../MuiButton';
-import Primary from '../../Theme';
 
 import PendingApplication from './TeamApplication/PendingApplication';
 import DeniedApplication from './TeamApplication/DeniedApplication';
@@ -12,6 +11,8 @@ import Roster_Tool from './RosterTool/RosterTool';
 import userStore from '../../stores/UserStore';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import Primary, {NavColor} from '../../Theme';
 
 import {Link, Route, Redirect} from 'react-router-dom';
 import {AdminRoute} from '../Route';
@@ -102,12 +103,12 @@ class AdminPage extends Component {
         <AdminRoute user={userStore} path = "/admin/projectApplication/Denied" component={DeniedApplication} />
          <div>
           <MuiThemeProvider>
-            <Tabs inkBarStyle ={{color:'#ffc425'}}>
-              <Tab label = "Project Application" style={{backgroundColor:"#353535"}} onActive={this.showProject}/>
-              <Tab label = "Student Application" style={{backgroundColor:"#353535"}} onActive={this.showStudent}/>
-              <Tab label = "Rosters" style={{backgroundColor:"#353535"}} onActive={this.showRoster}/>
-              <Tab label = "Manage Admin" style={{backgroundColor:"#353535"}} onActive={this.showAdminTool}/>
-              <Tab label = "Manage Courses" style={{backgroundColor:"#353535"}} onActive={this.showCourses}/>         
+            <Tabs inkBarStyle ={{color:Primary}}>
+              <Tab label = "Project Application" style={{backgroundColor:NavColor}} onActive={this.showProject}/>
+              <Tab label = "Student Application" style={{backgroundColor:NavColor}} onActive={this.showStudent}/>
+              <Tab label = "Rosters" style={{backgroundColor:NavColor}} onActive={this.showRoster}/>
+              <Tab label = "Manage Admin" style={{backgroundColor:NavColor}} onActive={this.showAdminTool}/>
+              <Tab label = "Manage Courses" style={{backgroundColor:NavColor}} onActive={this.showCourses}/>         
             </Tabs>
           </MuiThemeProvider>
         </div>

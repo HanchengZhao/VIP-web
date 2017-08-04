@@ -7,6 +7,7 @@ import {Card, CardTitle} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import Primary from '../../../Theme';
 
 import ASUTeamLogoUpload from './ASUTeamLogoUpload';
 import TeamApplyModalComponent from './TeamApplyModalComponent';
@@ -202,7 +203,7 @@ class ASUTeamFormComponent extends Component{
                   <ASUTeamLogoUpload childdata = {this.getdata}/>
                   <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                     <div>
-                      <RaisedButton label="Apply"  style={style} backgroundColor='#ffc627' onClick={this.firebasewrite}
+                      <RaisedButton label="Apply"  style={style} backgroundColor={Primary} onClick={this.firebasewrite}
                       data-toggle="modal" data-target="#myModal" /> <br />
                     </div>
                   </MuiThemeProvider>

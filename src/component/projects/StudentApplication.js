@@ -12,7 +12,7 @@ import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 import {checkEmpty} from '../../Validation';
-import {university} from '../../Theme';
+import Primary, {university} from '../../Theme';
 import TeamApplyModalComponent from './Application/TeamApplyModalComponent';
 import TextFieldComponent from './Application/TextFieldComponent';
 import {Link} from 'react-router-dom';
@@ -181,7 +181,7 @@ class StudentApplication extends Component{
                        
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                 <div style={{margin: 'auto',textAlign: 'center'}}>
-                  <RaisedButton label="Apply"  style={style} backgroundColor='#ffc627' onClick={this.firebasewrite}
+                  <RaisedButton label="Apply"  style={style} backgroundColor={Primary} onClick={this.firebasewrite}
                   data-toggle="modal" data-target="#myModal" /> <br />
                 </div>
               </MuiThemeProvider>

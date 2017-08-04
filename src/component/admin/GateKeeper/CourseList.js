@@ -22,6 +22,7 @@ class CourseList extends Component {
     this.addCourse = this.addCourse.bind(this);
     this.suffixChange = this.suffixChange.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
+    this.findGateKeeper = this.findGateKeeper.bind(this);
   }
   
   componentDidMount() {
@@ -40,19 +41,30 @@ class CourseList extends Component {
     this.setState({
       team:nextProps.team.title
     });
+  }
 
+  findGateKeeper(key) {
+    firebase.database().ref('GateKeeper').once('value').then((snap) => {
+      Object.keys(snap.val()).forEach((i) =>{
+        if(snap.val()[i].department ===this.state.courses[this.state.team][key].department) {
+          console.log(snap.val()[i].email);
+        }
+      })
+    });
+    console.log();
   }
 
   suffixChange(e) {
     this.setState({
       suffix:(e.target.value).toUpperCase()
     });
-    console.log();
   }
 
   addCourse() {
-    firebase.database().ref(`Courses/${this.state.team}`).push(this.state.items[this.state.value]+this.state.suffix);
-    console.log();
+    firebase.database().ref(`Courses/${this.state.team}`).push({
+      course:this.state.items[this.state.value]+this.state.suffix,
+      department:this.state.suffix
+    });
   }
 
   handleChange = (event, index, value) => this.setState({value:value});
@@ -71,17 +83,19 @@ class CourseList extends Component {
         <div>
           <h2 style = {{textAlign:'center'}}>{this.state.team} course list</h2>
           <div>
-            {this.state.courses[this.state.team]
+            {this.state.courses && this.state.courses[this.state.team]
               ?<table className="table">
                 <thead>
                   <tr>
                     <th>Title</th>
+                    <th>Department</th>
                   </tr>
                 </thead>
                 <tbody>
                   {Object.keys(this.state.courses[this.state.team]).map((key) => {
-                    return (<tr>
-                      <th>{this.state.courses[this.state.team][key]}</th>
+                    return (<tr key = {key} onClick = {() => this.findGateKeeper(key)}>
+                      <th>{this.state.courses[this.state.team][key].course}</th>
+                      <th>{this.state.courses[this.state.team][key].department}</th>
                       <th><i className ="glyphicon glyphicon-remove" style = {{cursor:"pointer"}} id = {key} onClick = {this.handleRemove}/></th>
                       </tr>);
                   })}

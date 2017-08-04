@@ -14,6 +14,7 @@ import ASUTeamLogoUpload from './Application/ASUTeamLogoUpload';
 import TeamApplyModalComponent from './Application/TeamApplyModalComponent';
 import TextFieldComponent from './Application/TextFieldComponent';
 import {Link} from 'react-router-dom';
+import Primary from '../../Theme';
 
 const TeamFormPath = 'TeamApplication_Raw_Data';
 var db = 'Team Application';
@@ -184,7 +185,7 @@ class ProjectApplication extends Component{
                 <ASUTeamLogoUpload childdata = {this.getdata}/>             
                 <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                   <div>
-                    <RaisedButton label="Apply"  style={style} backgroundColor='#ffc627' onClick={this.firebasewrite}
+                    <RaisedButton label="Apply"  style={style} backgroundColor={Primary} onClick={this.firebasewrite}
                     data-toggle="modal" data-target="#myModal" /> <br />
                   </div>
                 </MuiThemeProvider>

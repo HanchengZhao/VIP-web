@@ -8,7 +8,7 @@ import FlatButton from 'material-ui/FlatButton';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiButton from '../MuiButton';
-import {DeleteColor} from '../../Theme';
+import Primary, {DeleteColor} from '../../Theme';
 //Style sheet
 import '../../style/projectpage.css';
 import {Link} from 'react-router-dom';  
@@ -100,7 +100,7 @@ class ProjectPage extends Component {
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                 <div>
                 <Link to={`${this.state.fbkey}/apply`}>
-                  <RaisedButton label = "apply" id = "applyButton" backgroundColor = "#ffc425" style = {{float: "right", margin:"10"}}/>
+                  <RaisedButton label = "apply" id = "applyButton" backgroundColor = {Primary} style = {{float: "right", margin:"10"}}/>
                 </Link>
                 </div>
               </MuiThemeProvider>
