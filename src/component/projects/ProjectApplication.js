@@ -8,12 +8,13 @@ import RaisedButton from 'material-ui/RaisedButton';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-import {Validation} from '../../Validation';
+import {checkEmpty} from '../../Validation';
 import {university} from '../../Theme';
 import ASUTeamLogoUpload from './Application/ASUTeamLogoUpload';
 import TeamApplyModalComponent from './Application/TeamApplyModalComponent';
 import TextFieldComponent from './Application/TextFieldComponent';
 import {Link} from 'react-router-dom';
+import Primary from '../../Theme';
 
 const TeamFormPath = 'TeamApplication_Raw_Data';
 var db = 'Team Application';
@@ -42,7 +43,8 @@ class ProjectApplication extends Component{
         email: '',
         status: '',
         teamLogo: '',
-        test:''
+        test:'',
+        error:{}
       };
     }
 
@@ -83,7 +85,8 @@ class ProjectApplication extends Component{
 
 
   firebasewrite = () => {
-    if(Validation(this.state.email)){
+    let empty = checkEmpty(this.state.error, this.state, this.state.email, []);
+    if(empty[0]){
       if(`${db}`==='Team Application'){
           const rootRef = firebase.database().ref().child(TeamFormPath);
           rootRef.push({
@@ -134,14 +137,13 @@ class ProjectApplication extends Component{
           status:'',
           teamLogo: '',
           gpa: '',
-          errorText:'',
 
     });
-    }else{
-        this.setState({
-          errorText:"Please Enter A Valid" + university + "email"
-        });
-      }
+    }
+    this.setState({
+      error:empty[1],
+      errorText:empty[2]
+    })
 
   }
 
@@ -158,7 +160,7 @@ class ProjectApplication extends Component{
                 <div className="row">
                   {this.state.questionsArray 
                   ? (Object.keys(this.state.questionsArray).map((id) => {
-                    if(questionsArray[id].id==="email") {
+                    if(questionsArray[id].id==="contactEmail") {
                       return(
                         <div key={id}>
                           <TextField
@@ -172,6 +174,7 @@ class ProjectApplication extends Component{
                   <TextField
                     floatingLabelText={questionsArray[id].text}
                     hintText={questionsArray[id].hint}
+                    errorText={this.state.error[questionsArray[id].id]}
                     multiLine={true}
                     onChange={ this.handleChange}/><br /></div>)}))
                     : (<h2>Loading..</h2>) }                
@@ -182,7 +185,7 @@ class ProjectApplication extends Component{
                 <ASUTeamLogoUpload childdata = {this.getdata}/>             
                 <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                   <div>
-                    <RaisedButton label="Apply"  style={style} backgroundColor='#ffc627' onClick={this.firebasewrite}
+                    <RaisedButton label="Apply"  style={style} backgroundColor={Primary} onClick={this.firebasewrite}
                     data-toggle="modal" data-target="#myModal" /> <br />
                   </div>
                 </MuiThemeProvider>

@@ -10,8 +10,7 @@ import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import FlatButton from 'material-ui/FlatButton';
 
 import styles from '../style/Header.css';
-
-var Color = "#ffc425";
+import Primary from '../../Theme';
 
 class Login extends Component {
     constructor(props) {

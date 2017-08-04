@@ -2,14 +2,17 @@ import React, { Component } from 'react';
 
 import firebase from 'firebase';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import DropDownMenu from 'material-ui/DropDownMenu';
+import FlatButton from 'material-ui/FlatButton';
+import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import {Card, CardTitle} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-import {Validation} from '../../Validation';
-import {university} from '../../Theme';
+import {checkEmpty} from '../../Validation';
+import Primary, {university} from '../../Theme';
 import TeamApplyModalComponent from './Application/TeamApplyModalComponent';
 import TextFieldComponent from './Application/TextFieldComponent';
 import {Link} from 'react-router-dom';
@@ -19,7 +22,7 @@ var db = 'Student Application';
 const style = {
   margin: "10px"
 };
-
+const notIncluded = ['fbkey', 'errorText','error','other'];
 // Create an array in this.state. then populate the array with TeamApplication key values. Then access them in the TextFieldComponent with the ids in loop.
 class StudentApplication extends Component{
   constructor(props) {
@@ -36,7 +39,9 @@ class StudentApplication extends Component{
         title:'',
         fbkey: this.props.match.params.projectid,
         errorText:'',
-        error:[]        
+        error:{},
+        courses:'',
+        value:0,
       };    
     }
 
@@ -48,11 +53,14 @@ class StudentApplication extends Component{
         })
         
         firebase.database().ref(`FormQuestions/${db}`).once('value').then( (snap) => {
-        this.setState({
-        questionsArray: snap.val(),
-  	});
-	});
-} 
+          this.setState({
+            questionsArray: snap.val(),
+          });
+        });
+        firebase.database().ref(`Courses`).on('value', (snap)=> {
+          this.setState({courses:snap.val()[this.state.title]});
+        });
+    }
 
     getdata =(childdata) =>{
       this.setState({
@@ -80,7 +88,8 @@ class StudentApplication extends Component{
   }
 
   firebasewrite = () => {
-    if(Validation(this.state.email)) {
+    let empty = checkEmpty(this.state.error, this.state, this.state.email, notIncluded);
+    if(empty[0]) {
       if(`${db}`==='General Information'){
           const rootRef = firebase.database().ref().child('GeneralInformation');
           rootRef.push({
@@ -118,12 +127,14 @@ class StudentApplication extends Component{
           gpa:'',
           errorText:'',
           error:[]
-      });
-    }else{
-      this.setState({
-        errorText:'Please Enter A Valid ' + university + ' Email'
+
       });
     }
+    this.setState({
+      errorText:empty[2],
+      error:empty[1]
+    });
+    console.log(empty[1]);
   }
 
 	render(){
@@ -134,37 +145,43 @@ class StudentApplication extends Component{
 		  <MuiThemeProvider>
             <div>
               <Card>
-                <div>
-                  <CardTitle title={this.state.title + ' Application Form'}  style={{textAlign:"center"}} />
+                <CardTitle title={this.state.title + ' Application Form'} style={{textAlign:"center"}} />
                   <div className="row" style={{position:"relative", left:"43%"}}>
-                    {this.state.questionsArray 
-                    ? (Object.keys(this.state.questionsArray).map((id) => {
-                      if(questionsArray[id].id==="email") {
-                        return(
-                          <div key={id}>
-                            <TextField
-                            floatingLabelText={questionsArray[id].text}
-                            hintText={questionsArray[id].hint}
-                            errorText={this.state.errorText}
-                            onChange={ this.handleChange}/><br /></div>)
-                      }
+                  {this.state.questionsArray 
+                  ? (Object.keys(this.state.questionsArray).map((id) => {
+                    if(questionsArray[id].id==="email") {
                       return(
-                    <div key = {id}>
-                      <TextField
-                        floatingLabelText={questionsArray[id].text}
-                        hintText={questionsArray[id].hint}
-                        multiLine={true}
-                        onChange={ this.handleChange}/><br/>
-                    </div>)}))
-                      : (<h2>Loading..</h2>) }                
-                  <br/>
-                  </div>
+                        <div key={id}>
+                          <TextField
+                          floatingLabelText={questionsArray[id].text}
+                          hintText={questionsArray[id].hint}
+                          errorText={this.state.errorText}
+                          onChange={ this.handleChange}/><br /></div>)
+                    }
+                    return(
+                  <div key = {id}>
+                    <TextField
+                      floatingLabelText={questionsArray[id].text}
+                      hintText={questionsArray[id].hint}
+                      errorText={this.state.error[questionsArray[id].id]}
+                      onChange={ this.handleChange}/><br/>
+                  </div>)}))
+                    : (<h2>Loading..</h2>) }                
+                <br/>
                 </div>
+                <DropDownMenu value = {this.state.value} menuStyle = {{textAlign:'center'}}>
+                  <MenuItem value = {0} primaryText = "Select A Course" />
+                  {this.state.courses &&
+                    Object.keys(this.state.courses).map((key) => {
+                      return <MenuItem key = {key} value={key} primaryText = {this.state.courses[key]}/>;
+                    })
+                  }
+                </DropDownMenu>
               </Card><br/>
                        
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                 <div style={{margin: 'auto',textAlign: 'center'}}>
-                  <RaisedButton label="Apply"  style={style} backgroundColor='#ffc627' onClick={this.firebasewrite}
+                  <RaisedButton label="Apply"  style={style} backgroundColor={Primary} onClick={this.firebasewrite}
                   data-toggle="modal" data-target="#myModal" /> <br />
                 </div>
               </MuiThemeProvider>

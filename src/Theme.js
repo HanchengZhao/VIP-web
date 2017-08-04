@@ -8,6 +8,7 @@ const validDomain = "asu.edu";
 const Primary = '#ffc425';
 const Secondary = "#8c1d40";
 const DeleteColor = "#8c1d40";
+const NavColor = "#353535";
 
-export {DeleteColor, Secondary, university, validDomain};
+export {DeleteColor, Secondary, NavColor,university, validDomain};
 export default Primary;
