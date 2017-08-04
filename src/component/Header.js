@@ -10,18 +10,17 @@ import Login from './login/Login'
 import LoginAvatar from './login/LoginAvatar';
 import { observer } from "mobx-react";
 import userStore from '../stores/UserStore';
+import ResourceMenu from './resource/ResourceMenu';
 
 import Full_logo from '../assets/full_logo.png';
 import Small_logo from '../assets/small_logo.png';
 import Vip_logo from '../assets/Vip_logo.png';
 import '../style/Header.css';
 
-
 @observer
 class Header extends Component {
 
   render() {
-
     return (
       <div>
         <div className = "header">
@@ -47,8 +46,14 @@ class Header extends Component {
                     <Link to="/"><FlatButton label="Home" className="menuBarButton" fullWidth={true}/></Link>
                     <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton" fullWidth={true}/></Link>
                     <Link to="/projects"><FlatButton label="Projects" className="menuBarButton" fullWidth={true}/></Link>
-                    {/* <Link to="/faculty"><FlatButton label="Faculty" className="menuBarButton" fullWidth={true}/></Link> */}
-                    <Link to="/dashboard"><FlatButton label="Dashboard" className="menuBarButton" fullWidth = {true}/></Link>
+                      <a className="dropdown">
+                        <FlatButton data-toggle="dropdown" label="Faculty Resource" labelPosition="before" icon={<span className="caret"></span>} className="menuBarButton dropdown-toggle" fullWidth={true}/>
+                        <div className="dropdown-menu">
+                          <ResourceMenu />
+                        </div>
+                      </a>
+                    {userStore.authed &&
+                      <Link to="/dashboard"><FlatButton label="Dashboard" className="menuBarButton" fullWidth = {true}/></Link>
                     }
                     <LoginAvatar user={this.props.user}/>
                     <Login user={this.props.user} Width = {true}/>
@@ -58,13 +63,17 @@ class Header extends Component {
                     <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link>
                     <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
                     <Link to="/peer-review"><FlatButton label="Peer Review" className="menuBarButton"/></Link>
+                    <a className="dropdown">
+                      <FlatButton data-toggle="dropdown" label="Faculty Resource" labelPosition="before" icon={<span className="caret"></span>} className="menuBarButton dropdown-toggle"/>
+                      <div className="dropdown-menu">
+                        <ResourceMenu />
+                      </div>
+                    </a>
                     <Login user={this.props.user} />
                     <LoginAvatar user={this.props.user}/>
                     {userStore.authed &&
                     <Link to="/dashboard"><FlatButton label="Dashboard" className="menuBarButton" id = "dashboard" /></Link>                                       
                     }
-                    {/* <Link to="/faculty"><FlatButton label="Faculty" className="menuBarButton"/></Link> */}
-                     
                   </div>
                 </div>  
               </MuiThemeProvider>

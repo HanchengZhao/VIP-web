@@ -12,7 +12,7 @@ import { Redirect } from 'react-router-dom';
 //Firebase init
 import firebase from "../../firebase";
 import userStore from '../../stores/UserStore';
-import {DeleteColor, Primary} from '../../Theme';
+import Primary,{DeleteColor} from '../../Theme';
 
 const announcementPath = "Announcement/admin";
 

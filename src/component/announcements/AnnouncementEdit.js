@@ -13,14 +13,14 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { Redirect } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
-
+import Primary, { Secondary, DeleteColor } from '../../Theme';
 
 import firebase from '../../firebase';
 import userStore from '../../stores/UserStore';
 
 const styles = {
   underlineStyle: {
-    borderColor: "#ffc425",
+    borderColor: Primary,
   },
   floatingLabelStyle: {
     color: grey500,
@@ -28,10 +28,10 @@ const styles = {
   datePicker: {
     theme: getMuiTheme({
       datePicker: {
-        selectColor: "#ffc425"
+        selectColor: Primary
       },
       flatButton: {
-        primaryTextColor: "#ffc425"
+        primaryTextColor: Primary
       }
     }),
     position: "col-md-3"
