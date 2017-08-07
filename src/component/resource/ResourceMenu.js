@@ -79,7 +79,7 @@ class ResourceMenu extends Component {
     return (
       <div>
         { resourceMenu }
-        <FlatButton label="+ Add category" className="menuBarButton" fullWidth = {true} onClick = {this.sendPopup}/>
+        <FlatButton label="+ Add new page" className="menuBarButton" fullWidth = {true} onClick = {this.sendPopup}/>
         <MuiThemeProvider>
          <Dialog
             title="Please enter a name for new resource page"
