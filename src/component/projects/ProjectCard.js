@@ -39,7 +39,7 @@ class ProjectCard extends Component {
           <div className="col-md-4" style={{marginBottom:"10px"}}>
           <Card style={style.card}>
             <CardHeader
-              title={this.props.project.title}
+              title={this.props.project.teamName}
               subtitle={this.props.project.subtitle}
               actAsExpander={false}
               showExpandableButton={false}
@@ -49,7 +49,7 @@ class ProjectCard extends Component {
               <img src={this.props.project.logo} alt="" />
             </CardMedia>*/}
             <CardText expandable={false} style={style.cardText}>
-              {this.props.project.sections[0].content}
+              {this.props.project.nature}
             </CardText>
               <CardActions>
                 <Link to={`projects/${this.props.fbkey}`}><FlatButton label="Learn more" /></Link>                

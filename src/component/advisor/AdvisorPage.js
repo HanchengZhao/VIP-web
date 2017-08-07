@@ -33,7 +33,7 @@ class AdvisorPage extends Component {
       let allData = snap.val();
       Object.keys(snap.val()).forEach((i) => {
         let team = snap.val()[i];
-        if(this.state.team.includes(team.title)) {
+        if(this.state.team.includes(team.teamName)) {
           teamKeys.push(i);
         }
       })
