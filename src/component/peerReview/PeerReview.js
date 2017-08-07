@@ -17,7 +17,7 @@ class PeerReview extends Component {
     return (
       <div>
           <h2>PeerReview</h2>
-        <CheckBox />
+        {/* <CheckBox /> */}
         <Score />
       </div>    
     );
