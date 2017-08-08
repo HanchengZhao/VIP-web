@@ -12,7 +12,9 @@ import Primary, {Secondary} from '../../../Theme';
 
 const Props = {
   types:['Short Answer', 'Long Answer'],
-  question:"What's on your mind today?"
+  question:"What's on your mind today?",
+  EditMode:true,
+  PreviewMode:false
 }
 
 const style = {
@@ -29,18 +31,27 @@ const style = {
 }
 
 class Comment extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       value:0,
       question:Props.question,
-      types:Props.types
+      types:Props.types,
+      EditMode:Props.EditMode,
+      PreviewMode:Props.PreviewMode
     }
     this.handleChange = this.handleChange.bind(this);
+    this.handleTextChange = this.handleTextChange.bind(this);
   }
 
   handleChange(event, index, value) {
     this.setState({value:value});
+  }
+
+  handleTextChange(e) {
+    this.setState({
+      question:e.target.value
+    });
   }
 
   render() {
@@ -51,13 +62,17 @@ class Comment extends Component {
       <MuiThemeProvider>
         <div className="panel panel-default">
           <div className="panel-heading">
-            <TextField
-              defaultValue = {this.state.question}
+            {this.state.EditMode 
+            ?<TextField
+              value = {this.state.question}
+              onChange = {this.handleTextChange}
               floatingLabelStyle={style.floatingLabelStyle}
               underlineFocusStyle = {style.underlineStyle}
               floatingLabelText="Question"
               fullWidth={true}
             />
+            :<h3>{this.state.question}</h3>
+            }
           </div>
           <div className="panel-body">
             <div  style = {style.edit}>

@@ -17,7 +17,7 @@ class PeerReview extends Component {
   constructor () {
     super();
     this.state = {
-      questions:[<Comment />, <Score />]
+      questions:[<Comment />]
     }
   }
 
