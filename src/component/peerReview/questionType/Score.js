@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import Checkbox from 'material-ui/Checkbox';
+import Chip from 'material-ui/Chip';
 import Divider from 'material-ui/Divider';
 import MenuItem from 'material-ui/MenuItem';
 import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
@@ -18,7 +19,8 @@ const styles = {
   },
   radioButton:{
     display:"inline-block", 
-    width: '100px'
+    width: '70px',
+    marginLeft: '35px'
   },
   underlineStyle: {
     borderColor: Primary,
@@ -64,6 +66,8 @@ class Score extends Component {
     };
     this.handleFromChange = this.handleFromChange.bind(this);
     this.handleToChange = this.handleToChange.bind(this);
+    this.handleLowLabel = this.handleLowLabel.bind(this);
+    this.handleHighLabel = this.handleHighLabel.bind(this);
   }
 
   handleFromChange(e, index, from){
@@ -71,6 +75,19 @@ class Score extends Component {
       from
     })
   }
+
+  handleHighLabel(e){
+    this.setState({
+      high: e.target.value
+    })
+  }
+
+  handleLowLabel(e){
+    this.setState({
+      low: e.target.value
+    })
+  }
+
   handleToChange(e, index, to){
     this.setState({
       to
@@ -106,52 +123,60 @@ class Score extends Component {
               fullWidth={true}
               defaultValue={this.state.question}
             />}
+
+            {!this.state.editMode &&
+              <h3>{this.state.question}</h3>
+            }
+
           </div>
           <div className="panel-body">
-            <div style={{display:"inline-block"}}>
-              <SelectField
-                floatingLabelText="From"
-                value={this.state.from}
-                onChange={this.handleFromChange}
-                style={styles.dropDown}
-              >
-                <MenuItem value={0} primaryText="0" />
-                <MenuItem value={1} primaryText="1" />
-              </SelectField>
-              <SelectField
-                floatingLabelText="To"
-                value={this.state.to}
-                onChange={this.handleToChange}
-                style={styles.dropDown}
-              >
-                {toMenu}
-              </SelectField>
-            </div>
-            <div>
-            <b>{this.state.from}</b>&nbsp;:&nbsp; 
-              <TextField
-                hintText="Label(optional)"
-                underlineFocusStyle={styles.underlineStyle}
-                floatingLabelStyle={styles.floatingLabelStyle}
-              />
-            <b>{this.state.to}</b>&nbsp;: &nbsp;
-              <TextField
-                hintText="Label(optional)"
-                underlineFocusStyle={styles.underlineStyle}
-                floatingLabelStyle={styles.floatingLabelStyle}
-              />
-            </div>
-            <Divider style={{margin:"20px",marginTop:"20px"}}/>
-            <div style={{display:"inline"}}>
-              {this.state.low}&nbsp;
-            </div>
-            <div style={{display:"inline"}}>
-              <RadioButtonGroup name="scores" defaultSelected="not_light">
+            { this.state.editMode &&
+              <div>
+                <div style={{display:"inline-block"}}>
+                  <SelectField
+                    floatingLabelText="From"
+                    value={this.state.from}
+                    onChange={this.handleFromChange}
+                    style={styles.dropDown}
+                  >
+                    <MenuItem value={0} primaryText="0" />
+                    <MenuItem value={1} primaryText="1" />
+                  </SelectField>
+                  <SelectField
+                    floatingLabelText="To"
+                    value={this.state.to}
+                    onChange={this.handleToChange}
+                    style={styles.dropDown}
+                  >
+                    {toMenu}
+                  </SelectField>
+                </div>
+                <div>
+                  <b>{this.state.from}</b>&nbsp;:&nbsp; 
+                    <TextField
+                      hintText="Label(optional)"
+                      underlineFocusStyle={styles.underlineStyle}
+                      floatingLabelStyle={styles.floatingLabelStyle}
+                      onChange={this.handleLowLabel}
+                    />
+                  <b>{this.state.to}</b>&nbsp;: &nbsp;
+                    <TextField
+                      hintText="Label(optional)"
+                      underlineFocusStyle={styles.underlineStyle}
+                      floatingLabelStyle={styles.floatingLabelStyle}
+                      onChange={this.handleHighLabel}
+                    />
+                </div>
+                <Divider style={{margin:"20px",marginTop:"20px"}}/>
+              </div>
+            }
+            
+            <div className="row" style={{display:"inline-block", marginLeft: "15px"}}>
+              <span style={{float:"left"}}> <b>{this.state.low}&nbsp;</b></span>
+              <RadioButtonGroup name="scores" defaultSelected="not_light" style={{float:"left"}}>
                 {RadioButtons}
               </RadioButtonGroup>
-            </div>
-            <div style={{display:"inline"}}>
-              &nbsp;{this.state.high}
+              <span style={{float:"left"}}><b>&nbsp;{this.state.high}</b></span>
             </div>
             
           </div>
