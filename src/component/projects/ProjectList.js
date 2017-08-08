@@ -46,6 +46,7 @@ class ProjectList extends Component {
             : (<h2>Loading...</h2>)
           }
         </div>
+        {userStore.authed === true &&
         <div className="row">
           <Link to={"projects/application"}>
             <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
@@ -53,7 +54,7 @@ class ProjectList extends Component {
             </MuiThemeProvider>
           </Link>
         </div>
-        
+        }
       </div>
       
     )

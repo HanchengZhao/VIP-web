@@ -12,26 +12,13 @@ import MuiTable from '../MuiTable';
 import PropTypes from 'prop-types';
 
 
-const notIncluded = ['sections', 'title', 'logo'];
+const notIncluded = ['sections', 'title', 'logo', 'project Link'];
 
 class EditProjectCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
       project: this.props.project,
-      teamName: this.props.project.title,
-      subtitle: this.props.project.subtitle,
-      topics: this.props.project.topics,
-      advisor: this.props.project.advisor,
-      description: this.props.project.description,
-      major: this.props.project.major,
-      requirements: this.props.project.requirements,
-      members: this.props.project.members,
-      name: this.props.project.name,
-      email: this.props.project.email,
-      status: this.props.project.status,
-      teamLogo: this.props.project.logo,
-      sections:this.props.project.sections,
       fbKey : this.props.fbKey,
       error:{},
       open:false,
@@ -48,9 +35,10 @@ class EditProjectCard extends Component {
   }
 
   componentDidMount() {
+
     let projectKeys = Object.keys(this.props.project);
     let error = {};
-    let fbRef = firebase.database().ref(`Student/${this.state.teamName.split(' ').join('')}`);
+    let fbRef = firebase.database().ref(`Student/${this.state.project.teamName.split(' ').join('')}`);
     fbRef.on('value', (snap) => {
       this.setState({
         Students:snap.val()
@@ -59,7 +47,8 @@ class EditProjectCard extends Component {
     projectKeys.forEach((i) => {
       error[i] = ''
     });
-    this.setState({error:error});
+    this.setState({error:error,
+    notIncluded});
   }
 
   handleChange(e) {
@@ -67,7 +56,6 @@ class EditProjectCard extends Component {
     let project = this.state.project;
     project[id] = e.target.value;
     this.setState({
-      [id]:e.target.value,
       project:project
     });
   }
@@ -106,26 +94,9 @@ class EditProjectCard extends Component {
   }
 
   fbWrite() {
-    let empty = checkEmpty(this.state.error, this.state.project, this.state.email, notIncluded);
+    let empty = checkEmpty(this.state.error, this.state.project, this.state.project.contactEmail, notIncluded);
     if(empty[0]) {
-      firebase.database().ref(`Teams/${this.state.fbKey}`).set({
-        description:this.state.description,
-        title:this.state.teamName,
-        subtitle:this.state.subtitle,
-        topics:this.state.topics,
-        members:this.state.members,
-        name:this.state.name,
-        email:this.state.email,
-        status:this.state.status,
-        logo:this.state.teamLogo,
-        major:this.state.major,
-        requirements:this.state.requirements,
-        advisor:this.state.advisor,
-        sections: [
-                    {'content':this.state.major,'title': 'Major'},
-                    {'content':this.state.requirements,'title': 'Requirements'},
-                    {'content':this.state.advisor,'title': 'Advisor'}],
-      });
+      firebase.database().ref(`Teams/${this.state.fbKey}`).set(this.state.project);
     this.dialogOpen();
     }
     this.setState({
@@ -137,7 +108,7 @@ class EditProjectCard extends Component {
   render() {
     let keys = Object.keys(this.props.project);
     let items = keys.map((key) => {
-      if (notIncluded.includes(key)){
+      if (notIncluded.includes(key) && key!="project Link"){
         return null;
       }
       if(key==='email') {
@@ -164,7 +135,7 @@ class EditProjectCard extends Component {
         <MuiThemeProvider>
           <div>
             <Card expandable = {true} expanded={this.state.open}>
-              <CardTitle title = {this.props.project.title} subtitle = {this.props.project.subtitle} />
+              <CardTitle title = {this.props.project.teamName} subtitle = {this.props.project.subtitle} />
               <CardText expandable = {true}>
                 <div>
                   {items}

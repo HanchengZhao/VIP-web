@@ -30,36 +30,40 @@ class ProjectApplication extends Component{
   constructor() {
       super();
       this.state = {
-        gpa:'',
-        teamName: '',
-        subtitle: '',
-        topics: '',
-        advisors: '',
-        description: '',
-        major: '',
-        requirements: '',
-        members: '',
-        name: '',
-        email: '',
-        status: '',
-        teamLogo: '',
-        test:'',
+        applied:false,
+        notIncluded:['data','error'],
+        empty:{},
+        data:{},
         error:{}
       };
     }
 
     componentDidMount() {
-        
-        firebase.database().ref(`FormQuestions/${db}`).once('value').then( (snap) => {
+      firebase.database().ref(`FormQuestions/${db}`).once('value').then( (snap) => {
+        let data = {};
+        let empty = {};
+        let notIncluded = this.state.notIncluded;
+        Object.keys(snap.val()).forEach((i)=>{
+          data[snap.val()[i].id] = '';
+          empty[snap.val()[i].id] = '';
+          if(!snap.val()[i].required) {
+            notIncluded.push(snap.val()[i].id);
+          }
+        });
         this.setState({
-        questionsArray: snap.val(),
-  	});
-	});
-} 
+          data:data,
+          empty:empty,
+          notIncluded:notIncluded,
+          questionsArray: snap.val(),
+        });
+      });
+    } 
 
     getdata =(childdata) =>{
+      let data = this.state.data;
+      data['logo'] = childdata;
       this.setState({
-        teamLogo: childdata,
+        data:data
       });
     }
 
@@ -68,7 +72,7 @@ class ProjectApplication extends Component{
     var res = str.split("-");
     var key = res[2].charAt(0).toLowerCase() + res[2].slice(1);
     var val = event.target.value;
-    var obj  = {};
+    var obj  = this.state.data;
     obj[key] = val;
     if(key==="topics"){
      var str = event.target.value;
@@ -85,61 +89,20 @@ class ProjectApplication extends Component{
 
 
   firebasewrite = () => {
-    let empty = checkEmpty(this.state.error, this.state, this.state.email, []);
+    let empty = checkEmpty(this.state.error, this.state.data, this.state.data.contactEmail, this.state.notIncluded);
     if(empty[0]){
       if(`${db}`==='Team Application'){
           const rootRef = firebase.database().ref().child(TeamFormPath);
-          rootRef.push({
-          title : this.state.teamName,
-          subtitle : this.state.subtitle,
-          topics : this.state.topics,
-          description : this.state.description,
-          members : this.state.members,
-          name : this.state.name,
-          email : this.state.email,
-          status : this.state.status,
-          logo: this.state.teamLogo,
-          gpa: this.state.gpa,
-          major:this.state.major,
-          Requirements:this.state.requirements,
-          advisor: this.state.advisors,
-          sections: [
-                    {'content':this.state.major,'title': 'Major'},
-                    {'content':this.state.requirements,'title': 'Requirements'},
-                    {'content':this.state.advisors,'title': 'Advisor'}],
-      });
-      } else if(`${db}`==='General Information'){
-          const rootRef = firebase.database().ref().child('GeneralInformation');
-          rootRef.push({
-          name : this.state.name,
-          email : this.state.email,
-      });
-      } else if(`${db}`==='Academic Information'){
-          const rootRef = firebase.database().ref().child('AcademicInformation');
-          rootRef.push({
-          major: this.state.major,
-          gpa: this.state.gpa,
-      });
+          rootRef.push(this.state.data);
       }
-    
-    
-    this.setState({
-          teamName: '',
-          subtitle: '',
-          topics: '',
-          advisors: '',
-          description: '',
-          major:'',
-          requirements:'',
-          members:'',
-          name:'',
-          email:'',
-          status:'',
-          teamLogo: '',
-          gpa: '',
-
-    });
+      this.setState((prevState) => {
+        return {
+          data:prevState.empty,
+          applied:true
+        };
+      });
     }
+    console.log(this.state.empty);
     this.setState({
       error:empty[1],
       errorText:empty[2]
@@ -165,14 +128,17 @@ class ProjectApplication extends Component{
                         <div key={id}>
                           <TextField
                           floatingLabelText={questionsArray[id].text}
+                          value = {this.state.data[questionsArray[id].id]}
                           hintText={questionsArray[id].hint}
                           errorText={this.state.errorText}
                           onChange={ this.handleChange}/><br /></div>)
                     }
+
                     return(
                   <div key={id}>
                   <TextField
                     floatingLabelText={questionsArray[id].text}
+                    value = {this.state.data[questionsArray[id].id]}
                     hintText={questionsArray[id].hint}
                     errorText={this.state.error[questionsArray[id].id]}
                     multiLine={true}
@@ -186,7 +152,7 @@ class ProjectApplication extends Component{
                 <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                   <div>
                     <RaisedButton label="Apply"  style={style} backgroundColor={Primary} onClick={this.firebasewrite}
-                    data-toggle="modal" data-target="#myModal" /> <br />
+                    data-toggle="modal" data-target="#myModal"/> <br />
                   </div>
                 </MuiThemeProvider>
               </div>

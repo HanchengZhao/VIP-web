@@ -20,6 +20,7 @@ class ProjectPage extends Component {
     super(props);
     this.state = {
       title: '',
+      data:'',
       image:'',
       subtitle: '',
       topics: [],
@@ -34,30 +35,14 @@ class ProjectPage extends Component {
   componentDidMount() {
     
     firebase.database().ref(`Teams/${this.state.fbkey}`).once('value').then( (snap) => {
-      let topics = [];
-      let sections = [];
-      for(let i in snap.val().topics) {
-        topics.push(snap.val().topics[i]);
-      }
-
-      for(let i in snap.val().sections) {
-        sections.push(snap.val().sections[i]);
-      }
-
       this.setState({
-        title: snap.val().title,
-        subtitle: snap.val().subtitle,
-        topics: topics,
-        sections: sections,
-        image: snap.val().logo,
-        contactEmail:snap.val().contactEmail
+        data:snap.val()
       });
     });
   }
 
   handleSunset() {
     firebase.database().ref(`Teams/`).child(this.state.fbkey).once('value').then((snap) => {
-      console.log(snap.val());
       firebase.database().ref('Project_Sunset').push(snap.val());
     });
     this.setState({open:true});
@@ -65,15 +50,17 @@ class ProjectPage extends Component {
   }
 
   render() {
-    let topics = this.state.topics.map((topics,index) =>
-      <li key={index}>{topics}</li>
-    )
-    let sections = this.state.sections.map((sections,index) =>
-      <div key={index}>
-        <h4>{sections.title}</h4>
-        {sections.content}
-      </div>
-    )
+    let data = Object.keys(this.state.data).map((key) => {
+      if(this.state.data[key]===''){
+        return;
+      }
+      return(
+        <div>
+          <h3>{key}</h3>
+          <p>{this.state.data[key]}</p>
+        </div>
+      );
+    })
 
      const actions = [
       <Link to = '/projects'>
@@ -86,14 +73,14 @@ class ProjectPage extends Component {
       <div className = "row">
         <MuiThemeProvider>
           <div>
-            <h1 className = "title">{this.state.title}</h1>
-            <h3 className = "title">{this.state.subtitle}</h3>
+          {this.state.data &&
+          <div>
+            <h1 className = "title">{this.state.data.title || this.state.data.teamName}</h1>
+            <h3 className = "title">{this.state.data.subtitle}</h3>
             {this.state.image &&
             <img src = {this.state.image} style = {{float:'right'}}/>
             }
-            <h3>Research Areas</h3>
-            <div>{topics}</div>
-            <div>{sections}</div>
+            {data}
             <h4>Contact email : <span>{this.state.contactEmail}</span></h4>
             {(userStore.authed === true) &&
               <div className="row">
@@ -116,6 +103,8 @@ class ProjectPage extends Component {
                 modal={true}
                 open={this.state.open}>
               </Dialog>
+          </div>
+          }
           </div>
         </MuiThemeProvider>
       </div>

@@ -6,6 +6,8 @@ import FlatButton from 'material-ui/FlatButton';
 import MuiButton from '../../MuiButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
+
+import {DeleteColor} from '../../../Theme';
 import firebase from "../../../firebase";
 
 const style = {
@@ -14,18 +16,12 @@ const style = {
 
 const TeamApprovalPath = "Teams";
 const TeamRejectPath = "RejectedTeams";
-const secondary_color = "#8c1d40";
 
 class ProjectApprovalCard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      title:this.props.Application.title,
-      subtitle:this.props.Application.subtitle,
-      image: this.props.Application.logo,
-      sections:this.props.Application.sections,
-      topics: this.props.Application.topics,
-      desc: this.props.Application.desc,
+      application:this.props.Application,
       fbkey:this.props.fbkey,
       open: false,
       comments: '',
@@ -46,30 +42,22 @@ class ProjectApprovalCard extends Component {
   handleAccept = () => {
     let fbRef = firebase.database().ref().child(TeamApprovalPath);
     fbRef.push(this.props.Application);
-    this.addAdvisors(this.props.Application);
+    this.addAdvisors(this.state.application);
     this.removeApplication();
   }
 
   addAdvisors(application) {
+    console.log(application);
     let advisorRef = firebase.database().ref('Advisor');
     let userRef = firebase.database().ref('Users');
     advisorRef.push({
       email:application.contactEmail,
-      name:application.contactPerson,
-      team:application.title
-    });
-    advisorRef.push({
-      email:application.email,
-      name:application.advisor,
-      team:application.title
+      name:application.contactName,
+      team:application.teamName
     });
     userRef.push({
       email:application.contactEmail,
       role:"advisor",
-    });
-    userRef.push({
-      email:application.email,
-      role:"advisor"
     });
   }
 
@@ -103,38 +91,35 @@ class ProjectApprovalCard extends Component {
 
   render = () => {
     const actions = [
-      <FlatButton label="No" color={secondary_color} onClick = {this.handleClose}/>,
+      <FlatButton label="No"  onClick = {this.handleClose}/>,
       <FlatButton label="Yes" onClick = {this.handleReject}/>
     ];
-
-    let sections = Object.keys(this.state.sections).map((uuid) =>
-      <div key = {uuid}>
-        <h3>{this.state.sections[uuid].title}</h3>
-        {this.state.sections[uuid].content}
-      </div>
-    );
+   let data = Object.keys(this.state.application).map((key) => {
+      return(
+        <div>
+          <h3>{key}</h3>
+          <p>{this.state.application[key]}</p>
+        </div>
+      );
+    })
 
     return(
       <div>
         <MuiThemeProvider>
           <div>
             <Card>
-             <CardTitle title = {this.state.title} subtitle={this.state.subtitle} actAsExpander={true} showExpandableButton={true}/>
+             <CardTitle title = {this.state.application.teamName} subtitle={this.state.application.subtitle} actAsExpander={true} showExpandableButton={true}/>
               <CardText>
                {this.state.desc}
               </CardText>
              <CardMedia expandable={true}>
-                <img src={this.state.image} alt="Image Logo for team" />
+                <img src={this.state.application.logo} alt="Image Logo for team" />
               </CardMedia>
               <CardText expandable = {true}>
-                <h3>Research Areas</h3>
-                <ul>
-                  {this.state.topics}
-                </ul>
-                {sections}
+                {data}
               </CardText>
               <CardActions style = {style.actions}>
-                <MuiButton label = "Deny" color = {secondary_color} onClick = {this.sendPopup}/>
+                <MuiButton label = "Deny" color = {DeleteColor} onClick = {this.sendPopup}/>
                 <MuiButton label = "Approve" onClick = {this.handleAccept}/>
               </CardActions>
             </Card>
