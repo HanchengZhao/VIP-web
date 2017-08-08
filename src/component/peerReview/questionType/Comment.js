@@ -11,7 +11,8 @@ import {grey500} from 'material-ui/styles/colors';
 import Primary, {Secondary} from '../../../Theme';
 
 const Props = {
-  types:['Short Answer', 'Long Answer']
+  types:['Short Answer', 'Long Answer'],
+  question:"What's on your mind today?"
 }
 
 const style = {
@@ -32,6 +33,7 @@ class Comment extends Component {
     super();
     this.state = {
       value:0,
+      question:Props.question,
       types:Props.types
     }
     this.handleChange = this.handleChange.bind(this);
@@ -50,6 +52,7 @@ class Comment extends Component {
         <div className="panel panel-default">
           <div className="panel-heading">
             <TextField
+              defaultValue = {this.state.question}
               floatingLabelStyle={style.floatingLabelStyle}
               underlineFocusStyle = {style.underlineStyle}
               floatingLabelText="Question"
