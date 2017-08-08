@@ -141,12 +141,19 @@ class Score extends Component {
                 floatingLabelStyle={styles.floatingLabelStyle}
               />
             </div>
-            <Divider style={{margin:"20px"}}/>
-            {this.state.low}&nbsp;
-            <RadioButtonGroup name="scores" defaultSelected="not_light">
-              {RadioButtons}
-            </RadioButtonGroup>
-            &nbsp;{this.state.high}
+            <Divider style={{margin:"20px",marginTop:"20px"}}/>
+            <div style={{display:"inline"}}>
+              {this.state.low}&nbsp;
+            </div>
+            <div style={{display:"inline"}}>
+              <RadioButtonGroup name="scores" defaultSelected="not_light">
+                {RadioButtons}
+              </RadioButtonGroup>
+            </div>
+            <div style={{display:"inline"}}>
+              &nbsp;{this.state.high}
+            </div>
+            
           </div>
         </div>
       </MuiThemeProvider>
