@@ -7,14 +7,14 @@ import RaisedButton from 'material-ui/RaisedButton';
 import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {grey500} from 'material-ui/styles/colors';
-import {Primary, Secondary} from '../../../Theme'
+import Primary, {Secondary} from '../../../Theme';
 
 const styles = {
   radioButtons:{
     display: 'flex'
   },
   underlineStyle: {
-    borderColor: "#ffc425",
+    borderColor: Primary,
   },
   floatingLabelStyle: {
     color: grey500,
