@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
+import IconButton from 'material-ui/IconButton';
+import RemoveIcon from 'material-ui/svg-icons/action/highlight-off';
+
 import CheckBox from "./questionType/CheckBox";
 import Comment from './questionType/Comment';
 import MultipleChoice from './questionType/MultipleChoice';
@@ -22,7 +25,7 @@ class PeerReview extends Component {
     super();
     this.state = {
       questionTypes:questionTypes,
-      questionComponents:[<Score />, <Comment/>, <MultipleChoice/>, ],
+      questionComponents:[<Score/>, <Comment/>, <MultipleChoice/>, ],
       questions:[<Comment/>, <MultipleChoice/>, <Score />],
       value:0
     }
@@ -33,12 +36,18 @@ class PeerReview extends Component {
   addQuestion() {
     let questions = this.state.questions;
     let question = this.state.questionComponents[this.state.value];
-    console.log(question);
     questions.push(question);
     this.setState({
       questions:questions
     });
-    console.log(this.state.questions);   
+  }
+
+  handleRemove(index) {
+    let questions = this.state.questions;
+    questions.splice(index,1);
+    this.setState({
+      questions:questions
+    });
   }
 
   handleChange(e, index, value) {
@@ -48,8 +57,16 @@ class PeerReview extends Component {
   }
 
   render() {
-    let questions = this.state.questions.map((key) => {
-      return key;
+    let questions = this.state.questions.map((key, index) => {
+      return (
+      <div key = {index}>
+        <MuiThemeProvider>
+          <IconButton onClick = {() => this.handleRemove(index)} style = {{float:'right'}}>
+            <RemoveIcon />
+          </IconButton>
+        </MuiThemeProvider>
+        {key}
+      </div>);
     });
     let questionTypes = this.state.questionTypes.map((value, index) =>{
       return <MenuItem primaryText = {value} value = {index} key = {index} />
