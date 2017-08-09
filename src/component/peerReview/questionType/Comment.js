@@ -14,7 +14,8 @@ const Props = {
   types:['Short Answer', 'Long Answer'],
   question:"What's on your mind today?",
   EditMode:true,
-  PreviewMode:false
+  PreviewMode:false,
+  required: true
 }
 
 const style = {
@@ -38,14 +39,22 @@ class Comment extends Component {
       question:Props.question,
       types:Props.types,
       EditMode:Props.EditMode,
-      PreviewMode:Props.PreviewMode
+      PreviewMode:Props.PreviewMode,
+      required:Props.required
     }
     this.handleChange = this.handleChange.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
   }
 
   handleChange(event, index, value) {
     this.setState({value:value});
+  }
+
+  handleCheck(e, checked){
+    this.setState({
+      required: checked
+    })
   }
 
   handleTextChange(e) {
@@ -56,7 +65,7 @@ class Comment extends Component {
 
   render() {
     let items = this.state.types.map((value, index)=> (
-      <MenuItem value = {index} primaryText = {value} />
+      <MenuItem key={value} value = {index} primaryText = {value} />
     ));
     return(
       <MuiThemeProvider>
@@ -75,12 +84,16 @@ class Comment extends Component {
             }
           </div>
           <div className="panel-body">
-            <div  style = {style.edit}>
-              <SelectField value = {this.state.value} onChange = {this.handleChange} style = {{float:'left'}}>
-                {items}
-              </SelectField>
-              <Checkbox label = "Check If Required" labelPosition="left" style = {{ paddingTop:'15px',width:'40%', float:'right'}} /> 
-            </div>
+            {
+              this.state.EditMode &&
+              <div style = {style.edit}>
+                <SelectField value = {this.state.value} onChange = {this.handleChange} style = {{float:'left', width:"170px"}}>
+                  {items}
+                </SelectField>
+                <Checkbox checked={this.state.required} label = "Check If Required" labelPosition="left" onCheck={this.handleCheck} style = {{ paddingTop:'15px', width:'180px', float:'right'}} /> 
+              </div>
+            }
+            
             {this.state.value === 0
             ?<TextField 
               floatingLabelStyle={style.floatingLabelStyle}

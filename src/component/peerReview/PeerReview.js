@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import CheckBox from "./questionType/CheckBox";
 import Comment from './questionType/Comment';
 import MultipleChoice from './questionType/MultipleChoice';
+import Number from './questionType/Number';
 import Score from "./questionType/Score";
 
 import MuiButton from '../MuiButton';
@@ -18,7 +19,7 @@ class PeerReview extends Component {
   constructor () {
     super();
     this.state = {
-      questions:[<Comment />, <MultipleChoice/>]
+      questions:[<Comment />, <MultipleChoice/>, <Score />, <Number />]
     }
   }
 
@@ -32,7 +33,7 @@ class PeerReview extends Component {
         {questions}
         <MuiButton label = "Done"/>
         {/* <CheckBox /> */}
-        <Score />
+        
       </div>    
     );
   }

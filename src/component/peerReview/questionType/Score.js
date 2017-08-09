@@ -109,24 +109,22 @@ class Score extends Component {
     let toMenu = [2,3,4,5,6,7,8,9].map((num) => 
       <MenuItem key={num} value={num} primaryText={num} />
     )
-    console.log(toMenu)
     return (
       <MuiThemeProvider>
         <div className="panel panel-default">
           <div className="panel-heading">
             
-            {this.state.editMode &&
-              <TextField
-              floatingLabelText="Question"
-              underlineFocusStyle={styles.underlineStyle}
-              floatingLabelStyle={styles.floatingLabelStyle}
-              fullWidth={true}
-              defaultValue={this.state.question}
-            />}
-
-            {!this.state.editMode &&
-              <h3>{this.state.question}</h3>
+            {this.state.editMode 
+            ? <TextField
+                floatingLabelText="Question"
+                underlineFocusStyle={styles.underlineStyle}
+                floatingLabelStyle={styles.floatingLabelStyle}
+                fullWidth={true}
+                defaultValue={this.state.question}
+              />
+            : <h3>{this.state.question}</h3>
             }
+
 
           </div>
           <div className="panel-body">
