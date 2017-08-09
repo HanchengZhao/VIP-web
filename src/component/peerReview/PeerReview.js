@@ -18,7 +18,7 @@ class PeerReview extends Component {
   constructor () {
     super();
     this.state = {
-      questions:[<Comment />, <MultipleChoice/>]
+      questions:[<Comment />, <MultipleChoice/>,<Score />]
     }
   }
 
@@ -30,9 +30,8 @@ class PeerReview extends Component {
       <div>
         <h2>PeerReview</h2>
         {questions}
-        <MuiButton label = "Done"/>
         {/* <CheckBox /> */}
-        <Score />
+        <MuiButton label = "Done"/>
       </div>    
     );
   }
