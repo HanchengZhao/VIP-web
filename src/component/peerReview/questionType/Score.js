@@ -11,7 +11,7 @@ import SelectField from 'material-ui/SelectField';
 import TextField from 'material-ui/TextField';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {grey500} from 'material-ui/styles/colors';
-import Primary,{Secondary} from '../../../Theme'
+import Primary, {Secondary} from '../../../Theme';
 
 const styles = {
   dropDown:{
