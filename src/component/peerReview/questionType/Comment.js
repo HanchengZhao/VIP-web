@@ -65,7 +65,11 @@ class Comment extends Component {
 
   render() {
     let items = this.state.types.map((value, index)=> (
+<<<<<<< HEAD
       <MenuItem key={value} value = {index} primaryText = {value} />
+=======
+      <MenuItem value = {index} primaryText = {value} key = {index} />
+>>>>>>> sam
     ));
     return(
       <MuiThemeProvider>
@@ -84,6 +88,7 @@ class Comment extends Component {
             }
           </div>
           <div className="panel-body">
+<<<<<<< HEAD
             {
               this.state.EditMode &&
               <div style = {style.edit}>
@@ -94,6 +99,16 @@ class Comment extends Component {
               </div>
             }
             
+=======
+            {this.state.EditMode &&
+            <div  style = {style.edit}>
+              <SelectField value = {this.state.value} onChange = {this.handleChange} style = {{float:'left'}}>
+                {items}
+              </SelectField>
+              <Checkbox label = "Check If Required" labelPosition="left" style = {{ paddingTop:'15px',width:'40%', float:'right'}} /> 
+            </div>
+            }
+>>>>>>> sam
             {this.state.value === 0
             ?<TextField 
               floatingLabelStyle={style.floatingLabelStyle}
