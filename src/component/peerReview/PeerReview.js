@@ -28,14 +28,11 @@ class PeerReview extends Component {
     });
     return (
       <div>
-          <h2>PeerReview</h2>
-          {questions}
-        {/* <MuiThemeProvider>
-          <FloatingActionButton mini = {true} secondary={true} style = {{float:'right'}}>
-            <ContentAdd />
-          </FloatingActionButton>
-        </MuiThemeProvider> */}
+        <h2>PeerReview</h2>
+        {questions}
         <MuiButton label = "Done"/>
+        {/* <CheckBox /> */}
+        <Score />
       </div>    
     );
   }
