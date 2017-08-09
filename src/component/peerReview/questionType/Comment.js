@@ -94,6 +94,7 @@ class Comment extends Component {
               floatingLabelStyle={style.floatingLabelStyle}
               underlineFocusStyle = {style.underlineStyle}
               rows = {4}
+              rowsMax = {4}
               fullWidth = {true}
               floatingLabelText = "Answer"
               multiLine={true}

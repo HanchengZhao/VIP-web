@@ -3,6 +3,7 @@ import { Redirect } from 'react-router-dom';
 
 import CheckBox from "./questionType/CheckBox";
 import Comment from './questionType/Comment';
+import MultipleChoice from './questionType/MultipleChoice';
 import Score from "./questionType/Score";
 
 import MuiButton from '../MuiButton';
@@ -17,7 +18,7 @@ class PeerReview extends Component {
   constructor () {
     super();
     this.state = {
-      questions:[<Comment />]
+      questions:[<Comment />, <MultipleChoice/>]
     }
   }
 
@@ -30,7 +31,7 @@ class PeerReview extends Component {
           <h2>PeerReview</h2>
           {questions}
         {/* <MuiThemeProvider>
-          <FloatingActionButton mini = {true} secondary={true} iconStyle={{Color: '#FF0000'}} style = {{float:'right'}}>
+          <FloatingActionButton mini = {true} secondary={true} style = {{float:'right'}}>
             <ContentAdd />
           </FloatingActionButton>
         </MuiThemeProvider> */}
