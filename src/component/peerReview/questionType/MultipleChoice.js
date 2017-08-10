@@ -9,6 +9,9 @@ import Primary, {Secondary} from '../../../Theme';
 
 import FlatButton from 'material-ui/FlatButton';
 
+import { observer } from "mobx-react";
+import PeerReviewStore from '../../../stores/PeerReviewStore';
+
 const style = {
   underlineStyle: {
     borderColor: Primary,
@@ -31,14 +34,13 @@ const Props = {
   EditMode:true,
 }
 
-
+@observer
 class MultipleChoice extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       question:Props.question,
       answers : Props.answers,
-      EditMode: Props.EditMode,
       newAnswer:''
     }
     this.handleRemove = this.handleRemove.bind(this);
@@ -84,7 +86,7 @@ class MultipleChoice extends Component {
       <MuiThemeProvider>
         <div className="panel panel-default">
           <div className="panel-heading">
-            {this.state.EditMode
+            {PeerReviewStore.EditMode
             ?<TextField
               value = {this.state.question}
               id = 'question'
@@ -98,7 +100,7 @@ class MultipleChoice extends Component {
             }
           </div>
           <div className="panel-body">
-            {this.state.EditMode &&
+            {PeerReviewStore.EditMode &&
             <div>
               <div className = "edit">
                 <TextField id = 'newAnswer' floatingLabelText="Add Answer" value = {this.state.newAnswer} onChange = {this.handleChange} underlineFocusStyle={style.underlineStyle} floatingLabelStyle={style.floatingLabelStyle}/>

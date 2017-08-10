@@ -10,6 +10,8 @@ import MultipleChoice from './questionType/MultipleChoice';
 import Number from './questionType/Number';
 import Score from "./questionType/Score";
 
+import { observer } from "mobx-react";
+import PeerReviewStore from '../../stores/PeerReviewStore';
 import MuiButton from '../MuiButton';
 
 import SelectField from 'material-ui/SelectField';
@@ -19,19 +21,21 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-const questionTypes = ["Score", "Comment", "Multiple Choice", "Number"]
+const questionTypes = ["Score", "Comment", "Multiple Choice", "Number"];
 
+@observer
 class PeerReview extends Component {
   constructor () {
     super();
     this.state = {
-      questions:[<Comment />, <MultipleChoice/>, <Score />, <Number />],
+      questions:[<Comment EditMode = {PeerReviewStore.EditMode}/>, <MultipleChoice/>, <Score/>, <Number/>],
       questionTypes:questionTypes,
       questionComponents:[<Score/>, <Comment/>, <MultipleChoice/>, <Number /> ],
       value:0
     }
     this.handleChange = this.handleChange.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
+    this.changeEditMode = this.changeEditMode.bind(this);
   }
 
   addQuestion() {
@@ -41,6 +45,10 @@ class PeerReview extends Component {
     this.setState({
       questions:questions
     });
+  }
+
+  changeEditMode() {
+    PeerReviewStore.EditMode = !(PeerReviewStore.EditMode);
   }
 
   handleRemove(index) {
@@ -81,6 +89,10 @@ class PeerReview extends Component {
               {questionTypes}
             </SelectField>
             <FlatButton label = "+ Add" onClick = {this.addQuestion} style = {{verticalAlign:"top"}}/>
+            {PeerReviewStore.EditMode
+              ?<FlatButton label = "Preview Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"top", float:'right'}}/>
+              :<FlatButton label = "Edit Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"top", float:'right'}}/>
+            }
           </div>
         </MuiThemeProvider>
         {questions}

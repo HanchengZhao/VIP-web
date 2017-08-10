@@ -10,6 +10,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {grey500} from 'material-ui/styles/colors';
 import Primary, {Secondary} from '../../../Theme';
 
+import { observer } from "mobx-react";
+import PeerReviewStore from '../../../stores/PeerReviewStore';
+
 const Props = {
   types:['Short Answer', 'Long Answer'],
   question:"What's on your mind today?",
@@ -26,11 +29,11 @@ const style = {
     color: grey500,
   },
   edit : {
-    width:'50%'
+    width:'50%',
   },
-
 }
 
+@observer
 class Comment extends Component {
   constructor(props) {
     super(props);
@@ -38,13 +41,17 @@ class Comment extends Component {
       value:0,
       question:Props.question,
       types:Props.types,
-      EditMode:Props.EditMode,
+      EditMode:PeerReviewStore.EditMode,
       PreviewMode:Props.PreviewMode,
       required:Props.required
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
     this.handleTextChange = this.handleTextChange.bind(this);
+  }
+
+  componentWillReceiveProps(newProps) {
+    console.log('ran');
   }
 
   handleChange(event, index, value) {
@@ -67,11 +74,12 @@ class Comment extends Component {
     let items = this.state.types.map((value, index)=> (
       <MenuItem key={value} value = {index} primaryText = {value} />
     ));
+    
     return(
       <MuiThemeProvider>
         <div className="panel panel-default">
           <div className="panel-heading">
-            {this.state.EditMode 
+            {PeerReviewStore.EditMode
             ?<TextField
               value = {this.state.question}
               onChange = {this.handleTextChange}
@@ -85,7 +93,7 @@ class Comment extends Component {
           </div>
           <div className="panel-body">
             {
-              this.state.EditMode &&
+              PeerReviewStore.EditMode &&
               <div style = {style.edit}>
                 <SelectField value = {this.state.value} onChange = {this.handleChange} style = {{float:'left', width:"170px"}}>
                   {items}

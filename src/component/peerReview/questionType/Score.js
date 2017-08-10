@@ -13,6 +13,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {grey500} from 'material-ui/styles/colors';
 import Primary, {Secondary} from '../../../Theme';
 
+import { observer } from "mobx-react";
+import PeerReviewStore from '../../../stores/PeerReviewStore';
+
 const styles = {
   dropDown:{
     width: '100px'
@@ -39,7 +42,8 @@ const dummyProps = {
     low: "low",
     high: "high"
   },
-  question: "How do you think of this?"
+  question: "How do you think of this?",
+  EditMode:true
 }
 
 const dummyPeers = [
@@ -50,18 +54,17 @@ const dummyPeers = [
   "Curry"
 ]
 
-
+@observer
 class Score extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       from: dummyProps.scale.from,
       to: dummyProps.scale.to,
       low: dummyProps.label.low,
       high: dummyProps.label.high,
       question: dummyProps.question,
-      editMode: true,
       reviewMode: false,
     };
     this.handleFromChange = this.handleFromChange.bind(this);
@@ -114,7 +117,7 @@ class Score extends Component {
         <div className="panel panel-default">
           <div className="panel-heading">
             
-            {this.state.editMode 
+            {PeerReviewStore.EditMode 
             ? <TextField
                 floatingLabelText="Question"
                 underlineFocusStyle={styles.underlineStyle}
@@ -128,7 +131,7 @@ class Score extends Component {
 
           </div>
           <div className="panel-body">
-            { this.state.editMode &&
+            { PeerReviewStore.EditMode  &&
               <div>
                 <div style={{display:"inline-block"}}>
                   <SelectField

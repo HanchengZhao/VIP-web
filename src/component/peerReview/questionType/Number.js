@@ -10,6 +10,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {grey500} from 'material-ui/styles/colors';
 import Primary, {Secondary} from '../../../Theme';
 
+import { observer } from "mobx-react";
+import PeerReviewStore from '../../../stores/PeerReviewStore';
+
 const Props = {
   question:"What's on your mind today?",
   EditMode:true,
@@ -30,13 +33,13 @@ const style = {
 
 }
 
+@observer
 class Number extends Component {
   constructor(props) {
     super(props);
     this.state = {
       number:0,
       question:Props.question,
-      EditMode:Props.EditMode,
       PreviewMode:Props.PreviewMode,
       required:Props.required
       
@@ -72,7 +75,7 @@ class Number extends Component {
         <MuiThemeProvider>
           <div className="panel panel-default">
             <div className="panel-heading">
-              {this.state.EditMode 
+              {PeerReviewStore.EditMode 
               ? <TextField
                   value = {this.state.question}
                   onChange = {this.handleTextChange}
@@ -86,9 +89,9 @@ class Number extends Component {
             </div>
             <div className="panel-body">
               <div  style = {style.edit}>
-                <TextField type="number" value = {this.state.number} onChange = {this.handleNumberChange} style = {{float:'left', width:'100px'}} />
+                <TextField type="number" value = {this.state.number} onChange = {this.handleNumberChange} style = {{float:'left', width:'100px'}} id = "number" />
                 {
-                this.state.EditMode &&
+                PeerReviewStore.EditMode  &&
                 <Checkbox checked={this.state.required} label = "Check If Required" labelPosition="left" onCheck={this.handleCheck} style = {{ paddingTop:'15px', width:'180px', float:'right'}} /> 
                 }
               </div>
