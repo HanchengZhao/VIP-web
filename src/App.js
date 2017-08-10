@@ -16,6 +16,7 @@ import Announcement from './component/announcements/Announcement';
 import DashBoard from './component/DashBoard';
 import Footer from './component/Footer';
 import Header from './component/Header';
+import Home from './component/home/Home';
 import LoginPage from './component/login/LoginPage';
 import PeerReview from './component/peerReview/PeerReview';
 import Projects from './component/projects/Projects';
@@ -25,12 +26,6 @@ import MuiTable from './component/MuiTable';
 import { AdminRoute, PublicRoute,PrivateRoute, UnEnrolledRoute, AdvisorRoute, StudentRoute } from './component/Route';
 
 injectTapEventPlugin();
-
-const Home = () => (
-  <div>
-    <h2>Home</h2>
-  </div>
-)
 
 const Faculty = () => (
   <div>
