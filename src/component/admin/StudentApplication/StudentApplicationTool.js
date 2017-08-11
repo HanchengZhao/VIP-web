@@ -15,20 +15,22 @@ class StudentApplicationTool extends Component {
 
 
   componentDidMount = () => {
-    let fbRef = firebase.database().ref('StudentApplication');
+    let fbRef = firebase.database().ref('StudentApplication_Raw_Data');
     fbRef.on('value', (snap) =>{
-      this.setState({
-        teamData:snap.val()
-      })
+      if(!!snap) {
+        this.setState({
+          teamData:snap.val()
+        }, ()=>{console.log(this.state.teamData)});
+      }
     });
+  
   }
 
-  render = () => {
+  render() {
     return(
       <div>
-        {this.state.teamData
-        ?<StudentApplicationTable roster = {this.state.teamData} />
-        :<h1/>
+        {this.state.teamData &&
+          <StudentApplicationTable roster = {this.state.teamData} />
         }
       </div>
     );

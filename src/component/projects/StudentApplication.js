@@ -10,6 +10,7 @@ import {Card, CardTitle} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import SelectField from 'material-ui/SelectField';
 
 import {checkEmpty} from '../../Validation';
 import Primary, {university} from '../../Theme';
@@ -35,7 +36,8 @@ class StudentApplication extends Component{
         courses:'',
         value:0,
         notIncluded:['fbkey', 'errorText','error','other']
-      };    
+      };
+      this.handleMenuChange = this.handleMenuChange.bind(this);    
     }
 
     componentDidMount() {
@@ -60,11 +62,24 @@ class StudentApplication extends Component{
             notIncluded:notIncluded
           });
         });
+        
+        firebase.database().ref(`Courses`).on('value', (snap) => {
+          this.setState({courses:snap.val()});
+        });
     }
 
     getdata =(childdata) =>{
       this.setState({
         teamLogo: childdata,
+      });
+    }
+
+    handleMenuChange(event, index, value) {
+      let obj  = this.state.data;
+      obj['course'] = this.state.courses[this.state.title][Object.keys(this.state.courses[this.state.title])[index]].course
+      this.setState({
+        value:value,
+        data:obj
       });
     }
 
@@ -145,21 +160,30 @@ class StudentApplication extends Component{
                       return(
                         <div key={id}>
                           <TextField
+                          value = {this.state.data.id}
                           floatingLabelText={questionsArray[id].text}
-                          hintText={questionsArray[id].hint}
                           errorText={this.state.errorText}
                           onChange={ this.handleChange}/><br /></div>)
                     }
                     return(
                   <div key = {id}>
                     <TextField
+                      value = {this.state.data.id}
                       floatingLabelText={questionsArray[id].text}
-                      hintText={questionsArray[id].hint}
                       errorText={this.state.error[questionsArray[id].id]}
                       onChange={ this.handleChange}/><br/>
                   </div>)}))
                     : (<h2>Loading..</h2>) }                
                 <br/>
+                <SelectField floatingLabelText="Course" value={this.state.value} onChange={this.handleMenuChange}>
+                  {this.state.courses && this.state.title
+                    ?Object.keys(this.state.courses[this.state.title]).map((key, index) => {
+                      return <MenuItem value = {index} primaryText = {this.state.courses[this.state.title][key].course} key = {key}/>
+                    })
+                    :<h1/>
+                  }
+                  
+                </SelectField> 
                 </div>
               </Card><br/>
                        
