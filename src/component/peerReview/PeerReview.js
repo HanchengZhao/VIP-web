@@ -21,6 +21,8 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
+import QuestionContainer from './QuestionContainer';
+
 const questionTypes = ["Score", "Comment", "Multiple Choice", "Number"];
 
 @observer
@@ -97,7 +99,8 @@ class PeerReview extends Component {
         </MuiThemeProvider>
         {questions}
         {/* <CheckBox /> */}
-        
+        <div>Container</div>
+        <QuestionContainer/>
       </div>    
     );
   }

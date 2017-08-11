@@ -14,6 +14,8 @@
     "react-addons-update": "^15.6.0",
     "react-data-grid": "^2.0.54",
     "react-data-grid-addons": "^2.0.54",
+    "react-dnd": "^2.4.0",
+    "react-dnd-html5-backend": "^2.4.1",
     "react-dom": "^15.5.4",
     "react-dropzone": "^3.13.3",
     "react-file-input": "^0.2.5",
