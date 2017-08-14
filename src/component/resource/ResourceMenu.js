@@ -7,6 +7,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import firebase from '../../firebase';
 import Primary, { DeleteColor } from '../../Theme';
+import userStore from '../../stores/UserStore';
 
 const resourceRef = firebase.database().ref('Resource');
 const styles = {
@@ -79,7 +80,9 @@ class ResourceMenu extends Component {
     return (
       <div>
         { resourceMenu }
-        <FlatButton label="+ Add new page" className="menuBarButton" fullWidth = {true} onClick = {this.sendPopup}/>
+        { userStore.role == 'admin' &&
+          <FlatButton label="+ Add new page" className="menuBarButton" fullWidth = {true} onClick = {this.sendPopup}/>
+        }
         <MuiThemeProvider>
          <Dialog
             title="Please enter a name for new resource page"
