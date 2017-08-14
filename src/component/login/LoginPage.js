@@ -10,10 +10,7 @@ class LoginPage extends Component {
       <div>
         <LoginCard 
         login = "Please"
-        discription = "Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-                Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-                Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio." />
+        discription = "The content you're trying to access is protected. Please Login with proper credentials to view this page. " />
       </div>
     );
   }

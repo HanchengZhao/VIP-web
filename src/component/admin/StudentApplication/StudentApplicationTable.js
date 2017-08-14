@@ -118,6 +118,10 @@ class StudentApplicationTable extends Component {
     let keys = Object.keys(this.state.roster);
     this.state.selectedIndexes.forEach((i) => {
       firebase.database().ref('AcceptedStudents_Raw_Data').push(this.state.rows[i]);
+      firebase.database().ref('Users').push({
+        email:this.state.rows[i],
+        role:'student'
+      });
       this.handleRemoveFb(keys[i]);
     });
     this.handleRemoveRow();

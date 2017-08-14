@@ -22,16 +22,10 @@ import PeerReview from './component/peerReview/PeerReview';
 import Projects from './component/projects/Projects';
 import Resource from './component/resource/Resource';
 import Student from './component/student/Student';
-import MuiTable from './component/MuiTable';
 import { AdminRoute, PublicRoute,PrivateRoute, UnEnrolledRoute, AdvisorRoute, StudentRoute } from './component/Route';
 
 injectTapEventPlugin();
 
-const Faculty = () => (
-  <div>
-    <h2>Faculty</h2>
-  </div>
-)
 
 const NotInTheSystem = () => (
   <div>
