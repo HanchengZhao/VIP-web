@@ -41,8 +41,8 @@ class Number extends Component {
       number:0,
       question:Props.question,
       PreviewMode:Props.PreviewMode,
-      required:Props.required
-      
+      EvalMode:this.props.EvalMode,
+      required:Props.required,
     }
     this.handleCheck = this.handleCheck.bind(this);
     this.handleNumberChange = this.handleNumberChange.bind(this);
@@ -72,30 +72,39 @@ class Number extends Component {
 
     return(
       <div>
-        <MuiThemeProvider>
-          <div className="panel panel-default">
-            <div className="panel-heading">
-              {PeerReviewStore.EditMode 
-              ? <TextField
-                  value = {this.state.question}
-                  onChange = {this.handleTextChange}
-                  floatingLabelStyle={style.floatingLabelStyle}
-                  underlineFocusStyle = {style.underlineStyle}
-                  floatingLabelText="Question"
-                  fullWidth={true}
-                />
-              : <h3>{this.state.question}</h3>
-              }
-            </div>
-            <div className="panel-body">
-              <div  style = {style.edit}>
-                <TextField type="number" value = {this.state.number} onChange = {this.handleNumberChange} style = {{float:'left', width:'100px'}} id = "number" />
-                {
-                PeerReviewStore.EditMode  &&
-                <Checkbox checked={this.state.required} label = "Check If Required" labelPosition="left" onCheck={this.handleCheck} style = {{ paddingTop:'15px', width:'180px', float:'right'}} /> 
+        {!this.state.EvalMode &&
+          <MuiThemeProvider>
+            <div className="panel panel-default">
+              <div className="panel-heading">
+                {PeerReviewStore.EditMode 
+                ? <TextField
+                    value = {this.state.question}
+                    onChange = {this.handleTextChange}
+                    floatingLabelStyle={style.floatingLabelStyle}
+                    underlineFocusStyle = {style.underlineStyle}
+                    floatingLabelText="Question"
+                    fullWidth={true}
+                  />
+                : <h3>{this.state.question}</h3>
                 }
               </div>
+              <div className="panel-body">
+                <div  style = {style.edit}>
+                  <TextField type="number" value = {this.state.number} onChange = {this.handleNumberChange} style = {{float:'left', width:'100px'}} id = "number" />
+                  {
+                  PeerReviewStore.EditMode  &&
+                  <Checkbox checked={this.state.required} label = "Check If Required" labelPosition="left" onCheck={this.handleCheck} style = {{ paddingTop:'15px', width:'180px', float:'right'}} /> 
+                  }
+                </div>
+              </div>
             </div>
+          </MuiThemeProvider>
+        }
+        <MuiThemeProvider>
+          <div>
+            {this.state.EvalMode && 
+              <TextField type="number" value = {this.state.number} onChange = {this.handleNumberChange} style = {{float:'left', width:'100px'}} id = "number" />
+            }
           </div>
         </MuiThemeProvider>
       </div>

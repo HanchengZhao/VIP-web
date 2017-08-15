@@ -9,6 +9,7 @@ import Number from './questionType/Number';
 import Score from "./questionType/Score";
 
 import SelectPeers from './SelectPeers';
+import QuestionPeers from './QuestionPeers';
 
 import { observer } from "mobx-react";
 import PeerReviewStore from '../../stores/PeerReviewStore';

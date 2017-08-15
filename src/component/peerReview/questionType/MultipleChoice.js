@@ -41,7 +41,8 @@ class MultipleChoice extends Component {
     this.state = {
       question:Props.question,
       answers : Props.answers,
-      newAnswer:''
+      newAnswer:'',
+      EvalMode:this.props.EvalMode
     }
     this.handleRemove = this.handleRemove.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -77,44 +78,57 @@ class MultipleChoice extends Component {
     let RadioButtons = this.state.answers.map((value,index) => (
       <div style = {style.radioButton} key = {index}>
         <Checkbox value = {index} label = {value} style = {{width:'200px', display:'inline-block'}} />
-        {this.state.EditMode &&
+        {(!this.state.EvalMode && PeerReviewStore.EditMode) &&
           <i className = "glyphicon glyphicon-remove" id = {index} onClick = {this.handleRemove} style = {{display:'inline-block', cursor:'pointer',fontSize: '1.5em'}}/>
         }
       </div>
     ));    
     return(
-      <MuiThemeProvider>
-        <div className="panel panel-default">
-          <div className="panel-heading">
-            {PeerReviewStore.EditMode
-            ?<TextField
-              value = {this.state.question}
-              id = 'question'
-              onChange = {this.handleChange}
-              floatingLabelText="Question"
-              underlineFocusStyle={style.underlineStyle}
-              floatingLabelStyle={style.floatingLabelStyle}
-              fullWidth={true}
-            />
-            :<h3>{this.state.question}</h3>
-            }
-          </div>
-          <div className="panel-body">
-            {PeerReviewStore.EditMode &&
-            <div>
-              <div className = "edit">
-                <TextField id = 'newAnswer' floatingLabelText="Add Answer" value = {this.state.newAnswer} onChange = {this.handleChange} underlineFocusStyle={style.underlineStyle} floatingLabelStyle={style.floatingLabelStyle}/>
-                <FlatButton label="Add" onClick = {this.handleAdd} />
+      <div>
+        {!this.state.EvalMode &&
+        <MuiThemeProvider>
+          <div className="panel panel-default">
+            <div className="panel-heading">
+              {PeerReviewStore.EditMode
+              ?<TextField
+                value = {this.state.question}
+                id = 'question'
+                onChange = {this.handleChange}
+                floatingLabelText="Question"
+                underlineFocusStyle={style.underlineStyle}
+                floatingLabelStyle={style.floatingLabelStyle}
+                fullWidth={true}
+              />
+              :<h3>{this.state.question}</h3>
+              }
+            </div>
+            <div className="panel-body">
+              {PeerReviewStore.EditMode &&
+              <div>
+                <div className = "edit">
+                  <TextField id = 'newAnswer' floatingLabelText="Add Answer" value = {this.state.newAnswer} onChange = {this.handleChange} underlineFocusStyle={style.underlineStyle} floatingLabelStyle={style.floatingLabelStyle}/>
+                  <FlatButton label="Add" onClick = {this.handleAdd} />
+                </div>
+                <Divider style={{margin:"20px",marginTop:"20px"}} />
               </div>
-              <Divider style={{margin:"20px",marginTop:"20px"}} />
-            </div>
-            }
-            <div style={{display:"inline"}}>
-              {RadioButtons}
+              }
+              <div style={{display:"inline"}}>
+                {RadioButtons}
+              </div>
             </div>
           </div>
-        </div>
-      </MuiThemeProvider>
+        </MuiThemeProvider>
+        }
+        <MuiThemeProvider>
+          <div>
+            {this.state.EvalMode && 
+              <div style={{display:"inline"}}>
+                  {RadioButtons}
+              </div>
+            }
+          </div>
+        </MuiThemeProvider>
+      </div>
     );
   }
 }

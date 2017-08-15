@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import firebase from '../../firebase';
 import Checkbox from 'material-ui/Checkbox';
+import QuestionPeers from './QuestionPeers';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MuiButton from '../MuiButton';
 
@@ -12,22 +13,23 @@ class SelectPeers extends Component {
     super();
     this.state = {
       peers:'',
-      selected:[]
+      selected:[],
+      final:true
     }
     this.handleClick = this.handleClick.bind(this);
-    this.showSelected = this.showSelected.bind(this);
+    this.showQuestions = this.showQuestions.bind(this);
   }
 
   componentDidMount() {
     firebase.database().ref('Students').on('value', (snap) => {
       let team;
       let peers = [];
-      Object.keys(snap.val()).forEach((i) =>{
+      Object.keys(snap.val()).forEach((i) => {
         if(snap.val()[i].email === userStore.email) {
           team = snap.val()[i].team;
         }
       });
-      Object.keys(snap.val()).forEach((i) =>{
+      Object.keys(snap.val()).forEach((i) => {
         if(snap.val()[i].team === team) {
           peers.push(snap.val()[i]);
         }
@@ -51,33 +53,39 @@ class SelectPeers extends Component {
     });
   }
 
-  showSelected() {
-    console.log(this.state.selected);
+  showQuestions() {
+    let selected = this.state.selected;
+    this.setState({final:false});
   }
 
   render() {
     return(
       <div>
-        <table className = 'table'>
-          <thead>
-            <tr>
-              <th>Peers</th>
-            </tr>
-          </thead>
-          <tbody>
-            {this.state.peers &&
-              this.state.peers.map((peer,index) => {
-                return <tr key = {index}>
-                  <th>{peer.name}</th>
-                  <th><MuiThemeProvider><Checkbox id = {index} onCheck = {this.handleClick}/></MuiThemeProvider></th>
-                  </tr>
-              })
-            }
-          </tbody>
-        </table>
-        <div style = {{textAlign:'right'}}>
-          <MuiButton label = "continue" onClick = {this.showSelected}/>
+        {this.state.final 
+        ?<div>
+          <table className = 'table'>
+            <thead>
+              <tr>
+                <th>Peers</th>
+              </tr>
+            </thead>
+            <tbody>
+              {this.state.peers &&
+                this.state.peers.map((peer,index) => {
+                  return <tr key = {index}>
+                    <th>{peer.name}</th>
+                    <th><MuiThemeProvider><Checkbox id = {index} onCheck = {this.handleClick}/></MuiThemeProvider></th>
+                    </tr>
+                })
+              }
+            </tbody>
+          </table>
+          <div style = {{textAlign:'right'}}>
+            <MuiButton label = "continue" onClick = {this.showQuestions}/>
+          </div>
         </div>
+        :<QuestionPeers peers = {this.state.selected}/>
+        }
       </div>
     );
   }

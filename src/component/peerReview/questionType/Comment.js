@@ -42,6 +42,7 @@ class Comment extends Component {
       question:Props.question,
       types:Props.types,
       EditMode:PeerReviewStore.EditMode,
+      EvalMode:this.props.EvalMode,
       PreviewMode:Props.PreviewMode,
       required:Props.required
     }
@@ -51,7 +52,7 @@ class Comment extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log('ran');
+    // console.log('ran');
   }
 
   handleChange(event, index, value) {
@@ -76,54 +77,83 @@ class Comment extends Component {
     ));
     
     return(
-      <MuiThemeProvider>
-        <div className="panel panel-default">
-          <div className="panel-heading">
-            {PeerReviewStore.EditMode
-            ?<TextField
-              value = {this.state.question}
-              onChange = {this.handleTextChange}
-              floatingLabelStyle={style.floatingLabelStyle}
-              underlineFocusStyle = {style.underlineStyle}
-              floatingLabelText="Question"
-              fullWidth={true}
-            />
-            :<h3>{this.state.question}</h3>
-            }
+      <div>
+        {!this.state.EvalMode &&
+        <MuiThemeProvider>
+          <div className="panel panel-default">
+            <div className="panel-heading">
+              {PeerReviewStore.EditMode
+              ?<TextField
+                value = {this.state.question}
+                onChange = {this.handleTextChange}
+                floatingLabelStyle={style.floatingLabelStyle}
+                underlineFocusStyle = {style.underlineStyle}
+                floatingLabelText="Question"
+                fullWidth={true}
+              />
+              :<h3>{this.state.question}</h3>
+              }
+            </div>
+            <div className="panel-body">
+              {
+                PeerReviewStore.EditMode &&
+                <div style = {style.edit}>
+                  <SelectField value = {this.state.value} onChange = {this.handleChange} style = {{float:'left', width:"170px"}}>
+                    {items}
+                  </SelectField>
+                  <Checkbox checked={this.state.required} label = "Check If Required" labelPosition="left" onCheck={this.handleCheck} style = {{ paddingTop:'15px', width:'180px', float:'right'}} /> 
+                </div>
+              }
+              
+              {this.state.value === 0
+              ?<TextField 
+                floatingLabelStyle={style.floatingLabelStyle}
+                underlineFocusStyle = {style.underlineStyle}
+                fullWidth = {true}
+                rows = {1}
+                rowsMax={1}
+                floatingLabelText = "Answer"
+              />
+              :<TextField
+                floatingLabelStyle={style.floatingLabelStyle}
+                underlineFocusStyle = {style.underlineStyle}
+                rows = {4}
+                rowsMax = {4}
+                fullWidth = {true}
+                floatingLabelText = "Answer"
+                multiLine={true}
+              />
+              }
+            </div>
           </div>
-          <div className="panel-body">
-            {
-              PeerReviewStore.EditMode &&
-              <div style = {style.edit}>
-                <SelectField value = {this.state.value} onChange = {this.handleChange} style = {{float:'left', width:"170px"}}>
-                  {items}
-                </SelectField>
-                <Checkbox checked={this.state.required} label = "Check If Required" labelPosition="left" onCheck={this.handleCheck} style = {{ paddingTop:'15px', width:'180px', float:'right'}} /> 
-              </div>
-            }
-            
-            {this.state.value === 0
-            ?<TextField 
-              floatingLabelStyle={style.floatingLabelStyle}
-              underlineFocusStyle = {style.underlineStyle}
-              fullWidth = {true}
-              rows = {1}
-              rowsMax={1}
-              floatingLabelText = "Answer"
-            />
-            :<TextField
-              floatingLabelStyle={style.floatingLabelStyle}
-              underlineFocusStyle = {style.underlineStyle}
-              rows = {4}
-              rowsMax = {4}
-              fullWidth = {true}
-              floatingLabelText = "Answer"
-              multiLine={true}
-            />
-            }
+        </MuiThemeProvider>
+        }
+        {this.state.EvalMode &&
+        <MuiThemeProvider>
+          <div>
+          {this.state.value === 0
+              ?<TextField 
+                floatingLabelStyle={style.floatingLabelStyle}
+                underlineFocusStyle = {style.underlineStyle}
+                fullWidth = {true}
+                rows = {1}
+                rowsMax={1}
+                floatingLabelText = "Answer"
+              />
+              :<TextField
+                floatingLabelStyle={style.floatingLabelStyle}
+                underlineFocusStyle = {style.underlineStyle}
+                rows = {4}
+                rowsMax = {4}
+                fullWidth = {true}
+                floatingLabelText = "Answer"
+                multiLine={true}
+              />
+              }
           </div>
-        </div>
-      </MuiThemeProvider>
+        </MuiThemeProvider>
+        }
+      </div>
     );
   }
 }

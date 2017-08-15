@@ -60,6 +60,7 @@ class Score extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      EvalMode:this.props.EvalMode,
       from: dummyProps.scale.from,
       to: dummyProps.scale.to,
       low: dummyProps.label.low,
@@ -113,76 +114,93 @@ class Score extends Component {
       <MenuItem key={num} value={num} primaryText={num} />
     )
     return (
-      <MuiThemeProvider>
-        <div className="panel panel-default">
-          <div className="panel-heading">
-            
-            {PeerReviewStore.EditMode 
-            ? <TextField
-                floatingLabelText="Question"
-                underlineFocusStyle={styles.underlineStyle}
-                floatingLabelStyle={styles.floatingLabelStyle}
-                fullWidth={true}
-                defaultValue={this.state.question}
-              />
-            : <h3>{this.state.question}</h3>
-            }
+      <div>
+        {!this.state.EvalMode &&
+        <MuiThemeProvider>
+          <div className="panel panel-default">
+            <div className="panel-heading">
+              
+              {PeerReviewStore.EditMode 
+              ? <TextField
+                  floatingLabelText="Question"
+                  underlineFocusStyle={styles.underlineStyle}
+                  floatingLabelStyle={styles.floatingLabelStyle}
+                  fullWidth={true}
+                  defaultValue={this.state.question}
+                />
+              : <h3>{this.state.question}</h3>
+              }
 
 
-          </div>
-          <div className="panel-body">
-            { PeerReviewStore.EditMode  &&
-              <div>
-                <div style={{display:"inline-block"}}>
-                  <SelectField
-                    floatingLabelText="From"
-                    value={this.state.from}
-                    onChange={this.handleFromChange}
-                    style={styles.dropDown}
-                  >
-                    <MenuItem value={0} primaryText="0" />
-                    <MenuItem value={1} primaryText="1" />
-                  </SelectField>
-                  <SelectField
-                    floatingLabelText="To"
-                    value={this.state.to}
-                    onChange={this.handleToChange}
-                    style={styles.dropDown}
-                  >
-                    {toMenu}
-                  </SelectField>
-                </div>
+            </div>
+            <div className="panel-body">
+              { PeerReviewStore.EditMode  &&
                 <div>
-                  <b>{this.state.from}</b>&nbsp;:&nbsp; 
-                    <TextField
-                      hintText="Label(optional)"
-                      underlineFocusStyle={styles.underlineStyle}
-                      floatingLabelStyle={styles.floatingLabelStyle}
-                      onChange={this.handleLowLabel}
-                    />
-                  <b>{this.state.to}</b>&nbsp;: &nbsp;
-                    <TextField
-                      hintText="Label(optional)"
-                      underlineFocusStyle={styles.underlineStyle}
-                      floatingLabelStyle={styles.floatingLabelStyle}
-                      onChange={this.handleHighLabel}
-                    />
+                  <div style={{display:"inline-block"}}>
+                    <SelectField
+                      floatingLabelText="From"
+                      value={this.state.from}
+                      onChange={this.handleFromChange}
+                      style={styles.dropDown}
+                    >
+                      <MenuItem value={0} primaryText="0" />
+                      <MenuItem value={1} primaryText="1" />
+                    </SelectField>
+                    <SelectField
+                      floatingLabelText="To"
+                      value={this.state.to}
+                      onChange={this.handleToChange}
+                      style={styles.dropDown}
+                    >
+                      {toMenu}
+                    </SelectField>
+                  </div>
+                  <div>
+                    <b>{this.state.from}</b>&nbsp;:&nbsp; 
+                      <TextField
+                        hintText="Label(optional)"
+                        underlineFocusStyle={styles.underlineStyle}
+                        floatingLabelStyle={styles.floatingLabelStyle}
+                        onChange={this.handleLowLabel}
+                      />
+                    <b>{this.state.to}</b>&nbsp;: &nbsp;
+                      <TextField
+                        hintText="Label(optional)"
+                        underlineFocusStyle={styles.underlineStyle}
+                        floatingLabelStyle={styles.floatingLabelStyle}
+                        onChange={this.handleHighLabel}
+                      />
+                  </div>
+                  <Divider style={{margin:"20px",marginTop:"20px"}}/>
                 </div>
-                <Divider style={{margin:"20px",marginTop:"20px"}}/>
+              }
+              
+              <div className="row" style={{display:"inline-block", marginLeft: "15px"}}>
+                <span style={{float:"left"}}> <b>{this.state.low}&nbsp;</b></span>
+                <RadioButtonGroup name="scores" defaultSelected="not_light" style={{float:"left"}}>
+                  {RadioButtons}
+                </RadioButtonGroup>
+                <span style={{float:"left"}}><b>&nbsp;{this.state.high}</b></span>
+              </div>
+              
+            </div>
+          </div>
+        </MuiThemeProvider>
+        }
+        <MuiThemeProvider>
+          <div>
+            {this.state.EvalMode && 
+              <div className="row" style={{display:"inline-block", marginLeft: "15px"}}>
+                <span style={{float:"left"}}> <b>{this.state.low}&nbsp;</b></span>
+                <RadioButtonGroup name="scores" defaultSelected="not_light" style={{float:"left"}}>
+                  {RadioButtons}
+                </RadioButtonGroup>
+                <span style={{float:"left"}}><b>&nbsp;{this.state.high}</b></span>
               </div>
             }
-            
-            <div className="row" style={{display:"inline-block", marginLeft: "15px"}}>
-              <span style={{float:"left"}}> <b>{this.state.low}&nbsp;</b></span>
-              <RadioButtonGroup name="scores" defaultSelected="not_light" style={{float:"left"}}>
-                {RadioButtons}
-              </RadioButtonGroup>
-              <span style={{float:"left"}}><b>&nbsp;{this.state.high}</b></span>
-            </div>
-            
           </div>
-        </div>
-      </MuiThemeProvider>
+        </MuiThemeProvider>
+      </div>
     );
   }
 }

@@ -17,7 +17,6 @@ class CourseList extends Component {
       value:0,
       items:["VIP194","VIP294","VIP394","VIP494"],
       suffix: '',
-      courses:'',
     }
     this.addCourse = this.addCourse.bind(this);
     this.suffixChange = this.suffixChange.bind(this);
