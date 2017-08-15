@@ -30,7 +30,7 @@ class PeerReview extends Component {
   constructor () {
     super();
     this.state = {
-      questions:[<Comment EditMode = {PeerReviewStore.EditMode}/>, <MultipleChoice/>, <Score/>, <Number/>],
+      questions:[<Comment/>, <MultipleChoice/>, <Score/>, <Number/>],
       questionTypes:questionTypes,
       questionComponents:[<Score/>, <Comment/>, <MultipleChoice/>, <Number /> ],
       value:0

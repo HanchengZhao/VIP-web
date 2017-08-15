@@ -13,6 +13,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {grey500} from 'material-ui/styles/colors';
 import Primary, {Secondary} from '../../../Theme';
 
+import update from 'react/lib/update';
 import { observer } from "mobx-react";
 import PeerReviewStore from '../../../stores/PeerReviewStore';
 
@@ -42,7 +43,7 @@ const dummyProps = {
     low: "low",
     high: "high"
   },
-  question: "How do you think of this?",
+  question: "",
   EditMode:true
 }
 
@@ -60,45 +61,104 @@ class Score extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      from: dummyProps.scale.from,
-      to: dummyProps.scale.to,
-      low: dummyProps.label.low,
-      high: dummyProps.label.high,
-      question: dummyProps.question,
+      data: {
+        from: dummyProps.scale.from,
+        to: dummyProps.scale.to,
+        low: dummyProps.label.low,
+        high: dummyProps.label.high,
+        question: dummyProps.question,
+      },
       reviewMode: false,
     };
     this.handleFromChange = this.handleFromChange.bind(this);
     this.handleToChange = this.handleToChange.bind(this);
     this.handleLowLabel = this.handleLowLabel.bind(this);
     this.handleHighLabel = this.handleHighLabel.bind(this);
+    this.handleQuestionChange = this.handleQuestionChange.bind(this);
+  }
+
+  componentDidMount(){
+    // console.log(this.props)
+    console.log(this.props.data)
+    if (this.props.data) {
+      this.setState({
+        data: {
+          from: this.props.data.from,
+          to: this.props.data.to,
+          low: this.props.data.low,
+          high: this.props.data.high,
+          question: this.props.data.question
+        }
+      })
+    } 
+    
+  }
+
+  handleQuestionChange(e){
+    let text = e.target.value
+    this.setState(update(this.state, {
+      data: {
+        question:{
+          $set: text
+        }
+      },
+    }), () => { // run the function after state changed
+      this.props.updateQuestion(this.props.index, this.state.data)
+    });
+    
   }
 
   handleFromChange(e, index, from){
-    this.setState({
-      from
-    })
+    this.setState(update(this.state, {
+      data: {
+        from:{
+          $set:from
+        }
+      },
+    }), () => {
+      this.props.updateQuestion(this.props.index, this.state.data)
+    });
   }
 
   handleHighLabel(e){
-    this.setState({
-      high: e.target.value
-    })
+    this.setState(update(this.state, {
+      data: {
+        high:{
+          $set:e.target.value
+        }
+      },
+    }), () => {
+      this.props.updateQuestion(this.props.index, this.state.data)
+    });
+    
   }
 
   handleLowLabel(e){
-    this.setState({
-      low: e.target.value
-    })
+    this.setState(update(this.state, {
+      data: {
+        low:{
+          $set:e.target.value
+        }
+      },
+    }), () => {
+      this.props.updateQuestion(this.props.index, this.state.data)
+    });
   }
 
   handleToChange(e, index, to){
-    this.setState({
-      to
-    })
+    this.setState(update(this.state, {
+      data: {
+        to:{
+          $set:to
+        }
+      },
+    }), () => {
+      this.props.updateQuestion(this.props.index, this.state.data)
+    });
   }
   render() {
     let scales = [];
-    for(let i = this.state.from; i <= this.state.to; i++){
+    for(let i = this.state.data.from; i <= this.state.data.to; i++){
       scales.push(i)
     }
     let RadioButtons = scales.map((scale) => 
@@ -123,9 +183,10 @@ class Score extends Component {
                 underlineFocusStyle={styles.underlineStyle}
                 floatingLabelStyle={styles.floatingLabelStyle}
                 fullWidth={true}
-                defaultValue={this.state.question}
+                value={this.state.data.question}
+                onChange={this.handleQuestionChange}
               />
-            : <h3>{this.state.question}</h3>
+            : <h3>{this.state.data.question}</h3>
             }
 
 
@@ -136,7 +197,7 @@ class Score extends Component {
                 <div style={{display:"inline-block"}}>
                   <SelectField
                     floatingLabelText="From"
-                    value={this.state.from}
+                    value={this.state.data.from}
                     onChange={this.handleFromChange}
                     style={styles.dropDown}
                   >
@@ -145,7 +206,7 @@ class Score extends Component {
                   </SelectField>
                   <SelectField
                     floatingLabelText="To"
-                    value={this.state.to}
+                    value={this.state.data.to}
                     onChange={this.handleToChange}
                     style={styles.dropDown}
                   >
@@ -153,18 +214,20 @@ class Score extends Component {
                   </SelectField>
                 </div>
                 <div>
-                  <b>{this.state.from}</b>&nbsp;:&nbsp; 
+                  <b>{this.state.data.from}</b>&nbsp;:&nbsp; 
                     <TextField
                       hintText="Label(optional)"
                       underlineFocusStyle={styles.underlineStyle}
                       floatingLabelStyle={styles.floatingLabelStyle}
+                      defaultValue={this.state.data.low}
                       onChange={this.handleLowLabel}
                     />
-                  <b>{this.state.to}</b>&nbsp;: &nbsp;
+                  <b>{this.state.data.to}</b>&nbsp;: &nbsp;
                     <TextField
                       hintText="Label(optional)"
                       underlineFocusStyle={styles.underlineStyle}
                       floatingLabelStyle={styles.floatingLabelStyle}
+                      defaultValue={this.state.data.high}
                       onChange={this.handleHighLabel}
                     />
                 </div>
@@ -173,11 +236,11 @@ class Score extends Component {
             }
             
             <div className="row" style={{display:"inline-block", marginLeft: "15px"}}>
-              <span style={{float:"left"}}> <b>{this.state.low}&nbsp;</b></span>
+              <span style={{float:"left"}}> <b>{this.state.data.low}&nbsp;</b></span>
               <RadioButtonGroup name="scores" defaultSelected="not_light" style={{float:"left"}}>
                 {RadioButtons}
               </RadioButtonGroup>
-              <span style={{float:"left"}}><b>&nbsp;{this.state.high}</b></span>
+              <span style={{float:"left"}}><b>&nbsp;{this.state.data.high}</b></span>
             </div>
             
           </div>

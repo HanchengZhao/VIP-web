@@ -4,6 +4,12 @@ import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import QuestionCard from './QuestionCard';
 
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import RaisedButton from 'material-ui/RaisedButton';
+import Primary from '../../Theme';
+
 const style = {
   width: 'auto',
 };
@@ -13,25 +19,39 @@ export default class QuestionContainer extends Component {
   constructor(props) {
     super(props);
     this.moveQuestion = this.moveQuestion.bind(this);
+    this.updateQuestion = this.updateQuestion.bind(this);
+    this.publish = this.publish.bind(this);
     this.state = {
       questions: [{
         id: 1,
         type: 'Score',
+        data:{
+          from: 1,
+          to: 6,
+          low: "low",
+          high: "high",
+          question: "How do you think of this?"
+        }
       }, {
         id: 2,
         type: 'Comment',
+        data:{
+          question:"Please provide some feedbacks.",
+          type:"Short Answer",
+          require:false
+        }
       }, {
         id: 3,
         type: "Multiple Choice",
+        data:{
+          question:""
+        }
       }, {
         id: 4,
         type: 'Number',
-      }, {
-        id: 5,
-        type: 'Score',
-      }, {
-        id: 6,
-        type: 'Score',
+        data:{
+          question:""
+        }
       }],
     };
   }
@@ -50,6 +70,21 @@ export default class QuestionContainer extends Component {
     }));
   }
 
+  updateQuestion(index, data) {
+    this.setState(update(this.state, {
+      questions: {
+        [index]:{
+          data:{
+            $set:data
+          }
+        }
+      },
+    }));
+  }
+
+  publish(){
+    console.log(this.state.questions)
+  }
   render() {
     const { questions } = this.state;
 
@@ -61,9 +96,14 @@ export default class QuestionContainer extends Component {
             index={i}
             id={question.id}
             type={question.type}
+            data={question.data}
             moveQuestion={this.moveQuestion}
+            updateQuestion={this.updateQuestion}
           />
         ))}
+        <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+          <RaisedButton label = "Publish"  backgroundColor = {Primary} onClick={this.publish} />
+        </MuiThemeProvider>
       </div>
     );
   }

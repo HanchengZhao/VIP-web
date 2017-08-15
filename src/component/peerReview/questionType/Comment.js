@@ -51,7 +51,7 @@ class Comment extends Component {
   }
 
   componentWillReceiveProps(newProps) {
-    console.log('ran');
+    // console.log('ran');
   }
 
   handleChange(event, index, value) {

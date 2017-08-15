@@ -4,14 +4,13 @@ import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import ItemTypes from './ItemTypes';
 
-import CheckBox from "./questionType/CheckBox";
+// import CheckBox from "./questionType/CheckBox";
 import Comment from './questionType/Comment';
 import MultipleChoice from './questionType/MultipleChoice';
 import Number from './questionType/Number';
 import Score from "./questionType/Score";
 
 const style = {
-  border: '1px dashed gray',
   padding: '0.5rem 1rem',
   marginBottom: '.5rem',
   backgroundColor: 'white',
@@ -31,12 +30,10 @@ const questionTarget = {
   hover(props, monitor, component) {
     const dragIndex = monitor.getItem().index;
     const hoverIndex = props.index;
-
     // Don't replace items with themselves
     if (dragIndex === hoverIndex) {
       return;
     }
-
     // Determine rectangle on screen
     const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
 
@@ -74,15 +71,15 @@ const questionTarget = {
   },
 };
 
-const getQuestionComponent = (type) => {
-    if (type == 'Score'){
-        return <Score/>;
-    } else if (type == 'Cooment') {
-        return <Comment/>;
-    } else if (type == 'Multiple Choice') {
-        return <MultipleChoice/>;
-    } else if (type == 'Number') {
-        return <Number/>;
+const getQuestionComponent = (type, props) => {
+    if (type === 'Score'){
+        return <Score {...props}/>;
+    } else if (type ==='Comment') {
+        return <Comment {...props}/>;
+    } else if (type === 'Multiple Choice') {
+        return <MultipleChoice {...props}/>;
+    } else if (type === 'Number') {
+        return <Number {...props}/>;
     } else {
         return <div>Not a proper question type</div>;
     }
@@ -109,8 +106,7 @@ export default class QuestionCard extends Component {
   render() {
     const { type, isDragging, connectDragSource, connectDropTarget } = this.props;
     const opacity = isDragging ? 0 : 1;
-    const question = getQuestionComponent(type);
-    console.log(question);
+    const question = getQuestionComponent(type, this.props);
     return connectDragSource(connectDropTarget(
       <div style={{ ...style, opacity }}>
         {question}
