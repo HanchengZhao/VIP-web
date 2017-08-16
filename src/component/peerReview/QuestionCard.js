@@ -4,9 +4,9 @@ import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import ItemTypes from './ItemTypes';
 
-// import CheckBox from "./questionType/CheckBox";
+import CheckBox from "./questionType/CheckBox";
 import Comment from './questionType/Comment';
-import MultipleChoice from './questionType/MultipleChoice';
+// import MultipleChoice from './questionType/MultipleChoice';
 import Number from './questionType/Number';
 import Score from "./questionType/Score";
 
@@ -76,8 +76,8 @@ const getQuestionComponent = (type, props) => {
         return <Score {...props}/>;
     } else if (type ==='Comment') {
         return <Comment {...props}/>;
-    } else if (type === 'Multiple Choice') {
-        return <MultipleChoice {...props}/>;
+    } else if (type === 'CheckBox') {
+        return <CheckBox {...props}/>;
     } else if (type === 'Number') {
         return <Number {...props}/>;
     } else {

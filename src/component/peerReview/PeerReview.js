@@ -6,7 +6,7 @@ import RemoveIcon from 'material-ui/svg-icons/action/highlight-off';
 
 import CheckBox from "./questionType/CheckBox";
 import Comment from './questionType/Comment';
-import MultipleChoice from './questionType/MultipleChoice';
+// import MultipleChoice from './questionType/MultipleChoice';
 import Number from './questionType/Number';
 import Score from "./questionType/Score";
 
@@ -23,16 +23,16 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import QuestionContainer from './QuestionContainer';
 
-const questionTypes = ["Score", "Comment", "Multiple Choice", "Number"];
+const questionTypes = ["Score", "Comment", "Checkbox", "Number"];
 
 @observer
 class PeerReview extends Component {
   constructor () {
     super();
     this.state = {
-      questions:[<Comment/>, <MultipleChoice/>, <Score/>, <Number/>],
+      questions:[<Comment/>, <CheckBox/>, <Score/>, <Number/>],
       questionTypes:questionTypes,
-      questionComponents:[<Score/>, <Comment/>, <MultipleChoice/>, <Number /> ],
+      questionComponents:[<Score/>, <Comment/>, <CheckBox/>, <Number /> ],
       value:0
     }
     this.handleChange = this.handleChange.bind(this);

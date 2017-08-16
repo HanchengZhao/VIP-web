@@ -38,19 +38,21 @@ export default class QuestionContainer extends Component {
         data:{
           question:"Please provide some feedbacks.",
           type:"Short Answer",
-          require:false
+          require: false
         }
       }, {
         id: 3,
-        type: "Multiple Choice",
+        type: "CheckBox",
         data:{
-          question:""
+          question:"Please choose everyone you know",
+          options: ['Andy','Bob']
         }
       }, {
         id: 4,
         type: 'Number',
         data:{
-          question:""
+          question:"Please give me a number",
+          require: false
         }
       }],
     };

@@ -78,8 +78,6 @@ class Score extends Component {
   }
 
   componentDidMount(){
-    // console.log(this.props)
-    console.log(this.props.data)
     if (this.props.data) {
       this.setState({
         data: {

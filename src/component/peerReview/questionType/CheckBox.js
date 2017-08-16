@@ -1,69 +1,170 @@
 import React, { Component } from 'react';
 
-import Checkbox from 'material-ui/Checkbox';
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-import {Card, CardActions, CardHeader, CardText} from 'material-ui/Card';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Divider from 'material-ui/Divider';
+import TextField from 'material-ui/TextField';
+import Checkbox from 'material-ui/Checkbox';
+import {grey500} from 'material-ui/styles/colors';
+import Primary, {Secondary} from '../../../Theme';
 
+import FlatButton from 'material-ui/FlatButton';
+
+import update from 'react/lib/update';
+import { observer } from "mobx-react";
+import PeerReviewStore from '../../../stores/PeerReviewStore';
+
+const style = {
+  underlineStyle: {
+    borderColor: Primary,
+  },
+  floatingLabelStyle: {
+    color: grey500,
+  },
+  edit : {
+    width:'50%'
+  },
+  radioButton : {
+    display:'inline-block',
+    marginRight:'20px'
+  },
+}
+
+const Props = {
+  data: {
+    options:['1', '2'],
+    question:"Please choose one among them",
+  },
+  EditMode:true,
+}
+
+@observer
 class CheckBox extends Component {
-
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
-      answers: [],
-      question: '',
-      option: ''
-    };
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleQuestionChange = this.handleQuestionChange.bind(this);
+      data: {
+        options: Props.data.options,
+        question: Props.data.question,
+      },
+      newOption:''
+    }
+    this.handleRemove = this.handleRemove.bind(this);
     this.handleOptionChange = this.handleOptionChange.bind(this);
-    this.removeOption = this.removeOption.bind(this);
+    this.handleQuestionChange = this.handleQuestionChange.bind(this);
+    this.handleAdd = this.handleAdd.bind(this);
   }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    event.target.value = '';
-    this.setState((prevState) => ({
-      answers: prevState.answers.concat(this.state.option),
-      option: ''
-    }));
+  componentDidMount(){
+    if (this.props.data) {
+      this.setState({
+        data: {
+          question: this.props.data.question,
+          options: this.props.data.options,
+
+        }
+      })
+    } 
   }
 
-  handleQuestionChange(event) {
-    this.setState({question: event.target.value});
+  handleOptionChange(e) {
+    let text = e.target.value
+    this.setState(update(this.state, {
+      newOption:{
+        $set: text
+      },
+    }), () => { // run the function after state changed
+      this.props.updateQuestion(this.props.index, this.state.data)
+    });
   }
 
-  handleOptionChange(event) {
-    this.setState({option: event.target.value});
+  handleQuestionChange(e) {
+    let text = e.target.value
+    this.setState(update(this.state, {
+      data: {
+        question:{
+          $set: text
+        }
+      },
+    }), () => { // run the function after state changed
+      this.props.updateQuestion(this.props.index, this.state.data)
+    });
   }
 
-  removeOption(value) {
-    this.state.answers.splice(value, 1);
-    let answers = this.state.answers;
-    this.setState({answers: answers});
+  handleAdd() {
+    this.setState(update(this.state, {
+      data: {
+        options:{
+          $push: [this.state.newOption]
+        }
+      },
+      newOption:{
+        $set : ""
+      }
+    }), () => { // run the function after state changed
+      this.props.updateQuestion(this.props.index, this.state.data)
+    });
+  }
+
+  handleRemove(e) {
+    let index = e.target.id;
+    this.setState(update(this.state, {
+      data: {
+        options:{
+          $splice:[[index, 1]]
+        }
+      },
+    }), () => { // run the function after state changed
+      this.props.updateQuestion(this.props.index, this.state.data)
+    });
   }
 
   render() {
-    let CheckboxItem = this.state.answers.map((answers, index) =>
-
-      <Card>
-        <Checkbox label = {answers} value = {index} />
-        <i className="glyphicon glyphicon-remove" onClick = {() => this.removeOption(index)} />
-      </Card>
-  )
-    return (
+    let RadioButtons = this.state.data.options.map((value,index) => (
+      <div style = {style.radioButton} key = {index}>
+        <Checkbox value = {index} label = {value} style = {{width:'200px', display:'inline-block'}} />
+        {PeerReviewStore.EditMode &&
+          <i className = "glyphicon glyphicon-remove" id = {index} onClick = {this.handleRemove} style = {{display:'inline-block', cursor:'pointer',fontSize: '1.5em'}}/>
+        }
+      </div>
+    ));    
+    return(
       <MuiThemeProvider>
-        <div>
-          <TextField onChange = {this.handleQuestionChange} />
-          <h1>{this.state.question}</h1>
-          <div>{CheckboxItem}</div>
-          <TextField onChange = {this.handleOptionChange} refs = "Option"/>
-          <RaisedButton label = "Add" primary = {true} onClick = {this.handleSubmit} />
-          <RaisedButton label = "Done Editing" backgroundColor="#a4c639" />
+        <div className="panel panel-default">
+          <div className="panel-heading">
+            {PeerReviewStore.EditMode
+            ?<TextField
+              value = {this.state.data.question}
+              id = 'question'
+              onChange = {this.handleQuestionChange}
+              floatingLabelText="Question"
+              underlineFocusStyle={style.underlineStyle}
+              floatingLabelStyle={style.floatingLabelStyle}
+              fullWidth={true}
+            />
+            :<h3>{this.state.data.question}</h3>
+            }
+          </div>
+          <div className="panel-body">
+            {PeerReviewStore.EditMode &&
+            <div>
+              <div className = "edit">
+                <TextField id = 'newAnswer' floatingLabelText="Add Option" 
+                  value = {this.state.newOption} 
+                  onChange = {this.handleOptionChange} 
+                  underlineFocusStyle={style.underlineStyle} 
+                  floatingLabelStyle={style.floatingLabelStyle}
+                />
+                <FlatButton label="Add" onClick = {this.handleAdd} />
+              </div>
+              <Divider style={{margin:"20px",marginTop:"20px"}} />
+            </div>
+            }
+            <div style={{display:"inline"}}>
+              {RadioButtons}
+            </div>
+          </div>
         </div>
       </MuiThemeProvider>
-
     );
   }
 }
