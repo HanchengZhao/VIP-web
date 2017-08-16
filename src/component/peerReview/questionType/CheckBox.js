@@ -132,16 +132,16 @@ class CheckBox extends Component {
         <div className="panel panel-default">
           <div className="panel-heading">
             {PeerReviewStore.EditMode
-            ?<TextField
-              value = {this.state.data.question}
-              id = 'question'
-              onChange = {this.handleQuestionChange}
-              floatingLabelText="Question"
-              underlineFocusStyle={style.underlineStyle}
-              floatingLabelStyle={style.floatingLabelStyle}
-              fullWidth={true}
-            />
-            :<h3>{this.state.data.question}</h3>
+            ? <TextField
+                value = {this.state.data.question}
+                id = 'question'
+                onChange = {this.handleQuestionChange}
+                floatingLabelText="Question"
+                underlineFocusStyle={style.underlineStyle}
+                floatingLabelStyle={style.floatingLabelStyle}
+                fullWidth={true}
+              />
+            : <h3>{this.state.data.question}</h3>
             }
           </div>
           <div className="panel-body">
