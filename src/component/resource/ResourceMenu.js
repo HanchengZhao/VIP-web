@@ -7,6 +7,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import firebase from '../../firebase';
 import Primary, { DeleteColor } from '../../Theme';
+import userStore from '../../stores/UserStore';
+import { observer } from "mobx-react";
 
 const resourceRef = firebase.database().ref('Resource');
 const styles = {
@@ -14,6 +16,7 @@ const styles = {
     borderColor: Primary,
   }
 }
+@observer
 class ResourceMenu extends Component {
   constructor(){
     super()
@@ -79,7 +82,9 @@ class ResourceMenu extends Component {
     return (
       <div>
         { resourceMenu }
-        <FlatButton label="+ Add new page" className="menuBarButton" fullWidth = {true} onClick = {this.sendPopup}/>
+        { userStore.role === "admin" &&
+          <FlatButton label="+ Add new page" className="menuBarButton" fullWidth = {true} onClick = {this.sendPopup}/>
+        }
         <MuiThemeProvider>
          <Dialog
             title="Please enter a name for new resource page"

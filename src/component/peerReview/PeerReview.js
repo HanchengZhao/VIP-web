@@ -4,7 +4,7 @@ import IconButton from 'material-ui/IconButton';
 import RemoveIcon from 'material-ui/svg-icons/action/highlight-off';
 
 import Comment from './questionType/Comment';
-import MultipleChoice from './questionType/MultipleChoice';
+// import MultipleChoice from './questionType/MultipleChoice';
 import Number from './questionType/Number';
 import Score from "./questionType/Score";
 
@@ -20,16 +20,18 @@ import MenuItem from 'material-ui/MenuItem';
 import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-const questionTypes = ["Score", "Comment", "Multiple Choice", "Number"];
+import QuestionContainer from './QuestionContainer';
+
+const questionTypes = ["Score", "Comment", "Checkbox", "Number"];
 
 @observer
 class PeerReview extends Component {
   constructor () {
     super();
     this.state = {
-      questions:[<Comment EditMode = {PeerReviewStore.EditMode}/>, <MultipleChoice/>, <Score/>, <Number/>],
+      questions:[<Comment/>, <CheckBox/>, <Score/>, <Number/>],
       questionTypes:questionTypes,
-      questionComponents:[<Score/>, <Comment/>, <MultipleChoice/>, <Number /> ],
+      questionComponents:[<Score/>, <Comment/>, <CheckBox/>, <Number /> ],
       value:0
     }
     this.handleChange = this.handleChange.bind(this);
@@ -97,6 +99,8 @@ class PeerReview extends Component {
         {questions}
         {/* <CheckBox /> */}
         <SelectPeers />
+        <div>Container</div>
+        <QuestionContainer/>
       </div>    
     );
   }
