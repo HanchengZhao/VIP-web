@@ -124,15 +124,6 @@ class Number extends Component {
                 <Checkbox checked={this.state.data.required} label = "Check If Required" labelPosition="left" onCheck={this.handleCheck} style = {{ paddingTop:'15px', width:'180px', float:'right'}} /> 
                 }
               </div>
-              <div className="panel-body">
-                <div  style = {style.edit}>
-                  <TextField type="number" value = {this.state.number} onChange = {this.handleNumberChange} style = {{float:'left', width:'100px'}} id = "number" />
-                  {
-                  PeerReviewStore.EditMode  &&
-                  <Checkbox checked={this.state.required} label = "Check If Required" labelPosition="left" onCheck={this.handleCheck} style = {{ paddingTop:'15px', width:'180px', float:'right'}} /> 
-                  }
-                </div>
-              </div>
             </div>
             </div>
           </MuiThemeProvider>

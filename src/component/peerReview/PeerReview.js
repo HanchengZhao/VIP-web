@@ -5,6 +5,7 @@ import RemoveIcon from 'material-ui/svg-icons/action/highlight-off';
 
 import Comment from './questionType/Comment';
 // import MultipleChoice from './questionType/MultipleChoice';
+import CheckBox from './questionType/CheckBox';
 import Number from './questionType/Number';
 import Score from "./questionType/Score";
 

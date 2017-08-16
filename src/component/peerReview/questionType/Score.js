@@ -61,14 +61,6 @@ class Score extends Component {
   constructor(props) {
     super(props);
     this.state = {
-<<<<<<< HEAD
-      EvalMode:this.props.EvalMode,
-      from: dummyProps.scale.from,
-      to: dummyProps.scale.to,
-      low: dummyProps.label.low,
-      high: dummyProps.label.high,
-      question: dummyProps.question,
-=======
       data: {
         from: dummyProps.scale.from,
         to: dummyProps.scale.to,
@@ -76,7 +68,6 @@ class Score extends Component {
         high: dummyProps.label.high,
         question: dummyProps.question,
       },
->>>>>>> Henry
       reviewMode: false,
     };
     this.handleFromChange = this.handleFromChange.bind(this);
@@ -241,13 +232,7 @@ class Score extends Component {
               </div>
               }
               
-              <div className="row" style={{display:"inline-block", marginLeft: "15px"}}>
-                <span style={{float:"left"}}> <b>{this.state.low}&nbsp;</b></span>
-                <RadioButtonGroup name="scores" defaultSelected="not_light" style={{float:"left"}}>
-                  {RadioButtons}
-                </RadioButtonGroup>
-                <span style={{float:"left"}}><b>&nbsp;{this.state.high}</b></span>
-              </div>
+
             
             
             <div className="row" style={{display:"inline-block", marginLeft: "15px"}}>
