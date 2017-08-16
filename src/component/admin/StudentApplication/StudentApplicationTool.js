@@ -18,9 +18,7 @@ class StudentApplicationTool extends Component {
     let fbRef = firebase.database().ref('StudentApplication_Raw_Data');
     fbRef.on('value', (snap) =>{
       if(!!snap) {
-        this.setState({
-          teamData:snap.val()
-        }, ()=>{console.log(this.state.teamData)});
+        this.setState(()=>({teamData:snap.val()}));
       }
     });
   
