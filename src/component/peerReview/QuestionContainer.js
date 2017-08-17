@@ -23,7 +23,7 @@ import Primary from '../../Theme';
 const style = {
   width: 'auto',
 };
-const questionTypes = ["Score", "Comment", "Checkbox", "Number"];
+const questionTypes = ["Score", "Comment", "CheckBox", "Number"];
 
 const Props = {
   questionArray: [{
@@ -58,7 +58,11 @@ const Props = {
           question:"Please give me a number",
           require: false
         }
-      }]
+      }],
+    date:{
+      stateDate: '',
+      endDate: ''
+    }
 }
 
 @DragDropContext(HTML5Backend)
@@ -81,12 +85,6 @@ export default class QuestionContainer extends Component {
   }
 
   addQuestion() {
-    // let questions = this.state.questions;
-    // let question = this.state.questionComponents[this.state.value];
-    // questions.push(question);
-    // this.setState({
-    //   questions:questions
-    // });
     let length = this.state.questions.length;
     let type = this.state.questionTypes[this.state.value];
     let initialData = {}
@@ -183,13 +181,13 @@ export default class QuestionContainer extends Component {
       <div style={style}>
         <MuiThemeProvider>
           <div>
-            <SelectField value = {this.state.value} onChange = {this.handleChange}>
+            <SelectField value = {this.state.value} onChange = {this.handleChange} style={{width: '150px'}}>
               {questionTypes}
             </SelectField>
             <FlatButton label = "+ Add" onClick = {this.addQuestion} style = {{verticalAlign:"top"}}/>
             {PeerReviewStore.EditMode
-              ?<FlatButton label = "Preview Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"top", float:'right'}}/>
-              :<FlatButton label = "Edit Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"top", float:'right'}}/>
+              ? <FlatButton label = "Preview Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"top", float:'right'}}/>
+              : <FlatButton label = "Edit Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"top", float:'right'}}/>
             }
           </div>
         </MuiThemeProvider>
