@@ -78,7 +78,6 @@ class Comment extends Component {
   }
 
   handleCheck(e, checked){
-    console.log(checked)
     this.setState(update(this.state, {
       data: {
         required:{

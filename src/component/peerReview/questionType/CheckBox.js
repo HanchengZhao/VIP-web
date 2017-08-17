@@ -144,28 +144,24 @@ class CheckBox extends Component {
                 floatingLabelStyle={style.floatingLabelStyle}
                 fullWidth={true}
               />
-              :<h3>{this.state.data.question}</h3>
-              }
-            </div>
-            <div className="panel-body">
-              {PeerReviewStore.EditMode &&
-              <div>
-                <div className = "edit">
-                  <TextField id = 'newAnswer' floatingLabelText="Add Option" 
-                    value = {this.state.newOption} 
-                    onChange = {this.handleOptionChange} 
-                    underlineFocusStyle={style.underlineStyle} 
-                    floatingLabelStyle={style.floatingLabelStyle}
-                  />
-                  <FlatButton label="Add" onClick = {this.handleAdd} />
-                </div>
-                <Divider style={{margin:"20px",marginTop:"20px"}} />
-              </div>
-              }
-              <div style={{display:"inline"}}>
-                {RadioButtons}
+            : <h3>{this.state.data.question}</h3>
+            }
+          </div>
+          <div className="panel-body">
+            {PeerReviewStore.EditMode &&
+            <div>
+              <div className = "edit">
+                <TextField id = 'newAnswer' floatingLabelText="Add Option" 
+                  value = {this.state.newOption} 
+                  onChange = {this.handleOptionChange} 
+                  underlineFocusStyle={style.underlineStyle} 
+                  floatingLabelStyle={style.floatingLabelStyle}
+                />
+                <FlatButton label="Add" onClick = {this.handleAdd} />
               </div>
             </div>
+            }
+          </div>
           </div>
         </MuiThemeProvider>
         }

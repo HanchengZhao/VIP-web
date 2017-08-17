@@ -4,6 +4,10 @@ import { findDOMNode } from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import ItemTypes from './ItemTypes';
 
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import IconButton from 'material-ui/IconButton';
+import RemoveIcon from 'material-ui/svg-icons/action/highlight-off';
+
 import CheckBox from "./questionType/CheckBox";
 import Comment from './questionType/Comment';
 // import MultipleChoice from './questionType/MultipleChoice';
@@ -109,6 +113,11 @@ export default class QuestionCard extends Component {
     const question = getQuestionComponent(type, this.props);
     return connectDragSource(connectDropTarget(
       <div style={{ ...style, opacity }}>
+        <MuiThemeProvider>
+          <IconButton onClick = {() => this.props.removeQuestion(this.props.index)} style = {{position: 'absolute',right: '10px'}}>
+            <RemoveIcon />
+          </IconButton>
+        </MuiThemeProvider>
         {question}
       </div>,
     ));
