@@ -160,7 +160,7 @@ class StudentApplication extends Component{
                       return(
                         <div key={id}>
                           <TextField
-                          value = {this.state.data.id}
+                          value = {this.state.data[questionsArray[id].id]}
                           floatingLabelText={questionsArray[id].text}
                           errorText={this.state.errorText}
                           onChange={ this.handleChange}/><br /></div>)
@@ -168,7 +168,7 @@ class StudentApplication extends Component{
                     return(
                   <div key = {id}>
                     <TextField
-                      value = {this.state.data.id}
+                      value = {this.state.data[questionsArray[id].id]}
                       floatingLabelText={questionsArray[id].text}
                       errorText={this.state.error[questionsArray[id].id]}
                       onChange={ this.handleChange}/><br/>

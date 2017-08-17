@@ -101,6 +101,8 @@ class Number extends Component {
   render() {
 
     return(
+      <div>
+        {!this.state.EvalMode &&
         <MuiThemeProvider>
           <div className="panel panel-default">
             <div className="panel-heading">
@@ -127,6 +129,17 @@ class Number extends Component {
             </div>
             </div>
           </MuiThemeProvider>
+        }
+          <div>
+            {this.state.EvalMode &&
+            <MuiThemeProvider>
+              <div  style = {style.edit}>
+                <TextField type="number" value = {this.state.number} onChange = {this.handleNumberChange} style = {{float:'left', width:'100px'}} id = "number" />
+              </div>
+            </MuiThemeProvider>
+            }
+          </div>
+        </div>
     );
   }
 }

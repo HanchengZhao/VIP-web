@@ -98,7 +98,6 @@ class PeerReview extends Component {
           </div>
         </MuiThemeProvider>
         {questions}
-        {/* <CheckBox /> */}
         <SelectPeers />
         <div>Container</div>
         <QuestionContainer/>

@@ -47,7 +47,6 @@ class Comment extends Component {
       EditMode:PeerReviewStore.EditMode,
       EvalMode:this.props.EvalMode,
       PreviewMode:Props.PreviewMode,
-      
     }
     this.handleTypeChange = this.handleTypeChange.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
@@ -110,6 +109,8 @@ class Comment extends Component {
     ));
     
     return(
+      <div>
+      {!this.state.EvalMode &&
       <MuiThemeProvider>
         <div className="panel panel-default">
           <div className="panel-heading">
@@ -158,6 +159,35 @@ class Comment extends Component {
           </div>
           </div>
         </MuiThemeProvider>
+      }
+      <div>
+        {this.state.EvalMode &&
+          <MuiThemeProvider>
+            <div>
+            {this.state.data.type === "Short Answer"
+                ?<TextField 
+                  floatingLabelStyle={style.floatingLabelStyle}
+                  underlineFocusStyle = {style.underlineStyle}
+                  fullWidth = {true}
+                  rows = {1}
+                  rowsMax={1}
+                  floatingLabelText = "Answer"
+                />
+                :<TextField
+                  floatingLabelStyle={style.floatingLabelStyle}
+                  underlineFocusStyle = {style.underlineStyle}
+                  rows = {4}
+                  rowsMax = {4}
+                  fullWidth = {true}
+                  floatingLabelText = "Answer"
+                  multiLine={true}
+                />
+                }
+            </div>
+          </MuiThemeProvider>
+        }
+        </div>
+      </div>
     );
   }
 }

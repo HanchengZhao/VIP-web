@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import MultipleChoice from './questionType/MultipleChoice';
+import CheckBox from './questionType/CheckBox';
 import Comment from './questionType/Comment';
 import Number from './questionType/Number';
 import Score from './questionType/Score';
@@ -8,17 +8,15 @@ import MuiButton from '../MuiButton';
 
 let DummyProps = {
   question : 'Why?',
-  Peers: [
-    {name:'joe'},{name:'jimbob'},{name:'cletus'},{name:'vernan'}
-  ]
+  Peers: [{name:'joe'},{name:'jimbob'},{name:'cletus'},{name:'vernan'}]
 }
 
-const getQuestionComponent = (type, props) => {
-  switch(type){
-    case 'Score': return <Score EvalMode = {true} {...props}/>;
-    case 'Comment' : return <Comment EvalMode = {true} {...props}/>;
-    case 'Number' : return <Number EvalMode = {true} {...props} />;
-    case 'Multiple Choice': return <MultipleChoice EvalMode = {true} {...props} />;
+const getQuestionComponent = (type, data, props) => {
+  switch(type) {
+    case 'Score': return <Score EvalMode = {true} data = {data} {...props}/>;
+    case 'Comment' : return <Comment EvalMode = {true} data = {data} {...props}/>;
+    case 'Number' : return <Number EvalMode = {true} data = {data} {...props} />;
+    case 'CheckBox': return <CheckBox EvalMode = {true} data = {data} {...props} />;
     default: return <div>Not A Proper Question Type</div>;
   }
 }
@@ -42,9 +40,10 @@ const questions = [{
     }
   }, {
     id: 3,
-    type: "Multiple Choice",
+    type: "CheckBox",
     data:{
-      question:""
+      question:"",
+      options:['1','2']
     }
   }, {
     id: 4,
@@ -66,6 +65,12 @@ class QuestionPeers extends Component {
     this.switchQuestion = this.switchQuestion.bind(this);
   }
 
+  componentDidMount() {
+    if(this.props){
+      this.setState({peers:this.props.peers});
+    }
+  }
+
   switchQuestion() {
     let index = this.state.index;
     console.log('index:', index, 'questions', questions.length)
@@ -81,7 +86,7 @@ class QuestionPeers extends Component {
     let question = getQuestionComponent(questions[this.state.index].type, questions[this.state.index].data);
     return(
       <div>
-        <h2 style = {{textAlign:'center'}}>{this.state.question}</h2>
+        <h2 style = {{textAlign:'center'}}>{questions[this.state.index].data.question}</h2>
         <table className = 'table'>
           <thead>
             <tr>
