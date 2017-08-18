@@ -23,9 +23,26 @@ class TestPlot extends Component {
   }
 
   averageData(graph) {
-    graph[0].x.forEach((i)=>{
-      
-    });
+    let averageGraph = [];
+    graph.forEach((graph)=>{
+      let average = {};
+      let student = {x:[],y:[],type:'scatter', name:graph.name};
+      graph.x.forEach((i,j)=>{
+        if(!average[i]){
+          average[i] = [];
+        }
+        average[i].push(graph.y[j]);
+      });
+      Object.keys(average).forEach((i)=>{
+        let sum = average[i].reduce((sum,value)=>{
+          return parseInt(sum) + parseInt(value);
+        }, 0);
+        student.y.push(sum/average[i].length);
+        student.x.push(i);
+      });
+      averageGraph.push(student);
+    })
+    return averageGraph;
   }
 
   buildGraph(data) {
@@ -43,9 +60,8 @@ class TestPlot extends Component {
       });
       Graph.push(line);
     });
-    this.averageData(Graph);
     
-    Plotly.newPlot('line', Graph);
+    Plotly.newPlot('line', this.averageData(Graph));
   }
 
   render() {

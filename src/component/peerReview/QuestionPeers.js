@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+
+
 import CheckBox from './questionType/CheckBox';
 import Comment from './questionType/Comment';
 import Number from './questionType/Number';
@@ -58,11 +60,42 @@ class QuestionPeers extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      question:DummyProps.question,
+      questions:questions,
       peers:this.props.peers,
-      index:0
+      index:0,
+      next:'next',
+      previous:'previous disabled'
     }
-    this.switchQuestion = this.switchQuestion.bind(this);
+    this.handleNext = this.handleNext.bind(this);
+    this.handlePrevious = this.handlePrevious.bind(this);
+  }
+
+  handleNext() {
+    let index = this.state.index;
+    if(index<questions.length-1){
+      index = index +1;
+      this.setState({
+        index:index,
+        previous:'previous'
+      });
+    }
+    if (index === questions.length-1){
+      this.setState({next:'next disabled'});
+    }
+  }
+
+  handlePrevious() {
+    let index = this.state.index;
+    if(index > 0) {
+      index = index - 1;
+      this.setState({
+        index:index,
+        next:'next'
+      });
+    }
+    if(index === 0) {
+      this.setState({previous:'previous disabled'});
+    }
   }
 
   componentDidMount() {
@@ -71,22 +104,11 @@ class QuestionPeers extends Component {
     }
   }
 
-  switchQuestion() {
-    let index = this.state.index;
-    console.log('index:', index, 'questions', questions.length)
-    if(index<questions.length-1){
-      index = index +1;
-      this.setState({index:index});
-    }else if (index===questions.length-1){
-      this.setState({submit:true});
-    }
-  }
-
   render() {
-    let question = getQuestionComponent(questions[this.state.index].type, questions[this.state.index].data);
+    let question = getQuestionComponent(this.state.questions[this.state.index].type, this.state.questions[this.state.index].data);
     return(
       <div>
-        <h2 style = {{textAlign:'center'}}>{questions[this.state.index].data.question}</h2>
+        <h2 style = {{textAlign:'center'}}>{this.state.questions[this.state.index].data.question}</h2>
         <table className = 'table'>
           <thead>
             <tr>
@@ -104,10 +126,12 @@ class QuestionPeers extends Component {
             }
           </tbody>
         </table>
-        {this.state.submit
-        ?<MuiButton label = "Submit" onClick = {this.switchQuestion} />
-        :<MuiButton label = "next question" onClick = {this.switchQuestion} />
-        }
+        <nav aria-label="...">
+          <ul className="pager">
+            <li className={this.state.previous}><a href="#" onClick={this.handlePrevious}><span aria-hidden="true">&larr;</span>Previous</a></li>
+            <li className={this.state.next}><a href="#" onClick={this.handleNext}>Next<span aria-hidden="true">&rarr;</span></a></li>
+          </ul>
+        </nav>
       </div>
     );
   }

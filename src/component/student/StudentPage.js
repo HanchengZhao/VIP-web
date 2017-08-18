@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import MuiButton from '../MuiButton';
 
+import PeerReviewStudent from './../peerReview/PeerReviewStudent';
+
 import {Tabs, Tab} from 'material-ui/Tabs';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Primary, {NavColor} from '../../Theme';
@@ -59,7 +61,7 @@ class StudentPage extends Component {
             <h2 style = {{textAlign:'center'}}>{this.state.team}</h2>
             <RosterTable roster = {this.state.roster} />
           </div>
-          :<h1>Peer Review</h1>
+          :<PeerReviewStudent />
         }
          <div>
           <MuiThemeProvider>

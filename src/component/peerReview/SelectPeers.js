@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Paper from 'material-ui/Paper';
+
 import firebase from '../../firebase';
 import Checkbox from 'material-ui/Checkbox';
 import QuestionPeers from './QuestionPeers';
@@ -61,31 +63,37 @@ class SelectPeers extends Component {
   render() {
     return(
       <div>
-        {this.state.final 
-        ?<div>
-          <table className = 'table'>
-            <thead>
-              <tr>
-                <th>Peers</th>
-              </tr>
-            </thead>
-            <tbody>
-              {this.state.peers &&
-                this.state.peers.map((peer,index) => {
-                  return <tr key = {index}>
-                    <th>{peer.name}</th>
-                    <th><MuiThemeProvider><Checkbox id = {index} onCheck = {this.handleClick}/></MuiThemeProvider></th>
+        <MuiThemeProvider>
+          <Paper zDepth = {2} style = {{margin:'20px'}}>
+            <div style = {{padding:'20px'}}>
+              {this.state.final 
+              ?<div>
+                <table className = 'table'>
+                  <thead>
+                    <tr>
+                      <th>Peers</th>
                     </tr>
-                })
+                  </thead>
+                  <tbody>
+                    {this.state.peers &&
+                      this.state.peers.map((peer,index) => {
+                        return <tr key = {index}>
+                          <th>{peer.name}</th>
+                          <th><MuiThemeProvider><Checkbox id = {index} onCheck = {this.handleClick}/></MuiThemeProvider></th>
+                          </tr>
+                      })
+                    }
+                  </tbody>
+                </table>
+                <div style = {{textAlign:'right'}}>
+                  <MuiButton label = "continue" onClick = {this.showQuestions}/>
+                </div>
+              </div>
+              :<QuestionPeers peers = {this.state.selected}/>
               }
-            </tbody>
-          </table>
-          <div style = {{textAlign:'right'}}>
-            <MuiButton label = "continue" onClick = {this.showQuestions}/>
-          </div>
-        </div>
-        :<QuestionPeers peers = {this.state.selected}/>
-        }
+            </div>
+          </Paper>
+        </MuiThemeProvider>
       </div>
     );
   }

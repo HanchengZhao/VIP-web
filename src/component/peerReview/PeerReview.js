@@ -40,6 +40,7 @@ class PeerReview extends Component {
       <div>
         <h2>PeerReview</h2>
         <QuestionContainer/>
+        <SelectPeers />
       </div>    
     );
   }

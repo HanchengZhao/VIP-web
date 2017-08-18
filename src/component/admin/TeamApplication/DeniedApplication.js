@@ -95,9 +95,9 @@ class DeniedApplications extends Component {
                 {this.state.Applications
                   ? Object.keys(this.state.Applications).map((uuid) =>
                     <TableRow key = {uuid}>
-                      <TableRowColumn>{Applications[uuid].application.title}</TableRowColumn>
-                      <TableRowColumn>{Applications[uuid].application.name}</TableRowColumn>
-                      <TableRowColumn>{Applications[uuid].application.email}</TableRowColumn>
+                      <TableRowColumn>{Applications[uuid].application.teamName}</TableRowColumn>
+                      <TableRowColumn>{Applications[uuid].application.leadFacultyName}</TableRowColumn>
+                      <TableRowColumn>{Applications[uuid].application.leadFacultyEmail}</TableRowColumn>
                       <TableRowColumn>{Applications[uuid].comments}</TableRowColumn>
                     </TableRow>
                   )

@@ -89,7 +89,8 @@ class ProjectApplication extends Component{
 
 
   firebasewrite = () => {
-    let empty = checkEmpty(this.state.error, this.state.data, this.state.data.contactEmail, this.state.notIncluded);
+    console.log(this.state.data);
+    let empty = checkEmpty(this.state.error, this.state.data, this.state.data.leadFacultyEmail, this.state.notIncluded);
     if(empty[0]){
       if(`${db}`==='Team Application'){
           const rootRef = firebase.database().ref().child(TeamFormPath);
@@ -102,7 +103,6 @@ class ProjectApplication extends Component{
         };
       });
     }
-    console.log(this.state.empty);
     this.setState({
       error:empty[1],
       errorText:empty[2]
@@ -123,7 +123,7 @@ class ProjectApplication extends Component{
                 <div className="row">
                   {this.state.questionsArray 
                   ? (Object.keys(this.state.questionsArray).map((id) => {
-                    if(questionsArray[id].id==="contactEmail") {
+                    if(questionsArray[id].id==="leadFacultyEmail") {
                       return(
                         <div key={id}>
                           <TextField
