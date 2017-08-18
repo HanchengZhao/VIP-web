@@ -70,8 +70,32 @@ class QuestionPeers extends Component {
     this.handlePrevious = this.handlePrevious.bind(this);
   }
 
+  componentDidMount() {
+    if(this.props){
+      let questions = [];
+      let data = ''
+      let date = '';
+      Object.keys(this.props.questions[this.props.team]).forEach((key)=>{
+        data = this.props.questions[this.props.team][key];
+      });
+      Object.keys(data).forEach((key)=>{
+        if(key === 'date') {
+          date = data[key];
+        }else{
+          questions.push(data[key]);
+        }
+      })
+      this.setState({
+        peers:this.props.peers,
+        questions:questions,
+        date:date
+      });
+    }
+  }
+
   handleNext() {
     let index = this.state.index;
+    let questions = this.state.questions;
     if(index<questions.length-1){
       index = index +1;
       this.setState({
@@ -98,11 +122,7 @@ class QuestionPeers extends Component {
     }
   }
 
-  componentDidMount() {
-    if(this.props){
-      this.setState({peers:this.props.peers});
-    }
-  }
+  
 
   render() {
     let question = getQuestionComponent(this.state.questions[this.state.index].type, this.state.questions[this.state.index].data);
