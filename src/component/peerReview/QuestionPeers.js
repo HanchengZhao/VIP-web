@@ -79,12 +79,12 @@ class QuestionPeers extends Component {
         data = this.props.questions[this.props.team][key];
       });
       Object.keys(data).forEach((key)=>{
-        if(key === 'date') {
+        if(key === 'data') {
           date = data[key];
         }else{
           questions.push(data[key]);
         }
-      })
+      });
       this.setState({
         peers:this.props.peers,
         questions:questions,
@@ -126,6 +126,7 @@ class QuestionPeers extends Component {
 
   render() {
     let question = getQuestionComponent(this.state.questions[this.state.index].type, this.state.questions[this.state.index].data);
+    console.log(this.state.questions);
     return(
       <div>
         <h2 style = {{textAlign:'center'}}>{this.state.questions[this.state.index].data.question}</h2>
