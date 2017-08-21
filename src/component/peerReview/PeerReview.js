@@ -1,49 +1,21 @@
 import React, { Component } from 'react';
+import { Redirect, Switch, Route } from 'react-router-dom';
 
-import IconButton from 'material-ui/IconButton';
-import RemoveIcon from 'material-ui/svg-icons/action/highlight-off';
-
-import Comment from './questionType/Comment';
-// import MultipleChoice from './questionType/MultipleChoice';
-import CheckBox from './questionType/CheckBox';
-import Number from './questionType/Number';
-import Score from "./questionType/Score";
-
-import SelectPeers from './SelectPeers';
-import QuestionPeers from './QuestionPeers';
-
-import { observer } from "mobx-react";
-import PeerReviewStore from '../../stores/PeerReviewStore';
-
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-
-import FlatButton from 'material-ui/FlatButton';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import PeerReviewPage from './PeerReviewPage';
 import QuestionContainer from './QuestionContainer';
+import { AdvisorRoute, PrivateRoute } from '../Route';
+import userStore from '../../stores/UserStore';
 
-const questionTypes = ["Score", "Comment", "Checkbox", "Number"];
 
-@observer
-class PeerReview extends Component {
-  constructor () {
-    super();
-    this.state = {
-      
-    }
-  }
+const PeerReview = ( {match} ) => (
+  <div>
+    <Switch>
+      {/*<AdvisorRoute exact path={`${match.url}/application`} user={userStore} component={ ASUTeamFormComponent }/>*/}
+      <Route exact path={`${match.url}/form_generator`} component={ QuestionContainer }/>
+      <Route exact path={match.url} component={ PeerReviewPage }/>
+    </Switch>
+  </div>
+)
 
-  render() {
-
-    return (
-      <div>
-        <h2>PeerReview</h2>
-        <QuestionContainer/>
-        <SelectPeers />
-      </div>    
-    );
-  }
-}
 
 export default PeerReview;
