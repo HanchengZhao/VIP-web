@@ -13,7 +13,7 @@ const style = {
     height: "380px"
   },
   cardMedia:{
-    height: "100px"
+    height: "100px",
   },
   cardHeader: {
     textAlign : 'left',
@@ -47,13 +47,13 @@ class ProjectCard extends Component {
             />
             <CardMedia style={style.cardMedia}>
               {this.props.project.logo
-              ?<img src={this.props.project.logo} alt="" />
-              :<img src={Vip_logo} alt=""/>
+              ?<img src={this.props.project.logo} alt="" style = {style.cardMedia}/>
+              :<img src={Vip_logo} alt="" style = {style.cardMedia}/>
               }
             </CardMedia>
-            <CardText expandable={false} style={style.cardText}>
+            {/* <CardText expandable={false} style={style.cardText}>
               {this.props.project.nature}
-            </CardText>
+            </CardText> */}
               <CardActions>
                 <Link to={`projects/${this.props.fbkey}`}><FlatButton label="Learn more" /></Link>                
               </CardActions>

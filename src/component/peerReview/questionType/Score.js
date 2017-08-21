@@ -69,8 +69,10 @@ class Score extends Component {
         question: dummyProps.question,
       },
       reviewMode: false,
-      EvalMode: this.props.EvalMode
+      EvalMode: this.props.EvalMode,
+      Answers:{}
     };
+    this.handleChange = this.handleChange.bind(this);
     this.handleFromChange = this.handleFromChange.bind(this);
     this.handleToChange = this.handleToChange.bind(this);
     this.handleLowLabel = this.handleLowLabel.bind(this);
@@ -93,6 +95,13 @@ class Score extends Component {
     
   }
 
+  handleChange(e) {
+    let Answers = this.state.Answers;
+    Answers[this.props.peer.name] = e.target.value;
+    this.setState({Answers:Answers},
+    ()=>{this.props.handleChange(this.state.Answers)});
+  }
+
   handleQuestionChange(e){
     let text = e.target.value
     this.setState(update(this.state, {
@@ -106,6 +115,8 @@ class Score extends Component {
     });
     
   }
+
+
 
   handleFromChange(e, index, from){
     this.setState(update(this.state, {
@@ -157,6 +168,7 @@ class Score extends Component {
   }
   render() {
     let scales = [];
+    let value;
     for(let i = this.state.data.from; i <= this.state.data.to; i++){
       scales.push(i)
     }
@@ -171,6 +183,9 @@ class Score extends Component {
     let toMenu = [2,3,4,5,6,7,8,9].map((num) => 
       <MenuItem key={num} value={num} primaryText={num} />
     )
+    if(!!this.props.answers) {
+      value = this.props.answers[this.props.peer.name];
+    }
     return (
       <div>
         {!this.state.EvalMode &&
@@ -252,9 +267,9 @@ class Score extends Component {
         <div>
           {this.state.EvalMode &&
           <MuiThemeProvider>
-          <div className="row" style={{display:"inline-block", marginLeft: "15px"}}>
+          <div className="row"  style={{display:"inline-block", marginLeft: "15px"}}>
                 <span style={{float:"left"}}> <b>{this.state.data.low}&nbsp;</b></span>
-                <RadioButtonGroup name="scores" defaultSelected="not_light" style={{float:"left"}}>
+                <RadioButtonGroup  name="scores" defaultSelected = {value} style={{float:"left"}} onChange = {this.handleChange}>
                   {RadioButtons}
                 </RadioButtonGroup>
                 <span style={{float:"left"}}><b>&nbsp;{this.state.data.high}</b></span>

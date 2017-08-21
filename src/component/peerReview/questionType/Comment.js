@@ -47,9 +47,11 @@ class Comment extends Component {
       EditMode:PeerReviewStore.EditMode,
       EvalMode:this.props.EvalMode,
       PreviewMode:Props.PreviewMode,
+      Answers:{},
     }
     this.handleTypeChange = this.handleTypeChange.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleQuestionChange = this.handleQuestionChange.bind(this);
   }
 
@@ -75,6 +77,13 @@ class Comment extends Component {
     }), () => { // run the function after state changed
       this.props.updateQuestion(this.props.index, this.state.data)
     });
+  }
+
+  handleChange(e) {
+    let Answers = this.state.Answers;
+    Answers[this.props.peer.name] = e.target.value;
+    this.setState({Answers:Answers},
+    ()=>{this.props.handleChange(this.state.Answers)});
   }
 
   handleCheck(e, checked){
@@ -103,10 +112,13 @@ class Comment extends Component {
   }
 
   render() {
+    let value = '';
     let items = Props.types.map((value, index)=> (
       <MenuItem key={value} value = {value} primaryText = {value} />
     ));
-    
+    if(!!this.props.answers){
+      value = this.props.answers[this.props.peer.name];
+    }
     return(
       <div>
       {!this.state.EvalMode &&
@@ -137,7 +149,8 @@ class Comment extends Component {
             }
             
             {this.state.data.type === "Short Answer"
-            ?<TextField 
+            ?<TextField
+              onChange = {this.props.onChange}
               floatingLabelStyle={style.floatingLabelStyle}
               underlineFocusStyle = {style.underlineStyle}
               fullWidth = {true}
@@ -146,6 +159,7 @@ class Comment extends Component {
               floatingLabelText = "Answer"
             />
             :<TextField
+              onChange = {this.props.onChange}
               floatingLabelStyle={style.floatingLabelStyle}
               underlineFocusStyle = {style.underlineStyle}
               rows = {4}
@@ -164,7 +178,9 @@ class Comment extends Component {
           <MuiThemeProvider>
             <div>
             {this.state.data.type === "Short Answer"
-                ?<TextField 
+                ?<TextField
+                  defaultValue = {value}
+                  onChange = {this.handleChange}
                   floatingLabelStyle={style.floatingLabelStyle}
                   underlineFocusStyle = {style.underlineStyle}
                   fullWidth = {true}
@@ -173,6 +189,8 @@ class Comment extends Component {
                   floatingLabelText = "Answer"
                 />
                 :<TextField
+                  defaultValue = {value}
+                  onChange = {this.handleChange}
                   floatingLabelStyle={style.floatingLabelStyle}
                   underlineFocusStyle = {style.underlineStyle}
                   rows = {4}

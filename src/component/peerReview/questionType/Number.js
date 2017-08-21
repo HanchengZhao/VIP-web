@@ -47,12 +47,13 @@ class Number extends Component {
       PreviewMode:Props.PreviewMode,
       EvalMode:this.props.EvalMode,
       required:Props.required,
-      PreviewMode:Props.PreviewMode
+      PreviewMode:Props.PreviewMode,
+      Answers:{}
     }
     this.handleCheck = this.handleCheck.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleNumberChange = this.handleNumberChange.bind(this);
     this.handleQuestionChange = this.handleQuestionChange.bind(this);
-
   }
 
   componentDidMount() {
@@ -61,9 +62,20 @@ class Number extends Component {
         data: {
           required: this.props.data.required,
           question: this.props.data.question
-        }
+        },
+        Answers:{}
       })
     } 
+  }
+
+  handleChange(e) {
+    let Answers = this.state.Answers;
+    Answers[this.props.peer.name] = e.target.value;
+    this.setState({
+      Answers:Answers,
+      number:e.target.value
+    },
+    ()=>{this.props.handleChange(this.state.Answers)});
   }
 
   handleCheck(e, checked){
@@ -99,7 +111,10 @@ class Number extends Component {
 
   
   render() {
-
+    let value;
+    if(!!this.props.answers) {
+      value = this.props.answers[this.props.peer.name];
+    }
     return(
       <div>
         {!this.state.EvalMode &&
@@ -134,7 +149,7 @@ class Number extends Component {
             {this.state.EvalMode &&
             <MuiThemeProvider>
               <div  style = {style.edit}>
-                <TextField type="number" value = {this.state.number} onChange = {this.handleNumberChange} style = {{float:'left', width:'100px'}} id = "number" />
+                <TextField type="number" defaultValue = {value} onChange = {this.handleChange} style = {{float:'left', width:'100px'}} id = "number" />
               </div>
             </MuiThemeProvider>
             }

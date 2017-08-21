@@ -13,15 +13,6 @@ let DummyProps = {
   Peers: [{name:'joe'},{name:'jimbob'},{name:'cletus'},{name:'vernan'}]
 }
 
-const getQuestionComponent = (type, data, props) => {
-  switch(type) {
-    case 'Score': return <Score EvalMode = {true} data = {data} {...props}/>;
-    case 'Comment' : return <Comment EvalMode = {true} data = {data} {...props}/>;
-    case 'Number' : return <Number EvalMode = {true} data = {data} {...props} />;
-    case 'CheckBox': return <CheckBox EvalMode = {true} data = {data} {...props} />;
-    default: return <div>Not A Proper Question Type</div>;
-  }
-}
 const questions = [{
     id: 1,
     type: 'Score',
@@ -64,13 +55,16 @@ class QuestionPeers extends Component {
       peers:this.props.peers,
       index:0,
       next:'next',
-      previous:'previous disabled'
+      previous:'previous disabled',
+      Answers:{}
     }
+    this.handleChange = this.handleChange.bind(this);
     this.handleNext = this.handleNext.bind(this);
     this.handlePrevious = this.handlePrevious.bind(this);
   }
 
   componentDidMount() {
+    console.log(this.state.peers);
     if(this.props){
       let questions = [];
       let data = ''
@@ -122,11 +116,29 @@ class QuestionPeers extends Component {
     }
   }
 
-  
+  handleChange(answer) {
+    let Answers = this.state.Answers;
+    Object.keys(answer).forEach((key)=>{
+      if(!Answers[this.state.index]){
+        Answers[this.state.index] = {};
+      }
+      Answers[this.state.index][key] = answer[key];
+    });
+    this.setState({Answers:Answers},
+    ()=>console.log(this.state.Answers));
+  }
+
+  getQuestionComponent = (type, data, getData, peer, props) => {
+    switch(type) {
+      case 'Score': return <Score EvalMode = {true} data = {data} handleChange = {getData} peer = {peer} answers = {this.state.Answers[this.state.index]} {...props}/>;
+      case 'Comment' : return <Comment EvalMode = {true} data = {data} handleChange = {getData} peer = {peer} answers = {this.state.Answers[this.state.index]} {...props}/>;
+      case 'Number' : return <Number EvalMode = {true} data = {data} handleChange = {getData} peer = {peer} answers = {this.state.Answers[this.state.index]} {...props} />;
+      case 'CheckBox': return <CheckBox EvalMode = {true} data = {data} handleChange = {getData} peer = {peer} answers = {this.state.Answers[this.state.index]} {...props} />;
+      default: return <div>Not A Proper Question Type</div>;
+    }
+  }
 
   render() {
-    let question = getQuestionComponent(this.state.questions[this.state.index].type, this.state.questions[this.state.index].data);
-    console.log(this.state.questions);
     return(
       <div>
         <h2 style = {{textAlign:'center'}}>{this.state.questions[this.state.index].data.question}</h2>
@@ -138,10 +150,10 @@ class QuestionPeers extends Component {
           </thead>
           <tbody>
             {this.state.peers &&
-              this.state.peers.map((peer) => (
+              this.state.peers.map((peer,index) => (
                 <tr key = {peer.name}>
                   <th>{peer.name}</th>
-                  <th>{question}</th>
+                  <th>{this.getQuestionComponent(this.state.questions[this.state.index].type, this.state.questions[this.state.index].data, this.handleChange, peer)}</th>
                 </tr>
               ))
             }
