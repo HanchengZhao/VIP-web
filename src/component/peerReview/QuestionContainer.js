@@ -13,6 +13,7 @@ import { observer } from "mobx-react";
 import PeerReviewStore from '../../stores/PeerReviewStore';
 import MuiButton from '../MuiButton';
 
+import DatePicker from 'material-ui/DatePicker';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -20,8 +21,21 @@ import FlatButton from 'material-ui/FlatButton';
 
 import Primary from '../../Theme';
 
-const style = {
-  width: 'auto',
+const styles = {
+  datePicker: {
+    theme: getMuiTheme({
+      datePicker: {
+        selectColor: Primary
+      },
+      flatButton: {
+        primaryTextColor: Primary
+      }
+    }),
+    position: "col-md-3"
+  },
+  publishButton: {
+    marginTop: "20px"
+  }
 };
 const questionTypes = ["Score", "Comment", "CheckBox", "Number"];
 
@@ -60,7 +74,7 @@ const Props = {
         }
       }],
     date:{
-      stateDate: '',
+      startDate: '2017-08-18',
       endDate: ''
     }
 }
@@ -72,15 +86,21 @@ export default class QuestionContainer extends Component {
     super(props);
     this.changeEditMode = this.changeEditMode.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
+    this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
     this.moveQuestion = this.moveQuestion.bind(this);
     this.removeQuestion = this.removeQuestion.bind(this);
     this.updateQuestion = this.updateQuestion.bind(this);
     this.publish = this.publish.bind(this);
+
     this.state = {
       questionTypes:questionTypes,
       value: 0,
-      questions: Props.questionArray
+      questions: Props.questionArray,
+      startDate: new Date() ,
+      endDate:  {} ,
+      editDate: ""
     };
   }
 
@@ -169,8 +189,28 @@ export default class QuestionContainer extends Component {
     }));
   }
 
+  disablePrevDates(startDate) { // prevent selecting endDate before startDate
+    const startSeconds = Date.parse(startDate);
+    return (date) => {
+      return Date.parse(date) < startSeconds;
+    }
+  }
+
+  handleChangeStartDate(event, date){
+    this.setState({
+      startDate: date,
+    });
+  };
+
+  handleChangeEndDate(event, date){
+    this.setState({
+      endDate: date,
+    });
+  };
+
   publish(){
     console.log(this.state.questions)
+    console.log("Date: ", this.state.startDate, this.state.endDate)
   }
   render() {
     const { questions } = this.state;
@@ -178,8 +218,10 @@ export default class QuestionContainer extends Component {
       return <MenuItem primaryText = {value} value = {index} key = {index} />
     });
     return (
-      <div style={style}>
+      <div style={{width: 'auto'}}>
+        <h2 style={{textAlign:"center"}}>Form Generator</h2>
         <MuiThemeProvider>
+          
           <div>
             <SelectField value = {this.state.value} onChange = {this.handleChange} style={{width: '150px'}}>
               {questionTypes}
@@ -203,9 +245,32 @@ export default class QuestionContainer extends Component {
             updateQuestion={this.updateQuestion}
           />
         ))}
-        <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-          <RaisedButton label = "Publish"  backgroundColor = {Primary} onClick={this.publish} />
-        </MuiThemeProvider>
+        <div className="row">
+          <div className={styles.datePicker.position}>
+            <MuiThemeProvider muiTheme={styles.datePicker.theme}>
+              <div >
+                <DatePicker
+                  onChange={this.handleChangeStartDate}
+                  floatingLabelText="Start Date"
+                  value={this.state.startDate}
+                  container="inline"
+                />
+                <DatePicker
+                  onChange={this.handleChangeEndDate}
+                  floatingLabelText="End Date"
+                  container="inline"
+                  value={this.state.endDate}
+                  shouldDisableDate={this.disablePrevDates(this.state.startDate)}
+                />
+              </div>
+            </MuiThemeProvider>
+          </div>
+          <div className="row" style={styles.publishButton}>
+            <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+              <RaisedButton className="pull-right" label = "Publish"  backgroundColor = {Primary} onClick={this.publish} />
+            </MuiThemeProvider>
+          </div>
+        </div>
       </div>
     );
   }

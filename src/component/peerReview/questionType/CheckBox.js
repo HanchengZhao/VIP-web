@@ -119,7 +119,7 @@ class CheckBox extends Component {
   }
 
   render() {
-    let RadioButtons = this.state.data.options.map((value,index) => (
+    let checkboxes = this.state.data.options.map((value,index) => (
       <div style = {style.radioButton} key = {index}>
         <Checkbox value = {index} label = {value} style = {{width:'200px', display:'inline-block'}} />
         {PeerReviewStore.EditMode &&
@@ -160,7 +160,7 @@ class CheckBox extends Component {
             </div>
             }
             <div style={{display:"inline"}}>
-              {RadioButtons}
+              {checkboxes}
             </div>
           </div>
         </div>
