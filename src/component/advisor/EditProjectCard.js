@@ -108,7 +108,7 @@ class EditProjectCard extends Component {
   render() {
     let keys = Object.keys(this.props.project);
     let items = keys.map((key) => {
-      if (notIncluded.includes(key) && key!="project Link"){
+      if (notIncluded.includes(key) && key!=="project Link"){
         return null;
       }
       if(key==='email') {

@@ -17,14 +17,11 @@ class LoginCard extends Component {
         <MuiThemeProvider>
           <div>
             <Card style = {style.card}> 
-              <CardTitle title={this.props.login + " login"} />
+              <CardTitle title={this.props.login + " Login"} />
               <Divider />
               <CardText>
                 {this.props.discription}
               </CardText>
-              <CardActions style={style.actions}>
-              <MuiButton label = "Login" />
-              </CardActions>
             </Card>
           </div>
         </MuiThemeProvider>

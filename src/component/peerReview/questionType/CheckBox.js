@@ -46,7 +46,8 @@ class CheckBox extends Component {
         options: Props.data.options,
         question: Props.data.question,
       },
-      newOption:''
+      newOption:'',
+      EvalMode:this.props.EvalMode
     }
     this.handleRemove = this.handleRemove.bind(this);
     this.handleOptionChange = this.handleOptionChange.bind(this);
@@ -122,17 +123,19 @@ class CheckBox extends Component {
     let checkboxes = this.state.data.options.map((value,index) => (
       <div style = {style.radioButton} key = {index}>
         <Checkbox value = {index} label = {value} style = {{width:'200px', display:'inline-block'}} />
-        {PeerReviewStore.EditMode &&
+        {(PeerReviewStore.EditMode && !this.state.EvalMode) &&
           <i className = "glyphicon glyphicon-remove" id = {index} onClick = {this.handleRemove} style = {{display:'inline-block', cursor:'pointer',fontSize: '1.5em'}}/>
         }
       </div>
     ));    
     return(
-      <MuiThemeProvider>
-        <div className="panel panel-default">
-          <div className="panel-heading">
-            {PeerReviewStore.EditMode
-            ? <TextField
+      <div>
+        {!this.state.EvalMode &&
+        <MuiThemeProvider>
+          <div className="panel panel-default">
+            <div className="panel-heading">
+              {PeerReviewStore.EditMode
+              ?<TextField
                 value = {this.state.data.question}
                 id = 'question'
                 onChange = {this.handleQuestionChange}
@@ -156,15 +159,22 @@ class CheckBox extends Component {
                 />
                 <FlatButton label="Add" onClick = {this.handleAdd} />
               </div>
-              <Divider style={{margin:"20px",marginTop:"20px"}} />
             </div>
             }
+          </div>
+          </div>
+        </MuiThemeProvider>
+        }
+        <div>
+          {this.state.EvalMode &&
+          <MuiThemeProvider>
             <div style={{display:"inline"}}>
               {checkboxes}
             </div>
-          </div>
+          </MuiThemeProvider>
+          }
         </div>
-      </MuiThemeProvider>
+      </div>
     );
   }
 }

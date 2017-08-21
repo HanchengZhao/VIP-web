@@ -69,7 +69,10 @@ class Score extends Component {
         question: dummyProps.question,
       },
       reviewMode: false,
+      EvalMode: this.props.EvalMode,
+      Answers:{}
     };
+    this.handleChange = this.handleChange.bind(this);
     this.handleFromChange = this.handleFromChange.bind(this);
     this.handleToChange = this.handleToChange.bind(this);
     this.handleLowLabel = this.handleLowLabel.bind(this);
@@ -92,6 +95,13 @@ class Score extends Component {
     
   }
 
+  handleChange(e) {
+    let Answers = this.state.Answers;
+    Answers[this.props.peer.name] = e.target.value;
+    this.setState({Answers:Answers},
+    ()=>{this.props.handleChange(this.state.Answers)});
+  }
+
   handleQuestionChange(e){
     let text = e.target.value
     this.setState(update(this.state, {
@@ -105,6 +115,8 @@ class Score extends Component {
     });
     
   }
+
+
 
   handleFromChange(e, index, from){
     this.setState(update(this.state, {
@@ -156,6 +168,7 @@ class Score extends Component {
   }
   render() {
     let scales = [];
+    let value;
     for(let i = this.state.data.from; i <= this.state.data.to; i++){
       scales.push(i)
     }
@@ -170,80 +183,101 @@ class Score extends Component {
     let toMenu = [2,3,4,5,6,7,8,9].map((num) => 
       <MenuItem key={num} value={num} primaryText={num} />
     )
+    if(!!this.props.answers) {
+      value = this.props.answers[this.props.peer.name];
+    }
     return (
-      <MuiThemeProvider>
-        <div className="panel panel-default">
-          <div className="panel-heading">
-            
-            {PeerReviewStore.EditMode 
-            ? <TextField
-                floatingLabelText="Question"
-                underlineFocusStyle={styles.underlineStyle}
-                floatingLabelStyle={styles.floatingLabelStyle}
-                fullWidth={true}
-                value={this.state.data.question}
-                onChange={this.handleQuestionChange}
-              />
-            : <h3>{this.state.data.question}</h3>
-            }
+      <div>
+        {!this.state.EvalMode &&
+        <MuiThemeProvider>
+          <div className="panel panel-default">
+            <div className="panel-heading">
+              
+              {PeerReviewStore.EditMode 
+              ? <TextField
+                  floatingLabelText="Question"
+                  underlineFocusStyle={styles.underlineStyle}
+                  floatingLabelStyle={styles.floatingLabelStyle}
+                  fullWidth={true}
+                  value={this.state.data.question}
+                  onChange={this.handleQuestionChange}
+                />
+              : <h3>{this.state.data.question}</h3>
+              }
 
 
-          </div>
-          <div className="panel-body">
-            { PeerReviewStore.EditMode  &&
-              <div>
-                <div style={{display:"inline-block"}}>
-                  <SelectField
-                    floatingLabelText="From"
-                    value={this.state.data.from}
-                    onChange={this.handleFromChange}
-                    style={styles.dropDown}
-                  >
-                    <MenuItem value={0} primaryText="0" />
-                    <MenuItem value={1} primaryText="1" />
-                  </SelectField>
-                  <SelectField
-                    floatingLabelText="To"
-                    value={this.state.data.to}
-                    onChange={this.handleToChange}
-                    style={styles.dropDown}
-                  >
-                    {toMenu}
-                  </SelectField>
-                </div>
-                <div>
-                  <b>{this.state.data.from}</b>&nbsp;:&nbsp; 
-                    <TextField
-                      hintText="Label(optional)"
-                      underlineFocusStyle={styles.underlineStyle}
-                      floatingLabelStyle={styles.floatingLabelStyle}
-                      defaultValue={this.state.data.low}
-                      onChange={this.handleLowLabel}
-                    />
-                  <b>{this.state.data.to}</b>&nbsp;: &nbsp;
-                    <TextField
-                      hintText="Label(optional)"
-                      underlineFocusStyle={styles.underlineStyle}
-                      floatingLabelStyle={styles.floatingLabelStyle}
-                      defaultValue={this.state.data.high}
-                      onChange={this.handleHighLabel}
-                    />
-                </div>
-                <Divider style={{margin:"20px",marginTop:"20px"}}/>
-              </div>
-            }
-            
-            <div className="row" style={{display:"inline-block", marginLeft: "15px"}}>
-              <span style={{float:"left"}}> <b>{this.state.data.low}&nbsp;</b></span>
-              <RadioButtonGroup name="scores" defaultSelected="not_light" style={{float:"left"}}>
-                {RadioButtons}
-              </RadioButtonGroup>
-              <span style={{float:"left"}}><b>&nbsp;{this.state.data.high}</b></span>
             </div>
-            
-          </div>
+            <div className="panel-body">
+              { PeerReviewStore.EditMode  &&
+                <div>
+                  <div style={{display:"inline-block"}}>
+                    <SelectField
+                      floatingLabelText="From"
+                      value={this.state.data.from}
+                      onChange={this.handleFromChange}
+                      style={styles.dropDown}
+                    >
+                      <MenuItem value={0} primaryText="0" />
+                      <MenuItem value={1} primaryText="1" />
+                    </SelectField>
+                    <SelectField
+                      floatingLabelText="To"
+                      value={this.state.data.to}
+                      onChange={this.handleToChange}
+                      style={styles.dropDown}
+                    >
+                      {toMenu}
+                    </SelectField>
+                  </div>
+                  <div>
+                    <b>{this.state.data.from}</b>&nbsp;:&nbsp; 
+                      <TextField
+                        hintText="Label(optional)"
+                        underlineFocusStyle={styles.underlineStyle}
+                        floatingLabelStyle={styles.floatingLabelStyle}
+                        defaultValue={this.state.data.low}
+                        onChange={this.handleLowLabel}
+                      />
+                    <b>{this.state.data.to}</b>&nbsp;: &nbsp;
+                      <TextField
+                        hintText="Label(optional)"
+                        underlineFocusStyle={styles.underlineStyle}
+                        floatingLabelStyle={styles.floatingLabelStyle}
+                        defaultValue={this.state.data.high}
+                        onChange={this.handleHighLabel}
+                      />
+                  </div>
+                </div>
+                }
+                
+
+              
+              
+              <div className="row" style={{display:"inline-block", marginLeft: "15px"}}>
+                <span style={{float:"left"}}> <b>{this.state.data.low}&nbsp;</b></span>
+                <RadioButtonGroup name="scores" defaultSelected="not_light" style={{float:"left"}}>
+                  {RadioButtons}
+                </RadioButtonGroup>
+                <span style={{float:"left"}}><b>&nbsp;{this.state.data.high}</b></span>
+              </div>
+            </div>
+            </div>
+          </MuiThemeProvider>
+        }
+        <div>
+          {this.state.EvalMode &&
+          <MuiThemeProvider>
+          <div className="row"  style={{display:"inline-block", marginLeft: "15px"}}>
+                <span style={{float:"left"}}> <b>{this.state.data.low}&nbsp;</b></span>
+                <RadioButtonGroup  name="scores" defaultSelected = {value} style={{float:"left"}} onChange = {this.handleChange}>
+                  {RadioButtons}
+                </RadioButtonGroup>
+                <span style={{float:"left"}}><b>&nbsp;{this.state.data.high}</b></span>
+              </div>
+          </MuiThemeProvider>
+          }
         </div>
-      </MuiThemeProvider>
+        </div>
     );
   }
 }

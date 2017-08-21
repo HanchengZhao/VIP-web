@@ -2,18 +2,18 @@ import React, { Component } from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card, CardActions, CardMedia, CardTitle, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import Vip_logo from '../../assets/Vip_logo.png';
 
 import { Link, Route } from 'react-router-dom';
-
 
 const style = {
   card: {
     paddingBottom: "10px",
     margin: "10px",
-    height: "300px"
+    height: "380px"
   },
   cardMedia:{
-    height: "100px"
+    height: "100px",
   },
   cardHeader: {
     textAlign : 'left',
@@ -45,12 +45,15 @@ class ProjectCard extends Component {
               showExpandableButton={false}
               titleStyle = {style.cardHeader}
             />
-            {/*<CardMedia style={style.cardMedia}>
-              <img src={this.props.project.logo} alt="" />
-            </CardMedia>*/}
-            <CardText expandable={false} style={style.cardText}>
+            <CardMedia style={style.cardMedia}>
+              {this.props.project.logo
+              ?<img src={this.props.project.logo} alt="" style = {style.cardMedia}/>
+              :<img src={Vip_logo} alt="" style = {style.cardMedia}/>
+              }
+            </CardMedia>
+            {/* <CardText expandable={false} style={style.cardText}>
               {this.props.project.nature}
-            </CardText>
+            </CardText> */}
               <CardActions>
                 <Link to={`projects/${this.props.fbkey}`}><FlatButton label="Learn more" /></Link>                
               </CardActions>

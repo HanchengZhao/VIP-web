@@ -42,10 +42,10 @@ class ManageGateKeeper extends Component {
 
   render() {
     let Teams = Object.keys(this.state.teams).map((key) => {
-      if(this.state.teams[key].title) {
+      if(this.state.teams[key].teamName) {
         return (
           <tr key = {key}>
-            <th>{this.state.teams[key].title}</th>
+            <th>{this.state.teams[key].teamName}</th>
             <th><MuiThemeProvider><FlatButton label = "Manage Courses" onClick = {() => this.manageCourse(key)}/></MuiThemeProvider></th>
           </tr>);
       }

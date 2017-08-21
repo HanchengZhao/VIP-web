@@ -51,7 +51,7 @@ class ProjectPage extends Component {
 
   render() {
     let data = Object.keys(this.state.data).map((key) => {
-      if(this.state.data[key]===''){
+      if(this.state.data[key]==='' || key === 'logo'){
         return;
       }
       return(
@@ -77,8 +77,8 @@ class ProjectPage extends Component {
           <div>
             <h1 className = "title">{this.state.data.title || this.state.data.teamName}</h1>
             <h3 className = "title">{this.state.data.subtitle}</h3>
-            {this.state.image &&
-            <img src = {this.state.image} style = {{float:'right'}}/>
+            {this.state.data.logo &&
+              <img src = {this.state.data.logo} style = {{height:'270px',width:'270px', float:'right'}}/>
             }
             {data}
             <h4>Contact email : <span>{this.state.contactEmail}</span></h4>

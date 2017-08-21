@@ -36,7 +36,7 @@ class ProjectApprovalCard extends Component {
   }
   
   removeApplication = () => {
-    firebase.database().ref('TeamApplication').child(`${this.state.fbkey}`).remove();
+    firebase.database().ref('TeamApplication_Raw_Data').child(`${this.state.fbkey}`).remove();
   }
 
   handleAccept = () => {
@@ -47,16 +47,15 @@ class ProjectApprovalCard extends Component {
   }
 
   addAdvisors(application) {
-    console.log(application);
     let advisorRef = firebase.database().ref('Advisor');
     let userRef = firebase.database().ref('Users');
     advisorRef.push({
-      email:application.contactEmail,
-      name:application.contactName,
+      email:application.leadFacultyEmail,
+      name:application.leadFacultyName,
       team:application.teamName
     });
     userRef.push({
-      email:application.contactEmail,
+      email:application.leadFacultyEmail,
       role:"advisor",
     });
   }

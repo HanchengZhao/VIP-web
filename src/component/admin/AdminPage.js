@@ -14,7 +14,6 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Primary, {NavColor} from '../../Theme';
 
-import {Link, Route, Redirect} from 'react-router-dom';
 import {AdminRoute} from '../Route';
 
 class AdminPage extends Component {

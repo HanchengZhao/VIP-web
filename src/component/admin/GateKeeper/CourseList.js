@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import DropDownMenu from 'material-ui/DropDownMenu';
+import SelectField from 'material-ui/SelectField';
 import FlatButton from 'material-ui/FlatButton';
 import MenuItem from 'material-ui/MenuItem';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -17,7 +17,6 @@ class CourseList extends Component {
       value:0,
       items:["VIP194","VIP294","VIP394","VIP494"],
       suffix: '',
-      courses:'',
     }
     this.addCourse = this.addCourse.bind(this);
     this.suffixChange = this.suffixChange.bind(this);
@@ -30,7 +29,7 @@ class CourseList extends Component {
       this.setState({courses:snap.val()});
     });
     this.setState({
-      team:this.props.team.title,
+      team:this.props.team.teamNamea,
     });
   }
   
@@ -39,7 +38,7 @@ class CourseList extends Component {
       this.setState({courses:snap.val()});
     });
     this.setState({
-      team:nextProps.team.title
+      team:nextProps.team.teamName
     });
   }
 
@@ -51,7 +50,6 @@ class CourseList extends Component {
         }
       })
     });
-    console.log();
   }
 
   suffixChange(e) {
@@ -104,12 +102,12 @@ class CourseList extends Component {
               :<h3 style = {{textAlign:'center'}}>no courses</h3>
             }
           </div>
-          <DropDownMenu value = {this.state.value} onChange = {this.handleChange} menuStyle = {{marginBottom:'0'}}>
+          <SelectField value = {this.state.value} onChange = {this.handleChange} style = {{verticalAlign:'bottom'}}>
             {MenuItems}
-          </DropDownMenu>
-          <TextField hintText="Add Suffix" floatingLabelText="Suffix" onChange = {this.suffixChange} maxLength="3"/>
-          <FlatButton label = "submit" onClick = {this.addCourse}/> 
+          </SelectField>
           
+            <TextField hintText="Add Suffix" floatingLabelText="Suffix" onChange = {this.suffixChange} maxLength="3" style = {{verticalAlign:'top'}}/>
+            <FlatButton label = "submit" onClick = {this.addCourse} style = {{verticalAlign:'bottom'}}/> 
         </div>
       </MuiThemeProvider>
     );

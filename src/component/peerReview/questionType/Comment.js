@@ -45,11 +45,13 @@ class Comment extends Component {
         required:Props.required
       },
       EditMode:PeerReviewStore.EditMode,
+      EvalMode:this.props.EvalMode,
       PreviewMode:Props.PreviewMode,
-      
+      Answers:{},
     }
     this.handleTypeChange = this.handleTypeChange.bind(this);
     this.handleCheck = this.handleCheck.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     this.handleQuestionChange = this.handleQuestionChange.bind(this);
   }
 
@@ -75,6 +77,13 @@ class Comment extends Component {
     }), () => { // run the function after state changed
       this.props.updateQuestion(this.props.index, this.state.data)
     });
+  }
+
+  handleChange(e) {
+    let Answers = this.state.Answers;
+    Answers[this.props.peer.name] = e.target.value;
+    this.setState({Answers:Answers},
+    ()=>{this.props.handleChange(this.state.Answers)});
   }
 
   handleCheck(e, checked){
@@ -103,11 +112,16 @@ class Comment extends Component {
   }
 
   render() {
+    let value = '';
     let items = Props.types.map((value, index)=> (
       <MenuItem key={value} value = {value} primaryText = {value} />
     ));
-    
+    if(!!this.props.answers){
+      value = this.props.answers[this.props.peer.name];
+    }
     return(
+      <div>
+      {!this.state.EvalMode &&
       <MuiThemeProvider>
         <div className="panel panel-default">
           <div className="panel-heading">
@@ -135,7 +149,8 @@ class Comment extends Component {
             }
             
             {this.state.data.type === "Short Answer"
-            ?<TextField 
+            ?<TextField
+              onChange = {this.props.onChange}
               floatingLabelStyle={style.floatingLabelStyle}
               underlineFocusStyle = {style.underlineStyle}
               fullWidth = {true}
@@ -144,6 +159,7 @@ class Comment extends Component {
               floatingLabelText = "Answer"
             />
             :<TextField
+              onChange = {this.props.onChange}
               floatingLabelStyle={style.floatingLabelStyle}
               underlineFocusStyle = {style.underlineStyle}
               rows = {4}
@@ -154,8 +170,41 @@ class Comment extends Component {
             />
             }
           </div>
+          </div>
+        </MuiThemeProvider>
+      }
+      <div>
+        {this.state.EvalMode &&
+          <MuiThemeProvider>
+            <div>
+            {this.state.data.type === "Short Answer"
+                ?<TextField
+                  defaultValue = {value}
+                  onChange = {this.handleChange}
+                  floatingLabelStyle={style.floatingLabelStyle}
+                  underlineFocusStyle = {style.underlineStyle}
+                  fullWidth = {true}
+                  rows = {1}
+                  rowsMax={1}
+                  floatingLabelText = "Answer"
+                />
+                :<TextField
+                  defaultValue = {value}
+                  onChange = {this.handleChange}
+                  floatingLabelStyle={style.floatingLabelStyle}
+                  underlineFocusStyle = {style.underlineStyle}
+                  rows = {4}
+                  rowsMax = {4}
+                  fullWidth = {true}
+                  floatingLabelText = "Answer"
+                  multiLine={true}
+                />
+                }
+            </div>
+          </MuiThemeProvider>
+        }
         </div>
-      </MuiThemeProvider>
+      </div>
     );
   }
 }
