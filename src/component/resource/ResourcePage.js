@@ -55,7 +55,8 @@ class ResourcePage extends Component {
 		this.handleDelete = this.handleDelete.bind(this);
     this.handleTab = this.handleTab.bind(this);
 		this.onDrop = this.onDrop.bind(this);
-		this.sendPopup = this.sendPopup.bind(this);
+    this.sendPopup = this.sendPopup.bind(this);
+    this.updateContent = this.updateContent.bind(this);
   }
 
 
@@ -133,24 +134,33 @@ class ResourcePage extends Component {
     });
 	}
 
-  componentDidMount() {
-    firebase.database().ref(`${resourcePath}/${this.state.category}`).once('value').then( (snap) => {
+  updateContent(category){
+    firebase.database().ref(`${resourcePath}/${category}`).once('value').then( (snap) => {
 			if (snap.val()) {
 				this.setState({
-					content: snap.val().content,
+          content: snap.val().content,
+          editting: false
 				});
 			} else {
-				console.log("no content yet")
-			}
-      
+				this.setState({
+          content: "",
+          editting: false
+				});
+      }
     });
+    
+  }
+
+  componentDidMount() {
+    this.updateContent(this.state.category);
 	}
 	
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.match.params.category !== this.state.category){
 			this.setState({
 				category: nextProps.match.params.category
-			})
+      })
+      this.updateContent(nextProps.match.params.category);
 		}
 	}
 
