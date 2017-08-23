@@ -18,10 +18,19 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import FlatButton from 'material-ui/FlatButton';
+import TextField from 'material-ui/TextField';
 
+import {grey500} from 'material-ui/styles/colors';
 import Primary from '../../Theme';
+import firebase from '../../firebase';
 
 const styles = {
+  underlineStyle: {
+    borderColor: Primary,
+  },
+  floatingLabelStyle: {
+    color: grey500,
+  },
   datePicker: {
     theme: getMuiTheme({
       datePicker: {
@@ -76,7 +85,8 @@ const Props = {
     date:{
       startDate: '2017-08-18',
       endDate: ''
-    }
+    },
+    formName: 'general questions'
 }
 
 @DragDropContext(HTML5Backend)
@@ -88,6 +98,7 @@ export default class QuestionContainer extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
     this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
+    this.handleNameChange = this.handleNameChange.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
     this.moveQuestion = this.moveQuestion.bind(this);
     this.removeQuestion = this.removeQuestion.bind(this);
@@ -98,9 +109,10 @@ export default class QuestionContainer extends Component {
       questionTypes:questionTypes,
       value: 0,
       questions: Props.questionArray,
-      startDate: new Date() ,
+      startDate: new Date(Props.date.startDate) ,
       endDate:  {} ,
-      editDate: ""
+      editDate: new Date(),
+      formName: Props.formName
     };
   }
 
@@ -208,6 +220,15 @@ export default class QuestionContainer extends Component {
     });
   };
 
+  handleNameChange(e) {
+    let name = e.target.value
+    this.setState(update(this.state, {
+      formName: {
+        $set: name
+      }
+    }))
+  }
+
   publish(){
     console.log(this.state.questions)
     console.log("Date: ", this.state.startDate, this.state.endDate)
@@ -221,15 +242,23 @@ export default class QuestionContainer extends Component {
       <div style={{width: 'auto'}}>
         <h2 style={{textAlign:"center"}}>Form Generator</h2>
         <MuiThemeProvider>
-          
-          <div>
-            <SelectField value = {this.state.value} onChange = {this.handleChange} style={{width: '150px'}}>
+          <div className='row'>
+            <TextField
+              value = {this.state.formName}
+              onChange = {this.handleNameChange}
+              floatingLabelStyle={styles.floatingLabelStyle}
+              underlineFocusStyle = {styles.underlineStyle}
+              floatingLabelText="Form Name"
+              style={{width: '150px', marginRight:'25%', marginLeft:'20px'}}
+            />
+
+            <SelectField value = {this.state.value} onChange = {this.handleChange} style={{verticalAlign:"bottom",width: '150px'}}>
               {questionTypes}
             </SelectField>
-            <FlatButton label = "+ Add" onClick = {this.addQuestion} style = {{verticalAlign:"top"}}/>
+            <FlatButton label = "+ Add" onClick = {this.addQuestion} />
             {PeerReviewStore.EditMode
-              ? <FlatButton label = "Preview Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"top", float:'right'}}/>
-              : <FlatButton label = "Edit Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"top", float:'right'}}/>
+              ? <FlatButton label = "Preview Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"bottom", float:'right'}}/>
+              : <FlatButton label = "Edit Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"bottom", float:'right'}}/>
             }
           </div>
         </MuiThemeProvider>
