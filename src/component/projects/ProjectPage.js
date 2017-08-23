@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import userStore from '../../stores/UserStore';
 //Material UI ELEMENTS
+import Paper from 'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import Dialog from 'material-ui/Dialog';
@@ -35,6 +36,7 @@ class ProjectPage extends Component {
   componentDidMount() {
     
     firebase.database().ref(`Teams/${this.state.fbkey}`).once('value').then( (snap) => {
+      console.log(snap.val());
       this.setState({
         data:snap.val()
       });
@@ -56,7 +58,7 @@ class ProjectPage extends Component {
       }
       return(
         <div>
-          <h3>{key}</h3>
+          <h3>{key.split(/(?=[A-Z])/).join(" ")}</h3>
           <p>{this.state.data[key]}</p>
         </div>
       );
@@ -73,38 +75,39 @@ class ProjectPage extends Component {
       <div className = "row">
         <MuiThemeProvider>
           <div>
-          {this.state.data &&
-          <div>
-            <h1 className = "title">{this.state.data.title || this.state.data.teamName}</h1>
-            <h3 className = "title">{this.state.data.subtitle}</h3>
-            {this.state.data.logo &&
-              <img src = {this.state.data.logo} style = {{height:'270px',width:'270px', float:'right'}}/>
-            }
-            {data}
-            <h4>Contact email : <span>{this.state.contactEmail}</span></h4>
-            {(userStore.authed === true) &&
-              <div className="row">
-              <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-                <div>
-                <Link to={`${this.state.fbkey}/apply`}>
-                  <RaisedButton label = "apply" id = "applyButton" backgroundColor = {Primary} style = {{float: "right", margin:"10"}}/>
-                </Link>
-                </div>
-              </MuiThemeProvider>
+            <Paper zDepth={2} style = {{margin:'20px'}}>
+              {this.state.data &&
+              <div style = {{padding:'20px'}}>
+                <h1 className = "title">{this.state.data.title || this.state.data.teamName}</h1>
+                <h3 className = "title">{this.state.data.subtitle}</h3>
+                {this.state.data.logo &&
+                  <img src = {this.state.data.logo} style = {{height:'270px',width:'270px', float:'right'}}/>
+                }
+                {data}
+                {(userStore.authed === true) &&
+                  <div className="row">
+                  <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+                    <div>
+                    <Link to={`${this.state.fbkey}/apply`}>
+                      <RaisedButton label = "apply" id = "applyButton" backgroundColor = {Primary} style = {{float: "right", margin:"10"}}/>
+                    </Link>
+                    </div>
+                  </MuiThemeProvider>
+                  </div>
+                }
+                {(userStore.role === "admin")
+                    ?<MuiButton label = "Sunset Team" color = {DeleteColor} style = {{margin:"10"}} onClick = {this.handleSunset}/>
+                    :<h1 />
+                  }
+                  <Dialog
+                    title='This Team Has Been Successfully Sunset!'
+                    actions={actions}
+                    modal={true}
+                    open={this.state.open}>
+                  </Dialog>
               </div>
-            }
-            {(userStore.role === "admin")
-                ?<MuiButton label = "Sunset Team" color = {DeleteColor} style = {{margin:"10"}} onClick = {this.handleSunset}/>
-                :<h1 />
-              }
-              <Dialog
-                title='This Team Has Been Successfully Sunset!'
-                actions={actions}
-                modal={true}
-                open={this.state.open}>
-              </Dialog>
-          </div>
           }
+          </Paper>
           </div>
         </MuiThemeProvider>
       </div>

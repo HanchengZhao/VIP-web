@@ -4,6 +4,7 @@ import {Card, CardActions, CardMedia, CardTitle, CardHeader, CardText} from 'mat
 import FlatButton from 'material-ui/FlatButton';
 import Vip_logo from '../../assets/Vip_logo.png';
 
+
 import { Link, Route } from 'react-router-dom';
 
 const style = {

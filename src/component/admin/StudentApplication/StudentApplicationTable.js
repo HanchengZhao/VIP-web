@@ -117,11 +117,7 @@ class StudentApplicationTable extends Component {
   handleAccept() {
     let keys = Object.keys(this.state.roster);
     this.state.selectedIndexes.forEach((i) => {
-      firebase.database().ref('AcceptedStudents_Raw_Data').push(this.state.rows[i]);
-      firebase.database().ref('Users').push({
-        email:this.state.rows[i],
-        role:'student'
-      });
+      firebase.database().ref(`Student_Add_Pending/${this.state.rows[i].teamName}/${this.state.rows[i].semester}`).push(this.state.rows[i]);
       this.handleRemoveFb(keys[i]);
     });
     this.handleRemoveRow();
@@ -149,7 +145,7 @@ class StudentApplicationTable extends Component {
   }
 
   handleRemoveFb(uuid) {
-    firebase.database().ref('StudentApplication').child(uuid).remove();
+    firebase.database().ref('StudentApplication_Raw_Data').child(uuid).remove();
   }
 
   onRowsSelected(rows) {

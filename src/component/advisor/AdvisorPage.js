@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import {Route} from 'react-router-dom';
+import AddAdvisor from './AddAdvisor';
 import firebase from '../../firebase';
 import userStore from '../../stores/UserStore';
 import EditProjectCard from './EditProjectCard';
+import {Tabs, Tab} from 'material-ui/Tabs';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import Primary, {NavColor} from '../../Theme';
 
 class AdvisorPage extends Component {
   constructor() {
@@ -10,7 +15,8 @@ class AdvisorPage extends Component {
     this.state = {
       advisors: '',
       team: '',
-      teamKeys: []
+      teamKeys: [],
+
     }
   }
 
@@ -48,14 +54,20 @@ class AdvisorPage extends Component {
 
   render  ()  {
     let teams = this.state.allData;
-    let title = this.state.teamKeys.map((key)=>(
-      <EditProjectCard project = {teams[key]} fbKey = {key} key = {key}/>
-    ))
+    let teamArray = [];
+    let title = this.state.teamKeys.map((key)=> {
+      console.log(teams[key].teamName);
+      teamArray.push(teams[key].teamName);
+      return <EditProjectCard project = {teams[key]} fbKey = {key} key = {key}/>;
+    })
     
     return(
       <div>
-        <h1>Advisor Page</h1>
+        <h1 style = {{textAlign:'center'}}>My Teams</h1>
         <div>{title}</div>
+        {teamArray && 
+          <AddAdvisor  teamKeys = {teamArray}/>
+        }
       </div>
     );
   }

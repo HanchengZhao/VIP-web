@@ -23,7 +23,7 @@ class TeamApplication extends Component {
   }
   
   componentDidMount = () => {
-    const fbRef = firebase.database().ref("TeamApplication_Raw_Data");
+    const fbRef = firebase.database().ref("TeamApplication");
     fbRef.on('value', (snap) => {
       this.setState({
         Applications: snap.val()
