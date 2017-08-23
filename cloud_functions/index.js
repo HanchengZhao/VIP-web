@@ -238,6 +238,91 @@ exports.dailyAnnouncementCron = functions.https.onRequest((req, res) => {
   });
 })
 
+exports.studentAddPending = functions.database.ref('/Student_Add_Pending/{teamname}/{semester}/{uuid}')
+  .onWrite(event => {
+    if(!event.data.val()) {
+      throw "no student is added under student add pending";
+    }
+    const studentinfo = event.data.val();
+    const teamname = event.params.teamname;
+    const semester = event.params.semester;
+    const uuid = event.params.uuid;
+    console.log(teamname, semester,uuid,studentinfo)
+    return admin.database().ref().child(`Students/${teamname}/${semester}/${uuid}`).update(studentinfo)// move to students key
+    .then(() => {
+      return admin.database().ref().child(`Users/${uuid}`).update({ // add student to the user
+        email: studentinfo.email,
+        role: 'student'
+      })
+    }).then(() => { // send an email to the student
+      let request = sg.emptyRequest({
+        method: 'POST',
+        path: '/v3/mail/send',
+        body: {
+          personalizations: [{
+            to: [{ email: studentinfo.email }],
+            'substitutions': {
+              '-name-': studentinfo.name,
+              '-teamname-': teamname,
+              '-sitelink-': 'http://peer-review-25758.firebaseapp.com'
+            },
+            subject: `Your application of team ${teamname} is approved`
+          }],
+          from: {
+            email: 'noreply@em.hzhao.me'
+          },
+          'template_id': functions.config().sendgrid.student_accept_notice,
+        }
+      })
+      sg.API(request)
+        .then(function(response) {
+          console.log(response.statusCode);
+          console.log(response.body);
+          console.log(response.headers);
+        })
+        .catch(function(error) {
+          console.log(error.response.statusCode);
+        });
+    }).then(() => { // remove the pending data
+      return admin.database().ref().child(`Student_Add_Pending/${teamname}/${semester}/${uuid}`).remove();
+    })
+  })
+
+exports.advisorAddPending = functions.database.ref('/Advisor_Add_Pending/{uuid}')
+.onWrite(event => {
+  if(!event.data.val()) {
+    throw "no advisor is added under advisor add pending";
+  }
+  const advisorinfo = event.data.val();
+  const uuid = event.params.uuid;
+  console.log('added advisor: ',advisorinfo)
+  return admin.database().ref().child(`Advisor/${uuid}`).update(advisorinfo)// move to advisor key
+  .then(() => {
+    return admin.database().ref().child(`Users/${uuid}`).update({ // add advisor to the user
+      email: advisorinfo.email,
+      role: 'advisor'
+    })
+  }).then(() => { // remove the pending data
+    return admin.database().ref().child(`Advisor_Add_Pending/${uuid}`).remove();
+  })
+})
+
+exports.advisorRemovePending = functions.database.ref('/Advisor_Remove_Pending/{uuid}')
+.onWrite(event => {
+  if(!event.data.val()) {
+    throw "no advisor is removed under advisor remove pending";
+  }
+  const advisorinfo = event.data.val();
+  const uuid = event.params.uuid;
+  console.log('removed advisor: ', advisorinfo)
+  return admin.database().ref().child(`Advisor/${uuid}`).remove()// move to students key
+  .then(() => {
+    return admin.database().ref().child(`Users/${uuid}`).remove()
+  }).then(() => { // remove the pending data
+    return admin.database().ref().child(`Advisor_Remove_Pending/${uuid}`).remove();
+  })
+})
+
 //utils
 let putJsonInTable = (json) => {
   let formatted = ["<table>"];
@@ -247,3 +332,4 @@ let putJsonInTable = (json) => {
   formatted.push("</table>")
   return formatted;
 }
+
