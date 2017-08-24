@@ -8,7 +8,7 @@ import userStore from '../../stores/UserStore';
 const Resource = ( ) => (
   <div>
     <Switch>
-      <Route exact path={`/resource/:category`} component={ ResourcePage }/>
+      <Route path={`/resource/:category`} component={ ResourcePage }/>
     </Switch>
   </div>
 )

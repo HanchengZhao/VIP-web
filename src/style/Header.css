@@ -54,7 +54,7 @@
 
     .dropdown-menu {
       width: 100%;
-       margin-left: 130px; 
+      position: relative;
     }
 }
 
