@@ -27,8 +27,9 @@ class StudentApplicationTool extends Component {
   render() {
     return(
       <div>
-        {this.state.teamData &&
-          <StudentApplicationTable roster = {this.state.teamData} />
+        {this.state.teamData 
+          ?<StudentApplicationTable roster = {this.state.teamData} />
+          :<h1 style = {{textAlign:'center'}}>No Student Applications</h1>
         }
       </div>
     );

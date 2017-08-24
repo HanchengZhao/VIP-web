@@ -3,6 +3,7 @@ import ReactDataGrid from 'react-data-grid';
 import json2csv from 'json2csv';
 import fileDownload from 'react-file-download';
 import FlatButton from 'material-ui/FlatButton';
+import firebase from '../../firebase';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
@@ -31,6 +32,7 @@ class RosterTable extends Component {
     this.exportRoster = this.exportRoster.bind(this);
     this.onRowsDeselected = this.onRowsDeselected.bind(this);
     this.onRowsSelected = this.onRowsSelected.bind(this);
+    this.handleRemoveRow = this.handleRemoveRow.bind(this);
   }
 
   componentDidMount() {
@@ -145,6 +147,31 @@ class RosterTable extends Component {
     })
   }
 
+  handleRemoveFb(student) {
+    firebase.database().ref(`Student_Remove_Pending/${this.state.roster[student].teamName}/${this.state.roster[student].semester}`).child(student).set(this.state.roster[student]);
+  }
+
+  handleRemoveRow() {
+    let remove = [];
+    this.state.selectedIndexes.forEach((i)=> {
+      remove.push(this.state.rows[i]);
+    });
+    remove.forEach((i)=> {
+      this.state.rows.splice(this.state.rows.indexOf(i),1);
+    });
+    this.setState({
+      selectedIndexes:[]
+    })
+  }
+
+  handleDeny() {
+    let keys = Object.keys(this.state.roster);
+    this.state.selectedIndexes.forEach((i) => {
+      this.handleRemoveFb(keys[i]);
+    });
+    this.handleRemoveRow();
+  }
+
   render() {
     return  (
       <div style = {{paddingBottom:'20px'}}>
@@ -170,7 +197,7 @@ class RosterTable extends Component {
         <MuiThemeProvider>
           <div>
             <FlatButton label = "Download Roster" onClick = {()=>this.exportRoster()}/>
-            <FlatButton label = "Delete Selected Student" onClick = {()=>this.exportRoster()}/>
+            <FlatButton label = "Delete Selected Student" onClick = {()=>this.handleDeny()}/>
           </div>
         </MuiThemeProvider>
       </div>);
