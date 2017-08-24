@@ -94,7 +94,8 @@ class EditProjectCard extends Component {
   }
 
   fbWrite() {
-    let empty = checkEmpty(this.state.error, this.state.project, this.state.project.contactEmail, notIncluded);
+    let empty = checkEmpty(this.state.error, this.state.project, this.state.project.leadFacultyEmail, notIncluded);
+    console.log(empty);
     if(empty[0]) {
       firebase.database().ref(`Teams/${this.state.fbKey}`).set(this.state.project);
     this.dialogOpen();
@@ -111,7 +112,7 @@ class EditProjectCard extends Component {
       if (notIncluded.includes(key) && key!=="project Link"){
         return null;
       }
-      if(key==='email') {
+      if(key==='leadFacultyEmail') {
         return(
           <div key = {key}>
           <h3>{key}</h3>

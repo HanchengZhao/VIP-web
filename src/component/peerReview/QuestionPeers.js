@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-
+import '../../style/QuestionPeers.css';
 
 import CheckBox from './questionType/CheckBox';
 import Comment from './questionType/Comment';
@@ -64,7 +64,6 @@ class QuestionPeers extends Component {
   }
 
   componentDidMount() {
-    console.log(this.state.peers);
     if(this.props){
       let questions = [];
       let data = ''
@@ -142,7 +141,7 @@ class QuestionPeers extends Component {
     return(
       <div>
         <h2 style = {{textAlign:'center'}}>{this.state.questions[this.state.index].data.question}</h2>
-        <table className = 'table'>
+        <table className = 'table' id = "QuestionPeersTable">
           <thead>
             <tr>
               <th>Peers</th>

@@ -42,30 +42,15 @@ class ManageAdmin extends Component {
 
   handleRemove(e) {
     let uuid = e.target.id;
-    let adminRef = firebase.database().ref('Admin');
-    let userRef = firebase.database().ref('Users');
-    let userKey = ''
-    userRef.once('value').then((snap) => {
-      Object.keys(snap.val()).forEach((key)=>{
-        if(snap.val()[key].email===this.state.admin[uuid].email) {
-          userKey = key;
-        }
-      });
-    userRef.child(userKey).remove();
-    adminRef.child(uuid).remove();
-    });
+    let adminRef = firebase.database().ref('Admin_Remove_Pending');
+    adminRef.child(`${uuid}`).set(this.state.admin[uuid]);
   }
 
   handleSubmit() {
-    let adminRef = firebase.database().ref('Admin');
-    let userRef = firebase.database().ref('Users');
+    let adminRef = firebase.database().ref('Admin_Add_Pending');
     adminRef.push({
       email:this.state.email,
       name: this.state.name
-    });
-    userRef.push({
-      email:this.state.email,
-      role:'admin',
     });
     this.setState({
       add:false,

@@ -1,5 +1,11 @@
 import React, {Component} from 'react';
 import ReactDataGrid from 'react-data-grid';
+import json2csv from 'json2csv';
+import fileDownload from 'react-file-download';
+import FlatButton from 'material-ui/FlatButton';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+
 const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
 
 class RosterTable extends Component {
@@ -11,7 +17,8 @@ class RosterTable extends Component {
       rows:'',
       sortColumn: null,
       sortDirection: null,
-      filters:{} 
+      filters:{},
+      selectedIndexes:[] 
     }
     this.getRows = this.getRows.bind(this);
     this.rowGetter = this.rowGetter.bind(this);
@@ -21,11 +28,27 @@ class RosterTable extends Component {
     this.onClearFilters = this.onClearFilters.bind(this);
     this.createRows = this.createRows.bind(this);
     this.createColumns = this.createColumns.bind(this);
+    this.exportRoster = this.exportRoster.bind(this);
+    this.onRowsDeselected = this.onRowsDeselected.bind(this);
+    this.onRowsSelected = this.onRowsSelected.bind(this);
   }
 
   componentDidMount() {
-    this.createColumns();
-    this.createRows();
+      this.createColumns();
+      this.createRows();
+  }
+
+  exportRoster() {
+    let fields = []
+    this.state.columns.forEach((i)=>{
+      fields.push(i.key);
+    });
+    try{
+    let result = json2csv({ data: this.state.rows, fields: fields });
+    fileDownload(result, `roster.csv`);
+    }catch(err) {
+      console.log(err);
+    }
   }
 
   createColumns() {
@@ -102,9 +125,29 @@ class RosterTable extends Component {
     this.setState({ filters: {} });
   }
 
+  onRowsSelected(rows) {
+    let temp = this.state.selectedIndexes;
+    rows.forEach((i) => {
+      temp.push(i.rowIdx);
+    });
+    this.setState({
+      selectedIndexes:temp
+    })
+  }
+
+  onRowsDeselected(rows) {
+    let temp = this.state.selectedIndexes;
+    rows.forEach((i) => {
+      temp.splice(temp.indexOf(i.rowIdx),1);
+    });
+    this.setState({
+      selectedIndexes:temp
+    })
+  }
+
   render() {
     return  (
-      <div>
+      <div style = {{paddingBottom:'20px'}}>
         <ReactDataGrid
           onGridSort={this.handleGridSort}
           enableCellSelect={true}
@@ -114,8 +157,22 @@ class RosterTable extends Component {
           minHeight={500}
           toolbar={<Toolbar enableFilter={true}/>}
           onAddFilter={this.handleFilterChange}
-          onClearFilters={this.onClearFilters} />
+          onClearFilters={this.onClearFilters} 
+          rowSelection={{
+            showCheckbox: true,
+            onRowsSelected: this.onRowsSelected,
+            onRowsDeselected: this.onRowsDeselected,
+            selectBy: {
+              indexes: this.state.selectedIndexes,
+            }
+          }}/>
         <p style={{float:'right',color:"#d6dedb"}}>(Number of Records {this.getSize()})</p>
+        <MuiThemeProvider>
+          <div>
+            <FlatButton label = "Download Roster" onClick = {()=>this.exportRoster()}/>
+            <FlatButton label = "Delete Selected Student" onClick = {()=>this.exportRoster()}/>
+          </div>
+        </MuiThemeProvider>
       </div>);
   }
 };

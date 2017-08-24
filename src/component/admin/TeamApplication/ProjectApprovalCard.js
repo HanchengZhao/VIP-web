@@ -36,7 +36,7 @@ class ProjectApprovalCard extends Component {
   }
   
   removeApplication = () => {
-    firebase.database().ref('TeamApplication_Raw_Data').child(`${this.state.fbkey}`).remove();
+    firebase.database().ref('TeamApplication').child(`${this.state.fbkey}`).remove();
   }
 
   handleAccept = () => {
@@ -95,8 +95,8 @@ class ProjectApprovalCard extends Component {
     ];
    let data = Object.keys(this.state.application).map((key) => {
       return(
-        <div>
-          <h3>{key}</h3>
+        <div key = {key}>
+          <h3>{key.split(/(?=[A-Z])/).join(" ")}</h3>
           <p>{this.state.application[key]}</p>
         </div>
       );

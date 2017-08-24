@@ -33,25 +33,24 @@ class EditRoster extends Component {
     studentRef.on('value', (snap)=>{
       this.setState({student:snap.val()});
     });
+
+    let semesterRef = firebase.database().ref(`Semester`);
+    semesterRef.once('value').then((snap)=>{
+      this.setState({semester:snap.val().current});
+    });
   }
 
   render() {
     let student = this.state.student;
-    let temp = [];
-    if(student) {
-      Object.keys(student).forEach((key) => {
-        if (student[key].team === this.state.team) {
-          temp.push(student[key]);
-        }
-      });
-    }
+    let semester = this.state.semester;
+    let team = this.state.team;
     return(
       <div>
         <div>
-          {this.state.student && this.state.team
+          {student && team && semester && student[team] && student[team][semester]
           ?<div>
             <h1 style = {{textAlign:"center"}}>{this.state.team} Roster Page</h1>
-            <RosterTable roster = {temp}/>
+            <RosterTable roster = {student[team][semester]}/>
           </div>
           :<div>
             <h1 style = {{textAlign:"center"}}>Your Roster Is Empty</h1>

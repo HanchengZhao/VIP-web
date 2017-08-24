@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import firebase from 'firebase';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Dialog from 'material-ui/Dialog';
 import TextField from 'material-ui/TextField';
 import {Card, CardTitle} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -34,7 +35,8 @@ class ProjectApplication extends Component{
         notIncluded:['data','error'],
         empty:{},
         data:{},
-        error:{}
+        error:{},
+        open:false
       };
     }
 
@@ -73,6 +75,7 @@ class ProjectApplication extends Component{
     var key = res[2].charAt(0).toLowerCase() + res[2].slice(1);
     var val = event.target.value;
     var obj  = this.state.data;
+    console.log(key);
     obj[key] = val;
     if(key==="topics"){
      var str = event.target.value;
@@ -82,6 +85,7 @@ class ProjectApplication extends Component{
       })
     }
     else{
+        console.log(obj);
         this.setState(obj);
     }
   }
@@ -89,7 +93,6 @@ class ProjectApplication extends Component{
 
 
   firebasewrite = () => {
-    console.log(this.state.data);
     let empty = checkEmpty(this.state.error, this.state.data, this.state.data.leadFacultyEmail, this.state.notIncluded);
     if(empty[0]){
       if(`${db}`==='Team Application'){
@@ -99,7 +102,7 @@ class ProjectApplication extends Component{
       this.setState((prevState) => {
         return {
           data:prevState.empty,
-          applied:true
+          open:true
         };
       });
     }
@@ -133,7 +136,6 @@ class ProjectApplication extends Component{
                           errorText={this.state.errorText}
                           onChange={ this.handleChange}/><br /></div>)
                     }
-
                     return(
                   <div key={id}>
                   <TextField
@@ -151,11 +153,17 @@ class ProjectApplication extends Component{
                 <ASUTeamLogoUpload childdata = {this.getdata}/>             
                 <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                   <div>
-                    <RaisedButton label="Apply"  style={style} backgroundColor={Primary} onClick={this.firebasewrite}
-                    data-toggle="modal" data-target="#myModal"/> <br />
+                    <RaisedButton label="Apply"  style={style} backgroundColor={Primary} onClick={this.firebasewrite}/>
+                    <br />
                   </div>
                 </MuiThemeProvider>
               </div>
+              <Dialog
+                title="Applied"
+                modal={false}
+                open={this.state.open}
+                onRequestClose={()=>{this.setState({open:false})}}
+                />
             </div>
 		  </MuiThemeProvider>
 		</div> )
