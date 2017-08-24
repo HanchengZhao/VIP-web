@@ -17,7 +17,8 @@ class RosterTable extends Component {
       rows:'',
       sortColumn: null,
       sortDirection: null,
-      filters:{} 
+      filters:{},
+      selectedIndexes:[] 
     }
     this.getRows = this.getRows.bind(this);
     this.rowGetter = this.rowGetter.bind(this);
@@ -28,6 +29,8 @@ class RosterTable extends Component {
     this.createRows = this.createRows.bind(this);
     this.createColumns = this.createColumns.bind(this);
     this.exportRoster = this.exportRoster.bind(this);
+    this.onRowsDeselected = this.onRowsDeselected.bind(this);
+    this.onRowsSelected = this.onRowsSelected.bind(this);
   }
 
   componentDidMount() {
@@ -122,6 +125,26 @@ class RosterTable extends Component {
     this.setState({ filters: {} });
   }
 
+  onRowsSelected(rows) {
+    let temp = this.state.selectedIndexes;
+    rows.forEach((i) => {
+      temp.push(i.rowIdx);
+    });
+    this.setState({
+      selectedIndexes:temp
+    })
+  }
+
+  onRowsDeselected(rows) {
+    let temp = this.state.selectedIndexes;
+    rows.forEach((i) => {
+      temp.splice(temp.indexOf(i.rowIdx),1);
+    });
+    this.setState({
+      selectedIndexes:temp
+    })
+  }
+
   render() {
     return  (
       <div style = {{paddingBottom:'20px'}}>
@@ -134,10 +157,21 @@ class RosterTable extends Component {
           minHeight={500}
           toolbar={<Toolbar enableFilter={true}/>}
           onAddFilter={this.handleFilterChange}
-          onClearFilters={this.onClearFilters} />
+          onClearFilters={this.onClearFilters} 
+          rowSelection={{
+            showCheckbox: true,
+            onRowsSelected: this.onRowsSelected,
+            onRowsDeselected: this.onRowsDeselected,
+            selectBy: {
+              indexes: this.state.selectedIndexes,
+            }
+          }}/>
         <p style={{float:'right',color:"#d6dedb"}}>(Number of Records {this.getSize()})</p>
         <MuiThemeProvider>
-          <FlatButton label = "Download Roster" onClick = {()=>this.exportRoster()}/>
+          <div>
+            <FlatButton label = "Download Roster" onClick = {()=>this.exportRoster()}/>
+            <FlatButton label = "Delete Selected Student" onClick = {()=>this.exportRoster()}/>
+          </div>
         </MuiThemeProvider>
       </div>);
   }

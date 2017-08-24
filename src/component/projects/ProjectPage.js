@@ -81,7 +81,7 @@ class ProjectPage extends Component {
                 <h1 className = "title">{this.state.data.title || this.state.data.teamName}</h1>
                 <h3 className = "title">{this.state.data.subtitle}</h3>
                 {this.state.data.logo &&
-                  <img src = {this.state.data.logo} style = {{height:'270px',width:'270px', float:'right'}}/>
+                  <img src = {this.state.data.logo} style = {{maxWidth:'500px', float:'right'}}/>
                 }
                 {data}
                 {(userStore.authed === true) &&

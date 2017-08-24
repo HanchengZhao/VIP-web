@@ -45,7 +45,7 @@ class AddAdvisor extends Component {
   }
 
   handleRemove(key) {
-    firebase.database().ref('Advisor_Remove_Pending').push(this.state.Advisors[key]);
+    firebase.database().ref('Advisor_Remove_Pending').child(key).set(this.state.Advisors[key]);
   }
 
   handleSubmit() {

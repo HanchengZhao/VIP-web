@@ -11,7 +11,7 @@ const style = {
   card: {
     paddingBottom: "10px",
     margin: "10px",
-    height: "380px"
+    height: "340px"
   },
   cardMedia:{
     height: "100px",
@@ -19,10 +19,13 @@ const style = {
   cardHeader: {
     textAlign : 'left',
     fontSize: '1.2em',
-    maxHeight: "100px"
+    height: "50px",
+    overflow: "hidden",
+    textOverflow:"ellipsis"
   },
   cardText: {
     overflow: "hidden",
+    textAlign:"right",
     textOverflow: "ellipsis",
     height: "140px"
   }
@@ -45,16 +48,20 @@ class ProjectCard extends Component {
               actAsExpander={false}
               showExpandableButton={false}
               titleStyle = {style.cardHeader}
+              subtitleStyle = {style.cardHeader}
             />
-            <CardMedia style={style.cardMedia}>
+            {/* <CardMedia>
               {this.props.project.logo
               ?<img src={this.props.project.logo} alt="" style = {style.cardMedia}/>
               :<img src={Vip_logo} alt="" style = {style.cardMedia}/>
               }
-            </CardMedia>
-            {/* <CardText expandable={false} style={style.cardText}>
-              {this.props.project.nature}
-            </CardText> */}
+            </CardMedia> */}
+              <CardText expandable={false} style={style.cardText}>
+              {this.props.project.logo
+                ?<img src={this.props.project.logo} alt="" style = {style.cardMedia}/>
+                :<img src={Vip_logo} alt="" style = {style.cardMedia}/>
+                }
+              </CardText>
               <CardActions>
                 <Link to={`projects/${this.props.fbkey}`}><FlatButton label="Learn more" /></Link>                
               </CardActions>

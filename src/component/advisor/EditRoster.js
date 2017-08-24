@@ -44,13 +44,10 @@ class EditRoster extends Component {
     let student = this.state.student;
     let semester = this.state.semester;
     let team = this.state.team;
-    if(student) {
-      console.log(student[team][semester]);
-    }
     return(
       <div>
         <div>
-          {this.state.student && this.state.team && semester
+          {student && team && semester && student[team] && student[team][semester]
           ?<div>
             <h1 style = {{textAlign:"center"}}>{this.state.team} Roster Page</h1>
             <RosterTable roster = {student[team][semester]}/>
