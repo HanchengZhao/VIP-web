@@ -69,6 +69,7 @@ class ManageAdmin extends Component {
       <div>
         {this.state.admin
         ?<div>
+          <h1 style = {{textAlign:'center'}}>Manage Admin</h1>
           <table className = "table">
             <thead>
               <tr>

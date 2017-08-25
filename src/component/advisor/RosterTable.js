@@ -195,9 +195,14 @@ class RosterTable extends Component {
           }}/>
         <p style={{float:'right',color:"#d6dedb"}}>(Number of Records {this.getSize()})</p>
         <MuiThemeProvider>
+          
           <div>
-            <FlatButton label = "Download Roster" onClick = {()=>this.exportRoster()}/>
-            <FlatButton label = "Delete Selected Student" onClick = {()=>this.handleDeny()}/>
+            {!this.props.student &&
+              <div>
+                <FlatButton label = "Download Roster" onClick = {()=>this.exportRoster()}/>
+                <FlatButton label = "Delete Selected Student" onClick = {()=>this.handleDeny()}/>
+              </div>
+            }
           </div>
         </MuiThemeProvider>
       </div>);

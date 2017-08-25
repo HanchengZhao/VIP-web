@@ -6,6 +6,7 @@ import userStore from '../../stores/UserStore';
 import EditProjectCard from './EditProjectCard';
 import Application from './StudentApplication';
 import {Tabs, Tab} from 'material-ui/Tabs';
+import Paper from 'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Primary, {NavColor} from '../../Theme';
@@ -91,32 +92,36 @@ class AdvisorPage extends Component {
     console.log(teamArray);
     return(
       <div>
-        {teams &&
-        <div style = {{paddingBottom:'20px'}}>
-          
-          {this.state.showTeam &&
-            <div>
-              <h1 style = {{textAlign:'center'}}>My Teams</h1>
-              <div>{title}</div>
+        <MuiThemeProvider>
+          <div>
+            {teams &&
+            <Paper zDepth = {2} style = {{padding:'20px'}}>
+              
+              {this.state.showTeam &&
+                <div>
+                  <h1 style = {{textAlign:'center'}}>My Teams</h1>
+                  <div>{title}</div>
+                </div>
+              }
+              {teamArray && this.state.advisor &&
+                <AddAdvisor  teamKeys = {teamArray}/>
+              }
+              {this.state.student &&
+                <Application team = {this.state.team}/>
+              }
+            </Paper>
+            }
+            <div style = {{paddingTop:'20px'}}>
+              
+                <Tabs inkBarStyle ={{color:Primary}}>
+                  <Tab label = "Student Application" style={{backgroundColor:NavColor}} onActive={this.showStudent}/>
+                  <Tab label = "Manage Advisors" style={{backgroundColor:NavColor}} onActive={this.showAdvisors}/>
+                  <Tab label = "Edit Team Information" style={{backgroundColor:NavColor}} onActive={this.showTeam}/>         
+                </Tabs>
+              
             </div>
-          }
-          {teamArray && this.state.advisor &&
-            <AddAdvisor  teamKeys = {teamArray}/>
-          }
-          {this.state.student &&
-            <Application team = {this.state.team}/>
-          }
-        </div>
-        }
-        <div>
-          <MuiThemeProvider>
-            <Tabs inkBarStyle ={{color:Primary}}>
-              <Tab label = "Student Application" style={{backgroundColor:NavColor}} onActive={this.showStudent}/>
-              <Tab label = "Manage Advisors" style={{backgroundColor:NavColor}} onActive={this.showAdvisors}/>
-              <Tab label = "Edit Team Information" style={{backgroundColor:NavColor}} onActive={this.showTeam}/>         
-            </Tabs>
-          </MuiThemeProvider>
-        </div>
+          </div>
+        </MuiThemeProvider>
       </div>
     );
   }
