@@ -88,7 +88,7 @@ class ResourcePage extends Component {
 	
 	handleDelete(){
 		firebase.database().ref(resourcePath).child(this.state.category).remove();
-		firebase.database().ref(resourcePath + '/category/').child(this.state.category.split("_").join(" ").toUpperCase()).remove();
+		firebase.database().ref(resourcePath + '/category/').child(this.state.category).remove();
 		this.setState({
       redirectToDashboard: true
     });
@@ -135,6 +135,7 @@ class ResourcePage extends Component {
 	}
 
   updateContent(category){
+    console.log(category)
     firebase.database().ref(`${resourcePath}/${category}`).once('value').then( (snap) => {
 			if (snap.val()) {
 				this.setState({
@@ -190,7 +191,7 @@ class ResourcePage extends Component {
 									<TextField
 									id="content"
 									hintText="You can use markdown syntax here to edit resource content"
-									floatingLabelText="*bold* _italics_ ~strike~ `code` ```preformatted``` >quote"
+									floatingLabelText="**bold** _italics_ # header `code` ```preformatted``` >quote"
 									multiLine={true}
 									rows={4}
 									onChange={this.contentChange}

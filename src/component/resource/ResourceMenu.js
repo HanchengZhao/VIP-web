@@ -57,7 +57,7 @@ class ResourceMenu extends Component {
   }
 
   handleSubmit = () => {
-    resourceRef.child("category/" + this.state.name.toUpperCase()).set(true)
+    resourceRef.child("category/" + this.state.name).set(true)
     this.setState({
       open: false,
       redirectToResource: true
@@ -77,7 +77,7 @@ class ResourceMenu extends Component {
       <FlatButton label="Submit" onClick = {this.handleSubmit}/>
     ];
     let resourceMenu = this.state.facultyResource.map((resource) => 
-      <Link to={ '/resource/' + resource.split(" ").join("_").toLowerCase() } key={resource}><FlatButton  label={resource} className="menuBarButton" fullWidth = {true} /></Link>
+      <Link to={ '/resource/' + resource } key={resource}><FlatButton  label={resource} className="menuBarButton" fullWidth = {true} /></Link>
     )
     return (
       <div>

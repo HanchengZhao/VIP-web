@@ -204,7 +204,7 @@ class AnnouncementEdit extends Component {
                 <TextField
                 id="content"
                 hintText="You can use markdown syntax here to edit annoucement content"
-                floatingLabelText="*bold* _italics_ ~strike~ `code` ```preformatted``` >quote"
+                floatingLabelText="**bold** _italics_ # header `code` ```preformatted``` >quote"
                 multiLine={true}
                 rows={4}
                 onChange={this.contentChange}
