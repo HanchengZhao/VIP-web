@@ -30,7 +30,7 @@ class Application extends Component {
   render() {
     return(
       <div>
-        {this.state.Applications
+        {Object.keys(this.state.Applications).length !== 0
           ?<StudentApplicationTable roster = {this.state.Applications} />
           :<h1 style = {{textAlign:'center'}}>No Applications</h1>
         }
