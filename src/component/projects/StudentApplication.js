@@ -186,7 +186,7 @@ class StudentApplication extends Component{
                   </div>)}))
                     : (<h2>Loading..</h2>) }    
                 <br/>
-                {!this.state.courses === null
+                {this.state.courses
                 ?<SelectField floatingLabelText="Course" value={this.state.value} onChange={this.handleMenuChange}>
                   
                     {Object.keys(this.state.courses[this.state.title]).map((key, index) => {
