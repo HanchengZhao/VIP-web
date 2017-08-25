@@ -30,11 +30,7 @@ class Application extends Component {
   render() {
     return(
       <div>
-<<<<<<< HEAD
         {this.state.Applications.length !== 0
-=======
-        {this.state.Applications
->>>>>>> 8a2e7a5910bbafa6cfa60f65d7bde5e0933db060
           ?<StudentApplicationTable roster = {this.state.Applications} />
           :<h1 style = {{textAlign:'center'}}>No Applications</h1>
         }
