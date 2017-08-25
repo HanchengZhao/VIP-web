@@ -13,11 +13,11 @@ class Application extends Component {
   componentDidMount() {
     firebase.database().ref('StudentApplication').on('value', (snap) => {
       console.log(snap.val());
-      let Applications = [];
+      let Applications = {};
       if(snap.val()) {
         Object.keys(snap.val()).forEach((student)=>{
           if(this.props.team.includes(snap.val()[student].teamName)) {
-            Applications.push(snap.val()[student]);
+            Applications[student] = snap.val()[student];
           }
         });
       }
@@ -28,10 +28,9 @@ class Application extends Component {
   }
 
   render() {
-    console.log(this.state.Applications);
     return(
       <div>
-        {this.state.Applications === []
+        {this.state.Applications
           ?<StudentApplicationTable roster = {this.state.Applications} />
           :<h1 style = {{textAlign:'center'}}>No Applications</h1>
         }
