@@ -31,7 +31,7 @@ class Application extends Component {
     console.log(this.state.Applications);
     return(
       <div>
-        {this.state.Applications === []
+        {this.state.Applications.length !== 0
           ?<StudentApplicationTable roster = {this.state.Applications} />
           :<h1 style = {{textAlign:'center'}}>No Applications</h1>
         }
