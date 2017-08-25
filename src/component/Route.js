@@ -17,6 +17,14 @@ export const AdvisorRoute = ({component: Component, user, ...rest}) => (
   />  
 )
 
+export const FacultyRoute = ({component: Component, user, ...rest}) => (
+  <Route {...rest}
+    render={(props) => user.role === "admin" || user.role === "advisor"
+      ? <Component {...props} />
+      : <Redirect to='/login'/>}
+  />  
+)
+
 export const StudentRoute = ({component: Component, user, ...rest}) => (
   <Route {...rest}
     render={(props) => user.role === "student"

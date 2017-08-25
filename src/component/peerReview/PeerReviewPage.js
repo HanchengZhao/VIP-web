@@ -23,6 +23,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import QuestionContainer from './QuestionContainer';
 import Primary from '../../Theme';
 
+import userStore from '../../stores/UserStore';
+
 const style = {
   card: {
     paddingBottom: "10px",
@@ -70,28 +72,33 @@ class PeerReviewPage extends Component {
         Only instructors can view completed evaluations, and they use them in monitoring student progress.  
         Students can only submit peer evaluations during active evaluation periods.  
         Instructors can access evaluations at any time.</p>
-        <h4 style={{ color:Primary }}>Tools:</h4>
-        <MuiThemeProvider>
-          <div className="col-md-3" style={{marginBottom:"10px"}}>
-          <Card style={style.card}>
-            <CardHeader
-              title={data.peerReview.header}
-              actAsExpander={false}
-              showExpandableButton={false}
-              titleStyle = {style.cardHeader}
-            />
-            {/*<CardMedia style={style.cardMedia}>
-              <img src={this.props.project.logo} alt="" />
-            </CardMedia>*/}
-            <CardText expandable={false} style={style.cardText}>
-              {data.peerReview.context}
-            </CardText>
-              <CardActions>
-                <Link to={`peer-review/form_generator`}><FlatButton label="Learn more" /></Link>                
-              </CardActions>
-          </Card>
+        {
+          userStore.role === 'admin' &&
+          <div>
+            <h4 style={{ color:Primary }}>Tools:</h4>
+            <MuiThemeProvider>
+              <div className="col-md-3" style={{marginBottom:"10px"}}>
+              <Card style={style.card}>
+                <CardHeader
+                  title={data.peerReview.header}
+                  actAsExpander={false}
+                  showExpandableButton={false}
+                  titleStyle = {style.cardHeader}
+                />
+                {/*<CardMedia style={style.cardMedia}>
+                  <img src={this.props.project.logo} alt="" />
+                </CardMedia>*/}
+                <CardText expandable={false} style={style.cardText}>
+                  {data.peerReview.context}
+                </CardText>
+                  <CardActions>
+                    <Link to={`peer-review/form_generator`}><FlatButton label="Learn more" /></Link>                
+                  </CardActions>
+              </Card>
+              </div>
+            </MuiThemeProvider>
           </div>
-        </MuiThemeProvider>
+        }
       </div>    
     );
   }
