@@ -11,13 +11,16 @@ class Application extends Component {
   }
 
   componentDidMount() {
-    firebase.database().ref('StudentApplication_Raw_Data').on('value', (snap) => {
+    firebase.database().ref('StudentApplication').on('value', (snap) => {
+      console.log(snap.val());
       let Applications = [];
-      Object.keys(snap.val()).forEach((student)=>{
-        if(this.props.team.includes(snap.val()[student].teamName)) {
-          Applications.push(snap.val()[student]);
-        }
-      });
+      if(snap.val()) {
+        Object.keys(snap.val()).forEach((student)=>{
+          if(this.props.team.includes(snap.val()[student].teamName)) {
+            Applications.push(snap.val()[student]);
+          }
+        });
+      }
       this.setState({
         Applications:Applications
       });
@@ -25,11 +28,12 @@ class Application extends Component {
   }
 
   render() {
-    console.log(this.state.Applications)
+    console.log(this.state.Applications);
     return(
       <div>
-        {this.state.Applications &&
-          <StudentApplicationTable roster = {this.state.Applications} />
+        {this.state.Applications === []
+          ?<StudentApplicationTable roster = {this.state.Applications} />
+          :<h1 style = {{textAlign:'center'}}>No Applications</h1>
         }
       </div>
     );

@@ -145,7 +145,7 @@ class StudentApplicationTable extends Component {
   }
 
   handleRemoveFb(uuid) {
-    firebase.database().ref('StudentApplication_Raw_Data').child(uuid).remove();
+    firebase.database().ref('StudentApplication').child(uuid).remove();
   }
 
   onRowsSelected(rows) {
