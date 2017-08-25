@@ -25,10 +25,10 @@ class Header extends Component {
       <div>
         <div className = "header">
           <a href = "https://www.asu.edu/">
-            <img src = {Full_logo}  className = "image" id = "large"/>
-            <img src = {Small_logo} className = "image" id = "small" />
+            <img src = {Full_logo} alt = "full logo" className = "image" id = "large"/>
+            <img src = {Small_logo} alt = "small logo" className = "image" id = "small" />
           </a>
-            <Link to="/"><img src = {Vip_logo} className = "image" id = "VIP" /></Link>
+            <Link to="/"><img src = {Vip_logo} alt = "vip logo" className = "image" id = "VIP" /></Link>
         </div>
         <nav className="navbar navbar-default navbar-static-top">
 

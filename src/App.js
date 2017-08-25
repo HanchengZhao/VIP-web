@@ -50,7 +50,7 @@ class App extends Component {
         userStore.login()
         userStore.fetchUserInfo(user.email, user.displayName, user.photoURL)
         fetchRole(user.email).then(role => {
-          console.log(role);
+          // console.log(role);
           userStore.fetchUserRole(role);
           appStore.finishLoading()
           if (!sessionStorage.getItem("loggedin")) {

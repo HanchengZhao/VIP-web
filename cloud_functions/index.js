@@ -16,20 +16,21 @@ exports.studentApplicationNotice = functions.database.ref('/StudentApplication_R
     }
     const applyId = event.params.applyId;
     const application = event.data.val();
-    const teamName = application.team;
+    const teamName = application.teamName;
     let emailList;
     let nameList;
-    return admin.database().ref().child("Teams").orderByChild('title').equalTo(teamName).once("value").then((snap) => {
-      let matchteam = snap.val() // contactList: {"-KpsvBfEJm0uvEL3bacU":{"advisor":"","contactEmail":"chancidy@gmail.com","contactPerson":"Henry Zhao",
-      Object.keys(matchteam).forEach((key) => {
-        emailList = matchteam[key].contactEmail.split(",")
-        nameList = matchteam[key].contactPerson.split(",")
-      })
-        console.log("contactList: "+ emailList + nameList)
-      }).then(() => { //copy application to "TeamApplication"
-        return admin.database().ref("StudentApplication/" + applyId).set(
+    return admin.database().ref("StudentApplication/" + applyId).set(
           application
-        )
+      ).then(() => { //copy application to "StudentApplication"
+        return admin.database().ref().child("Teams").orderByChild('teamName').equalTo(teamName).once("value").then((snap) => {
+          let matchteam = snap.val() // contactList: {"-KpsvBfEJm0uvEL3bacU":{"advisor":"","contactEmail":"chancidy@gmail.com","contactPerson":"Henry Zhao",
+          // console.log('matchteam: ', matchteam)
+          Object.keys(matchteam).forEach((key) => {
+            emailList = matchteam[key].leadFacultyEmail.split(",")
+            nameList = matchteam[key].leadFacultyName.split(",")
+          })
+            console.log("contactList: "+ emailList + nameList)
+          })
       }).then(() => {
         let formatted = putJsonInTable(application);
         for(let i = 0; i < emailList.length; i++){
@@ -288,6 +289,24 @@ exports.studentAddPending = functions.database.ref('/Student_Add_Pending/{teamna
     })
   })
 
+exports.studentRemovePending = functions.database.ref('/Student_Remove_Pending/{teamname}/{semester}/{uuid}')
+.onWrite(event => {
+  if(!event.data.val()) {
+    throw "no student is removed under student remove pending";
+  }
+  const studentinfo = event.data.val();
+  const teamname = event.params.teamname;
+  const semester = event.params.semester;
+  const uuid = event.params.uuid;
+  console.log('removed student: ', studentinfo)
+  return admin.database().ref().child(`Students/${teamname}/${semester}/${uuid}`).remove()// move to students key
+  .then(() => {
+    return admin.database().ref().child(`Users/${uuid}`).remove()
+  }).then(() => { // remove the pending data
+    return admin.database().ref().child(`Student_Remove_Pending/${teamname}/${semester}/${uuid}`).remove();
+  })
+})
+
 exports.advisorAddPending = functions.database.ref('/Advisor_Add_Pending/{uuid}')
 .onWrite(event => {
   if(!event.data.val()) {
@@ -320,6 +339,42 @@ exports.advisorRemovePending = functions.database.ref('/Advisor_Remove_Pending/{
     return admin.database().ref().child(`Users/${uuid}`).remove()
   }).then(() => { // remove the pending data
     return admin.database().ref().child(`Advisor_Remove_Pending/${uuid}`).remove();
+  })
+})
+
+
+exports.adminAddPending = functions.database.ref('/Admin_Add_Pending/{uuid}')
+.onWrite(event => {
+  if(!event.data.val()) {
+    throw "no admin is added under admin add pending";
+  }
+  const admininfo = event.data.val();
+  const uuid = event.params.uuid;
+  console.log('added admin: ',admininfo)
+  return admin.database().ref().child(`Admin/${uuid}`).update(admininfo)// move to admin key
+  .then(() => {
+    return admin.database().ref().child(`Users/${uuid}`).update({ // add admin to the user
+      email: admininfo.email,
+      role: 'admin'
+    })
+  }).then(() => { // remove the pending data
+    return admin.database().ref().child(`Admin_Add_Pending/${uuid}`).remove();
+  })
+})
+
+exports.adminRemovePending = functions.database.ref('/Admin_Remove_Pending/{uuid}')
+.onWrite(event => {
+  if(!event.data.val()) {
+    throw "no Admin is removed under Admin remove pending";
+  }
+  const admininfo = event.data.val();
+  const uuid = event.params.uuid;
+  console.log('removed Admin: ', admininfo)
+  return admin.database().ref().child(`Admin/${uuid}`).remove()
+  .then(() => {
+    return admin.database().ref().child(`Users/${uuid}`).remove()
+  }).then(() => { // remove the pending data
+    return admin.database().ref().child(`Admin_Remove_Pending/${uuid}`).remove();
   })
 })
 

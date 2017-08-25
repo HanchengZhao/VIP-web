@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 
 import AdvisorPage from './AdvisorPage';
 import EditRoster from './EditRoster';

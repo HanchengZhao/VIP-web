@@ -36,7 +36,7 @@ class ProjectPage extends Component {
   componentDidMount() {
     
     firebase.database().ref(`Teams/${this.state.fbkey}`).once('value').then( (snap) => {
-      console.log(snap.val());
+      // console.log(snap.val());
       this.setState({
         data:snap.val()
       });

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import MuiButton from '../MuiButton';
 
 import PendingApplication from './TeamApplication/PendingApplication';
 import DeniedApplication from './TeamApplication/DeniedApplication';
