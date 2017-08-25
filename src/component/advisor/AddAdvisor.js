@@ -24,6 +24,25 @@ class AddAdvisor extends Component {
     this.handleUpdate = this.handleUpdate.bind(this);
   }
 
+  componentDidMount() {
+    firebase.database().ref('Advisor').on('value', (snap) => {
+      let Advisors = snap.val();
+      let team = '';
+      Object.keys(snap.val()).forEach((i)=>{
+        
+        if(!this.props.teamKeys.includes(snap.val()[i].team)) {
+          delete Advisors[i];
+        }else{
+          team = snap.val()[i].team;
+        }
+      });
+      this.setState({
+        Advisors:Advisors,
+        team:team
+      });
+    });
+  }
+
   componentWillReceiveProps(nextProps) {
     firebase.database().ref('Advisor').on('value', (snap) => {
       let Advisors = snap.val();
@@ -76,7 +95,7 @@ class AddAdvisor extends Component {
   render() {
     return(
       <div>
-        <h3 style = {{textAlign:'center'}}>Manage Advisors</h3>
+        <h1 style = {{textAlign:'center'}}>Manage Advisors</h1>
           <div>
           {this.state.Advisors &&
           <table className = 'table'>

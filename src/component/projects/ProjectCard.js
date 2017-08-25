@@ -16,7 +16,14 @@ const style = {
   cardMedia:{
     height: "100px",
   },
-  cardHeader: {
+  title: {
+    textAlign : 'left',
+    fontSize: '1.3em',
+    height: "50px",
+    overflow: "hidden",
+    textOverflow:"ellipsis"
+  },
+  subtitle: {
     textAlign : 'left',
     fontSize: '1.2em',
     height: "50px",
@@ -47,8 +54,8 @@ class ProjectCard extends Component {
               subtitle={this.props.project.subtitle}
               actAsExpander={false}
               showExpandableButton={false}
-              titleStyle = {style.cardHeader}
-              subtitleStyle = {style.cardHeader}
+              titleStyle = {style.title}
+              subtitleStyle = {style.subtitle}
             />
             {/* <CardMedia>
               {this.props.project.logo

@@ -4,7 +4,9 @@ import AddAdvisor from './AddAdvisor';
 import firebase from '../../firebase';
 import userStore from '../../stores/UserStore';
 import EditProjectCard from './EditProjectCard';
+import Application from './StudentApplication';
 import {Tabs, Tab} from 'material-ui/Tabs';
+import Paper from 'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import Primary, {NavColor} from '../../Theme';
@@ -16,8 +18,14 @@ class AdvisorPage extends Component {
       advisors: '',
       team: '',
       teamKeys: [],
-
+      student: true,
+      showTeam:false,
+      advisor:false,
     }
+    this.setToFalse = this.setToFalse.bind(this);
+    this.showStudent = this.showStudent.bind(this);
+    this.showTeam = this.showTeam.bind(this);
+    this.showAdvisors = this.showAdvisors.bind(this);
   }
 
   componentDidMount() {
@@ -48,8 +56,29 @@ class AdvisorPage extends Component {
         allData:allData
       });
     });
+  }
 
+  showStudent() {
+    this.setToFalse();
+    this.setState({student:true});
+  }
 
+  showTeam() {
+    this.setToFalse();
+    this.setState({showTeam:true});
+  }
+
+  showAdvisors() {
+    this.setToFalse();
+    this.setState({advisor:true});
+  }
+
+  setToFalse() {
+    this.setState({
+      student:false,
+      advisor:false,
+      showTeam:false
+    })
   }
 
   render  ()  {
@@ -59,15 +88,40 @@ class AdvisorPage extends Component {
       console.log(teams[key].teamName);
       teamArray.push(teams[key].teamName);
       return <EditProjectCard project = {teams[key]} fbKey = {key} key = {key}/>;
-    })
-    
+    });
+    console.log(teamArray);
     return(
       <div>
-        <h1 style = {{textAlign:'center'}}>My Teams</h1>
-        <div>{title}</div>
-        {teamArray && 
-          <AddAdvisor  teamKeys = {teamArray}/>
-        }
+        <MuiThemeProvider>
+          <div>
+            {teams &&
+            <Paper zDepth = {2} style = {{padding:'20px'}}>
+              
+              {this.state.showTeam &&
+                <div>
+                  <h1 style = {{textAlign:'center'}}>My Teams</h1>
+                  <div>{title}</div>
+                </div>
+              }
+              {teamArray && this.state.advisor &&
+                <AddAdvisor  teamKeys = {teamArray}/>
+              }
+              {this.state.student &&
+                <Application team = {this.state.team}/>
+              }
+            </Paper>
+            }
+            <div style = {{paddingTop:'20px'}}>
+              
+                <Tabs inkBarStyle ={{color:Primary}}>
+                  <Tab label = "Student Application" style={{backgroundColor:NavColor}} onActive={this.showStudent}/>
+                  <Tab label = "Manage Advisors" style={{backgroundColor:NavColor}} onActive={this.showAdvisors}/>
+                  <Tab label = "Edit Team Information" style={{backgroundColor:NavColor}} onActive={this.showTeam}/>         
+                </Tabs>
+              
+            </div>
+          </div>
+        </MuiThemeProvider>
       </div>
     );
   }
