@@ -186,9 +186,8 @@ class StudentApplication extends Component{
                   </div>)}))
                     : (<h2>Loading..</h2>) }    
                 <br/>
-                {this.state.courses
+                {this.state.courses[this.state.title]
                 ?<SelectField floatingLabelText="Course" value={this.state.value} onChange={this.handleMenuChange}>
-                  
                     {Object.keys(this.state.courses[this.state.title]).map((key, index) => {
                       return <MenuItem value = {index} primaryText = {this.state.courses[this.state.title][key].course} key = {key}/>
                     })}
