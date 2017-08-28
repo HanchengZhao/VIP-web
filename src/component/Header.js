@@ -14,7 +14,7 @@ import ResourceMenu from './resource/ResourceMenu';
 
 import Full_logo from '../assets/full_logo.png';
 import Small_logo from '../assets/small_logo.png';
-import Vip_logo from '../assets/Vip_logo.png';
+import VIP_logo_large from '../assets/VIP_logo_large.png';
 import '../style/Header.css';
 
 @observer
@@ -28,7 +28,7 @@ class Header extends Component {
             <img src = {Full_logo} alt = "full logo" className = "image" id = "large"/>
             <img src = {Small_logo} alt = "small logo" className = "image" id = "small" />
           </a>
-            <Link to="/"><img src = {Vip_logo} alt = "vip logo" className = "image" id = "VIP" /></Link>
+            <Link to="/"><img src = {VIP_logo_large} alt = "vip logo" className = "image" id = "VIP" /></Link>
         </div>
         <nav className="navbar navbar-default navbar-static-top">
 
