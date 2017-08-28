@@ -36,7 +36,7 @@ class StudentApplication extends Component{
         error:{},
         courses:'',
         semester:'',
-        value:0,
+        value:"default",
         notIncluded:['fbkey', 'errorText','error','other']
       };
       this.handleMenuChange = this.handleMenuChange.bind(this);    
@@ -87,7 +87,9 @@ class StudentApplication extends Component{
 
     handleMenuChange(event, index, value) {
       let obj  = this.state.data;
-      obj['course'] = this.state.courses[this.state.title][Object.keys(this.state.courses[this.state.title])[index]].course
+      console.log(value);
+      console.log(Object.keys(this.state.courses[this.state.title])[value]);
+      obj['course'] = this.state.courses[this.state.title][Object.keys(this.state.courses[this.state.title])[value]].course
       this.setState({
         value:value,
         data:obj
@@ -188,6 +190,7 @@ class StudentApplication extends Component{
                 <br/>
                 {this.state.courses[this.state.title]
                 ?<SelectField floatingLabelText="Course" value={this.state.value} onChange={this.handleMenuChange}>
+                    <MenuItem value = {"default"} primaryText = 'please select a course'/>
                     {Object.keys(this.state.courses[this.state.title]).map((key, index) => {
                       return <MenuItem value = {index} primaryText = {this.state.courses[this.state.title][key].course} key = {key}/>
                     })}
