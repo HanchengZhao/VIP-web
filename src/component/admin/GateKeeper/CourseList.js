@@ -29,7 +29,7 @@ class CourseList extends Component {
       this.setState({courses:snap.val()});
     });
     this.setState({
-      team:this.props.team.teamNamea,
+      team:this.props.team.teamName,
     });
   }
   
@@ -79,9 +79,11 @@ class CourseList extends Component {
     return(
       <MuiThemeProvider>
         <div>
+          {this.state.team &&
+          <div>
           <h2 style = {{textAlign:'center'}}>{this.state.team} course list</h2>
           <div>
-            {this.state.courses && this.state.courses[this.state.team]
+            {this.state.courses && this.state.team && this.state.courses[this.state.team]
               ?<table className="table">
                 <thead>
                   <tr>
@@ -107,7 +109,9 @@ class CourseList extends Component {
           </SelectField>
           
             <TextField hintText="Add Suffix" floatingLabelText="Suffix" onChange = {this.suffixChange} maxLength="3" style = {{verticalAlign:'top'}}/>
-            <FlatButton label = "submit" onClick = {this.addCourse} style = {{verticalAlign:'bottom'}}/> 
+            <FlatButton label = "submit" onClick = {this.addCourse} style = {{verticalAlign:'bottom'}}/>
+          </div>
+          } 
         </div>
       </MuiThemeProvider>
     );
