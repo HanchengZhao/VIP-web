@@ -61,7 +61,6 @@ class Application extends Component {
   }
 
   render() {
-    console.log(this.state.rejectedStudents);
     return(
       <div>
         {this.state.Reject
