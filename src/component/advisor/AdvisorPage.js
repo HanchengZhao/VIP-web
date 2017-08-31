@@ -90,7 +90,6 @@ class AdvisorPage extends Component {
       teamArray.push(teams[key].teamName);
       return <EditProjectCard project = {teams[key]} fbKey = {key} key = {key}/>;
     });
-    console.log(teamArray);
     return(
       <div>
         <MuiThemeProvider>

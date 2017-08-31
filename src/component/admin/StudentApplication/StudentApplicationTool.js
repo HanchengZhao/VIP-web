@@ -63,8 +63,13 @@ class StudentApplicationTool extends Component {
           }
           </div>
           :<div>
-            <h1 style = {{textAlign:'center'}}>Rejected Students</h1>
-            <RosterTable roster = {this.state.rejectedStudents}  student = {true}/>
+            {this.state.rejectedStudents 
+              ?<div>
+                <h1 style = {{textAlign:'center'}}>Rejected Students</h1>
+                <RosterTable roster = {this.state.rejectedStudents}  student = {true}/>
+              </div>
+              :<h4>No Rejected Students</h4>
+            }
           </div>
         }
         <MuiThemeProvider>
