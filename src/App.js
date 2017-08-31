@@ -24,13 +24,20 @@ import Resource from './component/resource/Resource';
 import Student from './component/student/Student';
 import TestPlot from './component/peerReview/analytics/TestPlot';
 import { AdminRoute, PublicRoute,PrivateRoute, UnEnrolledRoute, AdvisorRoute, StudentRoute } from './component/Route';
+import Paper from 'material-ui/Paper';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import Primary from './Theme';
 
 injectTapEventPlugin();
 
 
 const NotInTheSystem = () => (
   <div>
-    <h2>Sorry, You are not in the system</h2>
+    <MuiThemeProvider>
+    <Paper zDepth = {1} style = {{padding:'20px'}}>
+      <h4 style={{color: Primary}}>Sorry, we do not have your data in the system. Please contact an administrator or apply for a team.</h4>
+    </Paper>
+    </MuiThemeProvider>
   </div>
 )
 
