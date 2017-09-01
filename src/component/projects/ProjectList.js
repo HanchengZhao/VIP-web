@@ -27,9 +27,13 @@ class ProjectList extends Component {
 
   componentDidMount(){
     const projectRef = firebase.database().ref('Teams');
-    projectRef.once("value", (snap) => {
+    projectRef.orderByChild('teamName').once("value", (snap) => {
+      let teams = [];
+      snap.forEach((i)=>{
+        teams.push(i.val());
+      })
       this.setState({
-        projects: snap.val()
+        projects: teams
       });
     })
   }
