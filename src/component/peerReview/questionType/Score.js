@@ -204,8 +204,7 @@ class Score extends Component {
                 />
               : <h3>{this.state.data.question}</h3>
               }
-
-
+              
             </div>
             <div className="panel-body">
               { PeerReviewStore.EditMode  &&

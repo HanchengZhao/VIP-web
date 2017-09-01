@@ -120,14 +120,18 @@ class CheckBox extends Component {
   }
 
   render() {
-    let checkboxes = this.state.data.options.map((value,index) => (
+    let checkboxes = this.state.data.options.map((value, index) => 
       <div style = {style.radioButton} key = {index}>
         <Checkbox value = {index} label = {value} style = {{width:'200px', display:'inline-block'}} />
         {(PeerReviewStore.EditMode && !this.state.EvalMode) &&
-          <i className = "glyphicon glyphicon-remove" id = {index} onClick = {this.handleRemove} style = {{display:'inline-block', cursor:'pointer',fontSize: '1.5em'}}/>
+          <i className = "glyphicon glyphicon-remove" 
+             id = {index} 
+             onClick = {this.handleRemove} 
+             style = {{display:'inline-block', cursor:'pointer',fontSize: '1.5em'}}
+          />
         }
       </div>
-    ));    
+    )
     return(
       <div>
         {!this.state.EvalMode &&
@@ -146,22 +150,25 @@ class CheckBox extends Component {
               />
             : <h3>{this.state.data.question}</h3>
             }
-          </div>
-          <div className="panel-body">
-            {PeerReviewStore.EditMode &&
-            <div>
-              <div className = "edit">
-                <TextField id = 'newAnswer' floatingLabelText="Add Option" 
-                  value = {this.state.newOption} 
-                  onChange = {this.handleOptionChange} 
-                  underlineFocusStyle={style.underlineStyle} 
-                  floatingLabelStyle={style.floatingLabelStyle}
-                />
-                <FlatButton label="Add" onClick = {this.handleAdd} />
-              </div>
             </div>
+            <div className="panel-body">
+              {PeerReviewStore.EditMode &&
+              <div>
+                <div className = "edit">
+                  <TextField id = 'newAnswer' floatingLabelText="Add Option" 
+                    value = {this.state.newOption} 
+                    onChange = {this.handleOptionChange} 
+                    underlineFocusStyle={style.underlineStyle} 
+                    floatingLabelStyle={style.floatingLabelStyle}
+                  />
+                  <FlatButton label="Add" onClick = {this.handleAdd} />
+                </div>
+              </div>
             }
-          </div>
+            <div style={{display:"inline"}}>
+              {checkboxes}
+            </div>
+            </div>
           </div>
         </MuiThemeProvider>
         }
