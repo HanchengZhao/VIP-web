@@ -46,7 +46,7 @@ class ManageGateKeeper extends Component {
         return (
           <tr key = {key}>
             <th>{this.state.teams[key].teamName}</th>
-            <th><MuiThemeProvider><FlatButton label = "Manage Courses" onClick = {() => this.manageCourse(key)}/></MuiThemeProvider></th>
+            <th ><MuiThemeProvider><FlatButton  style = {{float:'right'}} label = "Manage Courses" onClick = {() => this.manageCourse(key)}/></MuiThemeProvider></th>
           </tr>);
       }
     });
