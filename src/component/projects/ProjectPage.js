@@ -25,8 +25,8 @@ class ProjectPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      problemStatement:'',
-      description:'',
+      problemAddressed:'',
+      projectDescription:'',
       name:'',
       email:'',
       contactPerson:'',
@@ -35,6 +35,7 @@ class ProjectPage extends Component {
       industryLeader:'',
       industryEmail:'',
       title: '',
+      teamName:'',
       subtitle: '',
       topics: [],
       sections: [],
@@ -56,8 +57,8 @@ class ProjectPage extends Component {
       }
 
       this.setState({
-        problemStatement: snap.val().problemStatement,
-        description: snap.val().description,
+        problemAddressed:snap.val().problemAddressed,
+        projectDescription:snap.val().projectDescription,
         name: snap.val().name,
         email: snap.val().email,
         contactPerson:snap.val().contactPerson,
@@ -65,6 +66,7 @@ class ProjectPage extends Component {
         studentOpportunities: snap.val().studentOpportunities,
         industryLeader:snap.val().industryLeader,
         industryEmail:snap.val().industryEmail,
+        teamName: snap.val().teamName,
         title: snap.val().title,
         subtitle: snap.val().subtitle,
         topics: topics,
@@ -88,19 +90,23 @@ class ProjectPage extends Component {
         <MuiThemeProvider>
           <div>
             <h1 style={style.projectTitle}>{this.state.title}</h1>
-            <h2 style={style.projectTitle}>{this.state.subtitle}</h2>
             <h3 style={style.heading}>The Problem</h3>
-            <div>{this.state.problemStatement}</div>
+            <img src={'Teams/'+this.state.fbkey+'/logo'}/>
+            <div>{this.state.problemAddressed}</div>
             <h3 style={style.heading}>What is this project?</h3>
-            <div>{this.state.description}</div>
+            <div>{this.state.projectDescription}</div>
             <h3 style={style.heading}>What students can do</h3>
             <div>{this.state.studentOpportunities}</div>
             <h3 style={style.heading}>Faculty</h3>
-            <div>{this.state.name}, {this.state.email}</div>
+            <div>{this.state.name}, <a href={"mailto:"+this.state.email}>{this.state.email}</a></div>
             <h3 style={style.heading}>Contact</h3>
             <div>{this.state.contactPerson}, {this.state.contactEmail}</div>
-            <h3 style={style.heading}>Industry Project Leaders</h3>
-            <div>{this.state.industryLeader}, {this.state.industryEmail}</div>
+            {(this.state.industryLeader!=null) &&
+              <div>
+                <h3 style={style.heading}>Industry Project Leaders</h3>
+                <div>{this.state.industryLeader}, {this.state.industryEmail}</div>
+              </div>
+            }
             {(userStore.role === "advisor" || userStore.role === "student") &&
             <div className="row">
             <Link to={`${this.state.fbkey}/apply`}>

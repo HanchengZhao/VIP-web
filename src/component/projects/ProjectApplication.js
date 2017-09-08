@@ -8,14 +8,15 @@ import RaisedButton from 'material-ui/RaisedButton';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
-import {Validation} from '../../Validation';
+import {checkEmpty} from '../../Validation';
 import {university} from '../../Theme';
 import ASUTeamLogoUpload from './Application/ASUTeamLogoUpload';
 import TeamApplyModalComponent from './Application/TeamApplyModalComponent';
 import TextFieldComponent from './Application/TextFieldComponent';
 import {Link} from 'react-router-dom';
+import Primary from '../../Theme';
 
-const TeamFormPath = 'TeamApplication';
+const TeamFormPath = 'TeamApplication_Raw_Data';
 var db = 'Team Application';
 const style = {
   margin: "10px"
@@ -29,51 +30,77 @@ class ProjectApplication extends Component{
   constructor() {
       super();
       this.state = {
-        gpa:'',
-        teamName: '',
-        subtitle: '',
-        topics: '',
-        advisors: '',
-        description: '',
-        major: '',
-        requirements: '',
-        members: '',
-        name: '',
-        email: '',
-        status: '',
-        teamLogo: '',
-        test:'',
-        problemStatement :'' ,
-        contactPerson:'',
-        contactEmail:'',
-        studentOpportunities: '',
-        industryLeader:'',
-        industryEmail:''
+        applied:false,
+        notIncluded:['data','error'],
+        empty:{},
+        data:{},
+        error:{},
+        check:false
       };
     }
 
     componentDidMount() {
-        
-        firebase.database().ref(`FormQuestions/${db}`).once('value').then( (snap) => {
+      firebase.database().ref(`FormQuestions/${db}`).once('value').then( (snap) => {
+        let data = {};
+        let empty = {};
+        let notIncluded = this.state.notIncluded;
+        Object.keys(snap.val()).forEach((i)=>{
+          data[snap.val()[i].id] = '';
+          empty[snap.val()[i].id] = '';
+          if(!snap.val()[i].required) {
+            notIncluded.push(snap.val()[i].id);
+          }
+        });
         this.setState({
-        questionsArray: snap.val(),
-  	});
-	});
-} 
+          data:data,
+          empty:empty,
+          notIncluded:notIncluded,
+          questionsArray: snap.val(),
+        });
+      });
+    } 
 
     getdata =(childdata) =>{
+      let data = this.state.data;
+      data['logo'] = childdata;
       this.setState({
-        teamLogo: childdata,
+        data:data
       });
     }
+
+    onFacultyClick = (event) => {
+      firebase.database().ref(`General Information/${db}`).once('value').then( (snap) => {
+        let data = this.state.data;
+        let empty = this.state.empty;
+        let notIncluded = this.state.notIncluded;
+        Object.keys(snap.val()).forEach((i)=>{
+          data[snap.val()[i].id] = '';
+          empty[snap.val()[i].id] = '';
+          if(!snap.val()[i].required) {
+            notIncluded.push(snap.val()[i].id);
+          }
+        });
+        this.setState({
+          data:data,
+          empty:empty,
+          notIncluded:notIncluded,
+          genArray: snap.val(),
+          check:true
+        });
+      });
+    }
+
 
     handleChange = (event) => {
     var str = event.target.id;
     var res = str.split("-");
     var key = res[2].charAt(0).toLowerCase() + res[2].slice(1);
     var val = event.target.value;
-    var obj  = {};
+    var obj  = this.state.data;
     obj[key] = val;
+    this.setState({
+      check:false
+    })
     if(key==="topics"){
      var str = event.target.value;
      var res=str.split(",");
@@ -89,119 +116,99 @@ class ProjectApplication extends Component{
 
 
   firebasewrite = () => {
-    if(Validation(this.state.email)){
+    let empty = checkEmpty(this.state.error, this.state.data, this.state.data.contactEmail, this.state.notIncluded);
+    if(empty[0]){
       if(`${db}`==='Team Application'){
-          const rootRef = firebase.database().ref().child('Teams');
-          rootRef.push({
-          title : this.state.teamName,
-          subtitle : this.state.subtitle,
-          topics : this.state.topics,
-          description : this.state.description,
-          members : this.state.members,
-          name : this.state.name,
-          email : this.state.email,
-          status : this.state.status,
-          logo: this.state.teamLogo,
-          gpa: this.state.gpa,
-          major:this.state.major,
-          requirements:this.state.requirements,
-          advisor: this.state.advisors,
-          problemStatement: this.state.problemStatement,
-          contactPerson:this.state.contactPerson,
-          contactEmail:this.state.contactEmail,
-          studentOpportunities: this.state.studentOpportunities,
-          industryLeader:this.state.industryLeader,
-          industryEmail:this.state.industryEmail,
-          sections: [
-                    {'content':this.state.major,'title': 'Major'},
-                    {'content':this.state.requirements,'title': 'Requirements'},
-                    {'content':this.state.advisors,'title': 'Advisor'}],
-      });
-      } else if(`${db}`==='General Information'){
-          const rootRef = firebase.database().ref().child('GeneralInformation');
-          rootRef.push({
-          name : this.state.name,
-          email : this.state.email,
-      });
-      } else if(`${db}`==='Academic Information'){
-          const rootRef = firebase.database().ref().child('AcademicInformation');
-          rootRef.push({
-          major: this.state.major,
-          gpa: this.state.gpa,
-      });
+          const rootRef = firebase.database().ref().child(TeamFormPath);
+          rootRef.push(this.state.data);
       }
-    
-    
+      this.setState((prevState) => {
+        return {
+          data:prevState.empty,
+          applied:true
+        };
+      });
+    }
+    console.log(this.state.empty);
     this.setState({
-          teamName: '',
-          subtitle: '',
-          topics: '',
-          advisors: '',
-          description: '',
-          major:'',
-          requirements:'',
-          members:'',
-          name:'',
-          email:'',
-          status:'',
-          teamLogo: '',
-          gpa: '',
-          errorText:'',
-          problemStatement: '',
-          contactPerson:'',
-          contactEmail:'',
-          studentOpportunities: '',
-          industryLeader:'',
-          industryEmail:''
-
-    });
-    }else{
-        this.setState({
-          errorText:"Please Enter A Valid email"
-        });
-      }
+      error:empty[1],
+      errorText:empty[2]
+    })
 
   }
 
 	render(){
     let questionsArray = this.state.questionsArray;
+    let genArray = this.state.genArray;
     //alert(JSON.stringify(questionsArray));
 		return (
-		<div style={{margin: 'auto',textAlign: 'center'}}>
+		<div>
 		  <MuiThemeProvider>
             <div>
               <Card>
+                <div style={{position: "relative",left: "45%"}}>
                 <CardTitle title='Team Apply Form' />
                 <div className="row">
                   {this.state.questionsArray 
                   ? (Object.keys(this.state.questionsArray).map((id) => {
-                    if(questionsArray[id].id==="email"||questionsArray[id].id==="contactEmail"||questionsArray[id].id==="industryEmail") {
+                    if(questionsArray[id].id==="contactEmail") {
                       return(
                         <div key={id}>
-                          <TextField questionArray={questionsArray[id]} var={questionsArray[id].id}
+                          <TextField
                           floatingLabelText={questionsArray[id].text}
+                          value = {this.state.data[questionsArray[id].id]}
                           hintText={questionsArray[id].hint}
                           errorText={this.state.errorText}
                           onChange={ this.handleChange}/><br /></div>)
                     }
+
                     return(
                   <div key={id}>
-                  <TextField questionArray={questionsArray[id]} var={questionsArray[id].id}
+                  <TextField
                     floatingLabelText={questionsArray[id].text}
+                    value = {this.state.data[questionsArray[id].id]}
                     hintText={questionsArray[id].hint}
-
+                    errorText={this.state.error[questionsArray[id].id]}
+                    multiLine={true}
                     onChange={ this.handleChange}/><br /></div>)}))
                     : (<h2>Loading..</h2>) }                
-                <br/>
+                </div>
+                <RaisedButton label="ADD LEAD FACULTY" style={style} backgroundColor='#ffc627' onClick={this.onFacultyClick}/>
+                
+                {this.state.check 
+                  ? (Object.keys(this.state.genArray).map((id) => {
+                    if(this.state.genArray[id].id==="contactEmail") {
+                      return(
+                        <div key={id}>
+                          <TextField
+                          floatingLabelText={this.state.genArray[id].text}
+                          value = {this.state.data[this.state.genArray[id].id]}
+                          hintText={this.state.genArray[id].hint}
+                          errorText={this.state.errorText}
+                          onChange={ this.handleChange}/><br /></div>)
+                    }
+
+                    return(
+                  <div key={id}>
+                  <TextField
+                    floatingLabelText={this.state.genArray[id].text}
+                    value = {this.state.data[this.state.genArray[id].id]}
+                    hintText={this.state.genArray[id].hint}
+                    errorText={this.state.error[this.state.genArray[id].id]}
+                    multiLine={true}
+                    onChange={ this.handleChange}/><br /></div>)}))
+                    : null }
                 </div>
               </Card><br/>
-              <ASUTeamLogoUpload childdata = {this.getdata}/>             
-              <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-                <div>
-                  <RaisedButton label="Apply"  style={style} backgroundColor='#ffc627' onClick={this.firebasewrite}
-                  data-toggle="modal" data-target="#myModal" /> <br />
-                </div>
-              </MuiThemeProvider>
+              <div style={{margin:"auto",textAlign:"center"}}>
+                <ASUTeamLogoUpload childdata = {this.getdata}/>             
+                <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+                  <div>
+                    <RaisedButton label="Apply"  style={style} backgroundColor={Primary} onClick={this.firebasewrite}
+                    data-toggle="modal" data-target="#myModal"/> <br />
+                  </div>
+                </MuiThemeProvider>
+              </div>
             </div>
 		  </MuiThemeProvider>
 		</div> )

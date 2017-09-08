@@ -7,7 +7,8 @@ import {Card, CardTitle} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
+import SelectField from 'material-ui/SelectField';
+import MenuItem  from 'material-ui/MenuItem';
 import {Validation} from '../../Validation';
 import {university} from '../../Theme';
 import TeamApplyModalComponent from './Application/TeamApplyModalComponent';
@@ -19,23 +20,33 @@ var db = 'Student Application';
 const style = {
   margin: "10px"
 };
+const styles = {
+  customWidth: {
+    width: 260,
+  },
+};
+
+
 
 // Create an array in this.state. then populate the array with TeamApplication key values. Then access them in the TextFieldComponent with the ids in loop.
 class StudentApplication extends Component{
   constructor(props) {
       super(props);
       this.state = {
-        level: '',
-        program: '',
-        gradeType: '',
         name: '',
         email: '',
-        other:'',
+        comments:'',
         major:'',
         gpa:'',
-        title:'',
+        asuriteID:'',
+        questions:'',
         fbkey: this.props.match.params.projectid,
-        errorText:''        
+        errorText:'',
+        year:'',
+        telephoneNumber:'',
+        barret:'',
+        join:'',
+        value:''
       };    
     }
 
@@ -58,6 +69,21 @@ class StudentApplication extends Component{
         teamLogo: childdata,
       });
     }
+
+    handleJoin = (event, index, join) => {
+        this.setState({join});
+        // alert(JSON.stringify(join));
+    };
+
+    handleBarret = (event, index, barret) => {
+        this.setState({barret});
+       // alert(JSON.stringify(barret));
+    };
+
+    handleYear = (event, index, year) => {
+        this.setState({year});
+       // alert(JSON.stringify(year));
+    };
 
     handleChange = (event) => {
     var str = event.target.id;
@@ -97,26 +123,35 @@ class StudentApplication extends Component{
       } else if(`${db}`==='Student Application'){
           const rootRef = firebase.database().ref(`StudentApplication/`+this.state.title);
           rootRef.push({
-          level: this.state.level,
-          program: this.state.program,
-          gradeType: this.state.gradeType,
           name: this.state.name,
           email: this.state.email,
-          other: this.state.other
+          major:this.state.major,
+          asuriteID: this.state.asuriteID,
+          questions:this.state.questions,
+          year:this.state.year,
+          barret:this.state.barret,
+          telephoneNumber: this.state.telephoneNumber,
+          join:this.state.join,
       });
       }
       
       
       this.setState({
+          value:'',
           id:'',
           level: '',
           program: '',
-          gradeType: '',
+          questions: '',
           name: '',
           email: '',
           major: '',
           gpa:'',
-          errorText:''
+          errorText:'',
+          year:'',
+          barret:'',
+          join:'',
+          comments:'',
+          telephoneNumber:''
       });
     }else{
       this.setState({
@@ -156,17 +191,46 @@ class StudentApplication extends Component{
                   </div>)}))
                     : (<h2>Loading..</h2>) }                
                 <br/>
+                <SelectField
+                  floatingLabelText="Year"
+                  value={this.state.year}
+                  onChange={this.handleYear}>
+                    <MenuItem value="Freshman" primaryText="Freshman" />
+                    <MenuItem value="Sophomore" primaryText="Sophomore" />
+                    <MenuItem value="Junior" primaryText="Junior" />
+                    <MenuItem value="Senior" primaryText="Senior" />
+                    <MenuItem value="Graduate Student" primaryText="Graduate Student" />
+                    <MenuItem value="Other" primaryText="Other" />
+                </SelectField><br/>
+                <SelectField
+                  floatingLabelText="Barret College?"
+                  value={this.state.barret}
+                  onChange={this.handleBarret}>
+                    <MenuItem value="Yes" primaryText="Yes" />
+                    <MenuItem value="No" primaryText="No" />
+                </SelectField><br />
+                <SelectField
+                  floatingLabelText="Interested?"
+                  value={this.state.join}
+                  onChange={this.handleJoin}>
+                    <MenuItem value="Yes" primaryText="Yes" />
+                    <MenuItem value="Maybe" primaryText="Maybe" />
+                    <MenuItem value="Would like to know more" primaryText="Would like to know more" />
+                    <MenuItem value="Not now" primaryText="Not now" />
+                    <MenuItem value="Maybe later" primaryText="Maybe later" />
+                </SelectField>                           
                 </div>
-              </Card><br/>
-                       
+              </Card><br/>       
               <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                 <div>
                   <RaisedButton label="Apply"  style={style} backgroundColor='#ffc627' onClick={this.firebasewrite}
                   data-toggle="modal" data-target="#myModal" /> <br />
                 </div>
               </MuiThemeProvider>
+                            
             </div>
 		  </MuiThemeProvider>
+      
 		</div> )
 	}
 }

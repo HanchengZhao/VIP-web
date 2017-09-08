@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 import {Card, CardActions, CardMedia, CardTitle, CardHeader, CardText} from 'material-ui/Card';
 import ProjectCard from './ProjectCard';
 import userStore from '../../stores/UserStore';
-
+import AnnouncementList from '../announcements/AnnouncementList.js';
 import artgineer from '../../assets/team_logo/artgineer.png';
 import crypto from '../../assets/team_logo/crypto.png'
 import deeplearning from '../../assets/team_logo/deeplearning.jpg';
@@ -26,8 +26,12 @@ const style = {
   cardHeader: {
     textAlign : 'left',
     fontSize: '1.3em',
-    maxHeight: "100px",
     color: "#8C1D40"
+  },
+  cardHeader2: {
+    textAlign : 'left',
+    fontSize: '1.3em',
+    maxHeight: "100px",
   },
   cardText: {
     overflow: "hidden",
@@ -58,6 +62,7 @@ class ProjectList extends Component {
     let projects = this.state.projects;
     return (
       <div>
+        <AnnouncementList />  
         <p style={style.card}>
           <p style={style.cardHeader}><b>What is VIP?</b></p>
           <p>VIP at ASU capitalizes on the interests of undergraduates to engage in ongoing scientific research. Beginning as freshmen or sophomores, teams collaborate with upperclassmen and graduate students to address real problems guided by faculty scientists. Students earn academic or honors credits over 4 years.</p>
@@ -71,7 +76,8 @@ class ProjectList extends Component {
           </p>
           <p>To inquire about or join VIP areas listed below, follow links for teams below actively recruiting now! </p>
       </p>
-        <div className="row">
+      <p style={style.cardHeader}><b>Current Active Projects</b></p>
+        <div className="row" style={style.card}>
           { this.state.projects
             ? (Object.keys(this.state.projects).map((uuid) =>
                 <ProjectCard key={uuid} fbkey={uuid} project={projects[uuid]} />

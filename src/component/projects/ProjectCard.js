@@ -10,7 +10,6 @@ const style = {
   card: {
     paddingBottom: "10px",
     margin: "10px",
-    height: "300px"
   },
   cardMedia:{
     height: "100px"
@@ -28,6 +27,15 @@ const style = {
   
 }
 
+const color = {
+  projectTitle: {
+    color: "#8C1D40"
+  },
+  heading:{
+    color: "#FFC627"
+  },  
+}
+
 class ProjectCard extends Component {
     constructor(props) {
       super(props);
@@ -36,25 +44,13 @@ class ProjectCard extends Component {
     render () {
       return (
         <MuiThemeProvider>
-          <div className="col-md-4" style={{marginBottom:"10px"}}>
-          <Card style={style.card}>
-            <CardHeader
-              title={this.props.project.title}
-              subtitle={this.props.project.subtitle}
-              actAsExpander={false}
-              showExpandableButton={false}
-              titleStyle = {style.cardHeader}
-            />
-            {/*<CardMedia style={style.cardMedia}>
-              <img src={this.props.project.logo} alt="" />
-            </CardMedia>*/}
-            <CardText expandable={false} style={style.cardText}>
-              {this.props.project.description}
-            </CardText>
-              <CardActions>
-                <Link to={`projects/${this.props.fbkey}`}><FlatButton label="Learn more" /></Link>                
-              </CardActions>
-          </Card>
+          <div style={{marginBottom:"10px"}}>
+          <p style={style.card}>
+            <Link to={`projects/${this.props.fbkey}`}>
+              <h4 style={color.projectTitle}>{this.props.project.title} </h4>
+            </Link>
+            <b>{this.props.project.subtitle}</b>
+          </p>
           </div>
         </MuiThemeProvider>
       )
