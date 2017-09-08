@@ -14,6 +14,7 @@ import crypto from '../../assets/team_logo/crypto.png'
 import deeplearning from '../../assets/team_logo/deeplearning.jpg';
 
 import Primary from '../../Theme';
+import _ from 'lodash';
 
 import firebase from '../../firebase';
 
@@ -21,7 +22,8 @@ class ProjectList extends Component {
   constructor() {
     super();
     this.state = {
-      projects : ""
+      projects : "",
+      keys:''
     }
   }
 
@@ -29,11 +31,18 @@ class ProjectList extends Component {
     const projectRef = firebase.database().ref('Teams');
     projectRef.orderByChild('teamName').once("value", (snap) => {
       let teams = [];
+      let keys = [];
       snap.forEach((i)=>{
+        Object.keys(snap.val()).forEach((key)=>{
+          if(_.isEqual(i.val(), snap.val()[key])){
+            keys.push(key);
+          }
+        });
         teams.push(i.val());
-      })
+      });
       this.setState({
-        projects: teams
+        projects: teams,
+        keys:keys
       });
     })
   }
@@ -45,7 +54,7 @@ class ProjectList extends Component {
         <div className="row">
           { this.state.projects
             ? (Object.keys(this.state.projects).map((uuid) =>
-                <ProjectCard key={uuid} fbkey={uuid} project={projects[uuid]} />
+                <ProjectCard key={uuid} fbkey={this.state.keys[uuid]} project={projects[uuid]} />
               ))
             : (<h2>Loading...</h2>)
           }

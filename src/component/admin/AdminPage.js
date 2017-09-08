@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import ChangeSemester from './ChangeSemester';
 import PendingApplication from './TeamApplication/PendingApplication';
 import DeniedApplication from './TeamApplication/DeniedApplication';
 import ManageAdmin from './ManageAdmin';
@@ -8,6 +9,7 @@ import GateKeeper from './GateKeeper/ManageGateKeeper';
 import SA_Tool from './StudentApplication/StudentApplicationTool';
 import Roster_Tool from './RosterTool/RosterTool';
 import userStore from '../../stores/UserStore';
+import Divider from 'material-ui/Divider';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import Paper from 'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -29,6 +31,7 @@ class AdminPage extends Component {
     this.showStudent = this.showStudent.bind(this);
     this.showAdminTool = this.showAdminTool.bind(this);
     this.showCourses = this.showCourses.bind(this);
+    this.showSemester = this.showSemester.bind(this);
   }
   showStudent() {
     this.setToFalse();
@@ -60,13 +63,20 @@ class AdminPage extends Component {
       Courses:true
     })
   }
+  showSemester() {
+    this.setToFalse();
+    this.setState({
+      Semester:true
+    })
+  }
   setToFalse() {
     this.setState({
       Project:false,
       Student:false,
       Roster:false,
       AddAdmin:false,
-      Courses:false
+      Courses:false,
+      Semester:false
     });
   }
 
@@ -98,9 +108,16 @@ class AdminPage extends Component {
               ?<div>
                 <h1 style = {{textAlign:'center'}}>Manage Courses and GateKeepers</h1>
                 <ManageCourses />
+                <Divider style = {{margin:'20px'}}/>
                 <GateKeeper />
               </div>
               :<h1 />
+            }
+            {this.state.Semester &&
+              <div>
+                <h1 style = {{textAlign:'center'}}>Semester</h1>
+                <ChangeSemester />
+              </div>
             }
           </Paper>
         </MuiThemeProvider>  
@@ -112,7 +129,8 @@ class AdminPage extends Component {
               <Tab label = "Student Application" style={{backgroundColor:NavColor}} onActive={this.showStudent}/>
               <Tab label = "Rosters" style={{backgroundColor:NavColor}} onActive={this.showRoster}/>
               <Tab label = "Manage Admin" style={{backgroundColor:NavColor}} onActive={this.showAdminTool}/>
-              <Tab label = "Manage Courses" style={{backgroundColor:NavColor}} onActive={this.showCourses}/>         
+              <Tab label = "Manage Courses" style={{backgroundColor:NavColor}} onActive={this.showCourses}/> 
+              <Tab label = "Change Semester" style={{backgroundColor:NavColor}} onActive={this.showSemester}/>        
             </Tabs>
           </MuiThemeProvider>
         </div>
