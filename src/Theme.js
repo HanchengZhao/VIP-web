@@ -1,1 +1,1 @@
-style = {Button : {backgroundColor:"#ffc425"}}
+let style = {Button : {backgroundColor:"#ffc425"}}
