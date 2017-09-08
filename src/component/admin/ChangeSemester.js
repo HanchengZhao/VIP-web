@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import FlatButton from 'material-ui/FlatButton';
+import _ from 'lodash';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
@@ -40,7 +41,6 @@ class ChangeSemester extends Component {
 
   handleMenuChange(event, index, value,) {
     let uuid = (Object.keys(this.state.past)[value]);
-    console.log(this.state.past[uuid]);
     this.setState({
       value:value,
       newSemester:this.state.past[uuid]
@@ -48,13 +48,7 @@ class ChangeSemester extends Component {
   }
 
   handleSubmit() {
-    let value = false;
-    Object.keys(this.state.past).forEach((i)=>{
-      if(Object.keys(this.state.past[i])===this.state.current) {
-        value = true;
-      };
-    });
-    if(value) {
+    if(!_.has(this.state.past, this.state.current)) {
       firebase.database().ref('Semester/past').push(this.state.current);
     }
     firebase.database().ref('Semester/current').set(
@@ -83,7 +77,6 @@ class ChangeSemester extends Component {
             <div style = {{float:'left'}}>
               <h4>Past Semesters</h4>
                 <SelectField value = {this.state.value} onChange = {this.handleMenuChange}>
-                  <MenuItem value = 'default' primaryText = 'Past Semesters'/>
                   {menuItems}
                 </SelectField>
               </div>

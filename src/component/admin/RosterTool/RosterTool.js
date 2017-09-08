@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import RosterTable from '../../advisor/RosterTable';
+import _ from 'lodash';
 import firebase from '../../../firebase';
 
 const studentRef = 'Students';
@@ -10,31 +11,36 @@ class RosterTool extends Component {
     this.state = {
       roster:'',
       semester:'',
-      currentRoster:''
     }
     this.generateRoster = this.generateRoster.bind(this);
   }
 
   componentDidMount() {
     let fbRef = firebase.database().ref(`${studentRef}`);
-    fbRef.on('value', (snap) => {
-      this.setState({
-        roster:snap.val(),
+    fbRef.on('value', (snapRoster) => {
+      firebase.database().ref(`Semester`).once('value').then((snapSemester)=>{
+        this.setState({
+          semester:snapSemester.val().current,
+          roster:snapRoster.val(),
+        }, () => this.generateRoster());
       });
     });
 
-    firebase.database().ref(`Semester`).once('value').then((snap)=>{
-      this.setState({semester:snap.val().current},()=>{this.generateRoster()});
-    });
+    
+
+    
   }
 
   generateRoster() {
     let semesterRoster = {};
     Object.keys(this.state.roster).forEach((team) => {
+      console.log(this.state.roster[team]);
       Object.keys(this.state.roster[team][this.state.semester]).forEach((student)=>{
         semesterRoster[student] = this.state.roster[team][this.state.semester][student];
       });
     });
+    console.log(semesterRoster);
+    console.log(this.state.semester);
     this.setState({currentRoster:semesterRoster});
   }
 
@@ -43,9 +49,8 @@ class RosterTool extends Component {
   render() {
     return (
       <div>
-        {this.state.currentRoster
-        ?<RosterTable roster = {this.state.currentRoster}/>
-        :<h1/>
+        {!_.isEmpty(this.state.currentRoster) && this.state.semester && this.state.roster &&
+          <RosterTable roster = {this.state.currentRoster}/>
         }
       </div>
     );
