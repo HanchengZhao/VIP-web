@@ -41,11 +41,12 @@ class RosterTool extends Component {
 
 
   render() {
+    console.log(this.state.currentRoster);
+    console.log(this.state.semester);
     return (
       <div>
-        {this.state.currentRoster
-        ?<RosterTable roster = {this.state.currentRoster}/>
-        :<h1/>
+        {this.state.currentRoster && this.state.semester && this.state.roster &&
+          <RosterTable roster = {this.state.currentRoster}/>
         }
       </div>
     );
