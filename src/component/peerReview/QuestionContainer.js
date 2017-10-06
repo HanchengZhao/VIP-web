@@ -13,6 +13,7 @@ import { observer } from "mobx-react";
 import PeerReviewStore from '../../stores/PeerReviewStore';
 import MuiButton from '../MuiButton';
 
+import Checkbox from 'material-ui/Checkbox';
 import DatePicker from 'material-ui/DatePicker';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -23,6 +24,7 @@ import TextField from 'material-ui/TextField';
 import {grey500} from 'material-ui/styles/colors';
 import Primary from '../../Theme';
 import firebase from '../../firebase';
+import _ from 'lodash';
 
 const styles = {
   underlineStyle: {
@@ -86,7 +88,8 @@ const Props = {
       startDate: '2017-08-18',
       endDate: ''
     },
-    formName: 'general questions'
+    formName: 'general questions',
+    teamName: 'Cloud Crypto'
 }
 
 @DragDropContext(HTML5Backend)
@@ -99,6 +102,7 @@ export default class QuestionContainer extends Component {
     this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
     this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleSetToDefault = this.handleSetToDefault.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
     this.moveQuestion = this.moveQuestion.bind(this);
     this.removeQuestion = this.removeQuestion.bind(this);
@@ -112,7 +116,8 @@ export default class QuestionContainer extends Component {
       startDate: new Date(Props.date.startDate) ,
       endDate:  {} ,
       editDate: new Date(),
-      formName: Props.formName
+      formName: Props.formName,
+      setAsDefault: true
     };
   }
 
@@ -229,9 +234,35 @@ export default class QuestionContainer extends Component {
     }))
   }
 
+  handleSetToDefault(e, checked) {
+    console.log(checked)
+    this.setState({
+      setAsDefault: checked
+    })
+  }
+
   publish(){
-    console.log(this.state.questions)
-    console.log("Date: ", this.state.startDate, this.state.endDate)
+    let teamRef = firebase.database().ref().child('Questions/' + Props.teamName)
+    let firstTimePush = false;
+    teamRef.on('value', (snap) => { 
+      if (!snap) {
+        firstTimePush = HTMLMarqueeElement
+      }
+    })
+    let publishData = {
+      formData: this.state.questions,
+      startDate: this.state.startDate.toString(),
+      endDate: _.isEmpty(this.state.endDate) ? '' : this.state.startDate.toString(),
+      editDate: this.state.editDate.toString(),
+      formName: this.state.formName
+    }
+    let newForm = teamRef.push(publishData)
+    if (this.state.setAsDefault || firstTimePush) { // make sure there will always be a default form
+      teamRef.update({
+        defaultForm: newForm.key
+      })
+    }
+    console.log(newForm.key)
   }
   render() {
     const { questions } = this.state;
@@ -294,7 +325,14 @@ export default class QuestionContainer extends Component {
               </div>
             </MuiThemeProvider>
           </div>
-          <div className="row" style={styles.publishButton}>
+          <div className='col-md-3' style={{marginLeft: "60px", marginTop:"30px",float:'left', width:'200px'}}>
+            <MuiThemeProvider>
+              <Checkbox checked={this.state.setAsDefault} label = "Set as default" labelPosition="left" onCheck={this.handleSetToDefault} /> 
+            </MuiThemeProvider>
+          </div>
+
+          <div style={styles.publishButton}>
+            
             <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
               <RaisedButton className="pull-right" label = "Publish"  backgroundColor = {Primary} onClick={this.publish} />
             </MuiThemeProvider>
