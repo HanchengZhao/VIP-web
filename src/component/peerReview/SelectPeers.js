@@ -25,29 +25,39 @@ class SelectPeers extends Component {
   }
 
   componentDidMount() {
-    var team = '';
-    firebase.database().ref('Students').on('value', (snap) => {
-      let peers = [];
-      Object.keys(snap.val()).forEach((i) => {
-        if(snap.val()[i].email === userStore.email) {
-          team = snap.val()[i].team;
-        }
-      });
-      Object.keys(snap.val()).forEach((i) => {
-        if(snap.val()[i].team === team) {
-          peers.push(snap.val()[i]);
-        }
-      });
-      this.setState(()=>({
-        peers:peers,
-        team:team
-      }));
-    });
-    firebase.database().ref(`Questions/`).once('value', (snap)=>{
+    firebase.database().ref(`Semester/`).once('value', (snap)=>{
       this.setState({
-        questions:snap.val()
+        Semester:snap.val().current
       });
+    }).then(()=>{
+      firebase.database().ref('Students').on('value', (snap) => {
+        let team = '';
+        let peers = [];
+        Object.keys(snap.val()).forEach((i) => {
+          Object.keys(snap.val()[i][this.state.Semester]).forEach((student)=>{
+            if(snap.val()[i][this.state.Semester][student].email === userStore.email) {
+              team = snap.val()[i][this.state.Semester][student].teamName;
+            }
+          });
+        });
+        Object.keys(snap.val()[team][this.state.Semester]).forEach((i) => {
+          console.log();
+          peers.push(snap.val()[team][this.state.Semester][i]);
+        });
+        this.setState(()=>({
+          peers:peers,
+          team:team
+        }));
+      });
+      firebase.database().ref(`Questions/`).once('value', (snap)=>{
+        this.setState({
+          questions:snap.val()
+        });
+      });
+
     });
+    
+ 
   }
 
   handleClick(event) {
@@ -71,6 +81,7 @@ class SelectPeers extends Component {
   }
 
   render() {
+    console.log(this.state.questions);
     return(
       <div>
         <MuiThemeProvider>

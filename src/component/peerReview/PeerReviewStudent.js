@@ -23,7 +23,6 @@ class PeerReviewStudent extends Component {
     return (
       <div>
         <h2>PeerReview</h2>
-        <h5>This page will be active when a quiz is avalible</h5>
         <SelectPeers />
       </div>    
     );

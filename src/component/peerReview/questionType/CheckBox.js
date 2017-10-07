@@ -47,12 +47,14 @@ class CheckBox extends Component {
         question: Props.data.question,
       },
       newOption:'',
-      EvalMode:this.props.EvalMode
+      EvalMode:this.props.EvalMode,
+      Answers:{}
     }
     this.handleRemove = this.handleRemove.bind(this);
     this.handleOptionChange = this.handleOptionChange.bind(this);
     this.handleQuestionChange = this.handleQuestionChange.bind(this);
     this.handleAdd = this.handleAdd.bind(this);
+    this.handleCheck = this.handleCheck.bind(this);
   }
 
   componentDidMount(){
@@ -106,6 +108,24 @@ class CheckBox extends Component {
     });
   }
 
+  handleCheck(e) {
+    let Answers = this.state.Answers;
+    let PeerAnswers = this.state.Answers[this.props.peer.name];
+    let value = parseInt(e.target.value);
+    if(!PeerAnswers){
+      PeerAnswers = [];
+      PeerAnswers.push(value);
+    }else if(!PeerAnswers.includes(value)) {
+      PeerAnswers.push(value);
+    }else{
+      PeerAnswers.splice(Answers[this.props.peer.name].indexOf(value));
+    }
+    this.setState({
+      Answers:Answers
+    },
+    ()=>{this.props.handleChange(this.state.Answers)});
+  }
+
   handleRemove(e) {
     let index = e.target.id;
     this.setState(update(this.state, {
@@ -122,7 +142,7 @@ class CheckBox extends Component {
   render() {
     let checkboxes = this.state.data.options.map((value,index) => (
       <div style = {style.radioButton} key = {index}>
-        <Checkbox value = {index} label = {value} style = {{width:'200px', display:'inline-block'}} />
+        <Checkbox value = {index} label = {value} style = {{width:'200px', display:'inline-block'}} onCheck = {this.handleCheck}/>
         {(PeerReviewStore.EditMode && !this.state.EvalMode) &&
           <i className = "glyphicon glyphicon-remove" id = {index} onClick = {this.handleRemove} style = {{display:'inline-block', cursor:'pointer',fontSize: '1.5em'}}/>
         }

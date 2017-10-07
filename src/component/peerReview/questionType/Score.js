@@ -70,7 +70,8 @@ class Score extends Component {
       },
       reviewMode: false,
       EvalMode: this.props.EvalMode,
-      Answers:{}
+      Answers:{},
+      value:-1
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleFromChange = this.handleFromChange.bind(this);
@@ -81,6 +82,11 @@ class Score extends Component {
   }
 
   componentDidMount(){
+    let value = -1;
+    if(!!this.props.answers){
+      value = this.props.answers[this.props.peer.name]
+    }
+    console.log(value);
     if (this.props.data) {
       this.setState({
         data: {
@@ -89,16 +95,41 @@ class Score extends Component {
           low: this.props.data.low,
           high: this.props.data.high,
           question: this.props.data.question
-        }
+        },
+        value:value
       })
     } 
-    
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps.answers);
+    let value = -1;
+    if(!!nextProps.answers){
+      value = nextProps.answers[nextProps.peer.name]
+    }
+    console.log(value);
+    if (this.props.data) {
+      this.setState({
+        data: {
+          from: nextProps.data.from,
+          to: nextProps.data.to,
+          low: nextProps.data.low,
+          high: nextProps.data.high,
+          question: nextProps.data.question
+        },
+        value:value
+      })
+    }
   }
 
   handleChange(e) {
     let Answers = this.state.Answers;
-    Answers[this.props.peer.name] = e.target.value;
-    this.setState({Answers:Answers},
+    let value = parseInt(e.target.value);
+    Answers[this.props.peer.name] = value;
+    this.setState({
+      Answers:Answers,
+      value:value
+    },
     ()=>{this.props.handleChange(this.state.Answers)});
   }
 
@@ -168,7 +199,6 @@ class Score extends Component {
   }
   render() {
     let scales = [];
-    let value;
     for(let i = this.state.data.from; i <= this.state.data.to; i++){
       scales.push(i)
     }
@@ -183,9 +213,7 @@ class Score extends Component {
     let toMenu = [2,3,4,5,6,7,8,9].map((num) => 
       <MenuItem key={num} value={num} primaryText={num} />
     )
-    if(!!this.props.answers) {
-      value = this.props.answers[this.props.peer.name];
-    }
+    console.log(this.state.value);
     return (
       <div>
         {!this.state.EvalMode &&
@@ -269,7 +297,7 @@ class Score extends Component {
           <MuiThemeProvider>
           <div className="row"  style={{display:"inline-block", marginLeft: "15px"}}>
                 <span style={{float:"left"}}> <b>{this.state.data.low}&nbsp;</b></span>
-                <RadioButtonGroup  name="scores" defaultSelected = {value} style={{float:"left"}} onChange = {this.handleChange}>
+                <RadioButtonGroup  name="scores" valueSelected = {this.state.value} style={{float:"left"}} onChange = {this.handleChange}>
                   {RadioButtons}
                 </RadioButtonGroup>
                 <span style={{float:"left"}}><b>&nbsp;{this.state.data.high}</b></span>
