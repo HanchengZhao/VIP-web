@@ -89,7 +89,7 @@ const Props = {
       endDate: ''
     },
     formName: 'general questions',
-    teamName: 'Cloud Crypto'
+    teamName: 'Cloud crypto'
 }
 
 @DragDropContext(HTML5Backend)
@@ -113,8 +113,8 @@ export default class QuestionContainer extends Component {
       questionTypes:questionTypes,
       value: 0,
       questions: Props.questionArray,
-      startDate: new Date(Props.date.startDate) ,
-      endDate:  {} ,
+      startDate: new Date(Props.date.startDate),
+      endDate:  {},
       editDate: new Date(),
       formName: Props.formName,
       setAsDefault: true
@@ -220,6 +220,7 @@ export default class QuestionContainer extends Component {
   };
 
   handleChangeEndDate(event, date){
+    console.log(date)
     this.setState({
       endDate: date,
     });
@@ -244,25 +245,28 @@ export default class QuestionContainer extends Component {
   publish(){
     let teamRef = firebase.database().ref().child('Questions/' + Props.teamName)
     let firstTimePush = false;
-    teamRef.on('value', (snap) => { 
-      if (!snap) {
-        firstTimePush = HTMLMarqueeElement
+    teamRef.once('value', (snap) => { 
+      if (!snap.val()) {
+        firstTimePush = true;
       }
+    }).then(() => {
+      let publishData = {
+        formData: this.state.questions,
+        startDate: this.state.startDate.toString(),
+        endDate: _.isEqual(this.state.endDate, {}) ? '' : this.state.endDate.toString(),
+        editDate: this.state.editDate.toString(),
+        formName: this.state.formName
+      }
+      let newForm = teamRef.push(publishData)
+  
+      if (this.state.setAsDefault || firstTimePush) { // make sure there will always be a default form
+        teamRef.update({
+          defaultForm: newForm.key
+        })
+      }
+      console.log(newForm.key)
     })
-    let publishData = {
-      formData: this.state.questions,
-      startDate: this.state.startDate.toString(),
-      endDate: _.isEmpty(this.state.endDate) ? '' : this.state.startDate.toString(),
-      editDate: this.state.editDate.toString(),
-      formName: this.state.formName
-    }
-    let newForm = teamRef.push(publishData)
-    if (this.state.setAsDefault || firstTimePush) { // make sure there will always be a default form
-      teamRef.update({
-        defaultForm: newForm.key
-      })
-    }
-    console.log(newForm.key)
+    
   }
   render() {
     const { questions } = this.state;
