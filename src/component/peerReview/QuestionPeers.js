@@ -80,7 +80,6 @@ class QuestionPeers extends Component {
   handlePrevious() {
     
     let index = this.state.index;
-    console.log(index);
     if(index > 0) {
       index = index - 1;
       this.setState({
@@ -94,7 +93,6 @@ class QuestionPeers extends Component {
   }
 
   handleChange(answer) {
-    console.log(answer);
     let Answers = this.state.Answers;
     Object.keys(answer).forEach((key)=>{
       if(!Answers[this.state.index]){
@@ -107,7 +105,6 @@ class QuestionPeers extends Component {
   }
 
   getQuestionComponent = (type, data, getData, peer, props) => {
-    console.log(this.state.Answers[this.state.index]);
     switch(type) {
       case 'Score': return <Score EvalMode = {true} data = {data} handleChange = {getData} peer = {peer} answers = {this.state.Answers[this.state.index]} {...props}/>;
       case 'Comment' : return <Comment EvalMode = {true} data = {data} handleChange = {getData} peer = {peer} answers = {this.state.Answers[this.state.index]} {...props}/>;

@@ -114,6 +114,8 @@ class Number extends Component {
     let value;
     if(!!this.props.answers) {
       value = this.props.answers[this.props.peer.name];
+    }else{
+      value = this.state.number;
     }
     return(
       <div>
@@ -149,7 +151,7 @@ class Number extends Component {
             {this.state.EvalMode &&
             <MuiThemeProvider>
               <div  style = {style.edit}>
-                <TextField type="number" defaultValue = {value} onChange = {this.handleChange} style = {{float:'left', width:'100px'}} id = "number" />
+                <TextField type="number" value = {value} onChange = {this.handleChange} style = {{float:'left', width:'100px'}} id = "number" />
               </div>
             </MuiThemeProvider>
             }
