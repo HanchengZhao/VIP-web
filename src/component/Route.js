@@ -54,6 +54,6 @@ export const UnEnrolledRoute = ({component: Component, user, ...rest}) => (
   <Route {...rest}
     render={(props) => user.role === "not_found"
       ? <Component {...props} />
-      : <Redirect to='/email_sending'/>}
+      : <Redirect to='/Test-Plot'/>}
   />  
 )

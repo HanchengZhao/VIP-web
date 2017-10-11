@@ -65,8 +65,8 @@ const Props = {
         id: 2,
         type: 'Comment',
         data:{
-          question:"Please provide some feedbacks.",
-          type:"Short Answer",
+          question: "Please provide some feedbacks.",
+          type: "Short Answer",
           require: false
         }
       }, {
