@@ -25,6 +25,7 @@ import {grey500} from 'material-ui/styles/colors';
 import Primary from '../../Theme';
 import firebase from '../../firebase';
 import _ from 'lodash';
+import userStore from '../../stores/UserStore';
 
 const styles = {
   underlineStyle: {
@@ -102,23 +103,71 @@ export default class QuestionContainer extends Component {
     this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
     this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleTeamChange = this.handleTeamChange.bind(this);
     this.handleSetToDefault = this.handleSetToDefault.bind(this);
     this.addQuestion = this.addQuestion.bind(this);
     this.moveQuestion = this.moveQuestion.bind(this);
     this.removeQuestion = this.removeQuestion.bind(this);
     this.updateQuestion = this.updateQuestion.bind(this);
     this.publish = this.publish.bind(this);
+    this.update = this.update.bind(this);
 
     this.state = {
       questionTypes:questionTypes,
       value: 0,
+      teamvalue: 0,
       questions: Props.questionArray,
       startDate: new Date(Props.date.startDate),
       endDate:  {},
       editDate: new Date(),
       formName: Props.formName,
-      setAsDefault: true
+      setAsDefault: true,
+      team: "",
+      teamOptions: ""
     };
+  }
+
+  componentDidMount() {
+    if (this.props.match.params.team) {
+      firebase.database().ref(`Questions/${this.props.match.params.team}/${this.props.match.params.formid}`).once('value').then( (snap) => {
+        const form = snap.val();
+        this.setState({
+          questions: form.formData,
+          startDate: new Date(form.startDate),
+          endDate: form.endDate === "" ? {} : new Date(form.endDate),
+          editDate: new Date(form.editDate),
+          formName: form.formName,
+          setAsDefault: false,
+          team: this.props.match.params.team
+        });
+      });
+    } else if (userStore.role === "advisor") { // fetch specific team
+      firebase.database().ref('Advisor').orderByChild("email").equalTo(userStore.email).on('value', (snap) => {
+        const matchData = snap.val();
+        Object.keys(matchData).forEach((key) => {
+          let team = matchData[key].team;
+          this.setState({
+            team: team
+          })
+          console.log(this.state.team)
+        })
+        
+      })
+    } else{ // admin publish
+      firebase.database().ref('Teams').once('value', (snap) => {
+        const matchData = snap.val();
+        const teams = [];
+        Object.keys(matchData).forEach((key) => {
+          let teamName = matchData[key].teamName;
+          teams.push(teamName);
+        })
+        console.log(teams);
+        this.setState({
+          teamOptions: teams,
+          team: teams[0]
+        })
+      })
+    }
   }
 
   addQuestion() {
@@ -164,6 +213,15 @@ export default class QuestionContainer extends Component {
 
   changeEditMode() {
     PeerReviewStore.switchEditMode();
+  }
+
+  handleTeamChange(e, index, value) {
+    const teamOptions = this.state.teamOptions;
+    this.setState({
+      teamvalue: value,
+      team: teamOptions[value]
+    });
+    console.log(this.state.team)
   }
 
   handleChange(e, index, value) {
@@ -236,14 +294,13 @@ export default class QuestionContainer extends Component {
   }
 
   handleSetToDefault(e, checked) {
-    console.log(checked)
     this.setState({
       setAsDefault: checked
     })
   }
 
   publish(){
-    let teamRef = firebase.database().ref().child('Questions/' + Props.teamName)
+    let teamRef = firebase.database().ref().child('Questions/' + this.state.team)
     let firstTimePush = false;
     teamRef.once('value', (snap) => { 
       if (!snap.val()) {
@@ -264,15 +321,34 @@ export default class QuestionContainer extends Component {
           defaultForm: newForm.key
         })
       }
-      console.log(newForm.key)
     })
-    
   }
+
+  update(){
+    let formRef = firebase.database().ref().child(`Questions/${this.props.match.params.team}/${this.props.match.params.formid}`)
+    let newForm = {
+      formData: this.state.questions,
+      startDate: this.state.startDate.toString(),
+      endDate: _.isEqual(this.state.endDate, {}) ? '' : this.state.endDate.toString(),
+      editDate: (new Date()).toString(),
+      formName: this.state.formName
+    }
+    formRef.update(newForm)
+  }
+
   render() {
     const { questions } = this.state;
     let questionTypes = this.state.questionTypes.map((value, index) =>{
       return <MenuItem primaryText = {value} value = {index} key = {index} />
     });
+    let teams = "";
+    if (this.state.teamOptions){
+      teams = this.state.teamOptions.map((value, index) =>{
+        return <MenuItem primaryText = {value} value = {index} key = {index} />
+      });
+      console.log(this.state.team)
+    }
+    
     return (
       <div style={{width: 'auto'}}>
         <h2 style={{textAlign:"center"}}>Form Generator</h2>
@@ -291,7 +367,17 @@ export default class QuestionContainer extends Component {
               {questionTypes}
             </SelectField>
             <FlatButton label = "+ Add" onClick = {this.addQuestion} />
-            {PeerReviewStore.EditMode
+
+            { 
+              userStore.role === 'admin' && (!this.props.match.params.team) &&
+              <SelectField floatingLabelText = "Choose a team" value = {this.state.teamvalue} onChange = {this.handleTeamChange} style={{verticalAlign:"bottom",width: '150px'}}>
+                {teams}
+              </SelectField>
+            }
+            
+            
+            {
+              PeerReviewStore.EditMode
               ? <FlatButton label = "Preview Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"bottom", float:'right'}}/>
               : <FlatButton label = "Edit Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"bottom", float:'right'}}/>
             }
@@ -338,7 +424,12 @@ export default class QuestionContainer extends Component {
           <div style={styles.publishButton}>
             
             <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-              <RaisedButton className="pull-right" label = "Publish"  backgroundColor = {Primary} onClick={this.publish} />
+              {
+                this.props.match.params.formid  
+                ? <RaisedButton className="pull-right" label = "Update"  backgroundColor = {Primary} onClick={this.update} />
+                : <RaisedButton className="pull-right" label = "Publish"  backgroundColor = {Primary} onClick={this.publish} />
+              }
+              
             </MuiThemeProvider>
           </div>
         </div>

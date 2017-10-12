@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import IconButton from 'material-ui/IconButton';
 import RemoveIcon from 'material-ui/svg-icons/action/highlight-off';
@@ -73,7 +73,7 @@ class PeerReviewPage extends Component {
         Students can only submit peer evaluations during active evaluation periods.  
         Instructors can access evaluations at any time.</p>
         {
-          userStore.role === 'admin' &&
+          (userStore.role === 'admin' || userStore.role === 'advisor') &&
           <div>
             <h4 style={{ color:Primary }}>Tools:</h4>
             <MuiThemeProvider>
@@ -92,7 +92,7 @@ class PeerReviewPage extends Component {
                   {data.peerReview.context}
                 </CardText>
                   <CardActions>
-                    <Link to={`peer-review/form_generator`}><FlatButton label="Learn more" /></Link>                
+                    <Link to={`peer-review/form_list`}><FlatButton label="Learn more" /></Link>                
                   </CardActions>
               </Card>
               </div>
