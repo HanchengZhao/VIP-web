@@ -18,7 +18,8 @@ class SelectPeers extends Component {
       selected:[],
       final:true,
       questions:'',
-      team:''
+      team:'',
+      name:''
     }
     this.handleClick = this.handleClick.bind(this);
     this.showQuestions = this.showQuestions.bind(this);
@@ -32,11 +33,13 @@ class SelectPeers extends Component {
     }).then(()=>{
       firebase.database().ref('Students').on('value', (snap) => {
         let team = '';
+        let name = '';
         let peers = [];
         Object.keys(snap.val()).forEach((i) => {
           Object.keys(snap.val()[i][this.state.Semester]).forEach((student)=>{
             if(snap.val()[i][this.state.Semester][student].email === userStore.email) {
               team = snap.val()[i][this.state.Semester][student].teamName;
+              name = snap.val()[i][this.state.Semester][student].name;
             }
           });
         });
@@ -46,7 +49,8 @@ class SelectPeers extends Component {
         });
         this.setState(()=>({
           peers:peers,
-          team:team
+          team:team,
+          name:name
         }));
       });
       firebase.database().ref(`Questions/`).once('value', (snap)=>{
@@ -112,7 +116,7 @@ class SelectPeers extends Component {
                     <MuiButton label = "continue" onClick = {this.showQuestions}/>
                   </div>
                 </div>
-                :<QuestionPeers peers = {this.state.selected} team = {this.state.team} questions = {this.state.questions}/>
+                :<QuestionPeers peers = {this.state.selected} team = {this.state.team} questions = {this.state.questions} name = {this.state.name}/>
                 }
               </div>
             </Paper>

@@ -12,6 +12,7 @@ import FlatButton from 'material-ui/FlatButton';
 import update from 'react/lib/update';
 import { observer } from "mobx-react";
 import PeerReviewStore from '../../../stores/PeerReviewStore';
+import _ from 'lodash';
 
 const style = {
   underlineStyle: {
@@ -60,8 +61,10 @@ class CheckBox extends Component {
 
   componentDidMount(){
     let value = [];
+    let answers = {};
+    let peer = this.props.peer.name;
     if(!!this.props.answers){
-      value = this.props.answers[this.props.peer.name];
+      value = this.props.answers[this.props.peer.name] || [];
     }
     if (this.props.data) {
       this.setState({
@@ -70,14 +73,24 @@ class CheckBox extends Component {
           options: this.props.data.options,
 
         },
-        value:value
+        value:value,
+        Answers:this.props.answers
       });
     } 
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps.answers[this.props.peer.name]);
-    
+    let value = [];
+    let answers = {};
+    if(!!nextProps.answers){
+      value = nextProps.answers[this.props.peer.name] || [];
+    }
+    if (this.props.data) {
+      this.setState({
+        value:value,
+        Answers:nextProps.answers
+      });
+    } 
   }
 
   handleOptionChange(e) {
@@ -121,17 +134,27 @@ class CheckBox extends Component {
 
   handleCheck(e) {
     let Answers = this.state.Answers;
-    let PeerAnswers = this.state.Answers[this.props.peer.name];
     let value = parseInt(e.target.value);
-    if(!Answers[this.props.peer.name]){
+    if(typeof Answers === 'undefined') {
+      Answers = {};
       Answers[this.props.peer.name] = [value];
-    }else if(!Answers[this.props.peer.name].includes(value)) {
-      Answers[this.props.peer.name].push(value);
-    }else{
+      console.log("Doesn't Exist");
+    }
+    else if(typeof Answers[this.props.peer.name] === 'undefined') {
+      Answers[this.props.peer.name] = [value];
+      console.log("Exist");
+    }
+    else if(Answers[this.props.peer.name].includes(value)){
+      console.log('remove');
       Answers[this.props.peer.name].splice(Answers[this.props.peer.name].indexOf(value));
     }
+    else{
+      console.log('add');
+      Answers[this.props.peer.name].push(value);
+    }
+    console.log(Answers);
     this.setState({
-      Answers:Answers
+      Answers:Answers,
     },
     ()=>{this.props.handleChange(this.state.Answers)});
   }
@@ -150,23 +173,15 @@ class CheckBox extends Component {
   }
 
   render() {
-    let checkboxes = this.state.data.options.map((value,index) => {
-      if(this.state.value.includes(index)){
-        return(<div style = {style.radioButton} key = {index}>
-          <Checkbox value = {index} label = {value} style = {{width:'200px', display:'inline-block'}} checked = {true} onCheck = {this.handleCheck}/>
+    console.log(this.state.value);
+    let checkboxes = this.state.data.options.map((value,index) => (
+        <div style = {style.radioButton} key = {index}>
+          <Checkbox value = {index} label = {value} style = {{width:'200px', display:'inline-block'}} defaultChecked = {this.state.value.indexOf(index) !== -1} onCheck = {this.handleCheck}/>
           {(PeerReviewStore.EditMode && !this.state.EvalMode) &&
             <i className = "glyphicon glyphicon-remove" id = {index} onClick = {this.handleRemove} style = {{display:'inline-block', cursor:'pointer',fontSize: '1.5em'}}/>
           }
-        </div>);
-      }else{
-        return(<div style = {style.radioButton} key = {index}>
-        <Checkbox value = {index} label = {value} style = {{width:'200px', display:'inline-block'}} onCheck = {this.handleCheck}/>
-        {(PeerReviewStore.EditMode && !this.state.EvalMode) &&
-          <i className = "glyphicon glyphicon-remove" id = {index} onClick = {this.handleRemove} style = {{display:'inline-block', cursor:'pointer',fontSize: '1.5em'}}/>
-        }
-      </div>);
-      }
-    });    
+        </div>
+    ));    
     return(
       <div>
         {!this.state.EvalMode &&
