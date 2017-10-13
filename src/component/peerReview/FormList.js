@@ -60,7 +60,7 @@ class FormList extends Component {
     })
   }
 
-  teamCardgenerate(team) {
+  teamCardgenerate(team, index) {
     const forms = this.state.questions[team];
     if (forms) {
       let defaultId = forms.defaultForm;
@@ -77,7 +77,7 @@ class FormList extends Component {
         </tr>
       ));
       return (
-        <Paper zDepth = {2} style = {{padding:'20px', marginBottom:'20px'}}>
+        <Paper key = {index} zDepth = {2} style = {{padding:'20px', marginBottom:'20px'}}>
           <div>
             <h1 style = {{textAlign:'center'}}>{team}</h1>
             <table className = "table">
@@ -112,8 +112,8 @@ class FormList extends Component {
             }
             {
               userStore.role === 'admin' &&
-              Object.keys(this.state.questions).map((team) => {
-                return this.teamCardgenerate(team)
+              Object.keys(this.state.questions).map((team, index) => {
+                return this.teamCardgenerate(team, index)
               })
             }
             

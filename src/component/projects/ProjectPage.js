@@ -57,7 +57,7 @@ class ProjectPage extends Component {
         return;
       }
       return(
-        <div>
+        <div key={key}>
           <h3>{key.split(/(?=[A-Z])/).join(" ")}</h3>
           <p>{this.state.data[key]}</p>
         </div>
@@ -89,14 +89,14 @@ class ProjectPage extends Component {
                   <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                     <div>
                     <Link to={`${this.state.fbkey}/apply`}>
-                      <RaisedButton label = "apply" id = "applyButton" backgroundColor = {Primary} style = {{float: "right", margin:"10"}}/>
+                      <RaisedButton label = "apply" id = "applyButton" backgroundColor = {Primary} style = {{float: "right", margin:"10px"}}/>
                     </Link>
                     </div>
                   </MuiThemeProvider>
                   </div>
                 }
                 {(userStore.role === "admin")
-                    ?<MuiButton label = "Sunset Team" color = {DeleteColor} style = {{margin:"10"}} onClick = {this.handleSunset}/>
+                    ?<MuiButton label = "Sunset Team" color = {DeleteColor} style = {{margin:"10px"}} onClick = {this.handleSunset}/>
                     :<h1 />
                   }
                   <Dialog

@@ -14,6 +14,7 @@ import PeerReviewStore from '../../stores/PeerReviewStore';
 import MuiButton from '../MuiButton';
 
 import Checkbox from 'material-ui/Checkbox';
+import Dialog from 'material-ui/Dialog';
 import DatePicker from 'material-ui/DatePicker';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
@@ -102,6 +103,7 @@ export default class QuestionContainer extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleChangeStartDate = this.handleChangeStartDate.bind(this);
     this.handleChangeEndDate = this.handleChangeEndDate.bind(this);
+    this.handleClose = this.handleClose.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleTeamChange = this.handleTeamChange.bind(this);
     this.handleSetToDefault = this.handleSetToDefault.bind(this);
@@ -123,7 +125,9 @@ export default class QuestionContainer extends Component {
       formName: Props.formName,
       setAsDefault: true,
       team: "",
-      teamOptions: ""
+      teamOptions: "",
+      dialogOpen: false,
+      dialogMessage: ""
     };
   }
 
@@ -171,7 +175,12 @@ export default class QuestionContainer extends Component {
   }
 
   addQuestion() {
-    let length = this.state.questions.length;
+    let maxid = this.state.questions.length + 1;
+    this.state.questions.forEach((question) => { // make sure new id has no duplicates
+      if (question.id >= maxid) {
+        maxid = question.id + 1
+      }
+    })
     let type = this.state.questionTypes[this.state.value];
     let initialData = {}
     if (type === 'Score') {
@@ -203,13 +212,14 @@ export default class QuestionContainer extends Component {
     this.setState(update(this.state, {
       questions:{
         $push: [{
-          id: length+1,
+          id: maxid,
           type: type,
           data: initialData
         }]
       }
-    })
-    )}
+    }))
+    console.log(this.state.questions)
+  }
 
   changeEditMode() {
     PeerReviewStore.switchEditMode();
@@ -227,6 +237,12 @@ export default class QuestionContainer extends Component {
   handleChange(e, index, value) {
     this.setState({
       value
+    });
+  }
+
+  handleClose(){
+    this.setState({
+      dialogOpen:false
     });
   }
 
@@ -322,6 +338,10 @@ export default class QuestionContainer extends Component {
         })
       }
     })
+    this.setState({
+      dialogOpen:true,
+      dialogMessage:"New form published!"
+    })
   }
 
   update(){
@@ -333,10 +353,22 @@ export default class QuestionContainer extends Component {
       editDate: (new Date()).toString(),
       formName: this.state.formName
     }
+    console.log(newForm)
     formRef.update(newForm)
+    this.setState({
+      dialogOpen:true,
+      dialogMessage:"Updated!"
+    })
   }
 
   render() {
+    const actions = [
+      <FlatButton
+        label="Complete"
+        primary={true}
+        onTouchTap={this.handleClose}
+      />
+    ];
     const { questions } = this.state;
     let questionTypes = this.state.questionTypes.map((value, index) =>{
       return <MenuItem primaryText = {value} value = {index} key = {index} />
@@ -368,12 +400,7 @@ export default class QuestionContainer extends Component {
             </SelectField>
             <FlatButton label = "+ Add" onClick = {this.addQuestion} />
 
-            { 
-              userStore.role === 'admin' && (!this.props.match.params.team) &&
-              <SelectField floatingLabelText = "Choose a team" value = {this.state.teamvalue} onChange = {this.handleTeamChange} style={{verticalAlign:"bottom",width: '150px'}}>
-                {teams}
-              </SelectField>
-            }
+            
             
             
             {
@@ -415,22 +442,42 @@ export default class QuestionContainer extends Component {
               </div>
             </MuiThemeProvider>
           </div>
+          { 
+            userStore.role === 'admin' && (!this.props.match.params.team) &&
+            <div className='col-md-3' style={{marginLeft: "60px", float:'left', width:'200px'}}>
+              <MuiThemeProvider>
+                  <SelectField floatingLabelText = "Choose a team" value = {this.state.teamvalue} onChange = {this.handleTeamChange} style={{verticalAlign:"bottom",width: '150px'}}>
+                    {teams}
+                  </SelectField>
+              </MuiThemeProvider>
+            </div>
+          }
           <div className='col-md-3' style={{marginLeft: "60px", marginTop:"30px",float:'left', width:'200px'}}>
             <MuiThemeProvider>
               <Checkbox checked={this.state.setAsDefault} label = "Set as default" labelPosition="left" onCheck={this.handleSetToDefault} /> 
             </MuiThemeProvider>
-          </div>
-
-          <div style={styles.publishButton}>
             
+          </div>
+          <div style={styles.publishButton}>
             <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
               {
                 this.props.match.params.formid  
                 ? <RaisedButton className="pull-right" label = "Update"  backgroundColor = {Primary} onClick={this.update} />
                 : <RaisedButton className="pull-right" label = "Publish"  backgroundColor = {Primary} onClick={this.publish} />
               }
-              
             </MuiThemeProvider>
+          </div>
+          <div>
+          <MuiThemeProvider>
+            <Dialog
+                title={this.state.dialogMessage}
+                actions={actions}
+                modal={false}
+                open={this.state.dialogOpen}
+                onRequestClose={this.handleClose}
+              >
+            </Dialog>
+          </MuiThemeProvider>
           </div>
         </div>
       </div>
