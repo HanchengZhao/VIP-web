@@ -30,13 +30,14 @@ class QuestionPeers extends Component {
       next:'next',
       previous:'previous disabled',
       Answers:{},
-      complete:true
+      complete:false
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleNext = this.handleNext.bind(this);
     this.handlePrevious = this.handlePrevious.bind(this);
     this.checkCompleted = this.checkCompleted.bind(this);
     this.submit = this.submit.bind(this);
+    this.checkCompleteRequired = this.checkCompleteRequired.bind(this);
   }
 
   componentDidMount() {
@@ -68,12 +69,55 @@ class QuestionPeers extends Component {
           peers:this.props.peers,
           questions:data,
           date:date,
-          next:next
+          next:next,
+          fbKey:defaultKey
         });
       }
     }
   }
 
+  checkCompleteRequired() {
+    let questions = this.state.questions;
+    let Answers = this.state.Answers;
+    let Peers = this.state.peers;
+    let isComplete = [];
+    let completed = {};
+    for(let i=0;i<questions["formData"].length;i++){
+      
+      if(questions['formData'][i]["data"].required) {
+        let temp = [];
+        Peers.forEach((peer)=>{
+          if(!Answers[i]){
+            temp.push(false);
+          }else if(!Answers[i][peer.name]){
+            temp.push(false);
+          }else{
+            temp.push(true);
+          }
+        });
+        
+        completed[i] = temp;
+      }
+    }
+    
+    Object.keys(completed).forEach((answer)=>{
+      if(completed[answer].includes(false)){
+        isComplete.push(false);
+      }else{
+        isComplete.push(true);
+      }
+    });
+    if(!isComplete.includes(false)){
+      this.setState({
+        complete:true
+      });
+    }else{
+      this.setState({
+        complete:false
+      });
+    }
+  }
+ 
   submit() {
     let Answers = this.state.Answers;
     let nameOfStudent = this.props.name;
@@ -91,9 +135,8 @@ class QuestionPeers extends Component {
       };
       });
     });
-    firebase.database().ref("Reviews").push(data);
+    firebase.database().ref(`Reviews/${this.props.team}/${this.props.semester}/${this.state.fbKey}`).update(data);
     console.log(data);
-  
   }
 
   checkCompleted() {
@@ -166,6 +209,7 @@ class QuestionPeers extends Component {
     });
     this.setState({Answers:Answers},
     ()=>console.log(this.state.Answers));
+    this.checkCompleteRequired();
     if(this.checkCompleted()) {
       this.setState({
         next:'next'
@@ -214,7 +258,7 @@ class QuestionPeers extends Component {
         <nav aria-label="...">
           <ul className="pager">
             <li className={this.state.previous}><a href="#" onClick={this.handlePrevious}><span aria-hidden="true">&larr;</span>Previous</a></li>
-            {this.state.complete
+            {this.state.complete && this.state.index === question.length - 1
               ?<li className = "next"><button className="btn btn-success" onClick={this.submit} style ={{borderRadius:'40px', float:'right'}}>submit</button></li>
               :<li className={this.state.next}><a href="#" onClick={this.handleNext}>Next<span aria-hidden="true">&rarr;</span></a></li>
             } 

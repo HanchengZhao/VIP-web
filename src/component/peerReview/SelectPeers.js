@@ -7,6 +7,7 @@ import Checkbox from 'material-ui/Checkbox';
 import QuestionPeers from './QuestionPeers';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MuiButton from '../MuiButton';
+import FlatButton from 'material-ui/FlatButton';
 
 import userStore from '../../stores/UserStore';
 
@@ -23,6 +24,7 @@ class SelectPeers extends Component {
     }
     this.handleClick = this.handleClick.bind(this);
     this.showQuestions = this.showQuestions.bind(this);
+    this.ReselectPeers = this.ReselectPeers.bind(this);
   }
 
   componentDidMount() {
@@ -84,8 +86,15 @@ class SelectPeers extends Component {
     this.setState({final:false});
   }
 
+  ReselectPeers() {
+    let selected = [];
+    this.setState({
+      final:true,
+      selected:selected
+    });
+  }
+
   render() {
-    console.log(this.state.questions);
     return(
       <div>
         <MuiThemeProvider>
@@ -116,7 +125,10 @@ class SelectPeers extends Component {
                     <MuiButton label = "continue" onClick = {this.showQuestions}/>
                   </div>
                 </div>
-                :<QuestionPeers peers = {this.state.selected} team = {this.state.team} questions = {this.state.questions} name = {this.state.name}/>
+                :<QuestionPeers peers = {this.state.selected} team = {this.state.team} questions = {this.state.questions} name = {this.state.name} semester = {this.state.Semester}/>
+                }
+                {!this.state.final &&
+                  <FlatButton label = "Reselect Peers" onClick = {this.ReselectPeers}/>
                 }
               </div>
             </Paper>
