@@ -73,7 +73,9 @@ class FormList extends Component {
           <td>{forms[key].endDate.substr(0,15)}</td>
           <td>{forms[key].editDate.substr(0,15)}</td>
           <td>{key === defaultId ? 'default' : <a href="#" onClick = {(e) => this.setAsDefault(team, key,e) }>set as default</a>}</td>
-          <td><i className ="glyphicon glyphicon-remove" style = {{cursor:"pointer"}} id = {key} onClick = {() => this.handleRemove(team, key)}/></td>
+          <td>{ key !== defaultId && 
+              <i className ="glyphicon glyphicon-remove" style = {{cursor:"pointer"}} id = {key} onClick = {() => this.handleRemove(team, key)}/>}
+          </td>
         </tr>
       ));
       return (

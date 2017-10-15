@@ -11,7 +11,7 @@ const PeerReview = ( {match} ) => (
   <div>
     <Switch>
       {/*<AdvisorRoute exact path={`${match.url}/application`} user={userStore} component={ ASUTeamFormComponent }/>*/}
-      <Route path={`${match.url}/:team/:formid`} component={ QuestionContainer } />
+      <FacultyRoute path={`${match.url}/:team/:formid`} user={userStore} component={ QuestionContainer } />
       <FacultyRoute exact path={`${match.url}/form_list`} user={userStore} component={ FormList }/>
       <FacultyRoute exact path={`${match.url}/form_generator`} user={userStore} component={ QuestionContainer }/>
       <Route exact path={match.url} component={ PeerReviewPage }/>
