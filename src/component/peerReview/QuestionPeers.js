@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 
 import '../../style/QuestionPeers.css';
 
@@ -10,6 +11,9 @@ import Comment from './questionType/Comment';
 import Number from './questionType/Number';
 import Score from './questionType/Score';
 import MuiButton from '../MuiButton';
+import Dialog from 'material-ui/Dialog';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
 
 import userStore from '../../stores/UserStore';
 
@@ -31,7 +35,9 @@ class QuestionPeers extends Component {
       next:'next',
       previous:'previous disabled',
       Answers:{},
-      complete:false
+      complete:false,
+      submited:false,
+      open:false
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleNext = this.handleNext.bind(this);
@@ -39,6 +45,7 @@ class QuestionPeers extends Component {
     this.checkCompleted = this.checkCompleted.bind(this);
     this.submit = this.submit.bind(this);
     this.checkCompleteRequired = this.checkCompleteRequired.bind(this);
+    this.handleClose = this.handleClose.bind(this);
   }
 
   componentDidMount() {
@@ -137,7 +144,10 @@ class QuestionPeers extends Component {
       });
     });
     firebase.database().ref(`Reviews/${this.props.team}/${this.props.semester}/${this.state.fbKey}`).update(data);
-    console.log(data);
+    firebase.database().ref(`SubmitedStudents/${this.props.team}/${this.props.semester}/${this.state.fbKey}`).push(userStore.email);
+    this.setState({
+      open:true
+    });
   }
 
   checkCompleted() {
@@ -184,6 +194,13 @@ class QuestionPeers extends Component {
         }
       }
     }
+  }
+
+  handleClose() {
+    this.setState({
+      open:false,
+      submited:true
+    });
   }
 
   handlePrevious() {
@@ -268,6 +285,17 @@ class QuestionPeers extends Component {
         </nav>
         <LinearProgress mode="determinate" value = {this.state.index} max = {question.length-1}/>
         </div>
+        }
+        <MuiThemeProvider>
+        <Dialog
+          title="Sumbited"
+          open={this.state.open}
+          modal={false}
+          onRequestClose={this.handleClose}
+        />
+        </MuiThemeProvider>
+        {this.state.submited &&
+          <Redirect to= "/dashboard"/>
         }
       </div>
     );

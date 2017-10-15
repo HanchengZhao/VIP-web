@@ -16,11 +16,13 @@ class PeerReviewStudent extends Component {
   constructor () {
     super();
     this.state = {
-      available:false
+      available:false,
+      completed:false
     }
   }
 
   componentDidMount() {
+    let defaultForm = '';
     firebase.database().ref(`Semester/`).once('value', (snap)=>{
       this.setState({
         Semester:snap.val().current
@@ -36,19 +38,34 @@ class PeerReviewStudent extends Component {
           });
         });
       });
+
       firebase.database().ref(`Questions/`).once('value', (snap)=>{
-        let defaultForm = snap.val()[team]["defaultForm"];
+        defaultForm = snap.val()[team]["defaultForm"];
         let startDate = new Date(snap.val()[team][defaultForm].startDate || 0);
         let endDate = new Date(snap.val()[team][defaultForm].endDate || 13413412341233);
         let todayDate = new Date();
         console.log(snap.val()[team][defaultForm].endDate);
         if((startDate.getTime() <= todayDate.getTime()) && (todayDate.getTime() <= endDate.getTime())) {
           this.setState({
-            available:true
+            available:true,
           });
         }
       });
 
+      firebase.database().ref(`SubmitedStudents/`).once('value',(snap)=>{
+        if(snap.val()) {
+        let students = snap.val()[team][this.state.Semester];
+
+        Object.keys(students[defaultForm]).forEach((student)=>{
+          if(students[defaultForm][student]===userStore.email) {
+            console.log(student);
+            this.setState({
+              completed:true
+            });
+          }
+        });
+      }
+      });
     });
   }
 
@@ -56,12 +73,18 @@ class PeerReviewStudent extends Component {
     console.log(this.state.available);
     return (
       <div>
+        <div>
         <h2>PeerReview</h2>
-        {this.state.available
-          ?<SelectPeers />
-          :<h4>There are no active forms</h4>
+        {this.state.completed
+          ?<h4>You've Completed All Active Forms, Congradulations!</h4>
+          :<div>
+            {this.state.available
+              ?<SelectPeers />
+              :<h4>There are no active forms.</h4>
+            }
+          </div>
         }
-        
+        </div>
       </div>    
     );
   }

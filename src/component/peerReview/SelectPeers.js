@@ -33,6 +33,7 @@ class SelectPeers extends Component {
         Semester:snap.val().current
       });
     }).then(()=>{
+      if(this.state.Semester){
       firebase.database().ref('Students').on('value', (snap) => {
         let team = '';
         let name = '';
@@ -60,7 +61,7 @@ class SelectPeers extends Component {
           questions:snap.val()
         });
       });
-
+      }
     });
     
  
