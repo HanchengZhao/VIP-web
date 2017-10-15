@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import '../../style/QuestionPeers.css';
 
 import peerReviewStore from '../../stores/PeerReviewStore';
+import LinearProgress from 'material-ui/LinearProgress';
 
 import CheckBox from './questionType/CheckBox';
 import Comment from './questionType/Comment';
@@ -238,6 +239,7 @@ class QuestionPeers extends Component {
         {this.state.questions &&
         <div>
         <h2 style = {{textAlign:'center'}}>{question[this.state.index].data.question}</h2>
+        
         <table className = 'table' id = "QuestionPeersTable">
           <thead>
             <tr>
@@ -264,6 +266,7 @@ class QuestionPeers extends Component {
             } 
           </ul>
         </nav>
+        <LinearProgress mode="determinate" value = {this.state.index} max = {question.length-1}/>
         </div>
         }
       </div>

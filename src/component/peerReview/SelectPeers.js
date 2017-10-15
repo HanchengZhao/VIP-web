@@ -128,7 +128,7 @@ class SelectPeers extends Component {
                 :<QuestionPeers peers = {this.state.selected} team = {this.state.team} questions = {this.state.questions} name = {this.state.name} semester = {this.state.Semester}/>
                 }
                 {!this.state.final &&
-                  <FlatButton label = "Reselect Peers" onClick = {this.ReselectPeers}/>
+                  <FlatButton label = "Reselect Peers" onClick = {this.ReselectPeers} style = {{marginTop:'10px'}}/>
                 }
               </div>
             </Paper>
