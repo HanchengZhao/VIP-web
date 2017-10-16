@@ -6,13 +6,15 @@ import '../../style/QuestionPeers.css';
 import peerReviewStore from '../../stores/PeerReviewStore';
 import LinearProgress from 'material-ui/LinearProgress';
 
-import CheckBox from './questionType/CheckBox';
-import Comment from './questionType/Comment';
-import Number from './questionType/Number';
-import Score from './questionType/Score';
+import CheckBox from './questionPeers/CheckBox';
+import Comment from './questionPeers/Comment';
+import Number from './questionPeers/Number';
+import Score from './questionPeers/Score';
 import MuiButton from '../MuiButton';
 import Dialog from 'material-ui/Dialog';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import Primary from '../../Theme';
 
 
 import userStore from '../../stores/UserStore';
@@ -283,7 +285,7 @@ class QuestionPeers extends Component {
             } 
           </ul>
         </nav>
-        <LinearProgress mode="determinate" value = {this.state.index} max = {question.length-1}/>
+        <LinearProgress mode="determinate" value = {this.state.index} max = {question.length-1} color = {Primary}/>
         </div>
         }
         <MuiThemeProvider>
