@@ -99,23 +99,22 @@ class CheckBox extends Component {
     let Answers = this.state.Answers;
     let value = parseInt(e.target.value);
     if(typeof Answers === 'undefined') {
+      //Doesn't Exist
       Answers = {};
       Answers[this.props.peer.name] = [value];
-      console.log("Doesn't Exist");
     }
     else if(typeof Answers[this.props.peer.name] === 'undefined') {
+      //Answers Exists but no answers for peer.name
       Answers[this.props.peer.name] = [value];
-      console.log("Exist");
     }
     else if(Answers[this.props.peer.name].includes(value)){
-      console.log('remove');
+      //remove
       Answers[this.props.peer.name].splice(Answers[this.props.peer.name].indexOf(value));
     }
     else{
-      console.log('add');
+      //add
       Answers[this.props.peer.name].push(value);
     }
-    console.log(Answers);
     this.setState({
       Answers:Answers,
     },
