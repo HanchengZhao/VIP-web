@@ -7,6 +7,7 @@ import Checkbox from 'material-ui/Checkbox';
 import QuestionPeers from './QuestionPeers';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MuiButton from '../MuiButton';
+import FlatButton from 'material-ui/FlatButton';
 
 import userStore from '../../stores/UserStore';
 
@@ -18,36 +19,52 @@ class SelectPeers extends Component {
       selected:[],
       final:true,
       questions:'',
-      team:''
+      team:'',
+      name:''
     }
     this.handleClick = this.handleClick.bind(this);
     this.showQuestions = this.showQuestions.bind(this);
+    this.ReselectPeers = this.ReselectPeers.bind(this);
   }
 
   componentDidMount() {
-    var team = '';
-    firebase.database().ref('Students').on('value', (snap) => {
-      let peers = [];
-      Object.keys(snap.val()).forEach((i) => {
-        if(snap.val()[i].email === userStore.email) {
-          team = snap.val()[i].team;
-        }
-      });
-      Object.keys(snap.val()).forEach((i) => {
-        if(snap.val()[i].team === team) {
-          peers.push(snap.val()[i]);
-        }
-      });
-      this.setState(()=>({
-        peers:peers,
-        team:team
-      }));
-    });
-    firebase.database().ref(`Questions/`).once('value', (snap)=>{
+    firebase.database().ref(`Semester/`).once('value', (snap)=>{
       this.setState({
-        questions:snap.val()
+        Semester:snap.val().current
       });
+    }).then(()=>{
+      if(this.state.Semester){
+      firebase.database().ref('Students').on('value', (snap) => {
+        let team = '';
+        let name = '';
+        let peers = [];
+        Object.keys(snap.val()).forEach((i) => {
+          Object.keys(snap.val()[i][this.state.Semester]).forEach((student)=>{
+            if(snap.val()[i][this.state.Semester][student].email === userStore.email) {
+              team = snap.val()[i][this.state.Semester][student].teamName;
+              name = snap.val()[i][this.state.Semester][student].name;
+            }
+          });
+        });
+        Object.keys(snap.val()[team][this.state.Semester]).forEach((i) => {
+          console.log();
+          peers.push(snap.val()[team][this.state.Semester][i]);
+        });
+        this.setState(()=>({
+          peers:peers,
+          team:team,
+          name:name
+        }));
+      });
+      firebase.database().ref(`Questions/`).once('value', (snap)=>{
+        this.setState({
+          questions:snap.val()
+        });
+      });
+      }
     });
+    
+ 
   }
 
   handleClick(event) {
@@ -68,6 +85,14 @@ class SelectPeers extends Component {
   showQuestions() {
     let selected = this.state.selected;
     this.setState({final:false});
+  }
+
+  ReselectPeers() {
+    let selected = [];
+    this.setState({
+      final:true,
+      selected:selected
+    });
   }
 
   render() {
@@ -101,7 +126,10 @@ class SelectPeers extends Component {
                     <MuiButton label = "continue" onClick = {this.showQuestions}/>
                   </div>
                 </div>
-                :<QuestionPeers peers = {this.state.selected} team = {this.state.team} questions = {this.state.questions}/>
+                :<QuestionPeers peers = {this.state.selected} team = {this.state.team} questions = {this.state.questions} name = {this.state.name} semester = {this.state.Semester}/>
+                }
+                {!this.state.final &&
+                  <FlatButton label = "Reselect Peers" onClick = {this.ReselectPeers} style = {{marginTop:'10px'}}/>
                 }
               </div>
             </Paper>

@@ -34,13 +34,10 @@ class RosterTool extends Component {
   generateRoster() {
     let semesterRoster = {};
     Object.keys(this.state.roster).forEach((team) => {
-      console.log(this.state.roster[team]);
       Object.keys(this.state.roster[team][this.state.semester]).forEach((student)=>{
         semesterRoster[student] = this.state.roster[team][this.state.semester][student];
       });
     });
-    console.log(semesterRoster);
-    console.log(this.state.semester);
     this.setState({currentRoster:semesterRoster});
   }
 
