@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import IconButton from 'material-ui/IconButton';
 import RemoveIcon from 'material-ui/svg-icons/action/highlight-off';
@@ -50,6 +50,10 @@ const data = {
   peerReview: {
     header: 'Form Generation',
     context: 'You can manage your question set here'
+  },
+  reviewResult: {
+    header: 'Peer Review Result',
+    context: 'Check all peer review answers'
   }
 }
 
@@ -73,28 +77,49 @@ class PeerReviewPage extends Component {
         Students can only submit peer evaluations during active evaluation periods.  
         Instructors can access evaluations at any time.</p>
         {
-          userStore.role === 'admin' &&
+          (userStore.role === 'admin' || userStore.role === 'advisor') &&
           <div>
             <h4 style={{ color:Primary }}>Tools:</h4>
             <MuiThemeProvider>
-              <div className="col-md-3" style={{marginBottom:"10px"}}>
-              <Card style={style.card}>
-                <CardHeader
-                  title={data.peerReview.header}
-                  actAsExpander={false}
-                  showExpandableButton={false}
-                  titleStyle = {style.cardHeader}
-                />
-                {/*<CardMedia style={style.cardMedia}>
-                  <img src={this.props.project.logo} alt="" />
-                </CardMedia>*/}
-                <CardText expandable={false} style={style.cardText}>
-                  {data.peerReview.context}
-                </CardText>
-                  <CardActions>
-                    <Link to={`peer-review/form_generator`}><FlatButton label="Learn more" /></Link>                
-                  </CardActions>
-              </Card>
+              <div>
+                <div className="col-md-3" style={{marginBottom:"10px"}}>
+                  <Card style={style.card}>
+                    <CardHeader
+                      title={data.peerReview.header}
+                      actAsExpander={false}
+                      showExpandableButton={false}
+                      titleStyle = {style.cardHeader}
+                    />
+                    {/*<CardMedia style={style.cardMedia}>
+                      <img src={this.props.project.logo} alt="" />
+                    </CardMedia>*/}
+                    <CardText expandable={false} style={style.cardText}>
+                      {data.peerReview.context}
+                    </CardText>
+                      <CardActions>
+                        <Link to={`peer-review/form_list`}><FlatButton label="Learn more" /></Link>                
+                      </CardActions>
+                  </Card>
+                </div>
+                <div className="col-md-3" style={{marginBottom:"10px"}}>
+                  <Card style={style.card}>
+                    <CardHeader
+                      title={data.reviewResult.header}
+                      actAsExpander={false}
+                      showExpandableButton={false}
+                      titleStyle = {style.cardHeader}
+                    />
+                    {/*<CardMedia style={style.cardMedia}>
+                      <img src={this.props.project.logo} alt="" />
+                    </CardMedia>*/}
+                    <CardText expandable={false} style={style.cardText}>
+                      {data.reviewResult.context}
+                    </CardText>
+                      <CardActions>
+                        <Link to={`peer-review/review_result`}><FlatButton label="Learn more" /></Link>                
+                      </CardActions>
+                  </Card>
+                </div>
               </div>
             </MuiThemeProvider>
           </div>
