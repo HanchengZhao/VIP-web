@@ -25,11 +25,12 @@ class ReviewResult extends Component {
     
     return (
       <div>
-        <h2></h2>
+        <h2>Peer review result</h2>
+        
         <MuiThemeProvider>
           <div>
-            testing
             
+            {/* table */}
           </div>
         </MuiThemeProvider> 
 
