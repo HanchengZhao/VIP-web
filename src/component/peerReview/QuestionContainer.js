@@ -399,10 +399,6 @@ export default class QuestionContainer extends Component {
               {questionTypes}
             </SelectField>
             <FlatButton label = "+ Add" onClick = {this.addQuestion} />
-
-            
-            
-            
             {
               PeerReviewStore.EditMode
               ? <FlatButton label = "Preview Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"bottom", float:'right'}}/>
