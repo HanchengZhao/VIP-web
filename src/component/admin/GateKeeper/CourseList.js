@@ -44,11 +44,13 @@ class CourseList extends Component {
 
   findGateKeeper(key) {
     firebase.database().ref('GateKeeper').once('value').then((snap) => {
+      if(snap.val().department){
       Object.keys(snap.val()).forEach((i) =>{
         if(snap.val()[i].department ===this.state.courses[this.state.team][key].department) {
           console.log(snap.val()[i].email);
         }
-      })
+      });
+    }
     });
   }
 
@@ -61,7 +63,8 @@ class CourseList extends Component {
   addCourse() {
     firebase.database().ref(`Courses/${this.state.team}`).push({
       course:this.state.items[this.state.value]+this.state.suffix,
-      department:this.state.suffix
+      department:this.state.suffix,
+      level:this.state.items[this.state.value].split("")[3]
     });
   }
 

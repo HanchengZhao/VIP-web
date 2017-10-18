@@ -139,10 +139,7 @@ class QuestionPeers extends Component {
         if(typeof data[nameOfStudent][name] === 'undefined'){
           data[nameOfStudent][name] = {}
         }
-        data[nameOfStudent][name][Question] = {
-          "Answer":Answers[Question][name],
-          "Question":this.state.questions['formData'][Question]
-      };
+        data[nameOfStudent][name][Question] = Answers[Question][name];
       });
     });
     firebase.database().ref(`Reviews/${this.props.team}/${this.props.semester}/${this.state.fbKey}`).update(data);

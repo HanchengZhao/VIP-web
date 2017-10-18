@@ -6,6 +6,7 @@ import DropDownMenu from 'material-ui/DropDownMenu';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import MenuItem from 'material-ui/MenuItem';
+import {RadioButton, RadioButtonGroup} from 'material-ui/RadioButton';
 import TextField from 'material-ui/TextField';
 import {Card, CardTitle} from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -25,6 +26,14 @@ const style = {
   margin: "10px"
 };
 
+const styles = {
+  radioButton:{
+    display:"inline-block", 
+    width: '70px',
+    marginLeft: '35px'
+  },
+};
+
 // Create an array in this.state. then populate the array with TeamApplication key values. Then access them in the TextFieldComponent with the ids in loop.
 class StudentApplication extends Component{
   constructor(props) {
@@ -36,10 +45,12 @@ class StudentApplication extends Component{
         error:{},
         courses:'',
         semester:'',
+        creditOptions:[],
         value:"default",
         notIncluded:['fbkey', 'errorText','error','other']
       };
       this.handleMenuChange = this.handleMenuChange.bind(this);    
+      this.handleCreditChange = this.handleCreditChange.bind(this);
     }
 
     componentDidMount() {
@@ -85,14 +96,38 @@ class StudentApplication extends Component{
       });
     }
 
+    handleCreditChange(event, index) {
+      let obj  = this.state.data;
+      obj['credits'] = this.state.creditOptions[index];
+      this.setState({
+        data:obj
+      });
+    }
+
     handleMenuChange(event, index, value) {
       let obj  = this.state.data;
-      console.log(value);
-      console.log(Object.keys(this.state.courses[this.state.title])[value]);
-      obj['course'] = this.state.courses[this.state.title][Object.keys(this.state.courses[this.state.title])[value]].course
+      let creditOptions = [1];
+      let credit = 1;
+      let level = (value === 'default') ? -1 :this.state.courses[this.state.title][Object.keys(this.state.courses[this.state.title])[value]].level;
+       
+      if(level === '3') {
+        creditOptions = [1,2];
+        credit = '';
+      }else if(level === '4'){
+        creditOptions = [2];
+        credit = 2;
+      }else if(level === -1){
+        creditOptions = []
+      }
+      if(value !== 'default') {
+        obj['course'] = this.state.courses[this.state.title][Object.keys(this.state.courses[this.state.title])[value]].course
+        obj['credits'] = credit;
+      }
       this.setState({
         value:value,
-        data:obj
+        data:obj,
+        creditOptions:creditOptions,
+        credit:credit
       });
     }
 
@@ -189,14 +224,23 @@ class StudentApplication extends Component{
                     : (<h2>Loading..</h2>) }    
                 <br/>
                 {this.state.courses[this.state.title]
-                ?<SelectField floatingLabelText="Course" value={this.state.value} onChange={this.handleMenuChange}>
+                ?<div>
+                  <SelectField floatingLabelText="Course" value={this.state.value} onChange={this.handleMenuChange}>
                     <MenuItem value = {"default"} primaryText = 'please select a course'/>
                     {Object.keys(this.state.courses[this.state.title]).map((key, index) => {
                       return <MenuItem value = {index} primaryText = {this.state.courses[this.state.title][key].course} key = {key}/>
                     })}
-                    
-                  
-                </SelectField> 
+                  </SelectField>
+                  {this.state.creditOptions.length > 0 &&
+                    <p style = {{color:'#b2b2b2'}}>Credits</p>
+                  }
+                  <RadioButtonGroup defaultSelected = {0} floatingLabelText = "Credits" onChange = {this.handleCreditChange}>
+                    {this.state.creditOptions.map((key, index)=>(
+                      <RadioButton value={index} label = {key} disabled = {this.state.creditOptions.length === 1} style = {styles.radioButton}/>
+                    ))
+                    }
+                  </RadioButtonGroup>
+                </div> 
                 :<h1/>
                   }
                 </div>

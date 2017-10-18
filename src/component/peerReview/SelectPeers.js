@@ -47,8 +47,9 @@ class SelectPeers extends Component {
           });
         });
         Object.keys(snap.val()[team][this.state.Semester]).forEach((i) => {
-          console.log();
-          peers.push(snap.val()[team][this.state.Semester][i]);
+          if(!(snap.val()[team][this.state.Semester][i].email === userStore.email)) {
+            peers.push(snap.val()[team][this.state.Semester][i]);
+          }
         });
         this.setState(()=>({
           peers:peers,
