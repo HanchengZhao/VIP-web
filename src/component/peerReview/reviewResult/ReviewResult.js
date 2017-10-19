@@ -42,12 +42,14 @@ class ReviewResult extends Component {
     if (userStore.role === 'admin' || userStore.role === 'advisor') {
       firebase.database().ref('Reviews_peers').once('value').then( (snap) => {
         const data = snap.val();
-        const teams = Object.keys(data);
-        // console.log(teams)
-        this.setState({
-          reviews: data,
-          teamList: teams
-        })
+        if (data) {
+          const teams = Object.keys(data);
+          // console.log(teams)
+          this.setState({
+            reviews: data,
+            teamList: teams
+          })
+        }
       })
     }
   }
