@@ -79,11 +79,7 @@ class QuestionPeers extends Component {
         for(let i = 0; i<data['formData'].length; i++){
           Answers[i] = {};
           this.props.peers.forEach((peer)=>{
-            if(data['formData'][i].type!=="CheckBox"){
-              Answers[i][peer.name] = '';
-            }else{
-              Answers[i][peer.name] = [];
-            } 
+            Answers[i][peer.name] = '';
           });
         }
         console.log(Answers);
@@ -152,7 +148,11 @@ class QuestionPeers extends Component {
         if(typeof data[nameOfStudent][name] === 'undefined'){
           data[nameOfStudent][name] = {}
         }
-        data[nameOfStudent][name][Question] = Answers[Question][name];
+        if(Answers[Question][name].length === 0){
+          data[nameOfStudent][name][Question] = ''
+        }else{
+          data[nameOfStudent][name][Question] = Answers[Question][name];
+        } 
       });
     });
     firebase.database().ref(`Reviews/${this.props.team}/${this.props.semester}/${this.state.fbKey}`).update(data);

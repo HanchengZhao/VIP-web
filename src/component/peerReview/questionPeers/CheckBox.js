@@ -98,12 +98,7 @@ class CheckBox extends Component {
   handleCheck(e) {
     let Answers = this.state.Answers;
     let value = parseInt(e.target.value);
-    if(typeof Answers === 'undefined') {
-      //Doesn't Exist
-      Answers = {};
-      Answers[this.props.peer.name] = [value];
-    }
-    else if(typeof Answers[this.props.peer.name] === 'undefined') {
+   if(Answers[this.props.peer.name] === '') {
       //Answers Exists but no answers for peer.name
       Answers[this.props.peer.name] = [value];
     }
