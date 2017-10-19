@@ -4,13 +4,94 @@
   bottom: 0;
   left: 0;
   background-color: #d6dedb;
-  height: 40px;
+  height: 110px;
+  padding-bottom: 0;
 }
 
-.image-footer {
-  position: absolute;
-  float:right;
-  right:20px;
-  padding-top: 10px;
-  height: 30px;
+#innovation-bar span {
+/*  font-family: Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;*/
+}
+
+#innovation-bar .innovation-hidden {
+float:right;
+width: 19%;
+height: 0;
+}
+#innovation-bar img {
+margin-top: -1em;  
+height: 121px;
+}
+
+#innovation-bar {
+background-color: #FFC627; /** ASU Gold */
+font-family: Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+#innovation-bar .innovation-status {
+text-align: right;
+width: 78%;
+display: inline-block;
+margin-bottom: .7em;
+margin-top: .7em;
+}
+
+#innovation-bar a {
+border-bottom: 0;
+color: black;
+font-size: x-large;
+font-weight: 700;
+text-decoration: none;
+}
+
+#innovation-footer {
+position: absolute;
+left: 0;
+right: 0;
+}
+
+#innovation-bar .innovation-top {
+margin: 0 auto;
+}
+
+#innovation-footer .footer-menu {
+padding: 0 15px 0 15px;
+background-color: #e5e5e5;  
+}
+
+#innovation-footer .footer-menu ul {
+  -webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+  display: table;
+  list-style: none;
+  margin: 0 auto;
+  padding-bottom: 0.5em;
+  padding-top: 1em;
+}
+#innovation-footer .footer-menu ul.default{
+  padding-left: 15px;
+}
+#innovation-footer .footer-menu ul li {
+float: left;
+padding-bottom: 12px
+}
+
+#innovation-footer .footer-menu ul li a {
+font-family: Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;
+color: #333;
+font-weight: 400;
+font-size: 1.0em;
+margin-right: 30px;
+text-decoration: none;
+border-bottom: none;
+transition: all .25s ease-in-out;
+}
+
+@media screen and (max-width: 767px){
+  .innovation-hidden{
+    display:none
+  }
+  li, ul{
+    clear:left;
+    width:100%;
+  }
 }
