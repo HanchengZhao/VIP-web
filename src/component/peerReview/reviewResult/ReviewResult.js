@@ -12,7 +12,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RaisedButton from 'material-ui/RaisedButton';
 import ResultTable from './ResultTable';
-import Primary from '../../../Theme';
+import Primary, { Secondary, DeleteColor} from '../../../Theme';
 import userStore from '../../../stores/UserStore';
 
 class ReviewResult extends Component {
@@ -39,7 +39,7 @@ class ReviewResult extends Component {
   }
 
   componentDidMount() {
-    if (userStore.role === 'admin') {
+    if (userStore.role === 'admin' || userStore.role === 'advisor') {
       firebase.database().ref('Reviews_peers').once('value').then( (snap) => {
         const data = snap.val();
         const teams = Object.keys(data);
@@ -147,7 +147,7 @@ class ReviewResult extends Component {
     }
     return (
       <div>
-        <h2 style={{textAlign:'center'}}>Peer Review Result</h2>
+        <h2 style={{textAlign:'center', color:Secondary}}>Peer Review Result</h2>
         {
           !this.state.teamList && 
           <MuiThemeProvider>
@@ -163,20 +163,23 @@ class ReviewResult extends Component {
         <MuiThemeProvider>
           <div> 
             {/* dropdown select field */}
-            <div className='row'>
-              <SelectField floatingLabelText="Team" value = {this.state.team} onChange = {this.selectTeam} style={{width: "150px", mariginRight:"20px"}}>
-                {teamOptions}
-              </SelectField>
-              <SelectField floatingLabelText="Semester" value = {this.state.semester} onChange = {this.selectSemester} style={{width: "150px", mariginRight:"20px"}}>
-                {semesterOptions}
-              </SelectField>
-              <SelectField floatingLabelText="Form Name" value = {this.state.formid} onChange = {this.selectForm} style={{width: "150px", mariginRight:"20px"}}>
-                {formOptions}
-              </SelectField>
-              <SelectField floatingLabelText="Student" value = {this.state.student} onChange = {this.selectStudent} style={{width: "180px", mariginRight:"20px"}}>
-                {studentOptions}
-              </SelectField>
-            </div>
+            <Paper zDepth = {1} style={{marginBottom:"20px"}}>
+              <div style = {{textAlign:'center'}}>
+                {/* <span style={{position:'relative', textAlign:"left"}}>Select Field</span> */}
+                <SelectField floatingLabelText="Team" value = {this.state.team} onChange = {this.selectTeam} style={{width: "150px", mariginRight:"20px", textAlign:"left"}}>
+                  {teamOptions}
+                </SelectField>
+                <SelectField floatingLabelText="Semester" value = {this.state.semester} onChange = {this.selectSemester} style={{width: "150px", mariginRight:"20px",textAlign:"left"}}>
+                  {semesterOptions}
+                </SelectField>
+                <SelectField floatingLabelText="Form Name" value = {this.state.formid} onChange = {this.selectForm} style={{width: "150px", mariginRight:"20px",textAlign:"left"}}>
+                  {formOptions}
+                </SelectField>
+                <SelectField floatingLabelText="Student" value = {this.state.student} onChange = {this.selectStudent} style={{width: "180px", mariginRight:"20px",textAlign:"left"}}>
+                  {studentOptions}
+                </SelectField>
+              </div>
+            </Paper>
             {/* table */}
           </div>
         </MuiThemeProvider> 

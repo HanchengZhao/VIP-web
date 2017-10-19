@@ -12,7 +12,7 @@ import { Redirect } from 'react-router-dom';
 //Firebase init
 import firebase from "../../firebase";
 import userStore from '../../stores/UserStore';
-import Primary,{DeleteColor} from '../../Theme';
+import Primary,{ Secondary, DeleteColor} from '../../Theme';
 
 const announcementPath = "Announcement/admin";
 
@@ -83,7 +83,7 @@ class AnnouncementPage extends Component {
       <div>
         <div className="panel panel-default">
           <div className="panel-heading">
-            <h3>{this.state.title}</h3>
+            <h3 style={{color:Secondary}}>{this.state.title}</h3>
           </div>
           <div className="panel-body">
             <h4><span className="label label-warning pull-right">{this.state.date} -- by {this.state.author}</span></h4>

@@ -3,7 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card, CardActions, CardMedia, CardTitle, CardHeader, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import Vip_logo from '../../assets/Vip_logo.png';
-
+import Primary, {Secondary} from '../../Theme';
 
 import { Link, Route } from 'react-router-dom';
 
@@ -21,14 +21,16 @@ const style = {
     fontSize: '1.3em',
     height: "50px",
     overflow: "hidden",
-    textOverflow:"ellipsis"
+    textOverflow:"ellipsis",
+    color: Secondary
   },
   subtitle: {
     textAlign : 'left',
     fontSize: '1.2em',
     height: "50px",
     overflow: "hidden",
-    textOverflow:"ellipsis"
+    textOverflow:"ellipsis",
+    color: Primary
   },
   cardText: {
     overflow: "hidden",

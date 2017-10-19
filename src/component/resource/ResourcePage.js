@@ -117,7 +117,6 @@ class ResourcePage extends Component {
   onDrop(photos){
     const ref = firebase.storage().ref()
     photos.forEach((photo) => {
-      console.log(photo);
       let photoRef = ref.child("Resource/" + this.state.category + "/" + photo.name);
       photoRef.put(photo)
       .then((snap) => {
@@ -135,7 +134,6 @@ class ResourcePage extends Component {
 	}
 
   updateContent(category){
-    console.log(category)
     firebase.database().ref(`${resourcePath}/${category}`).once('value').then( (snap) => {
 			if (snap.val()) {
 				this.setState({
@@ -185,7 +183,7 @@ class ResourcePage extends Component {
 						<MuiThemeProvider>
 							<div className="panel panel-default">
 								<div className="panel-heading">
-									<h4>{this.state.category.split("_").join(" ").toUpperCase()}</h4>
+									<h4 style={{coler:Secondary}}>{this.state.category.split("_").join(" ").toUpperCase()}</h4>
 								</div>
 								<div className="panel-body">
 									<TextField

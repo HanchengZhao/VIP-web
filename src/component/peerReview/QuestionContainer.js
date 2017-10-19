@@ -385,7 +385,7 @@ export default class QuestionContainer extends Component {
       <div style={{width: 'auto'}}>
         <h2 style={{textAlign:"center"}}>Form Generator</h2>
         <MuiThemeProvider>
-          <div className='row'>
+          <div>
             <TextField
               value = {this.state.formName}
               onChange = {this.handleNameChange}

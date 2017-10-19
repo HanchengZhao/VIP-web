@@ -11,6 +11,7 @@ import Number from './questionType/Number';
 import Score from "./questionType/Score";
 import {Card, CardActions, CardMedia, CardTitle, CardHeader, CardText} from 'material-ui/Card';
 import { observer } from "mobx-react";
+
 import PeerReviewStore from '../../stores/PeerReviewStore';
 import MuiButton from '../MuiButton';
 
@@ -19,9 +20,9 @@ import MenuItem from 'material-ui/MenuItem';
 
 import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
+import Paper from 'material-ui/Paper';
 import QuestionContainer from './QuestionContainer';
-import Primary from '../../Theme';
+import Primary, {Secondary} from '../../Theme';
 
 import userStore from '../../stores/UserStore';
 
@@ -70,12 +71,18 @@ class PeerReviewPage extends Component {
 
     return (
       <div>
-        <h2 style={{textAlign:"center", color:Primary}}>PeerReview</h2>
-        <p>An important component of the VIP team experience is peer-evaluation.  
-        Students evaluate classmates with whom they work, with one evaluation at midterms and one at the end of each semester.  
-        Only instructors can view completed evaluations, and they use them in monitoring student progress.  
-        Students can only submit peer evaluations during active evaluation periods.  
-        Instructors can access evaluations at any time.</p>
+        <h2 style={{textAlign:"center", color:Secondary}}>PeerReview</h2>
+        <MuiThemeProvider>
+          <Paper zDepth = {1} >
+          <div style={{margin:'20px'}}>
+              An important component of the VIP team experience is peer-evaluation.  
+              Students evaluate classmates with whom they work, with one evaluation at midterms and one at the end of each semester.  
+              Only instructors can view completed evaluations, and they use them in monitoring student progress.  
+              Students can only submit peer evaluations during active evaluation periods.  
+              Instructors can access evaluations at any time.
+          </div>
+          </Paper>
+        </MuiThemeProvider>
         {
           (userStore.role === 'admin' || userStore.role === 'advisor') &&
           <div>
