@@ -3,7 +3,7 @@ import { Redirect, Switch, Route } from 'react-router-dom';
 import FormList from './FormList';
 import PeerReviewPage from './PeerReviewPage';
 import QuestionContainer from './QuestionContainer';
-import ReviewResult from './ReviewResult';
+import ReviewResult from './reviewResult/ReviewResult';
 import { AdvisorRoute, FacultyRoute } from '../Route';
 import userStore from '../../stores/UserStore';
 
