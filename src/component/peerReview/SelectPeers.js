@@ -85,7 +85,9 @@ class SelectPeers extends Component {
 
   showQuestions() {
     let selected = this.state.selected;
-    this.setState({final:false});
+    if(selected.length !== 0){
+      this.setState({final:false}); 
+    }
   }
 
   ReselectPeers() {

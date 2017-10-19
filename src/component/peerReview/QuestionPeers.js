@@ -53,6 +53,7 @@ class QuestionPeers extends Component {
   componentDidMount() {
     if(this.props){
       let questions = [];
+      let Answers = {};
       let next = 'next';
       let data = ''
       let date = '';
@@ -75,12 +76,24 @@ class QuestionPeers extends Component {
         if(data['formData'][0]['data'].required){
           next = 'next disabled';
         }
+        for(let i = 0; i<data['formData'].length; i++){
+          Answers[i] = {};
+          this.props.peers.forEach((peer)=>{
+            if(data['formData'][i].type!=="CheckBox"){
+              Answers[i][peer.name] = '';
+            }else{
+              Answers[i][peer.name] = [];
+            } 
+          });
+        }
+        console.log(Answers);
         this.setState({
           peers:this.props.peers,
           questions:data,
           date:date,
           next:next,
-          fbKey:defaultKey
+          fbKey:defaultKey,
+          Answers:Answers
         });
       }
     }
