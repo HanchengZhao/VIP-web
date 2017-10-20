@@ -8,6 +8,10 @@
   padding-bottom: 0;
 }
 
+.container{
+  padding-top: 20px;
+}
+
 #innovation-bar span {
 /*  font-family: Roboto,"Helvetica Neue",Helvetica,Arial,sans-serif;*/
 }
