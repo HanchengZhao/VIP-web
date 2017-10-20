@@ -19,50 +19,7 @@ import PropTypes from 'prop-types';
 //     questions: PropTypes.array,
 //     peers: PropTypes.array
 // }
-const dummyQuestion = [{
-  "data" : {
-    "from" : 1,
-    "high" : "high",
-    "low" : "low",
-    "question" : "How do you think of this?",
-    "to" : 6
-  },
-  "id" : 1,
-  "type" : "Score"
-}, {
-  "data" : {
-    "question" : "Please provide some feedbacks.",
-    "require" : false,
-    "type" : "Short Answer"
-  },
-  "id" : 2,
-  "type" : "Comment"
-}, {
-  "data" : {
-    "options" : [ "Andy", "Bob" ],
-    "question" : "Please choose everyone you know"
-  },
-  "id" : 3,
-  "type" : "CheckBox"
-}, {
-  "data" : {
-    "question" : "Please give me a number",
-    "require" : false
-  },
-  "id" : 4,
-  "type" : "Number"
-}];
-const dummyReview = {
-  Sam : {
-    0 : 6,
-    1: 'TEST',
-    2: {
-      0:1,
-      1:2
-    },
-    3: '01'
-  }
-}
+
 class ResultTable extends Component {
   constructor(props) {
     super(props);
@@ -109,7 +66,7 @@ class ResultTable extends Component {
         } else {
           peers.map(peer => {
             const value = this.state.peerReview[peer][index]
-            console.log(value)
+            // console.log(value)
             answers.push(<td>{value}</td>)
           })
         }
