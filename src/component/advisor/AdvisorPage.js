@@ -31,7 +31,6 @@ class AdvisorPage extends Component {
     let fbAdvisorRef = firebase.database().ref("Advisor");
     let fbTeamRef = firebase.database().ref("Teams");
     fbAdvisorRef.on('value', (snap) => {
-      console.log(snap.val());
       Object.keys(snap.val()).forEach((i) => {
         let user = snap.val()[i];
         if (user.email === userStore.email) {

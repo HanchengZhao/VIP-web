@@ -115,8 +115,10 @@ class StudentApplicationTable extends Component {
   }
   
   handleAccept() {
+    console.log('ran');
     let keys = Object.keys(this.state.roster);
     this.state.selectedIndexes.forEach((i) => {
+      console.log(this.state.rows[i]);
       firebase.database().ref(`Student_Add_Pending/${this.state.rows[i].teamName}/${this.state.rows[i].semester}`).push(this.state.rows[i]);
       this.handleRemoveFb(keys[i]);
     });
