@@ -83,7 +83,7 @@ class ReviewResult extends Component {
           data: questions[uuid]
         })
       })
-      console.log(matchQuestions)
+      // console.log(matchQuestions)
       this.setState({
         semester:semester,
         formid:"",
@@ -168,16 +168,16 @@ class ReviewResult extends Component {
             <Paper zDepth = {1} style={{marginBottom:"20px"}}>
               <div style = {{textAlign:'center'}}>
                 {/* <span style={{position:'relative', textAlign:"left"}}>Select Field</span> */}
-                <SelectField floatingLabelText="Team" value = {this.state.team} onChange = {this.selectTeam} style={{width: "150px", mariginRight:"20px", textAlign:"left"}}>
+                <SelectField floatingLabelText="Team" value = {this.state.team} onChange = {this.selectTeam} style={{width: "150px", mariginRight:"20px", textAlign:"left",verticalAlign:"bottom"}}>
                   {teamOptions}
                 </SelectField>
-                <SelectField floatingLabelText="Semester" value = {this.state.semester} onChange = {this.selectSemester} style={{width: "150px", mariginRight:"20px",textAlign:"left"}}>
+                <SelectField floatingLabelText="Semester" value = {this.state.semester} onChange = {this.selectSemester} style={{width: "150px", mariginRight:"20px",textAlign:"left",verticalAlign:"bottom"}}>
                   {semesterOptions}
                 </SelectField>
-                <SelectField floatingLabelText="Form Name" value = {this.state.formid} onChange = {this.selectForm} style={{width: "150px", mariginRight:"20px",textAlign:"left"}}>
+                <SelectField floatingLabelText="Form Name" value = {this.state.formid} onChange = {this.selectForm} style={{width: "150px", mariginRight:"20px",textAlign:"left",verticalAlign:"bottom"}}>
                   {formOptions}
                 </SelectField>
-                <SelectField floatingLabelText="Student" value = {this.state.student} onChange = {this.selectStudent} style={{width: "180px", mariginRight:"20px",textAlign:"left"}}>
+                <SelectField floatingLabelText="Student" value = {this.state.student} onChange = {this.selectStudent} style={{width: "180px", mariginRight:"20px",textAlign:"left",verticalAlign:"bottom"}}>
                   {studentOptions}
                 </SelectField>
               </div>
