@@ -21,7 +21,6 @@ class CourseList extends Component {
     this.addCourse = this.addCourse.bind(this);
     this.suffixChange = this.suffixChange.bind(this);
     this.handleRemove = this.handleRemove.bind(this);
-    this.findGateKeeper = this.findGateKeeper.bind(this);
   }
   
   componentDidMount() {
@@ -39,18 +38,6 @@ class CourseList extends Component {
     });
     this.setState({
       team:nextProps.team.teamName
-    });
-  }
-
-  findGateKeeper(key) {
-    firebase.database().ref('GateKeeper').once('value').then((snap) => {
-      if(snap.val().department){
-      Object.keys(snap.val()).forEach((i) =>{
-        if(snap.val()[i].department ===this.state.courses[this.state.team][key].department) {
-          console.log(snap.val()[i].email);
-        }
-      });
-    }
     });
   }
 
@@ -96,7 +83,7 @@ class CourseList extends Component {
                 </thead>
                 <tbody>
                   {Object.keys(this.state.courses[this.state.team]).map((key) => {
-                    return (<tr key = {key} onClick = {() => this.findGateKeeper(key)}>
+                    return (<tr key = {key}>
                       <th>{this.state.courses[this.state.team][key].course}</th>
                       <th>{this.state.courses[this.state.team][key].department}</th>
                       <th><i className ="glyphicon glyphicon-remove" style = {{cursor:"pointer"}} id = {key} onClick = {this.handleRemove}/></th>

@@ -64,7 +64,7 @@ class ChangeSemester extends Component {
     let menuItems
     if(this.state.past) {
       menuItems = Object.keys(this.state.past).map((element, key)=>{
-        return <MenuItem value = {key} primaryText = {this.state.past[element]}/>
+        return <MenuItem value = {key}  key = {element} primaryText = {this.state.past[element]}/>
       });
     }
     

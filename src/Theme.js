@@ -1,5 +1,3 @@
-import React from 'react';
-
 //accepted list of emails
 const university = "Arizona State University";
 const validDomain = "asu.edu";

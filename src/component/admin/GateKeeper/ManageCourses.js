@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 
 import CourseList from './CourseList';
 
-import DropDownMenu from 'material-ui/DropDownMenu';
 import FlatButton from 'material-ui/FlatButton';
-import MenuItem from 'material-ui/MenuItem';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import TextField from 'material-ui/TextField';
 
 import firebase from '../../../firebase';
 
@@ -63,9 +60,8 @@ class ManageGateKeeper extends Component {
             {Teams}
           </tbody>
         </table>
-        {this.state.key
-          ?<CourseList team = {this.state.teams[this.state.key]}/>
-          :<h1/>
+        {this.state.key &&
+          <CourseList team = {this.state.teams[this.state.key]}/>
         }
       </div>
     );

@@ -85,33 +85,28 @@ class AdminPage extends Component {
       <div>
         <MuiThemeProvider>
           <Paper zDepth = {2} style = {{padding:'20px'}}>
-            {this.state.Project
-              ?<PendingApplication />
-              :<div />
+            {this.state.Project &&
+              <PendingApplication />
             }
-            {this.state.Student
-              ?<SA_Tool />
-              :<h1 />
+            {this.state.Student &&
+              <SA_Tool />
             }
-            {this.state.Roster
-              ?<div>
+            {this.state.Roster &&
+              <div>
                 <h1 style ={{textAlign:'center'}}>Roster</h1>
                 <Roster_Tool />
               </div>
-              :<h1 />
             }
-            {this.state.AddAdmin
-              ?<ManageAdmin />
-              :<h1 />
+            {this.state.AddAdmin &&
+              <ManageAdmin />
             }
-            {this.state.Courses
-              ?<div>
+            {this.state.Courses &&
+              <div>
                 <h1 style = {{textAlign:'center'}}>Manage Courses and GateKeepers</h1>
                 <ManageCourses />
                 <Divider style = {{margin:'20px'}}/>
                 <GateKeeper />
               </div>
-              :<h1 />
             }
             {this.state.Semester &&
               <div>
