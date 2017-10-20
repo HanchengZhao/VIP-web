@@ -67,8 +67,8 @@ class ManageAdmin extends Component {
     ));
     return(
       <div>
-        {this.state.admin
-        ?<div>
+        {this.state.admin &&
+        <div>
           <h1 style = {{textAlign:'center'}}>Manage Admin</h1>
           <table className = "table">
             <thead>
@@ -82,19 +82,17 @@ class ManageAdmin extends Component {
             </tbody>
           </table>
           <MuiThemeProvider>
-            <FlatButton label = {"+ " + " Add Admin"} onClick = {this.showAdd}/>
+            <FlatButton label = {"+  Add Admin"} onClick = {this.showAdd}/>
           </MuiThemeProvider>
         </div>
-        :<h1/>
-        }{this.state.add
-          ?<MuiThemeProvider>
+        }{this.state.add &&
+          <MuiThemeProvider>
             <div>
               <TextField floatingLabelText="Name" id = "name" onChange = {this.handleUpdate}/>
               <TextField floatingLabelText="Email" id ="email" onChange = {this.handleUpdate}/>
               <FlatButton label = "submit" onClick = {this.handleSubmit}/>
             </div>
           </MuiThemeProvider>
-          :<h1/>
         }
       </div>
     );

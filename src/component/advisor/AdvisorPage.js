@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Route} from 'react-router-dom';
 import AddAdvisor from './AddAdvisor';
 import firebase from '../../firebase';
 import userStore from '../../stores/UserStore';

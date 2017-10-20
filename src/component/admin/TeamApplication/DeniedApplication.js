@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-
 import firebase from '../../../firebase';
-import {Link} from 'react-router-dom';
 import MuiButton from '../../MuiButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Primary, {Secondary} from '../../../Theme'
+import {Secondary} from '../../../Theme'
 import {
   Table,
   TableBody,

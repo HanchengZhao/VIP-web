@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import firebase from "../../../firebase";
 import MuiButton from "../../MuiButton";
 import DeniedApplication from './DeniedApplication';
-import {Link} from 'react-router-dom';
 import ProjectApprovalCard from './ProjectApprovalCard';
 
 const style = {textAlign:"center"};
@@ -58,12 +57,11 @@ class TeamApplication extends Component {
         <div style = {{paddingTop:"20px", float:"right"}}>
           <MuiButton label = "Denied Applications" onClick = {this.showDenied}/>
         </div>
-        {this.state.denied
-          ?<div style = {{paddingTop:"50px"}}>
-              <DeniedApplication />
-              <MuiButton label = "hide" onClick = {this.hideDenied}/>
-            </div>
-          :<h1 />
+        {this.state.denied &&
+          <div style = {{paddingTop:"50px"}}>
+            <DeniedApplication />
+            <MuiButton label = "hide" onClick = {this.hideDenied}/>
+          </div>
         }
       </div>
     );

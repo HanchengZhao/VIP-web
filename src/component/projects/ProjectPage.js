@@ -60,7 +60,7 @@ class ProjectPage extends Component {
       }
       return(
         <div key={key}>
-          <h2 style = {{color:Primary, marginBottom:'50px', marginTop:'50px'}}><strong>{key.split(/(?=[A-Z])/).join(" ")}</strong></h2>
+          <h2 style = {{color:Primary, marginBottom:'50px', marginTop:'50px'}}><strong>{key.charAt(0).toUpperCase() + key.slice(1).split(/(?=[A-Z])/).join(" ")}</strong></h2>
           <h4>{this.state.data[key]}</h4>
         </div>
       );

@@ -2,9 +2,6 @@ import React, { Component } from 'react';
 
 import FlatButton from 'material-ui/FlatButton';
 import TextField from 'material-ui/TextField';
-
-import {checkEmpty} from '../../../Validation';
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import firebase from '../../../firebase';
