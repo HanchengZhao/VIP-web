@@ -58,10 +58,10 @@ const Props = {
         type: 'Score',
         data:{
           from: 1,
-          to: 6,
+          to: 5,
           low: "low",
           high: "high",
-          question: "How do you think of this?"
+          question: "How often do you interact with this person?"
         }
       }, {
         id: 2,

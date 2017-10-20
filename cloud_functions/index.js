@@ -248,6 +248,10 @@ exports.studentAddPending = functions.database.ref('/Student_Add_Pending/{teamna
     const teamname = event.params.teamname;
     const semester = event.params.semester;
     const uuid = event.params.uuid;
+    let studentCourse;
+    let department;
+    let gatekeeperName;
+    let gatekeeperEmail;
     console.log(teamname, semester,uuid,studentinfo)
     return admin.database().ref().child(`Students/${teamname}/${semester}/${uuid}`).update(studentinfo)// move to students key
     .then(() => {
@@ -284,99 +288,173 @@ exports.studentAddPending = functions.database.ref('/Student_Add_Pending/{teamna
         .catch(function(error) {
           console.log(error.response.statusCode);
         });
+    }).then( () => {
+      studentCourse = studentinfo.course;
+      return admin.database().ref(`Courses/${teamname}`).orderByChild('course').equalTo(studentCourse).once("value").then((snap) => {
+        let matchCourse = snap.val()// 
+        Object.keys(matchCourse).forEach((key) => {
+            department = matchCourse[key].department
+        })
+      }).then( () => {
+        return admin.database().ref(`GateKeeper`).orderByChild('department').equalTo(department).once("value").then((snap) => {
+          let gatekeeper = snap.val()// 
+          console.log('gatekeeper: ', gatekeeper)
+          Object.keys(gatekeeper).forEach((key) => {
+              gatekeeperEmail = gatekeeper[key].email;
+              gatekeeperName = gatekeeper[key].name
+          })
+        })
+      })
+    }).then(() => {
+      let formatted = putJsonInTable(studentinfo);
+      let request = sg.emptyRequest({
+        method: 'POST',
+        path: '/v3/mail/send',
+        body: {
+          personalizations: [{
+            to: [{ email: gatekeeperEmail }],
+            'substitutions': {
+              '-name-': gatekeeperName,
+              '-studentName-':studentinfo.name,
+              '-teamname-':teamname
+            },
+            subject: `A new student application is accepted for ${teamname}`
+          }],
+          from: {
+            email: 'noreply@em.hzhao.me'
+          },
+          content: [{
+            type: 'text/html',
+            value: `${formatted.join("")}`
+          }],
+          'template_id': functions.config().sendgrid.gatekeeper,
+        }
+      });
+      // With promise
+      sg.API(request)
+        .then(function(response) {
+          console.log(response.statusCode);
+          console.log(response.body);
+          console.log(response.headers);
+        })
+        .catch(function(error) {
+          console.log(error.response.statusCode);
+        });
     }).then(() => { // remove the pending data
       return admin.database().ref().child(`Student_Add_Pending/${teamname}/${semester}/${uuid}`).remove();
     })
   })
 
 exports.studentRemovePending = functions.database.ref('/Student_Remove_Pending/{teamname}/{semester}/{uuid}')
-.onWrite(event => {
-  if(!event.data.val()) {
-    throw "no student is removed under student remove pending";
-  }
-  const studentinfo = event.data.val();
-  const teamname = event.params.teamname;
-  const semester = event.params.semester;
-  const uuid = event.params.uuid;
-  console.log('removed student: ', studentinfo)
-  return admin.database().ref().child(`Students/${teamname}/${semester}/${uuid}`).remove()// move to students key
-  .then(() => {
-    return admin.database().ref().child(`Users/${uuid}`).remove()
-  }).then(() => { // remove the pending data
-    return admin.database().ref().child(`Student_Remove_Pending/${teamname}/${semester}/${uuid}`).remove();
+  .onWrite(event => {
+    if(!event.data.val()) {
+      throw "no student is removed under student remove pending";
+    }
+    const studentinfo = event.data.val();
+    const teamname = event.params.teamname;
+    const semester = event.params.semester;
+    const uuid = event.params.uuid;
+    console.log('removed student: ', studentinfo)
+    return admin.database().ref().child(`Students/${teamname}/${semester}/${uuid}`).remove()// move to students key
+    .then(() => {
+      return admin.database().ref().child(`Users/${uuid}`).remove()
+    }).then(() => { // remove the pending data
+      return admin.database().ref().child(`Student_Remove_Pending/${teamname}/${semester}/${uuid}`).remove();
+    })
   })
-})
 
 exports.advisorAddPending = functions.database.ref('/Advisor_Add_Pending/{uuid}')
-.onWrite(event => {
-  if(!event.data.val()) {
-    throw "no advisor is added under advisor add pending";
-  }
-  const advisorinfo = event.data.val();
-  const uuid = event.params.uuid;
-  console.log('added advisor: ',advisorinfo)
-  return admin.database().ref().child(`Advisor/${uuid}`).update(advisorinfo)// move to advisor key
-  .then(() => {
-    return admin.database().ref().child(`Users/${uuid}`).update({ // add advisor to the user
-      email: advisorinfo.email,
-      role: 'advisor'
+  .onWrite(event => {
+    if(!event.data.val()) {
+      throw "no advisor is added under advisor add pending";
+    }
+    const advisorinfo = event.data.val();
+    const uuid = event.params.uuid;
+    console.log('added advisor: ',advisorinfo)
+    return admin.database().ref().child(`Advisor/${uuid}`).update(advisorinfo)// move to advisor key
+    .then(() => {
+      return admin.database().ref().child(`Users/${uuid}`).update({ // add advisor to the user
+        email: advisorinfo.email,
+        role: 'advisor'
+      })
+    }).then(() => { // remove the pending data
+      return admin.database().ref().child(`Advisor_Add_Pending/${uuid}`).remove();
     })
-  }).then(() => { // remove the pending data
-    return admin.database().ref().child(`Advisor_Add_Pending/${uuid}`).remove();
   })
-})
 
 exports.advisorRemovePending = functions.database.ref('/Advisor_Remove_Pending/{uuid}')
-.onWrite(event => {
-  if(!event.data.val()) {
-    throw "no advisor is removed under advisor remove pending";
-  }
-  const advisorinfo = event.data.val();
-  const uuid = event.params.uuid;
-  console.log('removed advisor: ', advisorinfo)
-  return admin.database().ref().child(`Advisor/${uuid}`).remove()// move to students key
-  .then(() => {
-    return admin.database().ref().child(`Users/${uuid}`).remove()
-  }).then(() => { // remove the pending data
-    return admin.database().ref().child(`Advisor_Remove_Pending/${uuid}`).remove();
+  .onWrite(event => {
+    if(!event.data.val()) {
+      throw "no advisor is removed under advisor remove pending";
+    }
+    const advisorinfo = event.data.val();
+    const uuid = event.params.uuid;
+    console.log('removed advisor: ', advisorinfo)
+    return admin.database().ref().child(`Advisor/${uuid}`).remove()// move to students key
+    .then(() => {
+      return admin.database().ref().child(`Users/${uuid}`).remove()
+    }).then(() => { // remove the pending data
+      return admin.database().ref().child(`Advisor_Remove_Pending/${uuid}`).remove();
+    })
   })
-})
 
 
 exports.adminAddPending = functions.database.ref('/Admin_Add_Pending/{uuid}')
-.onWrite(event => {
-  if(!event.data.val()) {
-    throw "no admin is added under admin add pending";
-  }
-  const admininfo = event.data.val();
-  const uuid = event.params.uuid;
-  console.log('added admin: ',admininfo)
-  return admin.database().ref().child(`Admin/${uuid}`).update(admininfo)// move to admin key
-  .then(() => {
-    return admin.database().ref().child(`Users/${uuid}`).update({ // add admin to the user
-      email: admininfo.email,
-      role: 'admin'
+  .onWrite(event => {
+    if(!event.data.val()) {
+      throw "no admin is added under admin add pending";
+    }
+    const admininfo = event.data.val();
+    const uuid = event.params.uuid;
+    console.log('added admin: ',admininfo)
+    return admin.database().ref().child(`Admin/${uuid}`).update(admininfo)// move to admin key
+    .then(() => {
+      return admin.database().ref().child(`Users/${uuid}`).update({ // add admin to the user
+        email: admininfo.email,
+        role: 'admin'
+      })
+    }).then(() => { // remove the pending data
+      return admin.database().ref().child(`Admin_Add_Pending/${uuid}`).remove();
     })
-  }).then(() => { // remove the pending data
-    return admin.database().ref().child(`Admin_Add_Pending/${uuid}`).remove();
   })
-})
 
 exports.adminRemovePending = functions.database.ref('/Admin_Remove_Pending/{uuid}')
-.onWrite(event => {
-  if(!event.data.val()) {
-    throw "no Admin is removed under Admin remove pending";
-  }
-  const admininfo = event.data.val();
-  const uuid = event.params.uuid;
-  console.log('removed Admin: ', admininfo)
-  return admin.database().ref().child(`Admin/${uuid}`).remove()
-  .then(() => {
-    return admin.database().ref().child(`Users/${uuid}`).remove()
-  }).then(() => { // remove the pending data
-    return admin.database().ref().child(`Admin_Remove_Pending/${uuid}`).remove();
+  .onWrite(event => {
+    if(!event.data.val()) {
+      throw "no Admin is removed under Admin remove pending";
+    }
+    const admininfo = event.data.val();
+    const uuid = event.params.uuid;
+    console.log('removed Admin: ', admininfo)
+    return admin.database().ref().child(`Admin/${uuid}`).remove()
+    .then(() => {
+      return admin.database().ref().child(`Users/${uuid}`).remove()
+    }).then(() => { // remove the pending data
+      return admin.database().ref().child(`Admin_Remove_Pending/${uuid}`).remove();
+    })
   })
-})
+
+// re-organize the structure of peer reviews
+exports.reOrganizeReviews = functions.database.ref('/Reviews/{team}/{semester}/{uuid}') // should have team and semester info
+  .onWrite(event => {
+    if(!event.data.val()) {
+      throw "no Review needs to be re-organized";
+    }
+    const team = event.params.team;
+    const semester = event.params.semester;
+    const uuid = event.params.uuid;
+    const review = event.data.val();
+    let peers = {}
+    for (let reviewer of Object.keys(review)){
+      for (let peer of Object.keys(review[reviewer])) {
+        data = review[reviewer][peer];
+        let updates = {[reviewer]: data};//es6 object initializer
+        admin.database().ref().child(`Reviews_peers/${team}/${semester}/${uuid}/${peer}`).update(updates) // uuid here is the form data
+      }
+    }
+  })
+
+
 
 //utils
 let putJsonInTable = (json) => {
