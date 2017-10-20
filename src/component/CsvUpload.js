@@ -9,6 +9,7 @@ import MenuItem from 'material-ui/MenuItem';
 import request from 'request';
 import SelectField from 'material-ui/SelectField';
 
+
 class CsvUpload extends Component {
 
   constructor() {
@@ -45,19 +46,22 @@ class CsvUpload extends Component {
     let semester = this.state.semester;
     let reader = new FileReader();
     let file = event.target.files[0];
-    reader.readAsText(file);
-    reader.onload = function () {
-      csv().fromString(reader.result).on('json', (jsonObj)=>{
-        jsonObj['name'] = jsonObj["First Name"] + jsonObj["Last Name"];
-        jsonObj['email'] = jsonObj["ASURITE"] + "asu.edu";
-        jsonObj['teamName'] = team;
-        // firebase.database().ref(`Students/${team}/${semester}`).push(jsonObj);
-        // firebase.database().ref('Users').push({
-        //   email:jsonObj.email,
-        //   role:'student'
-        // });
-      });
-    };
+    if(file){
+      reader.readAsText(file);
+      reader.onload = function () {
+        csv().fromString(reader.result).on('json', (jsonObj)=>{
+          jsonObj['name'] = jsonObj["First Name"] + jsonObj["Last Name"];
+          jsonObj['email'] = jsonObj["ASURITE"] + "@asu.edu";
+          jsonObj['teamName'] = team;
+          console.log(jsonObj);
+          firebase.database().ref(`Students/${team}/${semester}`).push(jsonObj);
+          firebase.database().ref('Users').push({
+            email:jsonObj.email,
+            role:'student'
+          });
+        });
+      };
+    }
   }
 
   convertToJson(url) {
@@ -72,18 +76,18 @@ class CsvUpload extends Component {
       team:value
     });
     if(!(value === 'default')) {
-      this.inputElement.click();
+      document.getElementById("CsvUpload").click();
     }
   }
 
   render(){
     let teams = this.state.teams.map((team)=>{
-      return <MenuItem value={team} primaryText={team} />;
+      return <MenuItem value={team} primaryText={team} key = {team}/>;
     })
     return(
-      <div>
-        <FileInput accept=".csv" name = "CsvUpload" onChange={this.uploaded} ref={input => this.inputElement = input}/>
-        <SelectField onChange = {this.handleChange} value = {this.state.team} style = {{float:'right'}}>
+      <div style = {{textAlign:'right'}}>
+        <input type = "file" accept=".csv" id = "CsvUpload" onChange={this.uploaded} placeholder = "Upload Team CSV File" style = {{display:'none'}}/>
+        <SelectField onChange = {this.handleChange} value = {this.state.team} >
           {teams}
           <MenuItem value={"default"} primaryText={"Upload Teams Roster"} />
         </SelectField>

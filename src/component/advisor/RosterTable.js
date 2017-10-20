@@ -41,6 +41,16 @@ class RosterTable extends Component {
       this.createRows();
   }
 
+  componentWillReceiveProps(nextProps){
+    console.log(nextProps.roster);
+    this.setState({
+      roster:nextProps.roster
+    }, ()=>{
+      this.createColumns();
+      this.createRows();
+    });
+  }
+
   exportRoster() {
     let fields = []
     this.state.columns.forEach((i)=>{
@@ -204,7 +214,7 @@ class RosterTable extends Component {
                 <FlatButton label = "Delete Selected Student" onClick = {()=>this.handleDeny()}/>
               </div>
             }
-            <CsvUpload />
+            
           </div>
         </MuiThemeProvider>
       </div>);

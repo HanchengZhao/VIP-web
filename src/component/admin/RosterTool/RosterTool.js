@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import RosterTable from '../../advisor/RosterTable';
 import _ from 'lodash';
 import firebase from '../../../firebase';
+import CsvUpload from '../../CsvUpload';
 
 const studentRef = 'Students';
 
@@ -24,6 +25,15 @@ class RosterTool extends Component {
           roster:snapRoster.val(),
         }, () => this.generateRoster());
       });
+      let teams = [];
+      firebase.database().ref('Teams/').on('value', (snap)=>{
+        Object.keys(snap.val()).forEach((team)=>{
+          teams.push(snap.val()[team].teamName);
+        });
+        this.setState({
+          teams:teams
+        });
+      });
     });
 
     
@@ -33,12 +43,15 @@ class RosterTool extends Component {
 
   generateRoster() {
     let semesterRoster = {};
-    Object.keys(this.state.roster).forEach((team) => {
-      Object.keys(this.state.roster[team][this.state.semester]).forEach((student)=>{
-        semesterRoster[student] = this.state.roster[team][this.state.semester][student];
+    if(this.state.roster){
+      Object.keys(this.state.roster).forEach((team) => {
+        Object.keys(this.state.roster[team][this.state.semester]).forEach((student)=>{
+          semesterRoster[student] = this.state.roster[team][this.state.semester][student];
+        });
       });
-    });
-    this.setState({currentRoster:semesterRoster});
+      this.setState({currentRoster:semesterRoster});
+    }
+    
   }
 
 
@@ -49,6 +62,7 @@ class RosterTool extends Component {
         {!_.isEmpty(this.state.currentRoster) && this.state.semester && this.state.roster &&
           <RosterTable roster = {this.state.currentRoster}/>
         }
+        <CsvUpload />
       </div>
     );
   }
