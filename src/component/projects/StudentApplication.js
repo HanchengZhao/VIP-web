@@ -47,7 +47,7 @@ class StudentApplication extends Component{
         semester:'',
         creditOptions:[],
         value:"default",
-        notIncluded:['fbkey', 'errorText','error','other']
+        notIncluded:['fbkey', 'errorText','error','other', 'course', 'credits']
       };
       this.handleMenuChange = this.handleMenuChange.bind(this);    
       this.handleCreditChange = this.handleCreditChange.bind(this);
@@ -77,6 +77,8 @@ class StudentApplication extends Component{
               notIncluded.push(snap.val()[i].id);
             }
           });
+          data['course'] = '';
+          data['credits'] = '';
           this.setState({
             questionsArray: snap.val(),
             data:data,
@@ -151,7 +153,9 @@ class StudentApplication extends Component{
   }
 
   firebasewrite = () => {
+    
     let empty = checkEmpty(this.state.error, this.state.data, this.state.data.email, this.state.notIncluded);
+    console.log(empty[0]);
     if(empty[0]) {
       if(`${db}`==='General Information'){
           const rootRef = firebase.database().ref().child('GeneralInformation');
@@ -169,7 +173,7 @@ class StudentApplication extends Component{
           this.state.data
       );
       }
-      
+      console.log("ran");
       
       this.setState({
           id:'',
