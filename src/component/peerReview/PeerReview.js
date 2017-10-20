@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Redirect, Switch, Route } from 'react-router-dom';
+import React from 'react';
+import { Switch, Route } from 'react-router-dom';
 import FormList from './FormList';
 import PeerReviewPage from './PeerReviewPage';
 import QuestionContainer from './QuestionContainer';

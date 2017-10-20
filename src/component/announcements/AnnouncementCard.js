@@ -8,7 +8,6 @@ import Primary,{ Secondary, DeleteColor} from '../../Theme';
 
 import { Link } from 'react-router-dom';
 
-
 const style = {
   card: {
     paddingBottom: "10px",

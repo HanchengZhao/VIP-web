@@ -6,7 +6,6 @@ import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {grey500} from 'material-ui/styles/colors';
-import {debounce} from 'throttle-debounce';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import MuiButton from '../MuiButton';
@@ -14,7 +13,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 import { Redirect } from 'react-router-dom';
 import TextField from 'material-ui/TextField';
 import Primary, { Secondary, DeleteColor } from '../../Theme';
-
 
 import firebase from '../../firebase';
 import userStore from '../../stores/UserStore';
