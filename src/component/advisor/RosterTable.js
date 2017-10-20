@@ -214,7 +214,7 @@ class RosterTable extends Component {
                 <FlatButton label = "Delete Selected Student" onClick = {()=>this.handleDeny()}/>
               </div>
             }
-            <CsvUpload />
+            
           </div>
         </MuiThemeProvider>
       </div>);

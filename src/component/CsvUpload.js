@@ -9,6 +9,7 @@ import MenuItem from 'material-ui/MenuItem';
 import request from 'request';
 import SelectField from 'material-ui/SelectField';
 
+
 class CsvUpload extends Component {
 
   constructor() {
@@ -53,11 +54,11 @@ class CsvUpload extends Component {
           jsonObj['email'] = jsonObj["ASURITE"] + "@asu.edu";
           jsonObj['teamName'] = team;
           console.log(jsonObj);
-          // firebase.database().ref(`Students/${team}/${semester}`).push(jsonObj);
-          // firebase.database().ref('Users').push({
-          //   email:jsonObj.email,
-          //   role:'student'
-          // });
+          firebase.database().ref(`Students/${team}/${semester}`).push(jsonObj);
+          firebase.database().ref('Users').push({
+            email:jsonObj.email,
+            role:'student'
+          });
         });
       };
     }
@@ -84,9 +85,9 @@ class CsvUpload extends Component {
       return <MenuItem value={team} primaryText={team} key = {team}/>;
     })
     return(
-      <div>
+      <div style = {{textAlign:'right'}}>
         <input type = "file" accept=".csv" id = "CsvUpload" onChange={this.uploaded} placeholder = "Upload Team CSV File" style = {{display:'none'}}/>
-        <SelectField onChange = {this.handleChange} value = {this.state.team} style = {{float:'right'}}>
+        <SelectField onChange = {this.handleChange} value = {this.state.team} >
           {teams}
           <MenuItem value={"default"} primaryText={"Upload Teams Roster"} />
         </SelectField>

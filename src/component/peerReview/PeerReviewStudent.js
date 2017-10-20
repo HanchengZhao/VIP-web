@@ -54,16 +54,20 @@ class PeerReviewStudent extends Component {
 
       firebase.database().ref(`SubmitedStudents/`).once('value',(snap)=>{
         if(snap.val()) {
-        let students = snap.val()[team][this.state.Semester];
-
-        Object.keys(students[defaultForm]).forEach((student)=>{
-          if(students[defaultForm][student]===userStore.email) {
-            console.log(student);
-            this.setState({
-              completed:true
-            });
+          if(snap.val()[team]){
+            let students = snap.val()[team][this.state.Semester];
+              if(students[defaultForm]){
+                Object.keys(students[defaultForm]).forEach((student)=>{
+                  if(students[defaultForm][student]===userStore.email) {
+                    console.log(student);
+                    this.setState({
+                      completed:true
+                    });
+                  }
+                });
+              }
           }
-        });
+
       }
       });
     });
