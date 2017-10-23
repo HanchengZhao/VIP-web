@@ -85,7 +85,35 @@
         - under construction 
     * Roster tab
         - students can search all members of their team
-    
+
+* Project Screenshots
+    * Home page
+![Home page](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2Fhomepage.png?alt=media&token=3ecf3474-e4b1-4d8a-af2a-0b4fbe4d7766)
+    * Admin Dashboard
+    ![admin dashboard](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2FadminDashboard.png?alt=media&token=b892c534-d84c-4690-9426-47a1167f9ff7)
+    * Announcemnt Page
+    ![admin Page](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2FannouncementPage.png?alt=media&token=ca28d9b3-2f3a-4ab5-8836-9c11513b0ad1)
+    * Announcemnt Editing tool
+    ![announcement editing](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2FannouncementEditting.png?alt=media&token=22b16822-7749-40a1-8b7c-2c1adbc14a4c)
+    * Form Generator
+    ![form generator](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2FformGenerator.png?alt=media&token=f8c4f6b4-1c91-4993-bfe2-bc8999a8c2f0)
+    ![form generator](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2Fdatetool.png?alt=media&token=03a400cb-bb5f-49ad-90fc-1d9ec46897a6)
+    * Form list
+    ![form list](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2FformList.png?alt=media&token=5477ce10-4512-4033-a6cb-62b2a5479034)
+    * Peer Selection
+    ![peer selection](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2FpeerReview.png?alt=media&token=9131e0a7-ca5c-41b1-ab03-bf9c16411365)
+    * Peer Review Process
+    ![process](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2Freviewing.png?alt=media&token=e1349b0e-8af1-4388-a680-15aa68e0b251)
+    * Peer Review Submission
+    ![submission](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2Fsubmission.png?alt=media&token=1999603c-9938-487f-8b9b-9dd8b613fcd4)
+    * Peer Review Result
+    ![result](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2FpeerReviewResult.png?alt=media&token=0f8ba7df-0ee8-424c-b4c0-392c02a9dbe2)
+    * Project Page
+    ![project page](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2FprojectPage.png?alt=media&token=bfcfa12a-42d5-4ac6-9bcb-9d93bb97ee08)
+    * Project List
+    ![list](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2Fprojects.png?alt=media&token=b9ff6843-341e-4d60-b618-388b24ac9a04)
+    * Roster Tool
+    ![roster tool](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2FrosterTool.png?alt=media&token=324eb45c-5fc5-4639-aff4-024e5c8067e2)
 
 ### To use
 > git clone the repo
