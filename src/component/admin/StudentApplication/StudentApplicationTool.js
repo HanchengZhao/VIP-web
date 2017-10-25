@@ -73,7 +73,7 @@ class StudentApplicationTool extends Component {
           </div>
         }
         <MuiThemeProvider>
-          <div>
+          <div style = {{paddingBottom:"20px"}}>
             {this.state.Reject 
               ?<FlatButton label = "Rejected Students" onClick = {this.handleClick} style = {{float:'right'}}/>
               :<FlatButton label = "Student Applicants" onClick = {this.handleClick} />
