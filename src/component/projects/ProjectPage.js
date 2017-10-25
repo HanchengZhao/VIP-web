@@ -30,6 +30,7 @@ class ProjectPage extends Component {
       sections: [],
       contactEmail:'',
       open:false,
+      faculty:'',
       fbkey: this.props.match.params.projectId
     };
     this.handleSunset = this.handleSunset.bind(this);
@@ -38,9 +39,15 @@ class ProjectPage extends Component {
   componentDidMount() {
     
     firebase.database().ref(`Teams/${this.state.fbkey}`).once('value').then( (snap) => {
-      // console.log(snap.val());
+      let faculty = {};
+      Object.keys(snap.val()).forEach((key)=>{
+        if(key.substring(0,4)==="lead"){
+          faculty[key] = snap.val()[key].split(",");
+        }
+      });
       this.setState({
-        data:snap.val()
+        data:snap.val(),
+        faculty:faculty
       });
     });
   }
@@ -54,8 +61,9 @@ class ProjectPage extends Component {
   }
 
   render() {
+    let faculty;
     let data = Object.keys(this.state.data).reverse().map((key) => {
-      if(this.state.data[key]==='' || key === 'logo' || key === 'teamName' || key === 'subtitle'){
+      if(this.state.data[key]==='' || key === 'logo' || key === 'teamName' || key === 'subtitle' || key.substring(0, 4)==="lead"){
         return;
       }
       return(
@@ -64,7 +72,14 @@ class ProjectPage extends Component {
           <h4>{this.state.data[key]}</h4>
         </div>
       );
-    })
+    });
+    if(this.state.faculty){
+      faculty = this.state.faculty["leadFacultyName"].map((key)=>{
+        let index = this.state.faculty["leadFacultyName"].indexOf(key);
+        return(<h4>{this.state.faculty['leadFacultyName'][index]}, {this.state.faculty['leadFacultyDegree'][index]}, {this.state.faculty['leadFacultyAcademicTitle'][index]}, {this.state.faculty['leadFacultyAcademicUnit'][index]}, {this.state.faculty['leadFacultyEmail'][index]}</h4>)
+    });
+    }
+
 
      const actions = [
       <Link to = '/projects'>
@@ -84,6 +99,8 @@ class ProjectPage extends Component {
                 <h2 className = "title" style = {{color:Secondary}}><strong>{this.state.data.subtitle}</strong></h2>
                 <img src = {this.state.data.logo || VIP} style = {{maxWidth:'500px', float:'right'}}/>
                 {data}
+                <h2 style = {{color:Primary, marginBottom:'50px', marginTop:'50px'}}><strong>Faculty</strong></h2>
+                {faculty}
                 {(userStore.authed === true) &&
                   <div className="row">
                   <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>

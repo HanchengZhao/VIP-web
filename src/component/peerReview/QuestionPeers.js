@@ -231,6 +231,8 @@ class QuestionPeers extends Component {
 
   handleChange(answer) {
     let Answers = this.state.Answers;
+    let index = this.state.index;
+    let questions = this.state.questions["formData"];
     Object.keys(answer).forEach((key)=>{
       if(!Answers[this.state.index]){
         Answers[this.state.index] = {};
@@ -240,7 +242,7 @@ class QuestionPeers extends Component {
     this.setState({Answers:Answers},
     ()=>console.log(this.state.Answers));
     this.checkCompleteRequired();
-    if(this.checkCompleted()) {
+    if(this.checkCompleted() || !questions[index]['data'].required) {
       this.setState({
         next:'next'
       });
