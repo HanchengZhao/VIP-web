@@ -91,12 +91,14 @@ class PeerReviewPage extends Component {
               <div>
                 <div className="col-md-3" style={{marginBottom:"10px"}}>
                   <Card style={style.card}>
-                    <CardHeader
-                      title={data.peerReview.header}
-                      actAsExpander={false}
-                      showExpandableButton={false}
-                      titleStyle = {style.cardHeader}
-                    />
+                    <Link to={`peer-review/form_list`}>
+                      <CardHeader
+                        title={data.peerReview.header}
+                        actAsExpander={false}
+                        showExpandableButton={false}
+                        titleStyle = {style.cardHeader}
+                      />
+                    </Link>     
                     {/*<CardMedia style={style.cardMedia}>
                       <img src={this.props.project.logo} alt="" />
                     </CardMedia>*/}
@@ -110,12 +112,14 @@ class PeerReviewPage extends Component {
                 </div>
                 <div className="col-md-3" style={{marginBottom:"10px"}}>
                   <Card style={style.card}>
-                    <CardHeader
-                      title={data.reviewResult.header}
-                      actAsExpander={false}
-                      showExpandableButton={false}
-                      titleStyle = {style.cardHeader}
-                    />
+                    <Link to={`peer-review/review_result`}>
+                      <CardHeader
+                        title={data.reviewResult.header}
+                        actAsExpander={false}
+                        showExpandableButton={false}
+                        titleStyle = {style.cardHeader}
+                      />
+                    </Link>
                     {/*<CardMedia style={style.cardMedia}>
                       <img src={this.props.project.logo} alt="" />
                     </CardMedia>*/}
