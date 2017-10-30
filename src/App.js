@@ -23,7 +23,7 @@ import Projects from './component/projects/Projects';
 import Resource from './component/resource/Resource';
 import Student from './component/student/Student';
 // import TestPlot from './component/peerReview/analytics/TestPlot';
-import { AdminRoute, PublicRoute,PrivateRoute, UnEnrolledRoute, AdvisorRoute, StudentRoute } from './component/Route';
+import { AdminRoute, PublicRoute,PrivateRoute, AdvisorRoute, StudentRoute } from './component/Route';
 import Paper from 'material-ui/Paper';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Primary from './Theme';
@@ -71,7 +71,7 @@ class App extends Component {
           appStore.finishLoading()
           this.setState({
             shouldRedirect: true,
-            redirectPath: "/not_in_system"
+            redirectPath: "/"
           })
         })
       } else {
@@ -105,7 +105,7 @@ class App extends Component {
                 <Route path="/resource/:category" component={Resource}/>
                 <PublicRoute path="/login" authed={userStore.authed} component={LoginPage} />
                 <PrivateRoute path="/dashboard" authed={userStore.authed} component={DashBoard} />
-                <UnEnrolledRoute path="/not_in_system" user={userStore} component={NotInTheSystem} />
+                {/* <UnEnrolledRoute path="/not_in_system" user={userStore} component={NotInTheSystem} /> */}
                 <AdminRoute path="/admin" user={userStore} component={AdminPage}/>
                 <AdvisorRoute path="/advisor" user={userStore} component={Advisor} />
                 <StudentRoute path='/student' user={userStore} component={Student} />

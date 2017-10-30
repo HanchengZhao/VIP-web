@@ -51,14 +51,16 @@ class ProjectCard extends Component {
         <MuiThemeProvider>
           <div className="col-md-4" style={{marginBottom:"10px"}}>
           <Card style={style.card}>
-            <CardHeader
-              title={this.props.project.teamName}
-              subtitle={this.props.project.subtitle}
-              actAsExpander={false}
-              showExpandableButton={false}
-              titleStyle = {style.title}
-              subtitleStyle = {style.subtitle}
-            />
+            <Link to={`projects/${this.props.fbkey}`}>
+              <CardHeader
+                title={this.props.project.teamName}
+                subtitle={this.props.project.subtitle}
+                actAsExpander={false}
+                showExpandableButton={false}
+                titleStyle = {style.title}
+                subtitleStyle = {style.subtitle}
+              />
+            </Link>
             {/* <CardMedia>
               {this.props.project.logo
               ?<img src={this.props.project.logo} alt="" style = {style.cardMedia}/>

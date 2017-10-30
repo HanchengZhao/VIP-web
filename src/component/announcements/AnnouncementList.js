@@ -117,7 +117,7 @@ class AnnouncementList extends Component {
         <div className="row">
           <Link to={"announcement/creation"}>
             <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
-              <RaisedButton label = "Creat an announcement" id = "applyButton" backgroundColor = {Primary} style = {{float: "right", margin:"10px"}}/>
+              <RaisedButton label = "Create an announcement" id = "applyButton" backgroundColor = {Primary} style = {{float: "right", margin:"10px"}}/>
             </MuiThemeProvider>
           </Link>
         </div>
