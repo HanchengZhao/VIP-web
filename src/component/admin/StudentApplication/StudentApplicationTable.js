@@ -4,6 +4,7 @@ import MuiButton from '../../MuiButton';
 import firebase from '../../../firebase';
 import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import update from 'react-addons-update';
 import {Link} from 'react-router-dom';
 const { Toolbar, Data: { Selectors } } = require('react-data-grid-addons');
 
@@ -33,6 +34,7 @@ class StudentApplicationTable extends Component {
     this.handleRemoveRow = this.handleRemoveRow.bind(this);
     this.handleRemoveFb = this.handleRemoveFb.bind(this);
     this.handleDeny = this.handleDeny.bind(this);
+    this.handleGridRowsUpdated = this.handleGridRowsUpdated.bind(this);
   }
 
   componentDidMount() {
@@ -52,6 +54,7 @@ class StudentApplicationTable extends Component {
         filterable:true,
         sortable:true,
         resizable: true,
+        editable:true
       });
       }else{
       temp.push({
@@ -60,6 +63,7 @@ class StudentApplicationTable extends Component {
         filterable:true,
         sortable:true,
         resizable: true,
+        editable:true
       })}
     });
     this.setState({
@@ -171,6 +175,19 @@ class StudentApplicationTable extends Component {
     })
   }
 
+  handleGridRowsUpdated = ({ fromRow, toRow, updated }) => {
+    let rows = this.state.rows.slice();
+
+    console.log(updated);
+    for (let i = fromRow; i <= toRow; i++) {
+      let rowToUpdate = rows[i];
+      let updatedRow = update(rowToUpdate, {$merge: updated});
+      rows[i] = updatedRow;
+    }
+
+    this.setState({ rows });
+  };
+
   render() {
     return  (
       <div>
@@ -186,6 +203,7 @@ class StudentApplicationTable extends Component {
           toolbar={<Toolbar enableFilter={true}/>}
           onAddFilter={this.handleFilterChange}
           onClearFilters={this.onClearFilters} 
+          onGridRowsUpdated={this.handleGridRowsUpdated}
           rowSelection={{
             showCheckbox: true,
             onRowsSelected: this.onRowsSelected,
