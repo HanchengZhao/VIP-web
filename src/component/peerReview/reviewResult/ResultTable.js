@@ -20,12 +20,33 @@ import PropTypes from 'prop-types';
 //     peers: PropTypes.array
 // }
 
+const style = {
+  same: {
+    backgroundColor:"#ffffff"
+  },
+  low: {
+    backgroundColor:"#ffd200"
+  },
+  lower: {
+    backgroundColor:"#d9534f"
+  },
+  high: {
+    backgroundColor:"#8be2aa"
+  },
+  higer: {
+    backgroundColor:"#71fd03"
+  }
+}
+
+
 class ResultTable extends Component {
   constructor(props) {
     super(props);
     this.state = {
       questions: this.props.questions || [],
-      peerReview: this.props.peerReview || []
+      peerReview: this.props.peerReview || [],
+      advancedView: this.props.peerReview || false,
+      averageData: this.props.averageData || []
     }
 
   }
@@ -36,7 +57,9 @@ class ResultTable extends Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       questions: nextProps.questions,
-      peerReview: nextProps.peerReview
+      peerReview: nextProps.peerReview,
+      advancedView: nextProps.advancedView,
+      averageData: nextProps.averageData
     });
   }
 
@@ -66,11 +89,33 @@ class ResultTable extends Component {
         } else {
           peers.map(peer => {
             const value = this.state.peerReview[peer][index]
-            // console.log(value)
-            answers.push(<td>{value}</td>)
+            if (!this.state.advancedView) {
+              answers.push(<td>{value}</td>);
+            } else {// for advanced view
+              const average = this.state.averageData[peer][index];
+              if (!average) { // doesn't have average scores
+                answers.push(<td>{value}</td>);
+              } else {
+                if (value === average) { // same score
+                  answers.push(<td style={style.same}><strong>{value}</strong> / {average.toFixed(1)}</td>);
+                } else if (value < average){
+                  if (value > (average*0.8) ) {
+                    answers.push(<td style={style.low}><strong>{value}</strong> / {average.toFixed(1)}</td>);
+                  } else {
+                    answers.push(<td style={style.lower}><strong>{value}</strong> / {average.toFixed(1)}</td>);
+                  }
+                } else { //value > average
+                  if (value < (average*1.2) ) {
+                    answers.push(<td style={style.high}><strong>{value}</strong> / {average.toFixed(1)}</td>);
+                  } else {
+                    answers.push(<td style={style.higer}><strong>{value}</strong> / {average.toFixed(1)}</td>);
+                  }
+                }
+              }
+            }
           })
         }
-        return <tr><td>{form.data.question}</td>{answers}</tr>
+        return <tr key={index}><td>{form.data.question}</td>{answers}</tr>
       })
     }
     

@@ -54,38 +54,111 @@ const questionTypes = ["Score", "Comment", "CheckBox", "Number"];
 
 const Props = {
   questionArray: [{
-        id: 1,
-        type: 'Score',
-        data:{
-          from: 1,
-          to: 5,
-          low: "low",
-          high: "high",
-          question: "How often do you interact with this person?"
-        }
-      }, {
-        id: 2,
-        type: 'Comment',
-        data:{
-          question: "Please provide some feedbacks.",
-          type: "Short Answer",
-          require: false
-        }
-      }, {
-        id: 3,
-        type: "CheckBox",
-        data:{
-          question:"Please choose everyone you know",
-          options: ['Andy','Bob']
-        }
-      }, {
-        id: 4,
-        type: 'Number',
-        data:{
-          question:"Please give me a number",
-          require: false
-        }
-      }],
+    "data" : {
+      "from" : 1,
+      "high" : "Frequently",
+      "low" : "Never",
+      "question" : "How often do you interact with this person?",
+      "to" : 5
+    },
+    "id" : 1,
+    "type" : "Score"
+  }, {
+    "data" : {
+      "from" : 1,
+      "high" : "Very Frequently",
+      "low" : "Never",
+      "question" : "How often do you get suggestions/advice from each person?",
+      "to" : 5
+    },
+    "id" : 2,
+    "type" : "Score"
+  }, {
+    "data" : {
+      "from" : 1,
+      "high" : "Frequently",
+      "low" : "Never",
+      "question" : "How often do you give suggestions/advice to each person?",
+      "to" : 5
+    },
+    "id" : 3,
+    "type" : "Score"
+  }, {
+    "data" : {
+      "from" : 1,
+      "high" : "Very Engaged",
+      "low" : "Unengaged",
+      "question" : "Please rate their participation in team meetings/class",
+      "to" : 5
+    },
+    "id" : 4,
+    "type" : "Score"
+  }, {
+    "data" : {
+      "from" : 1,
+      "high" : "Very Engaged",
+      "low" : "Unengaged",
+      "question" : "Please rate their participation in subteam meetings or breakout discussions:",
+      "to" : 5
+    },
+    "id" : 5,
+    "type" : "Score"
+  }, {
+    "data" : {
+      "from" : 1,
+      "high" : "Outstanding",
+      "low" : "Useless",
+      "question" : "How useful is their documentation?",
+      "to" : 5
+    },
+    "id" : 6,
+    "type" : "Score"
+  }, {
+    "data" : {
+      "from" : 1,
+      "high" : "Outstanding",
+      "low" : "Inadequate",
+      "question" : "Rate their quality of work:",
+      "to" : 5
+    },
+    "id" : 7,
+    "type" : "Score"
+  }, {
+    "data" : {
+      "from" : 1,
+      "high" : "Strongly Agree",
+      "low" : "Strongly Disagree",
+      "question" : "This person listens to and communicates well with the team.",
+      "to" : 5
+    },
+    "id" : 8,
+    "type" : "Score"
+  }, {
+    "data" : {
+      "from" : 1,
+      "high" : "Very dependable",
+      "low" : "No, not at all",
+      "question" : "Is this person dependable and reliable?",
+      "to" : 5
+    },
+    "id" : 9,
+    "type" : "Score"
+  }, {
+    "data" : {
+      "question" : "Imagine your team is a company and you are the manager. VIP, Inc. has asked you to divide $10,000 in bonus money among the members of your team. EXCLUDING yourself, decide how the bonus should be divided.",
+      "required" : true
+    },
+    "id" : 10,
+    "type" : "Number"
+  }, {
+    "data" : {
+      "question" : "Commets: Please leave comments on each person below for your instructor(s). Constructive criticism is especially helpful.",
+      "required" : true,
+      "type" : "Long Answer"
+    },
+    "id" : 11,
+    "type" : "Comment"
+  } ],
     date:{
       startDate: '2017-08-18',
       endDate: ''
@@ -401,8 +474,8 @@ export default class QuestionContainer extends Component {
             <FlatButton label = "+ Add" onClick = {this.addQuestion} />
             {
               PeerReviewStore.EditMode
-              ? <FlatButton label = "Preview Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"bottom", float:'right'}}/>
-              : <FlatButton label = "Edit Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"bottom", float:'right'}}/>
+              ? <FlatButton label = "Preview Mode" primary={true} onClick = {this.changeEditMode} style = {{verticalAlign:"bottom", float:'right'}}/>
+              : <FlatButton label = "Edit Mode" primary={true} onClick = {this.changeEditMode} style = {{verticalAlign:"bottom", float:'right'}}/>
             }
           </div>
         </MuiThemeProvider>

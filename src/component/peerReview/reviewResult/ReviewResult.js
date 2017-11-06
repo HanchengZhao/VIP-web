@@ -29,9 +29,12 @@ class ReviewResult extends Component {
       student: "",
       studentList: "",
       reviews: "",
-      reviewList:""
+      reviewList:"",
+      averageData:"",
+      advancedView: false
     }
     //fetch the team options for admin and team for advisor
+    this.changeView = this.changeView.bind(this);
     this.selectTeam = this.selectTeam.bind(this);
     this.selectSemester = this.selectSemester.bind(this);
     this.selectForm = this.selectForm.bind(this);
@@ -53,6 +56,13 @@ class ReviewResult extends Component {
       })
     }
   }
+
+  changeView() {
+    this.setState((prevState) => {
+      return {advancedView: !prevState.advancedView}
+    })
+  }
+
 
   selectTeam(e, index, team) {
     const reviews = this.state.reviews;
@@ -108,7 +118,13 @@ class ReviewResult extends Component {
         studentList: studentList
       })
     })
-    
+    // get average
+    firebase.database().ref("Reviews_average").child(`${team}/${semester}/${formid}`).once('value').then((snap) => {
+      const data = snap.val();
+      this.setState({
+        averageData: data
+      })
+    })
 
   }
   selectStudent(e, index, student) {
@@ -182,10 +198,19 @@ class ReviewResult extends Component {
                 </SelectField>
               </div>
             </Paper>
-            {/* table */}
+            {
+              this.state.advancedView
+              ? <FlatButton label = "Simple View" primary={true} onClick = {this.changeView} style = {{verticalAlign:"bottom"}}/>
+              : <FlatButton label = "Advanced View" primary={true} onClick = {this.changeView} style = {{verticalAlign:"bottom"}}/>
+            }
           </div>
         </MuiThemeProvider> 
-        <ResultTable questions={this.state.formData} peerReview={this.state.reviewList} />
+        <ResultTable 
+          questions={this.state.formData} 
+          peerReview={this.state.reviewList} 
+          advancedView={this.state.advancedView}
+          averageData={this.state.averageData}
+        />
       </div>
     );
   }
