@@ -474,8 +474,8 @@ export default class QuestionContainer extends Component {
             <FlatButton label = "+ Add" onClick = {this.addQuestion} />
             {
               PeerReviewStore.EditMode
-              ? <FlatButton label = "Preview Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"bottom", float:'right'}}/>
-              : <FlatButton label = "Edit Mode" onClick = {this.changeEditMode} style = {{verticalAlign:"bottom", float:'right'}}/>
+              ? <FlatButton label = "Preview Mode" primary={true} onClick = {this.changeEditMode} style = {{verticalAlign:"bottom", float:'right'}}/>
+              : <FlatButton label = "Edit Mode" primary={true} onClick = {this.changeEditMode} style = {{verticalAlign:"bottom", float:'right'}}/>
             }
           </div>
         </MuiThemeProvider>
