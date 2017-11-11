@@ -107,6 +107,7 @@ class ProjectApplication extends Component{
       this.setState((prevState) => {
         return {
           data:prevState.empty,
+          faculty:[],
           open:true
         };
       });
@@ -139,9 +140,14 @@ class ProjectApplication extends Component{
     let index = id[id.length-1];
     id = id.substring(0, id.length-1);
 
+    let obj = this.state.data;
+
     let faculty = this.state.faculty;
     faculty[index][id] = value;
+    obj["faculty"] = faculty;
+
     this.setState({
+      data:obj,
       faculty:faculty
     });
     console.log(this.state.faculty);
