@@ -72,8 +72,6 @@ class PeerReviewPage extends Component {
     return (
       <div>
         <h2 style={{textAlign:"center", color:Secondary}}>PeerReview</h2>
-        <MuiThemeProvider>
-          <Paper zDepth = {1} >
           <div style={{margin:'20px'}}>
               An important component of the VIP team experience is peer-evaluation.  
               Students evaluate classmates with whom they work, with one evaluation at midterms and one at the end of each semester.  
@@ -81,8 +79,6 @@ class PeerReviewPage extends Component {
               Students can only submit peer evaluations during active evaluation periods.  
               Instructors can access evaluations at any time.
           </div>
-          </Paper>
-        </MuiThemeProvider>
         {
           (userStore.role === 'admin' || userStore.role === 'advisor') &&
           <div>
@@ -106,7 +102,7 @@ class PeerReviewPage extends Component {
                       {data.peerReview.context}
                     </CardText>
                       <CardActions>
-                        <Link to={`peer-review/form_list`}><FlatButton label="Learn more" /></Link>                
+                        <Link to={`peer-review/form_list`}><FlatButton label="View forms" /></Link>                
                       </CardActions>
                   </Card>
                 </div>
@@ -127,7 +123,7 @@ class PeerReviewPage extends Component {
                       {data.reviewResult.context}
                     </CardText>
                       <CardActions>
-                        <Link to={`peer-review/review_result`}><FlatButton label="Learn more" /></Link>                
+                        <Link to={`peer-review/review_result`}><FlatButton label="View results" /></Link>                
                       </CardActions>
                   </Card>
                 </div>

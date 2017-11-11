@@ -33,8 +33,13 @@ const style = {
   high: {
     backgroundColor:"#d9ffd6"
   },
-  higer: {
+  higher: {
     backgroundColor:"#71fd03"
+  },
+  colorBlock:{
+    display: "inline-block",
+    width: "2em",
+    height: "1em",
   }
 }
 
@@ -108,7 +113,7 @@ class ResultTable extends Component {
                   if (value < (average*1.2) ) {
                     answers.push(<td style={style.high}><strong>{value}</strong> / {average.toFixed(1)}</td>);
                   } else {
-                    answers.push(<td style={style.higer}><strong>{value}</strong> / {average.toFixed(1)}</td>);
+                    answers.push(<td style={style.higher}><strong>{value}</strong> / {average.toFixed(1)}</td>);
                   }
                 }
               }
@@ -132,7 +137,16 @@ class ResultTable extends Component {
           {resultContent}
         </tbody>
       </table>
-
+      { // explanation
+        this.state.advancedView &&
+        <ul>
+        <li><span style={style.lower}><div style={style.colorBlock}></div></span> : The score is below 0.8 of average that this student gives to others</li>
+        <li><span style={style.low}><div style={style.colorBlock}></div></span> : The score is between 0.8 ~ 1 of average that this student gives to others</li>
+        <li><span style={style.same}><div style={style.colorBlock}></div></span> : The score is the same as average that this student gives to others</li>
+        <li><span style={style.high}><div style={style.colorBlock}></div></span> : The score is between 1 ~ 1.2 of average that this student gave to others</li>
+        <li><span style={style.higher}><div style={style.colorBlock}></div></span> : The score is above 1.2 of average that this student gave to others</li>
+      </ul>  
+      }
       </div>
     );
   }

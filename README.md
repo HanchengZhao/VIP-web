@@ -107,7 +107,10 @@
 * Peer Review Submission
     ![submission](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2Fsubmission.png?alt=media&token=1999603c-9938-487f-8b9b-9dd8b613fcd4)
 * Peer Review Result
+    * Simple view
     ![result](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2FpeerReviewResult.png?alt=media&token=0f8ba7df-0ee8-424c-b4c0-392c02a9dbe2)
+    * Advanced analysis
+    ![advanced analysis](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2Fadvanced%20view.png?alt=media&token=ee41306a-8d6e-4d32-b4b0-f420961a768e)
 * Project Page
     ![project page](https://firebasestorage.googleapis.com/v0/b/peer-review-25758.appspot.com/o/screenshots%2FprojectPage.png?alt=media&token=bfcfa12a-42d5-4ac6-9bcb-9d93bb97ee08)
 * Project List
