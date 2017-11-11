@@ -25,13 +25,13 @@ const style = {
     backgroundColor:"#ffffff"
   },
   low: {
-    backgroundColor:"#ffd200"
+    backgroundColor:"#fafec0"
   },
   lower: {
-    backgroundColor:"#d9534f"
+    backgroundColor:"#e49693"
   },
   high: {
-    backgroundColor:"#8be2aa"
+    backgroundColor:"#d9ffd6"
   },
   higer: {
     backgroundColor:"#71fd03"
