@@ -58,6 +58,19 @@ class ProjectApprovalCard extends Component {
       email:application.leadFacultyEmail,
       role:"advisor",
     });
+    if(application["faculty"]){
+      application["faculty"].foreach((faculty)=>{
+        advisorRef.push({
+          email:faculty.email,
+          name:faculty.name,
+          team:application.teamName
+        });
+        userRef.push({
+          email:faculty.email,
+          role:'advisor'
+        });
+      });
+    }
   }
 
   handleReject = () => {
