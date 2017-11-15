@@ -58,6 +58,19 @@ class ProjectApprovalCard extends Component {
       email:application.leadFacultyEmail,
       role:"advisor",
     });
+    if(application["faculty"]){
+      application["faculty"].foreach((faculty)=>{
+        advisorRef.push({
+          email:faculty.email,
+          name:faculty.name,
+          team:application.teamName
+        });
+        userRef.push({
+          email:faculty.email,
+          role:'advisor'
+        });
+      });
+    }
   }
 
   handleReject = () => {
@@ -94,13 +107,25 @@ class ProjectApprovalCard extends Component {
       <FlatButton label="Yes" onClick = {this.handleReject}/>
     ];
    let data = Object.keys(this.state.application).map((key) => {
+     if(key === "faculty"){
+       return;
+     }
       return(
         <div key = {key}>
           <h3>{key.split(/(?=[A-Z])/).join(" ")}</h3>
           <p>{this.state.application[key]}</p>
         </div>
       );
-    })
+    });
+
+    let faculty_section;
+    if(this.state.application['faculty']){
+      faculty_section  = this.state.application['faculty'].map((faculty)=>{
+        return(<div>
+          <p>{faculty.name}, {faculty.email}, {faculty.degree}, {faculty.title}, {faculty.unit}</p>
+        </div>);
+      });
+    }
 
     return(
       <div>
@@ -116,6 +141,10 @@ class ProjectApprovalCard extends Component {
               </CardMedia>
               <CardText expandable = {true}>
                 {data}
+                {this.state.application["faculty"] &&
+                  <h3>Faculty</h3>
+                }
+                {faculty_section}
               </CardText>
               <CardActions style = {style.actions}>
                 <MuiButton label = "Deny" color = {DeleteColor} onClick = {this.sendPopup}/>

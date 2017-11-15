@@ -36,8 +36,13 @@ class ProjectApplication extends Component{
         empty:{},
         data:{},
         error:{},
-        open:false
+        open:false,
+        faculty:[]
       };
+
+      this.addFaculty = this.addFaculty.bind(this);
+      this.changeFaculty = this.changeFaculty.bind(this);
+      this.removeFaculty = this.removeFaculty.bind(this);
     }
 
     componentDidMount() {
@@ -102,6 +107,7 @@ class ProjectApplication extends Component{
       this.setState((prevState) => {
         return {
           data:prevState.empty,
+          faculty:[],
           open:true
         };
       });
@@ -113,9 +119,68 @@ class ProjectApplication extends Component{
 
   }
 
+  addFaculty(){
+    let faculty = this.state.faculty;
+    let newFaculty = {
+      email:'',
+      name:'',
+      degree:'',
+      title:'',
+      unit:'',
+    }
+    faculty.push(newFaculty);
+    console.log(faculty);
+    this.setState({
+      faculty:faculty
+    });
+  }
+
+  changeFaculty(event, value){
+    let id = event.target.id;
+    let index = id[id.length-1];
+    id = id.substring(0, id.length-1);
+
+    let obj = this.state.data;
+
+    let faculty = this.state.faculty;
+    faculty[index][id] = value;
+    obj["faculty"] = faculty;
+
+    this.setState({
+      data:obj,
+      faculty:faculty
+    });
+    console.log(this.state.faculty);
+  }
+
+  removeFaculty(index){
+    let faculty = this.state.faculty
+    faculty.splice(index, 1);
+    this.setState({
+      faculty:faculty
+    });
+  }
+
 	render(){
     let questionsArray = this.state.questionsArray;
     //alert(JSON.stringify(questionsArray));
+    let faculty = this.state.faculty.map((faculty, index)=>{
+      return (<div className = "row" key = {index}>
+        <h3 style = {{color:'#b2b2b2'}}>faculty {index + 1}
+          <i className = "glyphicon glyphicon-remove" 
+            id = {index} 
+            onClick = {()=>this.removeFaculty(index)} 
+            style = {{display:'inline-block', cursor:'pointer',fontSize: '1.5em', textAlign:'right'}}/>
+        </h3>
+        <br />
+        <TextField floatingLabelText = "email" id = {"email"+index} onChange = {this.changeFaculty} /><br />
+        <TextField floatingLabelText = "name" id = {"name"+index}  onChange = {this.changeFaculty} /><br />
+        <TextField floatingLabelText = "degree" id = {"degree"+index} onChange = {this.changeFaculty} /><br />
+        <TextField floatingLabelText = "title" id = {"title"+index} onChange = {this.changeFaculty} /><br />
+        <TextField floatingLabelText = "unit" id = {"unit"+index} onChange = {this.changeFaculty} /><br />
+        
+      </div>);
+    });
 		return (
 		<div>
 		  <MuiThemeProvider>
@@ -147,7 +212,14 @@ class ProjectApplication extends Component{
                     onChange={ this.handleChange}/><br /></div>)}))
                     : (<h2>Loading..</h2>) }                
                 </div>
+                  {faculty}
                 </div>
+                <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+                  <div>
+                    <RaisedButton label="add faculty"  style={style} backgroundColor={Primary} onClick={this.addFaculty}/>
+                    <br />
+                  </div>
+                </MuiThemeProvider>
               </Card><br/>
               <div style={{margin:"auto",textAlign:"center"}}>
                 <ASUTeamLogoUpload childdata = {this.getdata}/>             

@@ -62,8 +62,9 @@ class ProjectPage extends Component {
 
   render() {
     let faculty;
+    let otherFaculty;
     let data = Object.keys(this.state.data).reverse().map((key) => {
-      if(this.state.data[key]==='' || key === 'logo' || key === 'teamName' || key === 'subtitle' || key.substring(0, 4)==="lead"){
+      if(this.state.data[key]==='' || key === 'logo' || key === 'teamName' || key === 'subtitle' || key.substring(0, 4)==="lead" || key === "faculty"){
         return;
       }
       return(
@@ -78,6 +79,15 @@ class ProjectPage extends Component {
         let index = this.state.faculty["leadFacultyName"].indexOf(key);
         return(<h4>{this.state.faculty['leadFacultyName'][index]}, {this.state.faculty['leadFacultyDegree'][index]}, {this.state.faculty['leadFacultyAcademicTitle'][index]}, {this.state.faculty['leadFacultyAcademicUnit'][index]}, {this.state.faculty['leadFacultyEmail'][index]}</h4>)
     });
+    if(this.state.data["faculty"]){
+      otherFaculty = this.state.data["faculty"].map((facultMember)=>{
+        return(
+          <div>
+            <h4>{facultMember.name}, {facultMember.degree}, {facultMember.title}, {facultMember.unit}, {facultMember.email} </h4>
+          </div>
+        );
+      });
+    }
     }
 
 
@@ -99,8 +109,10 @@ class ProjectPage extends Component {
                 <h2 className = "title" style = {{color:Secondary}}><strong>{this.state.data.subtitle}</strong></h2>
                 <img src = {this.state.data.logo || VIP} style = {{maxWidth:'500px', float:'right'}}/>
                 {data}
-                <h2 style = {{color:Primary, marginBottom:'50px', marginTop:'50px'}}><strong>Faculty</strong></h2>
+                <h2 style = {{color:Primary, marginBottom:'50px', marginTop:'50px'}}><strong>Lead Faculty</strong></h2>
                 {faculty}
+                <h2 style = {{color:Primary, marginBottom:'50px', marginTop:'50px'}}><strong>Other Faculty</strong></h2>
+                {otherFaculty}
                 {(userStore.authed === true) &&
                   <div className="row">
                   <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
