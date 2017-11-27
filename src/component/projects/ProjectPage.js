@@ -102,7 +102,7 @@ class ProjectPage extends Component {
       <div className = "row">
         <MuiThemeProvider>
           <div>
-            <Paper zDepth={2} style = {{margin:'20px'}}>
+            <Paper zDepth={0} style = {{margin:'20px'}}>
               {this.state.data &&
               <div style = {{padding:'20px'}}>
                 <h1 className = "title" style = {{color:Secondary}}><strong>{this.state.data.title || this.state.data.teamName}</strong></h1>

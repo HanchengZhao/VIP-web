@@ -44,8 +44,8 @@ class Header extends Component {
                 <div>
                   <div data-toggle="collapse" data-target=".navHeaderCollapse" className="visible-xs row" > 
                     <Link to="/"><FlatButton label="Home" className="menuBarButton" fullWidth={true}/></Link>
-                    <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton" fullWidth={true}/></Link>
-                    <Link to="/projects"><FlatButton label="Projects" className="menuBarButton" fullWidth={true}/></Link>
+                    {/* <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton" fullWidth={true}/></Link> */}
+                    {/* <Link to="/projects"><FlatButton label="Projects" className="menuBarButton" fullWidth={true}/></Link> */}
                       <a className="dropdown">
                         <FlatButton data-toggle="dropdown" label="Faculty Resource" labelPosition="before" icon={<span className="caret"></span>} className="menuBarButton dropdown-toggle" fullWidth={true}/>
                         <div className="dropdown-menu">
@@ -60,8 +60,8 @@ class Header extends Component {
                   </div>
                   <div className="hidden-xs"> 
                     <Link to="/"><FlatButton label="Home" className="menuBarButton" /></Link>
-                    <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link>
-                    <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link>
+                    {/* <Link to="/announcement"><FlatButton label="Announcements" className="menuBarButton"/></Link> */}
+                    {/* <Link to="/projects"><FlatButton label="Projects" className="menuBarButton"/></Link> */}
                     <Link to="/peer-review"><FlatButton label="Peer Review" className="menuBarButton"/></Link>
                     <a className="dropdown">
                       <FlatButton data-toggle="dropdown" label="Faculty Resource" labelPosition="before" icon={<span className="caret"></span>} className="menuBarButton dropdown-toggle"/>

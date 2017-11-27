@@ -5,13 +5,12 @@ import FlatButton from 'material-ui/FlatButton';
 import Vip_logo from '../../assets/Vip_logo.png';
 import Primary, {Secondary} from '../../Theme';
 
-import { Link, Route } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const style = {
   card: {
     paddingBottom: "10px",
-    margin: "10px",
-    height: "340px"
+    margin: "10px"
   },
   cardMedia:{
     height: "100px",
@@ -19,9 +18,10 @@ const style = {
   title: {
     textAlign : 'left',
     fontSize: '1.3em',
-    height: "50px",
+    marginBottom: "10px",
     overflow: "hidden",
     textOverflow:"ellipsis",
+    textDecoration: "underline dotted",
     color: Secondary
   },
   subtitle: {
@@ -30,7 +30,6 @@ const style = {
     height: "50px",
     overflow: "hidden",
     textOverflow:"ellipsis",
-    color: Primary
   },
   cardText: {
     overflow: "hidden",
@@ -49,12 +48,12 @@ class ProjectCard extends Component {
     render () {
       return (
         <MuiThemeProvider>
-          <div className="col-md-4" style={{marginBottom:"10px"}}>
-          <Card style={style.card}>
+          <div className="col-md-12" style={{marginBottom:"10px"}}>
+          <Card style={style.card} zDepth={0}>
             <Link to={`projects/${this.props.fbkey}`}>
               <CardHeader
                 title={this.props.project.teamName}
-                subtitle={this.props.project.subtitle}
+                subtitle={this.props.project.projectDescription}
                 actAsExpander={false}
                 showExpandableButton={false}
                 titleStyle = {style.title}
@@ -67,15 +66,15 @@ class ProjectCard extends Component {
               :<img src={Vip_logo} alt="" style = {style.cardMedia}/>
               }
             </CardMedia> */}
-              <CardText expandable={false} style={style.cardText}>
+              {/* <CardText expandable={false} style={style.cardText}>
               {this.props.project.logo
                 ?<img src={this.props.project.logo} alt="" style = {style.cardMedia}/>
                 :<img src={Vip_logo} alt="" style = {style.cardMedia}/>
                 }
-              </CardText>
-              <CardActions>
+              </CardText> */}
+              {/* <CardActions>
                 <Link to={`projects/${this.props.fbkey}`}><FlatButton label="Learn more" /></Link>                
-              </CardActions>
+              </CardActions> */}
           </Card>
           </div>
         </MuiThemeProvider>

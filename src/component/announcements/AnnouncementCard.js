@@ -12,7 +12,7 @@ const style = {
   card: {
     paddingBottom: "10px",
     margin: "10px",
-    height: "500px"
+    height: "500px",
   },
   cardMedia:{
     height: "100px"
@@ -39,7 +39,7 @@ class AnnouncementCard extends Component {
       return (
         <MuiThemeProvider>
           <div className="col-md-6" style={{marginBottom:"10px"}}>
-          <Card style={style.card}>
+          <Card style={style.card} zDepth={0}>
             <Link to={`announcement/${this.props.fbkey}`}>
               <CardHeader
                 title={<h4>{this.props.announcement.title}</h4>}
