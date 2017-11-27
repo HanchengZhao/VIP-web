@@ -37,12 +37,23 @@ class ProjectApplication extends Component{
         data:{},
         error:{},
         open:false,
-        faculty:[]
+        faculty:[],
+        industryPeople:[],
+        contactPeople:[]
       };
 
       this.addFaculty = this.addFaculty.bind(this);
       this.changeFaculty = this.changeFaculty.bind(this);
       this.removeFaculty = this.removeFaculty.bind(this);
+
+      this.addContact = this.addContact.bind(this);
+      this.removeContact = this.removeContact.bind(this);
+      this.changeContact = this.changeContact.bind(this);
+
+      this.addIndustry = this.addIndustry.bind(this);
+      this.removeIndustry = this.removeIndustry.bind(this);
+      this.changeIndustry = this.changeIndustry.bind(this);
+
     }
 
     componentDidMount() {
@@ -129,9 +140,32 @@ class ProjectApplication extends Component{
       unit:'',
     }
     faculty.push(newFaculty);
-    console.log(faculty);
     this.setState({
       faculty:faculty
+    });
+  }
+
+  addIndustry(){
+    let industryPeople = this.state.industryPeople;
+    let newPerson = {
+      email:'',
+      name:'',
+    }
+    industryPeople.push(newPerson);
+    this.setState({
+      industryPeople:industryPeople
+    });
+  }
+
+  addContact(){
+    let Contact = this.state.contactPeople;
+    let newContact = {
+      email:'',
+      name:'',
+    }
+    Contact.push(Contact);
+    this.setState({
+      contactPeople:Contact
     });
   }
 
@@ -150,7 +184,40 @@ class ProjectApplication extends Component{
       data:obj,
       faculty:faculty
     });
-    console.log(this.state.faculty);
+  }
+
+  changeContact(event, value){
+    let id = event.target.id;
+    let index = id[id.length-1];
+    id = id.substring(0, id.length-1);
+
+    let obj = this.state.data;
+
+    let Contact = this.state.contactPeople;
+    Contact[index][id] = value;
+    obj["contact"] = Contact;
+
+    this.setState({
+      data:obj,
+      contactPeople:Contact
+    });
+  }
+
+  changeIndustry(event, value){
+    let id = event.target.id;
+    let index = id[id.length-1];
+    id = id.substring(0, id.length-1);
+
+    let obj = this.state.data;
+
+    let Industry = this.state.industryPeople;
+    Industry[index][id] = value;
+    obj["industry"] = Industry;
+
+    this.setState({
+      data:obj,
+      industryPeople:Industry
+    });
   }
 
   removeFaculty(index){
@@ -158,6 +225,22 @@ class ProjectApplication extends Component{
     faculty.splice(index, 1);
     this.setState({
       faculty:faculty
+    });
+  }
+
+  removeContact(index){
+    let Contact = this.state.contactPeople
+    Contact.splice(index, 1);
+    this.setState({
+      contactPeople:Contact
+    });
+  }
+
+  removeIndustry(index){
+    let Industry = this.state.industryPeople;
+    Industry.splice(index, 1);
+    this.setState({
+      industryPeople:Industry
     });
   }
 
@@ -170,7 +253,7 @@ class ProjectApplication extends Component{
           <i className = "glyphicon glyphicon-remove" 
             id = {index} 
             onClick = {()=>this.removeFaculty(index)} 
-            style = {{display:'inline-block', cursor:'pointer',fontSize: '1.5em', textAlign:'right'}}/>
+            style = {{display:'inline-block', cursor:'pointer',fontSize: '1.2em', textAlign:'right'}}/>
         </h3>
         <br />
         <TextField floatingLabelText = "email" id = {"email"+index} onChange = {this.changeFaculty} /><br />
@@ -179,6 +262,34 @@ class ProjectApplication extends Component{
         <TextField floatingLabelText = "title" id = {"title"+index} onChange = {this.changeFaculty} /><br />
         <TextField floatingLabelText = "unit" id = {"unit"+index} onChange = {this.changeFaculty} /><br />
         
+      </div>);
+    });
+
+    let Contact = this.state.contactPeople.map((contact, index)=>{
+      return (<div className = "row" key = {index}>
+        <h3 style = {{color:'#b2b2b2'}}>Contact Person {index + 1}
+          <i className = "glyphicon glyphicon-remove" 
+            id = {index} 
+            onClick = {()=>this.removeFaculty(index)} 
+            style = {{display:'inline-block', cursor:'pointer',fontSize: '1.0em', textAlign:'right'}}/>
+        </h3>
+        <br />
+        <TextField floatingLabelText = "email" id = {"email"+index} onChange = {this.changeContact} /><br />
+        <TextField floatingLabelText = "name" id = {"name"+index}  onChange = {this.changeContact} /><br />
+      </div>);
+    });
+
+    let Industry = this.state.industryPeople.map((industry, index)=>{
+      return (<div className = "row" key = {index}>
+        <h3 style = {{color:'#b2b2b2'}}>Industry Person {index + 1}
+          <i className = "glyphicon glyphicon-remove" 
+            id = {index} 
+            onClick = {()=>this.removeFaculty(index)} 
+            style = {{display:'inline-block', cursor:'pointer',fontSize: '1.0em', textAlign:'right'}}/>
+        </h3>
+        <br />
+        <TextField floatingLabelText = "email" id = {"email"+index} onChange = {this.changeContact} /><br />
+        <TextField floatingLabelText = "name" id = {"name"+index}  onChange = {this.changeContact} /><br />
       </div>);
     });
 		return (
@@ -213,10 +324,14 @@ class ProjectApplication extends Component{
                     : (<h2>Loading..</h2>) }                
                 </div>
                   {faculty}
+                  {Contact}
+                  {Industry}
                 </div>
                 <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                   <div>
                     <RaisedButton label="add faculty"  style={style} backgroundColor={Primary} onClick={this.addFaculty}/>
+                    <RaisedButton label="add contact person"  style={style} backgroundColor={Primary} onClick={this.addContact}/>
+                    <RaisedButton label="add industry person"  style={style} backgroundColor={Primary} onClick={this.addIndustry}/>
                     <br />
                   </div>
                 </MuiThemeProvider>
