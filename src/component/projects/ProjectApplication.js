@@ -109,6 +109,7 @@ class ProjectApplication extends Component{
 
 
   firebasewrite = () => {
+    console.log(this.state.data);
     let empty = checkEmpty(this.state.error, this.state.data, this.state.data.leadFacultyEmail, this.state.notIncluded);
     if(empty[0]){
       if(`${db}`==='Team Application'){
@@ -119,7 +120,9 @@ class ProjectApplication extends Component{
         return {
           data:prevState.empty,
           faculty:[],
-          open:true
+          open:true,
+          contactPeople:[],
+          industryPeople:[]
         };
       });
     }
@@ -163,7 +166,7 @@ class ProjectApplication extends Component{
       email:'',
       name:'',
     }
-    Contact.push(Contact);
+    Contact.push(newContact);
     this.setState({
       contactPeople:Contact
     });
@@ -209,8 +212,9 @@ class ProjectApplication extends Component{
     id = id.substring(0, id.length-1);
 
     let obj = this.state.data;
-
+    
     let Industry = this.state.industryPeople;
+
     Industry[index][id] = value;
     obj["industry"] = Industry;
 
@@ -270,7 +274,7 @@ class ProjectApplication extends Component{
         <h3 style = {{color:'#b2b2b2'}}>Contact Person {index + 1}
           <i className = "glyphicon glyphicon-remove" 
             id = {index} 
-            onClick = {()=>this.removeFaculty(index)} 
+            onClick = {()=>this.removeContact(index)} 
             style = {{display:'inline-block', cursor:'pointer',fontSize: '1.0em', textAlign:'right'}}/>
         </h3>
         <br />
@@ -284,12 +288,12 @@ class ProjectApplication extends Component{
         <h3 style = {{color:'#b2b2b2'}}>Industry Person {index + 1}
           <i className = "glyphicon glyphicon-remove" 
             id = {index} 
-            onClick = {()=>this.removeFaculty(index)} 
+            onClick = {()=>this.removeIndustry(index)}
             style = {{display:'inline-block', cursor:'pointer',fontSize: '1.0em', textAlign:'right'}}/>
         </h3>
         <br />
-        <TextField floatingLabelText = "email" id = {"email"+index} onChange = {this.changeContact} /><br />
-        <TextField floatingLabelText = "name" id = {"name"+index}  onChange = {this.changeContact} /><br />
+        <TextField floatingLabelText = "email" id = {"email"+index} onChange = {this.changeIndustry} /><br />
+        <TextField floatingLabelText = "name" id = {"name"+index}  onChange = {this.changeIndustry} /><br />
       </div>);
     });
 		return (

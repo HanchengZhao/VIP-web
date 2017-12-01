@@ -107,7 +107,7 @@ class ProjectApprovalCard extends Component {
       <FlatButton label="Yes" onClick = {this.handleReject}/>
     ];
    let data = Object.keys(this.state.application).map((key) => {
-     if(key === "faculty"){
+     if(key === "faculty" || key === "contact" || key === "industry" || key.substring(0, 4)==="lead" ){
        return;
      }
       return(
@@ -118,6 +118,8 @@ class ProjectApprovalCard extends Component {
       );
     });
 
+    let leadFaculty = <p> {this.state.application["leadFacultyDegree"]}, {this.state.application["leadFacultyName"]}, {this.state.application["leadFacultyEmail"]}, {this.state.application["leadFacultyAcademicUnit"]}, {this.state.application["leadFacultyAcademicTitle"]}</p>;
+
     let faculty_section;
     if(this.state.application['faculty']){
       faculty_section  = this.state.application['faculty'].map((faculty)=>{
@@ -126,6 +128,26 @@ class ProjectApprovalCard extends Component {
         </div>);
       });
     }
+
+    let contact_section;
+    if(this.state.application['contact']){
+      contact_section  = this.state.application['contact'].map((contact)=>{
+        return(<div>
+          <p>{contact.name}, {contact.email}</p>
+        </div>);
+      });
+    }
+
+    let industry_section;
+    if(this.state.application['industry']){
+      industry_section  = this.state.application['industry'].map((industry)=>{
+        return(<div>
+          <p>{industry.name}, {industry.email}</p>
+        </div>);
+      });
+    }
+
+
 
     return(
       <div>
@@ -140,11 +162,21 @@ class ProjectApprovalCard extends Component {
                 <img src={this.state.application.logo} alt="Image Logo for team" />
               </CardMedia>
               <CardText expandable = {true}>
+                <h3>Lead Faculty</h3>
+                {leadFaculty}
                 {data}
                 {this.state.application["faculty"] &&
                   <h3>Faculty</h3>
                 }
                 {faculty_section}
+                {this.state.application["contact"] &&
+                  <h3>Contact</h3>
+                }
+                {contact_section}
+                {this.state.application["industry"] &&
+                  <h3>Industry</h3>
+                }
+                {industry_section}
               </CardText>
               <CardActions style = {style.actions}>
                 <MuiButton label = "Deny" color = {DeleteColor} onClick = {this.sendPopup}/>

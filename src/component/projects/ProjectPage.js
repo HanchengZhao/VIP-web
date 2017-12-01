@@ -63,8 +63,10 @@ class ProjectPage extends Component {
   render() {
     let faculty;
     let otherFaculty;
+    let Industry;
+    let Contact;
     let data = Object.keys(this.state.data).reverse().map((key) => {
-      if(this.state.data[key]==='' || key === 'logo' || key === 'teamName' || key === 'subtitle' || key.substring(0, 4)==="lead" || key === "faculty"){
+      if(this.state.data[key]==='' || key === 'logo' || key === 'teamName' || key === 'subtitle' || key.substring(0, 4)==="lead" || key === "faculty" || key === "contact" || key === "industry"){
         return;
       }
       return(
@@ -89,6 +91,24 @@ class ProjectPage extends Component {
       });
     }
     }
+    if(this.state.data["contact"]){
+      Contact = this.state.data["contact"].map((contact)=>{
+        return(
+          <div>
+            <h4>{contact.name}, {contact.email} </h4>
+          </div>
+        );
+      });
+    }
+    if(this.state.data["industry"]){
+      Industry = this.state.data["industry"].map((industry)=>{
+        return(
+          <div>
+            <h4>{industry.name}, {industry.email} </h4>
+          </div>
+        );
+      });
+    }
 
 
      const actions = [
@@ -111,8 +131,24 @@ class ProjectPage extends Component {
                 {data}
                 <h2 style = {{color:Primary, marginBottom:'50px', marginTop:'50px'}}><strong>Lead Faculty</strong></h2>
                 {faculty}
-                <h2 style = {{color:Primary, marginBottom:'50px', marginTop:'50px'}}><strong>Other Faculty</strong></h2>
-                {otherFaculty}
+                {this.state.data['faculty'] &&
+                  <div>
+                    <h2 style = {{color:Primary, marginBottom:'50px', marginTop:'50px'}}><strong>Other Faculty</strong></h2>
+                    {otherFaculty}
+                  </div>
+                }
+                {this.state.data['contact'] &&
+                  <div>
+                    <h2 style = {{color:Primary, marginBottom:'50px', marginTop:'50px'}}><strong>Contact People</strong></h2>
+                    {Contact}
+                  </div>
+                }
+                {this.state.data['industry'] &&
+                  <div>
+                    <h2 style = {{color:Primary, marginBottom:'50px', marginTop:'50px'}}><strong>Industry People</strong></h2>
+                    {Industry}
+                  </div>
+                }
                 {(userStore.authed === true) &&
                   <div className="row">
                   <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
