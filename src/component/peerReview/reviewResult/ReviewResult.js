@@ -31,7 +31,7 @@ class ReviewResult extends Component {
       reviews: "",
       reviewList:"",
       averageData:"",
-      advancedView: false
+      advancedView: true
     }
     //fetch the team options for admin and team for advisor
     this.changeView = this.changeView.bind(this);

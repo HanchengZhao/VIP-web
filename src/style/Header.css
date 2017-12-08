@@ -50,6 +50,9 @@
     .navHeaderCollapse {
       margin-top: -1px;
     }
+    #asu_mobile_menu {
+        display: none;
+    }
 }
 
 @media screen and (max-width:796px) {
@@ -620,4 +623,12 @@ Navbar and MateralUI CSS Edits
 #asu_search_module>form>label {
     position: absolute;
     left: -999999px;
+}
+
+/* fixed */
+.navbar-static-top{
+    z-index: 10;
+}
+.dropdown-menu{
+    background-color: #353535 !important;
 }
