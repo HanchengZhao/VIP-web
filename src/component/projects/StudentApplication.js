@@ -71,8 +71,8 @@ class StudentApplication extends Component{
           let empty = {};
           let notIncluded = this.state.notIncluded;
           Object.keys(snap.val()).forEach((i)=>{
-            data[snap.val()[i].id] = ''
-            empty[snap.val()[i].id] = ''
+            data[snap.val()[i].id] = '';
+            empty[snap.val()[i].id] = '';
             if(!snap.val()[i].required) {
               notIncluded.push(snap.val()[i].id);
             }
@@ -134,23 +134,23 @@ class StudentApplication extends Component{
     }
 
     handleChange = (event) => {
-    var str = event.target.id;
-    var res = str.split("-");
-    var key = res[2].charAt(0).toLowerCase() + res[2].slice(1);
-    var val = event.target.value;
-    var obj  = this.state.data;
-    obj[key] = val;
-    if(key==="topics") {
-     var str = event.target.value;
-     var res=str.split(",");
-     this.setState({
-        topics : res,
-      })
+      console.log("YOYOY");
+      console.log(event.target.id);
+      let key = event.target.id;
+      let val = event.target.value;
+      let obj  = this.state.data;
+      obj[key] = val;
+      if(key==="topics") {
+        var str = event.target.value;
+        var res=str.split(",");
+        this.setState({
+            topics : res,
+          })
+      }
+      else {
+          this.setState(obj);
+      }
     }
-    else {
-        this.setState(obj);
-    }
-  }
 
   firebasewrite = () => {
     
@@ -173,7 +173,6 @@ class StudentApplication extends Component{
           this.state.data
       );
       }
-      console.log("ran");
       
       this.setState({
           id:'',
@@ -214,6 +213,7 @@ class StudentApplication extends Component{
                           <TextField
                           value = {this.state.data[questionsArray[id].id]}
                           floatingLabelText={questionsArray[id].text}
+                          id = {questionsArray[id].id}
                           errorText={this.state.errorText}
                           onChange={ this.handleChange}/><br /></div>)
                     }
@@ -222,6 +222,7 @@ class StudentApplication extends Component{
                     <TextField
                       value = {this.state.data[questionsArray[id].id]}
                       floatingLabelText={questionsArray[id].text}
+                      id = {questionsArray[id].id}
                       errorText={this.state.error[questionsArray[id].id]}
                       onChange={ this.handleChange}/><br/>
                   </div>)}))
