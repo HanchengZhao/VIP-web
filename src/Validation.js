@@ -15,13 +15,14 @@ export const checkEmpty = (error, project, email, notIncluded) => {
     let emailMessage = '';
     Object.keys(project).forEach((i) =>{
       if(!notIncluded.includes(i)){
-      if(!(project[i])) {
-        error[i] = 'This Field is Required';
-        temp.push(false);
-      }else{
-        error[i] = '';
-        temp.push(true);
-      }
+        if(!(project[i])) {
+          error[i] = 'This Field is Required';
+          console.log(i);
+          temp.push(false);
+        }else{
+          error[i] = '';
+          temp.push(true);
+        }
       }
     });
     if(!Validation(email)){

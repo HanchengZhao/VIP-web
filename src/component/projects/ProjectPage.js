@@ -104,7 +104,7 @@ class ProjectPage extends Component {
       Industry = this.state.data["industry"].map((industry)=>{
         return(
           <div>
-            <h4>{industry.name}, {industry.email} </h4>
+            <h4>{industry.name}, {industry.email}, {industry.degree}, {industry.title}, {industry.companyname} </h4>
           </div>
         );
       });
@@ -154,7 +154,7 @@ class ProjectPage extends Component {
                   <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                     <div>
                     <Link to={`${this.state.fbkey}/apply`}>
-                      <RaisedButton label = "apply" id = "applyButton" backgroundColor = {Primary} style = {{float: "right", margin:"10px"}}/>
+                      <RaisedButton label = "Apply / Inquire" id = "applyButton" backgroundColor = {Primary} style = {{float: "right", margin:"10px"}}/>
                     </Link>
                     </div>
                   </MuiThemeProvider>

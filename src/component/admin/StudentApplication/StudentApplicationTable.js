@@ -194,16 +194,11 @@ class StudentApplicationTable extends Component {
         <h1 style={{textAlign:'center'}}>Student Applicants</h1>
         <ReactDataGrid
           rowKey="id"
-          onGridSort={this.handleGridSort}
           enableCellSelect={true}
           columns={this.state.columns}
           rowGetter={this.rowGetter}
           rowsCount={this.getSize()}
           minHeight={400}
-          toolbar={<Toolbar enableFilter={true}/>}
-          onAddFilter={this.handleFilterChange}
-          onClearFilters={this.onClearFilters} 
-          onGridRowsUpdated={this.handleGridRowsUpdated}
           rowSelection={{
             showCheckbox: true,
             onRowsSelected: this.onRowsSelected,

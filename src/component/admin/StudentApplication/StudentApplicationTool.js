@@ -36,9 +36,11 @@ class StudentApplicationTool extends Component {
       let rejectedStudents = {};
       if(this.state.semester) {
         Object.keys(snap.val()).forEach((element)=>{
-          Object.keys(snap.val()[element][this.state.semester]).forEach((student)=>{
-            rejectedStudents[student] = snap.val()[element][this.state.semester][student];
-          });
+          if(snap.val()[element][this.state.semester]){
+            Object.keys(snap.val()[element][this.state.semester]).forEach((student)=>{
+              rejectedStudents[student] = snap.val()[element][this.state.semester][student];
+            });
+          }
         });
       }
       if(!!snap) {

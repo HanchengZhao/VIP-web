@@ -6,6 +6,12 @@ import CsvUpload from '../../CsvUpload';
 
 const studentRef = 'Students';
 
+const style = {
+  empty:{
+    textAlign:'center'
+  }
+}
+
 class RosterTool extends Component {
   constructor() {
     super();
@@ -45,9 +51,11 @@ class RosterTool extends Component {
     let semesterRoster = {};
     if(this.state.roster){
       Object.keys(this.state.roster).forEach((team) => {
-        Object.keys(this.state.roster[team][this.state.semester]).forEach((student)=>{
-          semesterRoster[student] = this.state.roster[team][this.state.semester][student];
-        });
+        if(this.state.roster[team][this.state.semester]){
+          Object.keys(this.state.roster[team][this.state.semester]).forEach((student)=>{
+            semesterRoster[student] = this.state.roster[team][this.state.semester][student];
+          });
+        }
       });
       this.setState({currentRoster:semesterRoster});
     }
@@ -59,8 +67,9 @@ class RosterTool extends Component {
   render() {
     return (
       <div>
-        {!_.isEmpty(this.state.currentRoster) && this.state.semester && this.state.roster &&
-          <RosterTable roster = {this.state.currentRoster}/>
+        {!_.isEmpty(this.state.currentRoster) && this.state.semester && this.state.roster
+          ?<RosterTable roster = {this.state.currentRoster}/>
+          :<h3 style = {style.empty}>This Semesters Roster is Currently Empty.</h3>
         }
         <CsvUpload />
       </div>

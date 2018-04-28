@@ -47,7 +47,7 @@ class StudentApplication extends Component{
         semester:'',
         creditOptions:[],
         value:"default",
-        notIncluded:['fbkey', 'errorText','error','other', 'course', 'credits']
+        notIncluded:['fbkey', 'errorText','error','other', 'course', 'credits', 'semester']
       };
       this.handleMenuChange = this.handleMenuChange.bind(this);    
       this.handleCreditChange = this.handleCreditChange.bind(this);

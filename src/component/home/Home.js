@@ -34,6 +34,9 @@ class Home extends Component {
     return(
       <div>
         <Card style={style.card} zDepth = {0}>
+        <div style = {{display:'flex', justifyContent:'flex-start'}}>
+          <h1 style={style.cardHeader}>Login to inquire about a project or to Apply. Faculty who want to propose a project, please contact  VIP Office.</h1>
+        </div>
         <img src = {logo} style = {style.image}/>
         <h1 style={style.cardHeader}>What is VIP?</h1>
           <p style = {style.font}>VIP at ASU capitalizes on the interests of undergraduates to engage in ongoing scientific research. Beginning as freshmen or sophomores, teams collaborate with upperclassmen and graduate students to address real problems guided by faculty scientists. Students earn academic or honors credits over 4 years.</p>

@@ -153,6 +153,9 @@ class ProjectApplication extends Component{
     let newPerson = {
       email:'',
       name:'',
+      degree:'',
+      title:'',
+      companyname:'',
     }
     industryPeople.push(newPerson);
     this.setState({
@@ -294,6 +297,9 @@ class ProjectApplication extends Component{
         <br />
         <TextField floatingLabelText = "email" id = {"email"+index} onChange = {this.changeIndustry} /><br />
         <TextField floatingLabelText = "name" id = {"name"+index}  onChange = {this.changeIndustry} /><br />
+        <TextField floatingLabelText = "degree" id = {"degree"+index} onChange = {this.changeIndustry} /><br />
+        <TextField floatingLabelText = "title" id = {"title"+index} onChange = {this.changeIndustry} /><br />
+        <TextField floatingLabelText = "company name" id = {"companyname"+index} onChange = {this.changeIndustry} /><br />
       </div>);
     });
 		return (

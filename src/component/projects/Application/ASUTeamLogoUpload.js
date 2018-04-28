@@ -61,7 +61,7 @@ class ASUTeamLogoUpload extends Component{
           </div>
               <FileInput name="myImage"
                          accept=".png,.gif,.jpg,.JPG,.jpeg"
-                         placeholder="TeamLogo Uploader"
+                         placeholder="Team Graphic"
                          style={{backgroundColorcolor: Primary}}
                          onChange={this.handleChange} />
 		    </div>
