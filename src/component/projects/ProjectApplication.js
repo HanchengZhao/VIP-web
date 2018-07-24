@@ -17,7 +17,7 @@ import TextFieldComponent from './Application/TextFieldComponent';
 import {Link} from 'react-router-dom';
 import Primary from '../../Theme';
 
-const TeamFormPath = 'TeamApplication_Raw_Data';
+const TeamFormPath = 'Teams';
 var db = 'Team Application';
 const style = {
   margin: "10px"

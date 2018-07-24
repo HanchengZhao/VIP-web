@@ -24,7 +24,7 @@
     "react-file-download": "^0.3.4",
     "react-file-input": "^0.2.5",
     "react-markdown": "^2.5.0",
-    "react-router-dom": "^4.1.1",
+    "react-router-dom": "^4.2.2",
     "react-tap-event-plugin": "^2.0.1",
     "throttle-debounce": "^1.0.1"
   },

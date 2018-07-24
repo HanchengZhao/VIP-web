@@ -154,7 +154,7 @@ class ProjectPage extends Component {
                   <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
                     <div>
                     <Link to={`${this.state.fbkey}/apply`}>
-                      <RaisedButton label = "apply" id = "applyButton" backgroundColor = {Primary} style = {{float: "right", margin:"10px"}}/>
+                      <RaisedButton label = "apply/inquiry" id = "applyButton" backgroundColor = {Primary} style = {{float: "right", margin:"10px"}}/>
                     </Link>
                     </div>
                   </MuiThemeProvider>

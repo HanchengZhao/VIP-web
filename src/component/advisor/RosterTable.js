@@ -160,6 +160,7 @@ class RosterTable extends Component {
 
   handleRemoveFb(student) {
     firebase.database().ref(`Student_Remove_Pending/${this.state.roster[student].teamName}/${this.state.roster[student].semester}`).child(student).set(this.state.roster[student]);
+    console.log(student);
   }
 
   handleRemoveRow() {
