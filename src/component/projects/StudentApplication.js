@@ -203,7 +203,7 @@ class StudentApplication extends Component{
 		  <MuiThemeProvider>
             <div>
               <Card>
-                <CardTitle title={this.state.title + ' Application Form'} style={{textAlign:"center"}} />
+                <CardTitle title={this.state.title + ' Application/Inquiry Form'} style={{textAlign:"center"}} />
                   <div className="row" style={{position:"relative", left:"43%"}}>
                   {this.state.questionsArray 
                   ? (Object.keys(this.state.questionsArray).map((id) => {
