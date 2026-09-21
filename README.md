@@ -1,3 +1,5 @@
+
+
 # VIP-web 
 
 ### Effort Breakdown for the VIP Platform
@@ -48,7 +50,7 @@
 * Admin DashBoard
     * Project Application tab  
         - Admins can Approve or Deny project applications
-        - Denied Applications can be Erased or Recoved from the trash can
+        - Denied Applications can be Erased or Recovered from the trash can
         - Admins can click the drop down to view all the information within the application
     * Student Application tab
         - Students appear in a table 
